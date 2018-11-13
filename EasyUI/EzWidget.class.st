@@ -1,3 +1,12 @@
+"
+I am a graphical element displayed on EzWindow.
+
+My position is the point corresponding to my center relative to the upper left corner of my window.
+
+I can rotate. I express angles in degrees between -180 and 180.
+
+See class EzWindowWithWigetsExample
+"
 Class {
 	#name : #EzWidget,
 	#superclass : #Object,
@@ -5,16 +14,15 @@ Class {
 		'morph',
 		'transform',
 		'angle',
-		'scaleFactor',
 		'window'
 	],
 	#category : #'EasyUI-Kernel'
 }
 
 { #category : #'instance creation' }
-EzWidget class >> newAt: aPoint [
+EzWidget class >> newExtent: aPoint [
 	^self new
-		position: aPoint;
+		extent: aPoint;
 		yourself
 ]
 
@@ -31,6 +39,21 @@ EzWidget >> angle: degrees [
 	
 ]
 
+{ #category : #private }
+EzWidget >> basicMorph [
+	^morph
+]
+
+{ #category : #accessing }
+EzWidget >> color [
+	^self morph color
+]
+
+{ #category : #accessing }
+EzWidget >> color: aColor [ 
+	self morph color: aColor.
+]
+
 { #category : #initialization }
 EzWidget >> defaultAngle [
 	^0
@@ -42,13 +65,23 @@ EzWidget >> defaultColor [
 ]
 
 { #category : #initialization }
-EzWidget >> defaultScaleFactor [
-	^1
+EzWidget >> defaultExtent [
+	^40@40
 ]
 
 { #category : #displaying }
 EzWidget >> delete [
 	self morph delete.
+]
+
+{ #category : #accessing }
+EzWidget >> extent [
+	^morph extent
+]
+
+{ #category : #accessing }
+EzWidget >> extent: aPoint [
+	self withFixedPositionDo: [morph extent: aPoint]
 ]
 
 { #category : #initialization }
@@ -60,15 +93,14 @@ EzWidget >> finalize [
 EzWidget >> initialize [
 	super initialize.
 	self angle: self defaultAngle.
-	self scaleFactor: self defaultScaleFactor.
 	morph := self morphClass new.
-	morph extent: self morphExtent.
+	morph extent: self defaultExtent.
 	morph color: self defaultColor.
 
 	
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 EzWidget >> morph [
 	^transform ifNil: [ morph ]
 ]
@@ -78,42 +110,35 @@ EzWidget >> morphClass [
 	self subclassResponsibility
 ]
 
-{ #category : #initialization }
-EzWidget >> morphExtent [
-	^40@40
-]
-
 { #category : #displaying }
 EzWidget >> openInWindow: aWindow [
-	| currentPosition |
-	self delete.
-	currentPosition := self position.
-	window := aWindow.
-	window addWidgetMorph: morph.
-	transform := morph addFlexShell.
-	transform rotationDegrees: self angle.
-	self position: currentPosition.
+	self withFixedPositionDo: [ self delete.
+			window := aWindow.
+			window addWidgetMorph: morph.
+			transform := morph addFlexShell.
+			transform rotationDegrees: self angle ]
+]
 
+{ #category : #accessing }
+EzWidget >> pixelsPerPoint [
+	self window ifNil: [ ^1 ].
+	^self window pixelsPerPoint
 ]
 
 { #category : #accessing }
 EzWidget >> position [
-	^(self morph center - self windowPosition) / self scaleFactor
+	^(self morph center - self referencePosition) / self pixelsPerPoint
 ]
 
 { #category : #accessing }
 EzWidget >> position: newCenter [
-	self morph center: self windowPosition + (newCenter * self scaleFactor)
+	self morph center: self referencePosition + (newCenter * self pixelsPerPoint)
 ]
 
 { #category : #accessing }
-EzWidget >> scaleFactor [
-	^scaleFactor
-]
-
-{ #category : #accessing }
-EzWidget >> scaleFactor: aFactor [
-	scaleFactor := aFactor
+EzWidget >> referencePosition [
+	self window ifNil: [ ^0@0 ].
+	^self window referencePosition.
 ]
 
 { #category : #accessing }
@@ -121,8 +146,9 @@ EzWidget >> window [
 	^window
 ]
 
-{ #category : #accessing }
-EzWidget >> windowPosition [
-	self window ifNil: [ ^0@0 ].
-	^self window rootPosition.
+{ #category : #private }
+EzWidget >> withFixedPositionDo: aBlock [
+	| currentPosition |
+	currentPosition := self position.
+	aBlock ensure: [ self position: currentPosition ]
 ]

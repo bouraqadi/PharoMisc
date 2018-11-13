@@ -17,5 +17,5 @@ EzRobotWidget >> initialize [
 	directionPointer extent: 10@10.
 	directionPointer color: Color red.
 	morph addMorph: directionPointer.
-	directionPointer position: (self morphExtent x // 2 - 5)@0.
+	directionPointer position: (self defaultExtent x // 2 - 5)@0.
 ]

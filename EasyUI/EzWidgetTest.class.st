@@ -7,7 +7,7 @@ Class {
 		'window',
 		'allWindows'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Tests'
 }
 
 { #category : #accessing }
@@ -21,14 +21,29 @@ EzWidgetTest >> morphAngle [
 ]
 
 { #category : #accessing }
+EzWidgetTest >> morphColor [
+	^self morph color
+]
+
+{ #category : #accessing }
 EzWidgetTest >> morphRelativeCenter [
-	^self morph center - window rootPosition
+	^self morph center - window referencePosition
+]
+
+{ #category : #running }
+EzWidgetTest >> newGridWindow [
+	^self newWindow: EzGridWindow
 ]
 
 { #category : #running }
 EzWidgetTest >> newWindow [
+	^self newWindow: EzWindow
+]
+
+{ #category : #running }
+EzWidgetTest >> newWindow: windowClass [
 	| newWindow |
-	newWindow := EzWindow open.
+	newWindow := windowClass open.
 	allWindows add: newWindow.
 	^newWindow
 ]
@@ -38,7 +53,7 @@ EzWidgetTest >> setUp [
 	super setUp.
 	allWindows := Set new.
 	window := self newWindow.
-	widget := self widgetClass newAt: 0@0.
+	widget := self widgetClass new.
 	window addWidget: widget.
 ]
 
@@ -61,10 +76,33 @@ EzWidgetTest >> testAngle [
 ]
 
 { #category : #tests }
+EzWidgetTest >> testColor [
+	{Color red. Color green. Color blue. Color orange. Color black } do: [ : aColor |
+		widget color: aColor.
+		self assert: widget color equals: aColor.
+		self assert: self morphColor equals: aColor.
+	]
+
+]
+
+{ #category : #tests }
+EzWidgetTest >> testExtent [
+	| expectedPosition |
+	expectedPosition := widget position.
+	{ 20@30. 40@50. 100@100 } do: [ : expectedExtent |
+		widget extent: expectedExtent.
+		self assert: widget extent equals: expectedExtent.
+		self assert: widget basicMorph extent equals: expectedExtent.
+		self assert: widget position equals: expectedPosition.
+	]
+
+]
+
+{ #category : #tests }
 EzWidgetTest >> testOpenInWindowAdaptsPositionRelativeToRootMorph [
 	{720@450. 760@490.  680@410} do: [ : aPoint|
-		widget := EzEllipseWidget newAt: aPoint.
-		widget openInWindow: window.
+		widget := EzEllipseWidget new.
+		window addWidget: widget at: aPoint.
 		self assert: self morphRelativeCenter equals: aPoint
 	]
 ]
@@ -91,8 +129,10 @@ EzWidgetTest >> testPosition [
 ]
 
 { #category : #tests }
-EzWidgetTest >> testPositionScaled [
-	widget scaleFactor: 2.
+EzWidgetTest >> testPositionAdaptsToPixelsPerPointRatio [
+	window := self newGridWindow.
+	widget openInWindow: window.
+	window pixelsPerPoint: 2.
 	{1@1. 35@64.  680@410} do: [ : aPoint|
 		widget position: aPoint.
 		self assert: widget position equals: aPoint.

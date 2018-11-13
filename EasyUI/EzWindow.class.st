@@ -1,3 +1,12 @@
+"
+I am a window. 
+
+You can create and open one with a single message.
+
+See class EzWindowWithWigetsExample class>>#windowExample
+
+
+"
 Class {
 	#name : #EzWindow,
 	#superclass : #SystemWindow,
@@ -26,14 +35,61 @@ EzWindow >> addWidget: aWidget [
 	aWidget openInWindow: self
 ]
 
+{ #category : #'handling widgets' }
+EzWindow >> addWidget: aWidget at: aPoint [
+	aWidget position: aPoint.
+	aWidget openInWindow: self
+]
+
 { #category : #private }
 EzWindow >> addWidgetMorph: aMorph [
 	rootMorph addMorph: aMorph
 ]
 
+{ #category : #accessing }
+EzWindow >> backgroundColor [
+	^self rootMorph color
+]
+
+{ #category : #accessing }
+EzWindow >> backgroundColor: aColor [ 
+	self rootMorph color: aColor
+]
+
+{ #category : #settings }
+EzWindow >> beFixedSize [
+	self isResizeable ifFalse: [ ^self ].
+	self removeExpandBox.
+	self isResizeable: false
+]
+
+{ #category : #settings }
+EzWindow >> beResizable [
+	self isResizeable ifTrue: [ ^self ].
+	self addExpandBox.
+	self isResizeable: true
+]
+
+{ #category : #accessing }
+EzWindow >> contentExtent [
+	^self rootMorph extent
+]
+
+{ #category : #accessing }
+EzWindow >> contentExtent: newContentExtent [
+	| deltaExtent |
+	deltaExtent := newContentExtent - rootMorph extent.
+	self extent: self extent + deltaExtent
+]
+
 { #category : #initialization }
-EzWindow >> defaultBounds [
-	^0@0 extent: self initialExtent
+EzWindow >> defaultBackgroundColor [
+	^Color white
+]
+
+{ #category : #initialization }
+EzWindow >> defaultContentExtent [
+	^400@300
 ]
 
 { #category : #initialization }
@@ -42,17 +98,14 @@ EzWindow >> defaultLabel [
 ]
 
 { #category : #initialization }
-EzWindow >> initialExtent [
-	^(0 @ self labelHeight) + self rootMorphDefaultExtent
-]
-
-{ #category : #initialization }
 EzWindow >> initialize [
 	super initialize.
 	rootMorph := self newRootMorph.
 	self addMorph: rootMorph frame: (0@0 extent: 1@1).
+	self backgroundColor: self defaultBackgroundColor.
 	self label: self defaultLabel.
-	self bounds: self defaultBounds.
+	self contentExtent: self defaultContentExtent.
+
 ]
 
 { #category : #accessing }
@@ -62,16 +115,22 @@ EzWindow >> label: newLabel [
 
 { #category : #initialization }
 EzWindow >> newRootMorph [
-	| morph |
-	morph := self rootMorphClass new.
-	morph 
-		extent: self rootMorphDefaultExtent;
-		color: self rootMorphDefaultColor;
-		clipSubmorphs: true.
-	^morph
+	^self rootMorphClass new
+		clipSubmorphs: true;
+		yourself
 ]
 
 { #category : #accessing }
+EzWindow >> pixelsPerPoint [
+	^1
+]
+
+{ #category : #accessing }
+EzWindow >> referencePosition [
+	^rootMorph position
+]
+
+{ #category : #private }
 EzWindow >> rootMorph [
 	^rootMorph
 ]
@@ -79,19 +138,4 @@ EzWindow >> rootMorph [
 { #category : #initialization }
 EzWindow >> rootMorphClass [
 	^Morph
-]
-
-{ #category : #initialization }
-EzWindow >> rootMorphDefaultColor [
-	^Color white
-]
-
-{ #category : #initialization }
-EzWindow >> rootMorphDefaultExtent [
-	^800@600
-]
-
-{ #category : #accessing }
-EzWindow >> rootPosition [
-	^rootMorph position
 ]
