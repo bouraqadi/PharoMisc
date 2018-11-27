@@ -116,8 +116,7 @@ EzWindow >> label: newLabel [
 { #category : #initialization }
 EzWindow >> newRootMorph [
 	^self rootMorphClass new
-		clipSubmorphs: true;
-		yourself
+
 ]
 
 { #category : #accessing }
@@ -137,5 +136,5 @@ EzWindow >> rootMorph [
 
 { #category : #initialization }
 EzWindow >> rootMorphClass [
-	^Morph
+	^EzContainerMorph
 ]

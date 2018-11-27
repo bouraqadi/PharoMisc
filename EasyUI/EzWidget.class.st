@@ -112,7 +112,8 @@ EzWidget >> morphClass [
 
 { #category : #displaying }
 EzWidget >> openInWindow: aWindow [
-	self withFixedPositionDo: [ self delete.
+	self withFixedPositionDo: [ 
+			self delete.
 			window := aWindow.
 			window addWidgetMorph: morph.
 			transform := morph addFlexShell.

@@ -1,5 +1,6 @@
 "
 I represent a grid. Widgets positions are cells of the grid.
+Indices of visible cells start at 1@1.
 
 See class EzWindowWithWigetsExample class>>#gridWindowExample
 
@@ -16,7 +17,7 @@ Class {
 
 { #category : #initialization }
 EzGridWindow >> defaultPixelsPerPoint [
-	^40
+	^42
 ]
 
 { #category : #initialization }
