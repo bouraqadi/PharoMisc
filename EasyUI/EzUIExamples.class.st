@@ -41,6 +41,8 @@ EzUIExamples class >> keyboardEventsExample [
 	window := EzWindow openLabelled: 'Easy UI Robot'.
 	window contentExtent: 600@400.
 	robot := EzRobotWidget new.
+	robot bodyColor: Color pink.
+	robot pointerColor: Color cyan.
 	initialPosition := 300@200.
 	window addWidget: robot at: initialPosition.
 	robot onKeyDown: Character arrowLeft do: [ 
