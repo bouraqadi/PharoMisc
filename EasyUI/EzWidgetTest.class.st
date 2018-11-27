@@ -65,14 +65,21 @@ EzWidgetTest >> tearDown [
 
 { #category : #tests }
 EzWidgetTest >> testAngle [
+	self assert: widget angle equals: 0.
+	self assert: self morphAngle equals: 90.
 	widget angle: 90.
 	self assert: self morphAngle equals: 0.
+	self assert: widget angle equals: 90.
 	widget angle: 180.
 	self assert: self morphAngle equals: -90.
+	self assert: widget angle equals: 180.
 	widget angle: 270.
 	self assert: self morphAngle equals: -180.
+	self assert: widget angle equals: 270.
 	widget angle: 0.
 	self assert: self morphAngle equals: 90.
+	self assert: widget angle equals: 0.
+
 ]
 
 { #category : #tests }

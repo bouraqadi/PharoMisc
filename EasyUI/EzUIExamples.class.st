@@ -35,6 +35,29 @@ EzUIExamples class >> gridExample [
 ]
 
 { #category : #examples }
+EzUIExamples class >> keyboardEventsExample [
+	<example>
+	| window robot deltaX deltaY initialPosition |
+	window := EzWindow openLabelled: 'Easy UI Robot'.
+	window contentExtent: 600@400.
+	robot := EzRobotWidget new.
+	initialPosition := 300@200.
+	window addWidget: robot at: initialPosition.
+	robot onKeyDown: Character arrowLeft do: [ 
+		robot angle: robot angle + 15 ]. 
+	robot onKeyDown: Character arrowRight do: [
+		 robot angle: robot angle - 15 ]. 
+	robot onKeyDown: Character arrowUp do: [ 
+		deltaX := 10 * robot angle degreeCos.
+		deltaY := -10 * robot angle degreeSin.
+		robot position: robot position + (deltaX@deltaY) ]. 
+	robot onKeyUp: Character space do: [ 
+		robot angle: 0.
+		robot position: initialPosition]
+
+]
+
+{ #category : #examples }
 EzUIExamples class >> windowExample [
 	<example>
 	| window robot rectangle circle colors |

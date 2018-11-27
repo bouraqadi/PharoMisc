@@ -33,10 +33,14 @@ EzWidget >> angle [
 
 { #category : #accessing }
 EzWidget >> angle: degrees [
-	angle := (degrees - 90) negated.
-	transform ifNil: [ ^self ].
-	transform rotationDegrees: angle
-	
+	angle := degrees.
+	transform ifNil: [ ^ self ].
+	transform rotationDegrees: self angleForTransform
+]
+
+{ #category : #accessing }
+EzWidget >> angleForTransform [
+	^ (angle - 90) negated
 ]
 
 { #category : #private }
@@ -127,7 +131,7 @@ EzWidget >> openInWindow: aWindow [
 			window := aWindow.
 			window addWidgetMorph: morph.
 			transform := morph addFlexShell.
-			transform rotationDegrees: self angle ]
+			transform rotationDegrees: self angleForTransform ]
 ]
 
 { #category : #accessing }
