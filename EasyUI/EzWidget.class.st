@@ -110,6 +110,16 @@ EzWidget >> morphClass [
 	self subclassResponsibility
 ]
 
+{ #category : #'event handling' }
+EzWidget >> onKeyDown: charOrKeyCombination do: aBlockClosure [ 
+	self window onKeyDown: charOrKeyCombination do: aBlockClosure 
+]
+
+{ #category : #'event handling' }
+EzWidget >> onKeyUp: charOrKeyCombination do: aBlockClosure [ 
+	self window onKeyUp: charOrKeyCombination do: aBlockClosure 
+]
+
 { #category : #displaying }
 EzWidget >> openInWindow: aWindow [
 	self withFixedPositionDo: [ 

@@ -119,6 +119,16 @@ EzWindow >> newRootMorph [
 
 ]
 
+{ #category : #'event handling' }
+EzWindow >> onKeyDown: charOrKeyCombination do: aBlockClosure [ 
+	rootMorph onKeyDown: charOrKeyCombination do: aBlockClosure 
+]
+
+{ #category : #'event handling' }
+EzWindow >> onKeyUp: charOrKeyCombination do: aBlockClosure [ 
+	rootMorph onKeyUp: charOrKeyCombination do: aBlockClosure 
+]
+
 { #category : #accessing }
 EzWindow >> pixelsPerPoint [
 	^1
@@ -136,5 +146,5 @@ EzWindow >> rootMorph [
 
 { #category : #initialization }
 EzWindow >> rootMorphClass [
-	^EzContainerMorph
+	^EzRootMorph
 ]

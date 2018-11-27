@@ -1,5 +1,5 @@
 Class {
-	#name : #EzContainerMorph,
+	#name : #EzRootMorph,
 	#superclass : #Morph,
 	#instVars : [
 		'keyCombination',
@@ -10,17 +10,17 @@ Class {
 }
 
 { #category : #initialization }
-EzContainerMorph >> defaultColor [
+EzRootMorph >> defaultColor [
 	^Color green
 ]
 
 { #category : #'event handling' }
-EzContainerMorph >> handlesKeyboard: evt [
+EzRootMorph >> handlesKeyboard: evt [
 	^true
 ]
 
 { #category : #initialization }
-EzContainerMorph >> initialize [ 
+EzRootMorph >> initialize [ 
 	super initialize.
 	self clipSubmorphs: true.
 	keyDownHandlersDict := Dictionary new.
@@ -28,44 +28,54 @@ EzContainerMorph >> initialize [
 
 ]
 
+{ #category : #accessing }
+EzRootMorph >> keyCombination [
+	^ keyCombination
+]
+
+{ #category : #accessing }
+EzRootMorph >> keyCombination: anObject [
+	^ keyCombination := anObject
+]
+
 { #category : #'event handling' }
-EzContainerMorph >> keyStroke: evt [
+EzRootMorph >> keyStroke: evt [
 	keyCombination := evt asKeyCombination.
 	self onKeyDown: keyCombination.
 
 ]
 
 { #category : #'event handling' }
-EzContainerMorph >> keyUp: evt [
+EzRootMorph >> keyUp: evt [
 	keyCombination ifNil: [ ^self ].
 	[self onKeyUp: keyCombination] ensure: [ keyCombination := nil ]
 ]
 
 { #category : #'event handling' }
-EzContainerMorph >> onKeyDown: aKeyCombination [
+EzRootMorph >> onKeyDown: aKeyCombination [
 	keyDownHandlersDict keysAndValuesDo: [ : registredCombination : actionBlock | 
 		(registredCombination matchesCompletely: aKeyCombination) ifTrue: [ ^actionBlock value ]  
 	]
 ]
 
 { #category : #'event handling' }
-EzContainerMorph >> onKeyDown: charOrKeyCombination do: aBlock [
+EzRootMorph >> onKeyDown: charOrKeyCombination do: aBlock [
 	keyDownHandlersDict at: charOrKeyCombination asKeyCombination put: aBlock
 ]
 
 { #category : #'event handling' }
-EzContainerMorph >> onKeyUp: aKeyCombination [
+EzRootMorph >> onKeyUp: aKeyCombination [
 	keyUpHandlersDict keysAndValuesDo: [ : registredCombination : actionBlock | 
 		(registredCombination matchesCompletely: aKeyCombination) ifTrue: [ ^actionBlock value ]  
 	]
 ]
 
 { #category : #'event handling' }
-EzContainerMorph >> onKeyUp: charOrKeyCombination do: aBlock [
+EzRootMorph >> onKeyUp: charOrKeyCombination do: aBlock [
 	keyUpHandlersDict at: charOrKeyCombination asKeyCombination put: aBlock
 ]
 
 { #category : #testing }
-EzContainerMorph >> takesKeyboardFocus [
+EzRootMorph >> takesKeyboardFocus [
 	^true
 ]
