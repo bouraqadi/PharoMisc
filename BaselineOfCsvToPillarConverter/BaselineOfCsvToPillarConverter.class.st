@@ -9,13 +9,11 @@ BaselineOfCsvToPillarConverter >> baseline: spec [
 	<baseline>
 
 	spec for: #'common' do: [
-		spec blessing: #'baseline'.
-		spec repository: 'github://bouraqadi/PharoMisc'.
 		spec 
-			project: 'NeoCSV' with: [
-				spec
-					className: #BaselineOfNeoCSV;
-					repository: 'https://github.com/svenvc/NeoCSV' ];
+			blessing: #'baseline';
+			repository: 'github://bouraqadi/PharoMisc'; 
+			baseline: 'NeoCSV' with: [
+				spec repository: 'github://svenvc/NeoCSV'];
 			package: #CsvToPillarConverter with: [
 				spec requires: #('NeoCSV' ). ]. ].
 
