@@ -3,9 +3,8 @@ I turn a development image into a ready to use app.
 I disable development menus and shortcuts. 
 Image is locked so users can only interact via UI kept open.
 
-
-Simply evaluate: 
-AppMaker makeApp
+Usage
+Simply click on the System/'App Maker' menu 
 "
 Class {
 	#name : #AmAppMaker,
@@ -17,6 +16,16 @@ Class {
 AmAppMaker class >> makeApp [
 	<script: 'self new makeApp'>
 	self new makeApp
+]
+
+{ #category : #'world menu' }
+AmAppMaker class >> menuCommandOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: #'App Maker')
+		parent: #System;
+		action: [ self makeApp ];
+		help: 'Turns the image into a ready to use app. Disables all development tool menus & shortcuts.';
+		icon: (self iconNamed: #smallObjects)
 ]
 
 { #category : #'app making' }
