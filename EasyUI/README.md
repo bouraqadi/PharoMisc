@@ -9,3 +9,6 @@ Metacello new
   repository: 'github://bouraqadi/PharoMisc';
   load
 ```
+
+## Demo
+Checkout class side methods of class `EzUIExamples`
