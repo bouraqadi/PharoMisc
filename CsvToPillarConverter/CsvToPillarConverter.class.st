@@ -1,7 +1,7 @@
 "
 Converts CSV to Pillar, ready to display on web page
 
-EaCsvToPillarConverter convert
+CsvToPillarConverter convert
 "
 Class {
 	#name : #CsvToPillarConverter,
