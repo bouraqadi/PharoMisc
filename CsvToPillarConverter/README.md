@@ -12,4 +12,4 @@ Metacello new
 ```
 
 ## Usage
-CsvToPillarConverter convert
+`CsvToPillarConverter convert`
