@@ -2,7 +2,7 @@
 
 Simple UI to quickly play around with some widgets
 
-Install
+## Install
 ```
 Metacello new
   baseline: 'EasyUI';
