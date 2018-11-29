@@ -1,9 +1,11 @@
 "
-I lock development menus and shortcuts.
-Image is locked so users can only interact via UI kept open. 
+I turn a development image into a ready to use app. 
+I disable development menus and shortcuts. 
+Image is locked so users can only interact via UI kept open.
 
-To turn a development image into a ready to use desktop app, simply evaluate: 
-DesktopAppMaker makeApp
+
+Simply evaluate: 
+AppMaker makeApp
 "
 Class {
 	#name : #AmAppMaker,
@@ -35,7 +37,6 @@ AmAppMaker >> disableDevMenusAndShortcuts [
 
 { #category : #'app making' }
 AmAppMaker >> makeApp [
-	(self confirm: 'Development tools are about to be disabled. Proceed?') ifFalse: [ ^self ].
 	self disableDevMenusAndShortcuts.
 	self removeTaskBar.
 	self captureMainWindowEvents.
