@@ -80,12 +80,13 @@ EzWidget >> delete [
 
 { #category : #accessing }
 EzWidget >> extent [
-	^morph extent
+	"Widgets angle 0 is 90 degrees for morphs"
+	^morph extent y @ morph extent x
 ]
 
 { #category : #accessing }
 EzWidget >> extent: aPoint [
-	self withFixedPositionDo: [morph extent: aPoint]
+	self withFixedPositionDo: [morph extent: aPoint y @ aPoint x] "Widgets angle 0 is 90 degrees for morphs"
 ]
 
 { #category : #initialization }

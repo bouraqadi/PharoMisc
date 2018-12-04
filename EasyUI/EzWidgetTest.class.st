@@ -96,10 +96,10 @@ EzWidgetTest >> testColor [
 EzWidgetTest >> testExtent [
 	| expectedPosition |
 	expectedPosition := widget position.
-	{ 20@30. 40@50. 100@100 } do: [ : expectedExtent |
+	{ 20@30. 40@50. 100@50 } do: [ : expectedExtent |
 		widget extent: expectedExtent.
 		self assert: widget extent equals: expectedExtent.
-		self assert: widget basicMorph extent equals: expectedExtent.
+		self assert: widget basicMorph extent equals: expectedExtent y @ expectedExtent x.
 		self assert: widget position equals: expectedPosition.
 	]
 
