@@ -16,3 +16,7 @@ Metacello new
 
 ## B
 - [BooleanExpressions](/BooleanExpressions): This package introduces extensions to collections to make it easy to write usual expressions. The goal is to avoid writing long sequences of logic messages `and:` and `or:`
+
+## C
+- [Concurrency](/Concurrency): I introduce simple and easy to use concurrency library
+- [CsvToPillarConverter](/CsvToPillarConverter): Converts CSV to Pillar, ready to display on web page. Used for generating Pillar for ESUG website based on CSV obtained from registration server.
