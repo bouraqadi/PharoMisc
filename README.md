@@ -20,3 +20,7 @@ Metacello new
 ## C
 - [Concurrency](/Concurrency): I introduce simple and easy to use concurrency library
 - [CsvToPillarConverter](/CsvToPillarConverter): Converts CSV to Pillar, ready to display on web page. Used for generating Pillar for ESUG website based on CSV obtained from registration server.
+
+## E
+- [EasyUI](/EasyUI): Small library to quickly make GUI that responds to user interactions. 
+- [Equals](/Equals): Defines an equality method `=` that is general to apply to different applications. 
