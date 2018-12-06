@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #examples }
-ActiveObjectExamples class >> autoStopCounter [
-	"self autoStopCounter"
+ActiveObjectExamples class >> autoStopOnGarbageCollect [
+	<example>
 	|counter runner |
 	counter := 0.
 	runner := ActiveObject 
@@ -17,13 +17,13 @@ ActiveObjectExamples class >> autoStopCounter [
 			counter := counter + 1.
 			self inform: counter printString]
 		every: 300 milliSeconds
-		while: [ counter < 10 ].
+		while: [ counter < 100 ].
 	runner start
 ]
 
 { #category : #examples }
 ActiveObjectExamples class >> countUpTo10 [
-	"self countUpTo10"
+	<example>
 	|counter runner |
 	counter := 0.
 	runner := ActiveObject 
@@ -38,7 +38,7 @@ ActiveObjectExamples class >> countUpTo10 [
 
 { #category : #examples }
 ActiveObjectExamples class >> pingPong [
-	"self pingPong"
+	<example>
 	|ping pong |
 	Transcript open.
 	ping := ActiveObject 
