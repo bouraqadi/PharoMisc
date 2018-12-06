@@ -24,3 +24,6 @@ Metacello new
 ## E
 - [EasyUI](/EasyUI): Small library to quickly make GUI that responds to user interactions. 
 - [Equals](/Equals): Defines an equality method `=` that is general to apply to different applications. 
+
+## N
+- [NetworkExtras](/NetworkExtras): Provides classes that wrap the basic sockets to ease networking
