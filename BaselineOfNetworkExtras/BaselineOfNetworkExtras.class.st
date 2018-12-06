@@ -12,7 +12,8 @@ BaselineOfNetworkExtras >> baseline: spec [
 		spec 
 			blessing: #'baseline';
 			repository: 'github://bouraqadi/PharoMisc'; 
-			baseline: 'Concurrency';
+			baseline: 'Concurrency' with: [
+				spec repository: 'github://bouraqadi/PharoMisc'];
 			package: #NetworkExtras with: [
 				spec requires: #('Concurrency')
 				]. ].
