@@ -5,7 +5,7 @@ Each project is in a dedicated folder with a Readme file.
 To install any of the projects below evaluate the following expression in a Playground
 ```Smalltalk
 Metacello new
-  baseline: '<PROJECT_NAME>';
+  baseline: 'PROJECT_NAME';
   repository: 'github://bouraqadi/PharoMisc';
   load
  ```
