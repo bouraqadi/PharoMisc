@@ -27,3 +27,6 @@ Metacello new
 
 ## N
 - [NetworkExtras](/NetworkExtras): Provides classes that wrap the basic sockets to ease networking
+
+## S
+- [StateMachine](/StateMachine): Defines automaton, states and transition. 
