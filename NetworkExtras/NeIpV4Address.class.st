@@ -64,12 +64,12 @@ NeIpV4Address class >> loopback [
 
 { #category : #comparing }
 NeIpV4Address >> < anIpAddress [
-	^self asNumber < anIpAddress asNumber
+	^self asInteger < anIpAddress asInteger
 ]
 
 { #category : #comparing }
 NeIpV4Address >> > anIpAddress [
-	^self asNumber > anIpAddress asNumber
+	^anIpAddress < self
 ]
 
 { #category : #converting }
@@ -79,12 +79,7 @@ NeIpV4Address >> asIpAddress [
 
 { #category : #converting }
 NeIpV4Address >> asNumber [
-	| result coeficient |
-	result := 0.
-	self with: (self size to: 1 by: -1) do: [ : value : index |
-		coeficient := 10 ** (index * 3).
-		result := result + (value * coeficient) ].
-	^result
+	^self asInteger
 ]
 
 { #category : #converting }

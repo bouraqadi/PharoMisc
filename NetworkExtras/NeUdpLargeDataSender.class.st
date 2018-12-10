@@ -28,6 +28,33 @@ Class {
 	#category : #'NetworkExtras-UDP-LargeDataTransmission'
 }
 
+{ #category : #'instance creation' }
+NeUdpLargeDataSender class >> broadcastIp: ipStringOrByteArray port: portNumber [
+	^ self socket: (NeBroadcastSocket ip: ipStringOrByteArray port: portNumber)
+]
+
+{ #category : #'instance creation' }
+NeUdpLargeDataSender class >> broadcastPort: portNumber [
+	^ self socket: (NeBroadcastSocket port: portNumber)
+]
+
+{ #category : #'instance creation' }
+NeUdpLargeDataSender class >> multicastSocketGroup: groupIp port: port [
+	| socket |
+	socket := NeMulticastSocket group: groupIp port: port.
+	^ self socket: socket
+]
+
+{ #category : #'instance creation' }
+NeUdpLargeDataSender class >> receptionPort: portNumber [
+	^ self socket: (NeUnicastUdpSocket receptionPort: portNumber)
+]
+
+{ #category : #'instance creation' }
+NeUdpLargeDataSender class >> targetIpOrName: ipStringOrByteArray port: portNumber [
+	^ self socket: (NeUnicastUdpSocket targetIpOrName: ipStringOrByteArray port: portNumber)
+]
+
 { #category : #'initialize-release' }
 NeUdpLargeDataSender >> defaultMaxChunkSize [
 	^1500

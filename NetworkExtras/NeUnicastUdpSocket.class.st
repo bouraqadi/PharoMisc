@@ -17,16 +17,16 @@ Class {
 }
 
 { #category : #'instance creation' }
-NeUnicastUdpSocket class >> targetIp: ip port: portNumber [
+NeUnicastUdpSocket class >> targetIpOrName: ip port: portNumber [
 	^self newUDP
-		targetIp: ip;
+		targetIpOrName: ip;
 		targetPort: portNumber;
 		yourself
 ]
 
 { #category : #sending }
 NeUnicastUdpSocket >> send: anObject targetIp: ipAddress port: portNumber [
-	self targetIp: ipAddress.
+	self targetIpOrName: ipAddress.
 	self targetPort: portNumber.
 	^self send: anObject
 ]
@@ -37,7 +37,7 @@ NeUnicastUdpSocket >> targetIp [
 ]
 
 { #category : #accessing }
-NeUnicastUdpSocket >> targetIp: anObject [
+NeUnicastUdpSocket >> targetIpOrName: anObject [
 	targetIp := anObject asIpAddress
 
 ]

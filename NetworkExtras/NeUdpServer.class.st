@@ -31,13 +31,6 @@ NeUdpServer class >> receptionPort: portNumber [
 
 ]
 
-{ #category : #'instance creation' }
-NeUdpServer class >> socket: udpSocket [
-	^self new
-		socket: udpSocket;
-		yourself
-]
-
 { #category : #'initialize-release' }
 NeUdpServer >> defaultReceivedDataHandlingPriority [
 	^Processor userSchedulingPriority
@@ -45,8 +38,9 @@ NeUdpServer >> defaultReceivedDataHandlingPriority [
 
 { #category : #'initialize-release' }
 NeUdpServer >> destroy [
+	self destroySocket.
 	self stop.
-	self destroySocket
+
 ]
 
 { #category : #activity }
@@ -57,7 +51,7 @@ NeUdpServer >> handleReceivedBytes: bytes [
 { #category : #'initialize-release' }
 NeUdpServer >> initialize [
 	super initialize.
-	thread := ActiveObject repeat: [ self receiveData ] ensure: [self socket closeAndDestroy].
+	thread := ActiveObject repeat: [ self receiveData ] ensure: [self destroy].
 	actionBlock := [ : bytes | self handleReceivedBytes: bytes].
 	self receivedDataHandlingPriority: self defaultReceivedDataHandlingPriority
 ]
@@ -135,5 +129,5 @@ NeUdpServer >> stop [
 
 { #category : #activity }
 NeUdpServer >> threadName [
-	^ 'UDP server on socket ' , self socket asString
+	^ 'UDP server on port ' ,  self port asString
 ]
