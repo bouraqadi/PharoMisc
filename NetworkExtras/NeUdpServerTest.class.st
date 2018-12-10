@@ -64,6 +64,12 @@ NeUdpServerTest >> testMulticastSendReceive [
 ]
 
 { #category : #testing }
+NeUdpServerTest >> testStopShouldQuicklyReturn [
+	server start.
+	self should: [ server stop ] notTakeMoreThan: 500 milliSeconds 
+]
+
+{ #category : #testing }
 NeUdpServerTest >> testUnicastSendReceive [
 	| allSentData |
 	allSentData := #('Hello' 'World' 'Pharo').

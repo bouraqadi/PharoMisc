@@ -36,13 +36,6 @@ NeUdpServer >> defaultReceivedDataHandlingPriority [
 	^Processor userSchedulingPriority
 ]
 
-{ #category : #'initialize-release' }
-NeUdpServer >> destroy [
-	self destroySocket.
-	self stop.
-
-]
-
 { #category : #activity }
 NeUdpServer >> handleReceivedBytes: bytes [
 	'UDP server received bytes: ' bytes asString logCr
@@ -51,7 +44,7 @@ NeUdpServer >> handleReceivedBytes: bytes [
 { #category : #'initialize-release' }
 NeUdpServer >> initialize [
 	super initialize.
-	thread := ActiveObject repeat: [ self receiveData ] ensure: [self destroy].
+	thread := ActiveObject repeat: [ self receiveData ] ensure: [self destroySocket].
 	actionBlock := [ : bytes | self handleReceivedBytes: bytes].
 	self receivedDataHandlingPriority: self defaultReceivedDataHandlingPriority
 ]

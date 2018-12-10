@@ -48,7 +48,7 @@ NeUdpSendReceiveLargeDataTest >> targetPort [
 { #category : #testing }
 NeUdpSendReceiveLargeDataTest >> tearDown [
 	super tearDown.
-	socketWrappers do: [ :each | each destroy].
+	socketWrappers do: [ :each | each destroySocket].
 
 ]
 
