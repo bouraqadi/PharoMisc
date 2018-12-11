@@ -17,15 +17,27 @@ Class {
 }
 
 { #category : #'instance creation' }
-NeUnicastUdpSocket class >> targetIpOrName: ip port: portNumber [
+NeUnicastUdpSocket class >> receptionPort: portNumber [
 	^self newUDP
-		targetIpOrName: ip;
+		receptionPort: portNumber;
+		yourself
+]
+
+{ #category : #'instance creation' }
+NeUnicastUdpSocket class >> target: ip port: portNumber [
+	^self newUDP
+		target: ip;
 		targetPort: portNumber;
 		yourself
 ]
 
 { #category : #printing }
 NeUnicastUdpSocket >> printSocketInfoOn: stream [
+	self targetPort ifNil: [  
+		^stream
+			nextPutAll: 'Reception port: ';
+			print: self receptionPort
+		].
 	stream
 		nextPutAll: 'Target IP: ';
 		print: self targetIp;
@@ -35,9 +47,15 @@ NeUnicastUdpSocket >> printSocketInfoOn: stream [
 
 { #category : #sending }
 NeUnicastUdpSocket >> send: anObject targetIp: ipAddress port: portNumber [
-	self targetIpOrName: ipAddress.
+	self target: ipAddress.
 	self targetPort: portNumber.
 	^self send: anObject
+]
+
+{ #category : #accessing }
+NeUnicastUdpSocket >> target: ipOrName [
+	self targetIp: ipOrName asIpAddress
+
 ]
 
 { #category : #sending }
@@ -46,8 +64,8 @@ NeUnicastUdpSocket >> targetIp [
 ]
 
 { #category : #accessing }
-NeUnicastUdpSocket >> targetIpOrName: anObject [
-	targetIp := anObject asIpAddress
+NeUnicastUdpSocket >> targetIp: anIpAddress [
+	targetIp := anIpAddress
 
 ]
 

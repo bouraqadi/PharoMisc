@@ -44,7 +44,7 @@ NeUdpUnicastSocketTest >> testCloseWhileReceiving [
 { #category : #testing }
 NeUdpUnicastSocketTest >> testForbideMultipleSocketsListeningOnTheSamePort [
 	| socketCreationBlocks |
-	socketCreationBlocks := {[NeUdpSocket receptionPort: port].
+	socketCreationBlocks := {[NeUnicastUdpSocket receptionPort: port].
 		[NeUdpSocket new receptionPort: port; yourself].
 		[NeUdpSocket new setPort: port; yourself].
 	}.

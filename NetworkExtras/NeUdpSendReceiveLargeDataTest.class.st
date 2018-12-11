@@ -14,7 +14,7 @@ Class {
 { #category : #testing }
 NeUdpSendReceiveLargeDataTest >> newSender [
 	| newSender |
-	newSender := NeUdpLargeDataSender targetIpOrName: self targetIp port: self targetPort.
+	newSender := NeUdpLargeDataSender target: self targetIp port: self targetPort.
 	allSenders add: newSender.
 	^newSender
 ]

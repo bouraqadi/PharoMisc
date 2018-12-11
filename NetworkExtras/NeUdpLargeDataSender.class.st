@@ -51,8 +51,8 @@ NeUdpLargeDataSender class >> socket: udpSocket [
 ]
 
 { #category : #'instance creation' }
-NeUdpLargeDataSender class >> targetIpOrName: ipStringOrByteArray port: portNumber [
-	^ self socket: (NeUnicastUdpSocket targetIpOrName: ipStringOrByteArray port: portNumber)
+NeUdpLargeDataSender class >> target: ipStringOrByteArray port: portNumber [
+	^ self socket: (NeUnicastUdpSocket target: ipStringOrByteArray port: portNumber)
 ]
 
 { #category : #'initialize-release' }

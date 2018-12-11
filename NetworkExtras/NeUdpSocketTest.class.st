@@ -40,7 +40,7 @@ NeUdpSocketTest >> newMulticastSocketOnGroup: groupIp port: port [
 { #category : #testing }
 NeUdpSocketTest >> newUnicastUdpSocketEmittingToIp: targetIp port: port [
 	^self createSocket: [
-		NeUnicastUdpSocket targetIpOrName: targetIp port: port].
+		NeUnicastUdpSocket target: targetIp port: port].
 
 ]
 

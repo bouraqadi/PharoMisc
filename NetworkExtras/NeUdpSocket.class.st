@@ -20,13 +20,6 @@ NeUdpSocket class >> new [
 			title: self name, ' creation failed!' ]
 ]
 
-{ #category : #'instance creation' }
-NeUdpSocket class >> receptionPort: portNumber [
-	^self newUDP
-		receptionPort: portNumber;
-		yourself
-]
-
 { #category : #initialization }
 NeUdpSocket >> defaultBufferSize [
 	^ 1500
@@ -68,7 +61,9 @@ NeUdpSocket >> isValidPort: portNumber [
 { #category : #printing }
 NeUdpSocket >> printOn: aStream [
 	super printOn: aStream.
+	aStream nextPutAll: ' ('.
 	self printSocketInfoOn: aStream.
+	aStream nextPut: $)
 ]
 
 { #category : #printing }
