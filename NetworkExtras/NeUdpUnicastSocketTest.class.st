@@ -8,7 +8,7 @@ Class {
 		'receiver',
 		'sender'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : #'NetworkExtras-KernelTest'
 }
 
 { #category : #testing }

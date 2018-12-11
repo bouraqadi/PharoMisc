@@ -5,7 +5,7 @@ Class {
 		'socket',
 		'multicastPort'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : #'NetworkExtras-KernelTest'
 }
 
 { #category : #testing }

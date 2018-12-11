@@ -12,12 +12,30 @@ Sets the data handling block valued  each time  a data is reconstructed. It must
 "
 Class {
 	#name : #NeUdpLargeDataReceiver,
-	#superclass : #NeUdpServer,
+	#superclass : #Object,
 	#instVars : [
-		'dataReconstructor'
+		'dataReconstructor',
+		'server'
 	],
 	#category : #'NetworkExtras-UDP-LargeDataTransmission'
 }
+
+{ #category : #'instance creation' }
+NeUdpLargeDataReceiver class >> multicastGroup: ipOrName port: portNumber [
+	^self server: (NeUdpServer multicastGroup: ipOrName port: portNumber)
+]
+
+{ #category : #'instance creation' }
+NeUdpLargeDataReceiver class >> server: newServer [
+	^self new
+		server: newServer;
+		yourself
+]
+
+{ #category : #'instance creation' }
+NeUdpLargeDataReceiver class >> unicastPort: portNumber [
+	^self server: (NeUdpServer unicastPort: portNumber)
+]
 
 { #category : #activity }
 NeUdpLargeDataReceiver >> handleReceivedBytes: receivedBytes [
@@ -38,9 +56,36 @@ NeUdpLargeDataReceiver >> initialize [
 			show: reconstructedData asString]
 ]
 
-{ #category : #activity }
-NeUdpLargeDataReceiver >> threadName [
-	^'Large data receiver over UDP socket ', self socket asString
+{ #category : #acting }
+NeUdpLargeDataReceiver >> priority: anInteger [ 
+	self server priority: anInteger
+]
+
+{ #category : #accessing }
+NeUdpLargeDataReceiver >> server [
+	^ server
+]
+
+{ #category : #accessing }
+NeUdpLargeDataReceiver >> server: udpServer [
+	server := udpServer.
+	server serverName: self serverName.
+	server onReceptionDo: [: byteArray | self handleReceivedBytes: byteArray ]
+]
+
+{ #category : #accessing }
+NeUdpLargeDataReceiver >> serverName [
+	^'UDP large data receiver'
+]
+
+{ #category : #acting }
+NeUdpLargeDataReceiver >> start [
+	self server start.
+]
+
+{ #category : #acting }
+NeUdpLargeDataReceiver >> stop [
+	self server stop.
 ]
 
 { #category : #initialization }

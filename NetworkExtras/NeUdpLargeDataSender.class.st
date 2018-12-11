@@ -19,8 +19,6 @@ Sets the size of each chunk. It should be greater  than the size required to ser
 Class {
 	#name : #NeUdpLargeDataSender,
 	#superclass : #Object,
-	#traits : 'NeTUdpSocketWrapper',
-	#classTraits : 'NeTUdpSocketWrapper classTrait',
 	#instVars : [
 		'splitter',
 		'socket'
@@ -46,8 +44,10 @@ NeUdpLargeDataSender class >> multicastSocketGroup: groupIp port: port [
 ]
 
 { #category : #'instance creation' }
-NeUdpLargeDataSender class >> receptionPort: portNumber [
-	^ self socket: (NeUnicastUdpSocket receptionPort: portNumber)
+NeUdpLargeDataSender class >> socket: udpSocket [
+	^self new
+		socket: udpSocket;
+		yourself
 ]
 
 { #category : #'instance creation' }
@@ -61,8 +61,8 @@ NeUdpLargeDataSender >> defaultMaxChunkSize [
 ]
 
 { #category : #'initialize-release' }
-NeUdpLargeDataSender >> destroy [
-	self destroySocket
+NeUdpLargeDataSender >> destroySocket [
+	self socket closeAndDestroy
 ]
 
 { #category : #accessing }

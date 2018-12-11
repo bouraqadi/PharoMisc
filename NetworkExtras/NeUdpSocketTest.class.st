@@ -7,8 +7,13 @@ Class {
 	#instVars : [
 		'allSockets'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : #'NetworkExtras-KernelTest'
 }
+
+{ #category : #testing }
+NeUdpSocketTest class >> isAbstract [
+	^self == NeUdpSocketTest 
+]
 
 { #category : #testing }
 NeUdpSocketTest >> createSocket: aBlock [

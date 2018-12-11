@@ -54,6 +54,15 @@ NeBroadcastSocket >> broadcastPort: portNumber [
 	self broadcastIp: self broadcastIp port: portNumber
 ]
 
+{ #category : #printing }
+NeBroadcastSocket >> printSocketInfoOn: stream [
+	stream
+		nextPutAll: 'Target IP: ';
+		print: self targetIp;
+		nextPutAll: ' - port: ';
+		print: self targetPort
+]
+
 { #category : #sending }
 NeBroadcastSocket >> targetIp [
 	^self broadcastIp

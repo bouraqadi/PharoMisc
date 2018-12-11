@@ -24,6 +24,15 @@ NeUnicastUdpSocket class >> targetIpOrName: ip port: portNumber [
 		yourself
 ]
 
+{ #category : #printing }
+NeUnicastUdpSocket >> printSocketInfoOn: stream [
+	stream
+		nextPutAll: 'Target IP: ';
+		print: self targetIp;
+		nextPutAll: ' - port: ';
+		print: self targetPort
+]
+
 { #category : #sending }
 NeUnicastUdpSocket >> send: anObject targetIp: ipAddress port: portNumber [
 	self targetIpOrName: ipAddress.

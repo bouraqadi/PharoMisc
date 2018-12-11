@@ -126,6 +126,15 @@ NeMulticastSocket >> networkInterfaceIp: newAddress [
 	self setOption: 'IP_MULTICAST_IF' value: networkInterfaceIp.
 ]
 
+{ #category : #printing }
+NeMulticastSocket >> printSocketInfoOn: stream [
+	stream
+		nextPutAll: 'Group IP: ';
+		print: self groupAddress;
+		nextPutAll: ' - port: ';
+		print: self groupPort
+]
+
 { #category : #sending }
 NeMulticastSocket >> targetIp [
 	^self groupAddress

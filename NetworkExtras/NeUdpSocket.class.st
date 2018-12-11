@@ -65,6 +65,18 @@ NeUdpSocket >> isValidPort: portNumber [
 	^true
 ]
 
+{ #category : #printing }
+NeUdpSocket >> printOn: aStream [
+	super printOn: aStream.
+	self printSocketInfoOn: aStream.
+]
+
+{ #category : #printing }
+NeUdpSocket >> printSocketInfoOn: aStream [
+	self subclassResponsibility
+	
+]
+
 { #category : #receiving }
 NeUdpSocket >> receive [
 	^ self receiveTimeout: self defaultTimeoutSeconds
@@ -119,6 +131,12 @@ NeUdpSocket >> setPort: portNumber [
 	receptionPort := portNumber.
 	self registerUsedPort: portNumber.
 	super setPort: portNumber.
+]
+
+{ #category : #printing }
+NeUdpSocket >> socketInfo [
+	^String streamContents: [ : stream |
+		self printSocketInfoOn: stream ]
 ]
 
 { #category : #sending }

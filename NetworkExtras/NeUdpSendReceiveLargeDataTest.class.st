@@ -5,8 +5,8 @@ Class {
 	#classTraits : 'NeTWait classTrait + NeTLargeDataProvider classTrait',
 	#instVars : [
 		'receiver',
-		'socketWrappers',
-		'targetPort'
+		'targetPort',
+		'allSenders'
 	],
 	#category : #'NetworkExtras-UDP-LargeDataTransmission'
 }
@@ -15,7 +15,7 @@ Class {
 NeUdpSendReceiveLargeDataTest >> newSender [
 	| newSender |
 	newSender := NeUdpLargeDataSender targetIpOrName: self targetIp port: self targetPort.
-	socketWrappers add: newSender.
+	allSenders add: newSender.
 	^newSender
 ]
 
@@ -23,16 +23,16 @@ NeUdpSendReceiveLargeDataTest >> newSender [
 NeUdpSendReceiveLargeDataTest >> setUp [
 	super setUp.
 	targetPort := NeUdpUsedPortsTracker freePortAtRandom.
-	socketWrappers := Set new.
+	allSenders := Set new.
 	self setUpReceiver.
 ]
 
 { #category : #testing }
 NeUdpSendReceiveLargeDataTest >> setUpReceiver [
-	receiver := NeUdpLargeDataReceiver receptionPort: self targetPort.
+	receiver := NeUdpLargeDataReceiver unicastPort: self targetPort.
 	receiver priority: Processor userSchedulingPriority.
 	receiver start.
-	socketWrappers add: receiver.
+
 ]
 
 { #category : #testing }
@@ -48,7 +48,8 @@ NeUdpSendReceiveLargeDataTest >> targetPort [
 { #category : #testing }
 NeUdpSendReceiveLargeDataTest >> tearDown [
 	super tearDown.
-	socketWrappers do: [ :each | each destroySocket].
+	allSenders do: [ :each | each destroySocket].
+	receiver stop
 
 ]
 
