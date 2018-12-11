@@ -11,7 +11,7 @@ Class {
 	#instVars : [
 		'contentChunksCount'
 	],
-	#category : #'NetworkExtras-UDP-LargeDataTransmission'
+	#category : #'NetworkExtras-UDP-LargeData'
 }
 
 { #category : #reconstructing }

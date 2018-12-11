@@ -17,7 +17,7 @@ Class {
 		'dataReconstructor',
 		'server'
 	],
-	#category : #'NetworkExtras-UDP-LargeDataTransmission'
+	#category : #'NetworkExtras-UDP-LargeData'
 }
 
 { #category : #'instance creation' }

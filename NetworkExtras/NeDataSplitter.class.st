@@ -15,7 +15,7 @@ Class {
 		'dataBytes',
 		'maxChunkSize'
 	],
-	#category : #'NetworkExtras-UDP-LargeDataTransmission'
+	#category : #'NetworkExtras-UDP-LargeData'
 }
 
 { #category : #splitting }

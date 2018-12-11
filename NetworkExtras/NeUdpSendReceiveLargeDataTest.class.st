@@ -1,14 +1,14 @@
 Class {
 	#name : #NeUdpSendReceiveLargeDataTest,
 	#superclass : #TestCase,
-	#traits : 'NeTWait + NeTLargeDataProvider',
-	#classTraits : 'NeTWait classTrait + NeTLargeDataProvider classTrait',
+	#traits : 'NeTWait + NeTLargeDataProviderForTest',
+	#classTraits : 'NeTWait classTrait + NeTLargeDataProviderForTest classTrait',
 	#instVars : [
 		'receiver',
 		'targetPort',
 		'allSenders'
 	],
-	#category : #'NetworkExtras-UDP-LargeDataTransmission'
+	#category : #'NetworkExtras-UdpLargeDataTest'
 }
 
 { #category : #testing }

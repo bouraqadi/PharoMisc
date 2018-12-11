@@ -20,7 +20,7 @@ Class {
 		'timestamp',
 		'sourceId'
 	],
-	#category : #'NetworkExtras-UDP-LargeDataTransmission'
+	#category : #'NetworkExtras-UDP-LargeData'
 }
 
 { #category : #reconstructing }

@@ -21,7 +21,7 @@ Class {
 		'dataHandlingBlock',
 		'chunkCollectionInfo'
 	],
-	#category : #'NetworkExtras-UDP-LargeDataTransmission'
+	#category : #'NetworkExtras-UDP-LargeData'
 }
 
 { #category : #reconstructing }
