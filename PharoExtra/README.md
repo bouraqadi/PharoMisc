@@ -12,4 +12,6 @@ Metacello new
 ## Usage
 Send messages implemented in this library. An example is the + (plus) message, that allows adding a duration to a time.
 
+```
 Time now + 3 hours.
+```
