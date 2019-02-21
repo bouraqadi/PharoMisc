@@ -122,7 +122,7 @@ EzDrawing >> extent: aPoint [
 { #category : #displaying }
 EzDrawing >> hide [
 	self currentForm ifNil: [ ^self ].
-	self board hide: self
+	self board remove: self
 
 ]
 
@@ -173,7 +173,7 @@ EzDrawing >> rectangleColor: aColor [
 
 { #category : #displaying }
 EzDrawing >> show [
-	self board show: self
+	self board add: self
 ]
 
 { #category : #displaying }
