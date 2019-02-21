@@ -6,7 +6,7 @@ Class {
 		'keyDownHandlersDict',
 		'keyUpHandlersDict'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #initialization }

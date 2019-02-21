@@ -1,7 +1,7 @@
 Class {
 	#name : #EzEllipseWidget,
 	#superclass : #EzWidget,
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #initialization }

@@ -5,8 +5,15 @@ Class {
 		'backgroundColor',
 		'drawings'
 	],
-	#category : #'EasyUI-SpecDemo'
+	#category : #'EasyUI-Kernel'
 }
+
+{ #category : #'instance creation' }
+EzDrawingBoardPresenter class >> extent: aPoint [
+	^self new
+		extent: aPoint;
+		yourself
+]
 
 { #category : #drawing }
 EzDrawingBoardPresenter >> add: aDrawing [
@@ -63,7 +70,7 @@ EzDrawingBoardPresenter >> drawings [
 	^drawings
 ]
 
-{ #category : #api }
+{ #category : #initialization }
 EzDrawingBoardPresenter >> extent: newExtent [
 	self image: (Form extent: newExtent depth: 8).
 	self updateDisplay
@@ -81,6 +88,51 @@ EzDrawingBoardPresenter >> initialize [
 { #category : #drawing }
 EzDrawingBoardPresenter >> newBitBlt [
 	^ BitBlt toForm: self image
+]
+
+{ #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newCircleDiameter: diameterInt fillColor: aColor [
+	^self newEllipseExtent: diameterInt @ diameterInt fillColor: aColor
+]
+
+{ #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newCircleDiameter: diameterInt fillColor: fillColor frameColor: frameColor arrowColor: arrowColor [
+	| circle radius arrowStart arrowEnd arrowThickness |
+	circle := self newCircleDiameter:  diameterInt fillColor: fillColor.
+	radius := diameterInt//2.
+	arrowThickness := 3.
+	arrowStart := radius @ radius.
+	arrowEnd := diameterInt @ radius.
+	circle initialCanvas 
+		line: arrowStart to: arrowEnd width: arrowThickness color: arrowColor;
+		frameOval: circle initialBoundingBox color: frameColor.
+	^circle
+]
+
+{ #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newDrawingExtent: aPoint [ 
+	^(EzDrawing extent: aPoint)
+		board: self;
+		yourself
+]
+
+{ #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newEllipseExtent: aPoint fillColor: aColor [
+	^(self newDrawingExtent: aPoint)
+		ellipseFillColor: aColor;
+		yourself
+]
+
+{ #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newRectangleExtent: aPoint fillColor: aColor [
+	^(self newDrawingExtent: aPoint)
+		rectangleFillColor: aColor;
+		yourself
+]
+
+{ #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newSquareLength: lengthInt fillColor: aColor [
+	^self newRectangleExtent: lengthInt @ lengthInt fillColor: aColor
 ]
 
 { #category : #drawing }

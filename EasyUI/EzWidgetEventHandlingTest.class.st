@@ -1,7 +1,7 @@
 Class {
 	#name : #EzWidgetEventHandlingTest,
 	#superclass : #EzWidgetTest,
-	#category : #'EasyUI-Tests'
+	#category : #'EasyUI-TestsOLD'
 }
 
 { #category : #tests }

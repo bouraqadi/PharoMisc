@@ -1,7 +1,7 @@
 Class {
 	#name : #EzNullDrawingBoardPresenter,
 	#superclass : #Object,
-	#category : #'EasyUI-SpecDemo'
+	#category : #'EasyUI-Kernel'
 }
 
 { #category : #drawing }

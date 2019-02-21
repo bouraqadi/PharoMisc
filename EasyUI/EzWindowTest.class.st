@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'window'
 	],
-	#category : #'EasyUI-Tests'
+	#category : #'EasyUI-TestsOLD'
 }
 
 { #category : #running }

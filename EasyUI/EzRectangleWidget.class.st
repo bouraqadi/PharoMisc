@@ -1,7 +1,7 @@
 Class {
 	#name : #EzRectangleWidget,
 	#superclass : #EzWidget,
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #initialization }

@@ -7,13 +7,13 @@ EzUIExamples gridExample.
 
 "
 Class {
-	#name : #EzUIExamples,
+	#name : #EzUIExamplesOLD,
 	#superclass : #Object,
-	#category : #'EasyUI-Examples'
+	#category : #'EasyUI-ExamplesOLD'
 }
 
 { #category : #examples }
-EzUIExamples class >> gridExample [
+EzUIExamplesOLD class >> gridExample [
 	<example>
 	| window rectangle colors rectangleColor cellIndex |
 	window := EzGridWindow openLabelled: 'Eazy UI Grid'.
@@ -35,7 +35,7 @@ EzUIExamples class >> gridExample [
 ]
 
 { #category : #examples }
-EzUIExamples class >> keyboardEventsExample [
+EzUIExamplesOLD class >> keyboardEventsExample [
 	<example>
 	| window robot deltaX deltaY initialPosition |
 	window := EzWindow openLabelled: 'Easy UI Robot'.
@@ -60,7 +60,7 @@ EzUIExamples class >> keyboardEventsExample [
 ]
 
 { #category : #examples }
-EzUIExamples class >> windowExample [
+EzUIExamplesOLD class >> windowExample [
 	<example>
 	| window robot rectangle circle colors |
 	window := EzWindow openLabelled: 'Easy UI Window with Widgets'.

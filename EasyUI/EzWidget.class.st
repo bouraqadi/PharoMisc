@@ -16,7 +16,7 @@ Class {
 		'angle',
 		'window'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #'instance creation' }

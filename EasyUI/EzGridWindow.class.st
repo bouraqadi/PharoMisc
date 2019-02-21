@@ -12,7 +12,7 @@ Class {
 	#instVars : [
 		'pixelsPerPoint'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #initialization }

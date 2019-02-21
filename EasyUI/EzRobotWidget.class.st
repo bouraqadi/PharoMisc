@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'directionPointer'
 	],
-	#category : #'EasyUI-WidgetsLibrary'
+	#category : #'EasyUI-WidgetsLibraryOLD'
 }
 
 { #category : #initialization }

@@ -7,20 +7,8 @@ Class {
 		'initialForm',
 		'center'
 	],
-	#category : #'EasyUI-SpecDemo'
+	#category : #'EasyUI-Kernel'
 }
-
-{ #category : #'instance creation' }
-EzDrawing class >> circleDiameter: diameterInt color: aColor [
-	^self ellipseExtent: diameterInt @ diameterInt color: aColor 
-]
-
-{ #category : #'instance creation' }
-EzDrawing class >> ellipseExtent: aPoint color: aColor [
-	^(self extent: aPoint)
-		ellipseColor: aColor;
-		yourself
-]
 
 { #category : #'instance creation' }
 EzDrawing class >> extent: aPoint [
@@ -29,25 +17,12 @@ EzDrawing class >> extent: aPoint [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-EzDrawing class >> rectangleExtent: aPoint color: aColor [
-	^(self extent: aPoint)
-		rectangleColor: aColor;
-		yourself
-]
-
-{ #category : #'instance creation' }
-EzDrawing class >> squareLength: lengthInt color: aColor [
-	^self rectangleExtent: lengthInt@lengthInt color: aColor
-
-]
-
 { #category : #pose }
 EzDrawing >> angle: degrees [
 	| newForm newAngle |
 	newAngle := degrees % 360.
 	newAngle = 0 ifTrue: [^self currentForm: self initialForm].
-	newForm := self initialForm rotateBy: degrees.
+	newForm := self initialForm rotateBy: degrees negated. "form rotation is clockwise"
 	self currentForm: newForm.
 
 ]
@@ -109,8 +84,8 @@ EzDrawing >> defaultExtent [
 
 ]
 
-{ #category : #initialization }
-EzDrawing >> ellipseColor: aColor [
+{ #category : #drawing }
+EzDrawing >> ellipseFillColor: aColor [
 	self initialCanvas fillOval: self initialBoundingBox color: aColor
 ]
 
@@ -131,7 +106,7 @@ EzDrawing >> initialBoundingBox [
 	^self initialForm boundingBox
 ]
 
-{ #category : #accessing }
+{ #category : #drawing }
 EzDrawing >> initialCanvas [
 	^ self initialForm getCanvas 
 ]
@@ -166,8 +141,8 @@ EzDrawing >> positionForForm: aForm center: aPoint [
 	^aPoint - (aForm extent//2)
 ]
 
-{ #category : #initialization }
-EzDrawing >> rectangleColor: aColor [
+{ #category : #drawing }
+EzDrawing >> rectangleFillColor: aColor [
 	self initialCanvas fillColor: aColor
 ]
 

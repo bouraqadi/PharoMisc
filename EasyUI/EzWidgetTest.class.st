@@ -7,7 +7,7 @@ Class {
 		'window',
 		'allWindows'
 	],
-	#category : #'EasyUI-Tests'
+	#category : #'EasyUI-TestsOLD'
 }
 
 { #category : #accessing }

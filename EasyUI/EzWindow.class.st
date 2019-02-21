@@ -13,7 +13,7 @@ Class {
 	#instVars : [
 		'rootMorph'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #'instance creation' }

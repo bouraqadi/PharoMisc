@@ -1,7 +1,7 @@
 Class {
 	#name : #EzGridWindowTest,
 	#superclass : #EzWindowTest,
-	#category : #'EasyUI-Tests'
+	#category : #'EasyUI-TestsOLD'
 }
 
 { #category : #tests }

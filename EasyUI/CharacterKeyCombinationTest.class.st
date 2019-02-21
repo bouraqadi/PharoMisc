@@ -1,7 +1,7 @@
 Class {
 	#name : #CharacterKeyCombinationTest,
 	#superclass : #TestCase,
-	#category : #'EasyUI-Tests'
+	#category : #'EasyUI-TestsOLD'
 }
 
 { #category : #tests }

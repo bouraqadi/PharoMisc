@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'board'
 	],
-	#category : #'EasyUI-SpecDemo'
+	#category : #'EasyUI-Tests'
 }
 
 { #category : #running }
