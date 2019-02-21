@@ -28,26 +28,22 @@ EzDrawingTest >> assertRotationAbout: currentCenter [
 ]
 
 { #category : #running }
-EzDrawingTest >> setUp [
-	super setUp.
+EzDrawingTest >> testRotationCenterRandom [
 	drawing := EzDrawing new.
-]
-
-{ #category : #running }
-EzDrawingTest >> testRotationCenterRandomAngle360 [
 	self assertRotationAbout: 123@546.
 
 ]
 
 { #category : #running }
-EzDrawingTest >> testRotationCenterX0Y0Angle360 [
+EzDrawingTest >> testRotationCenterX0Y0 [
+	drawing := EzDrawing new.
 	self assertRotationAbout:  0@0.
 
 ]
 
 { #category : #running }
 EzDrawingTest >> testTranslation [
-	drawing extent: 5@3.
+	drawing := EzDrawing extent: 5@3.
 	self assert: drawing initialForm extent equals: 5@3.
 	self assert: drawing center equals: 0@0.
 	self assert: drawing currentPosition equals: -2@ -1.

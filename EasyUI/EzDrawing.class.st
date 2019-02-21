@@ -10,6 +10,38 @@ Class {
 	#category : #'EasyUI-SpecDemo'
 }
 
+{ #category : #'instance creation' }
+EzDrawing class >> circleDiameter: diameterInt color: aColor [
+	^self ellipseExtent: diameterInt @ diameterInt color: aColor 
+]
+
+{ #category : #'instance creation' }
+EzDrawing class >> ellipseExtent: aPoint color: aColor [
+	^(self extent: aPoint)
+		ellipseColor: aColor;
+		yourself
+]
+
+{ #category : #'instance creation' }
+EzDrawing class >> extent: aPoint [
+	^self new
+		extent: aPoint;
+		yourself
+]
+
+{ #category : #'instance creation' }
+EzDrawing class >> rectangleExtent: aPoint color: aColor [
+	^(self extent: aPoint)
+		rectangleColor: aColor;
+		yourself
+]
+
+{ #category : #'instance creation' }
+EzDrawing class >> squareLength: lengthInt color: aColor [
+	^self rectangleExtent: lengthInt@lengthInt color: aColor
+
+]
+
 { #category : #pose }
 EzDrawing >> angle: degrees [
 	| newForm newAngle |
@@ -43,6 +75,11 @@ EzDrawing >> center: newCenter [
 ]
 
 { #category : #accessing }
+EzDrawing >> currentBoundingBox [
+	^self currentPosition extent: self currentForm extent
+]
+
+{ #category : #accessing }
 EzDrawing >> currentForm [
 	^ currentForm
 ]
@@ -62,7 +99,7 @@ EzDrawing >> currentPosition [
 
 { #category : #initialization }
 EzDrawing >> defaultBoard [
-	^EzNullBoardPresenter new
+	^EzNullDrawingBoardPresenter new
 ]
 
 { #category : #initialization }
@@ -77,6 +114,11 @@ EzDrawing >> defaultExtent [
 ]
 
 { #category : #initialization }
+EzDrawing >> ellipseColor: aColor [
+	self initialCanvas fillOval: self initialBoundingBox color: aColor
+]
+
+{ #category : #initialization }
 EzDrawing >> extent: aPoint [ 
 	self initialForm: (Form extent: aPoint depth: 8)
 ]
@@ -84,8 +126,18 @@ EzDrawing >> extent: aPoint [
 { #category : #displaying }
 EzDrawing >> hide [
 	self currentForm ifNil: [ ^self ].
-	self board delete: self currentForm at: self currentPosition
+	self board delete: self
 
+]
+
+{ #category : #accessing }
+EzDrawing >> initialBoundingBox [
+	^self initialForm boundingBox
+]
+
+{ #category : #accessing }
+EzDrawing >> initialCanvas [
+	^ self initialForm getCanvas 
 ]
 
 { #category : #accessing }
@@ -118,8 +170,12 @@ EzDrawing >> positionForForm: aForm center: aPoint [
 	^aPoint - (aForm extent//2)
 ]
 
+{ #category : #initialization }
+EzDrawing >> rectangleColor: aColor [
+	self initialCanvas fillColor: aColor
+]
+
 { #category : #displaying }
 EzDrawing >> show [
-	self board draw: self currentForm at: self currentPosition
-
+	self board draw: self
 ]
