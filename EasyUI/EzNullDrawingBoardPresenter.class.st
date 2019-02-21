@@ -13,3 +13,8 @@ EzNullDrawingBoardPresenter >> delete: aDrawing [
 EzNullDrawingBoardPresenter >> draw: aDrawing [
 	^self
 ]
+
+{ #category : #drawing }
+EzNullDrawingBoardPresenter >> updateDisplay [
+	^self
+]

@@ -69,9 +69,8 @@ EzDrawing >> center [
 
 { #category : #pose }
 EzDrawing >> center: newCenter [
-	self hide.
-	center := newCenter.
-	self show.
+	self updateDisplayAround: [center := newCenter].
+
 ]
 
 { #category : #accessing }
@@ -86,10 +85,7 @@ EzDrawing >> currentForm [
 
 { #category : #accessing }
 EzDrawing >> currentForm: newForm [
-	self hide.
-	currentForm := newForm.
-	self show.
-
+	self updateDisplayAround: [currentForm := newForm]
 ]
 
 { #category : #pose }
@@ -126,7 +122,7 @@ EzDrawing >> extent: aPoint [
 { #category : #displaying }
 EzDrawing >> hide [
 	self currentForm ifNil: [ ^self ].
-	self board delete: self
+	self board hide: self
 
 ]
 
@@ -177,5 +173,11 @@ EzDrawing >> rectangleColor: aColor [
 
 { #category : #displaying }
 EzDrawing >> show [
-	self board draw: self
+	self board show: self
+]
+
+{ #category : #displaying }
+EzDrawing >> updateDisplayAround: aBlock [
+	aBlock value.
+	self board updateDisplay
 ]

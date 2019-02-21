@@ -16,13 +16,22 @@ EzDrawingBoardPresenter >> backgroundColor [
 { #category : #drawing }
 EzDrawingBoardPresenter >> backgroundColor: aColor [ 
 	backgroundColor := aColor.
-	self image ifNil: [ ^self ].
-	self fillColor: aColor.
+	self updateDisplay.
 ]
 
 { #category : #accessing }
 EzDrawingBoardPresenter >> canvas [
 	^self image getCanvas
+]
+
+{ #category : #drawing }
+EzDrawingBoardPresenter >> copy: aDrawing with: copier [
+	^ copier
+		copy: aDrawing currentBoundingBox
+		from: 0 @ 0
+		in: aDrawing currentForm
+		fillColor: nil
+		rule: 25
 ]
 
 { #category : #initialization }
@@ -35,42 +44,46 @@ EzDrawingBoardPresenter >> defaultExtent [
 	^400@300
 ]
 
-{ #category : #drawing }
-EzDrawingBoardPresenter >> delete: aDrawing [
-	self canvas fillRectangle: aDrawing currentBoundingBox color: self backgroundColor.
-	self updateDisplay
-]
-
-{ #category : #drawing }
-EzDrawingBoardPresenter >> draw: aDrawing [
-	| copier |
-	copier := BitBlt toForm: self image.
-	copier copy: aDrawing currentBoundingBox from: 0@0 in: aDrawing currentForm fillColor: nil rule: 25.
-	self updateDisplay
-	
-]
-
 { #category : #api }
 EzDrawingBoardPresenter >> extent: newExtent [
 	self image: (Form extent: newExtent depth: 8).
-	self fillColor: self backgroundColor.
+	self updateDisplay
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> fillColor: aColor [ 
-	self canvas fillColor: aColor.
-	self updateDisplay.
+EzDrawingBoardPresenter >> hide: aDrawing [
+	drawings remove: aDrawing ifAbsent: [^self].	
+	self updateDisplay
+	
 ]
 
 { #category : #initialization }
 EzDrawingBoardPresenter >> initialize [
 	super initialize.
+	drawings := OrderedCollection new.
 	self backgroundColor: self defaultBackgroundColor.
 	self extent: self defaultExtent.
-	drawings := OrderedCollection new.
+
+]
+
+{ #category : #drawing }
+EzDrawingBoardPresenter >> newFormCopier [
+	^ BitBlt toForm: self image
+]
+
+{ #category : #drawing }
+EzDrawingBoardPresenter >> show: aDrawing [
+	drawings add: aDrawing.	
+	self updateDisplay
+	
 ]
 
 { #category : #drawing }
 EzDrawingBoardPresenter >> updateDisplay [
-	self imageHolder valueChanged.
+	| copier |
+	self image ifNil: [ ^self ].
+	self canvas fillColor: self backgroundColor.
+	copier := self newFormCopier.
+	drawings do: [ :aDrawing | self copy: aDrawing with: copier ].
+	self imageHolder valueChanged
 ]
