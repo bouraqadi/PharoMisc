@@ -5,7 +5,8 @@ Class {
 		'board',
 		'currentForm',
 		'initialForm',
-		'center'
+		'center',
+		'angle'
 	],
 	#category : #'EasyUI-Kernel'
 }
@@ -18,11 +19,16 @@ EzDrawing class >> extent: aPoint [
 ]
 
 { #category : #pose }
+EzDrawing >> angle [
+	^angle
+]
+
+{ #category : #pose }
 EzDrawing >> angle: degrees [
-	| newForm newAngle |
-	newAngle := degrees % 360.
-	newAngle = 0 ifTrue: [^self currentForm: self initialForm].
-	newForm := self initialForm rotateBy: degrees negated. "form rotation is clockwise"
+	| newForm |
+	angle := degrees % 360.
+	angle = 0 ifTrue: [^self currentForm: self initialForm].
+	newForm := self initialForm rotateBy: angle negated. "form rotation is clockwise"
 	self currentForm: newForm.
 
 ]
@@ -125,6 +131,7 @@ EzDrawing >> initialForm: newForm [
 { #category : #initialization }
 EzDrawing >> initialize [
 	super initialize.
+	angle := 0.
 	center := self defaultCenter.
 	self board: self defaultBoard.
 	self extent: self defaultExtent.

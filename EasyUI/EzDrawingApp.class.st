@@ -47,6 +47,11 @@ EzDrawingApp >> initializeWidgets [
 	board backgroundColor: self defaultBoardColor.
 ]
 
+{ #category : #accessing }
+EzDrawingApp >> isWindowResizable [
+	^true
+]
+
 { #category : #api }
 EzDrawingApp >> title [
 	^self className

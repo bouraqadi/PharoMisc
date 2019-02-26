@@ -43,6 +43,11 @@ EzGridExample >> initializeWidgets [
 
 ]
 
+{ #category : #accessing }
+EzGridExample >> isWindowResizable [
+	^false
+]
+
 { #category : #api }
 EzGridExample >> title [
 	^'Easy UI Grid Example'
