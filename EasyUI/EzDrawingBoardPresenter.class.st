@@ -72,8 +72,14 @@ EzDrawingBoardPresenter >> drawings [
 
 { #category : #initialization }
 EzDrawingBoardPresenter >> extent: newExtent [
+self flag: #'TODO: Use inherited extentHolder'.
 	self image: (Form extent: newExtent depth: 8).
 	self updateDisplay
+]
+
+{ #category : #api }
+EzDrawingBoardPresenter >> initialExtent [
+	^self image extent
 ]
 
 { #category : #initialization }

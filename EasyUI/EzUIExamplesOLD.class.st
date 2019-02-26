@@ -58,26 +58,3 @@ EzUIExamplesOLD class >> keyboardEventsExample [
 		robot position: initialPosition]
 
 ]
-
-{ #category : #examples }
-EzUIExamplesOLD class >> windowExample [
-	<example>
-	| window robot rectangle circle colors |
-	window := EzWindow openLabelled: 'Easy UI Window with Widgets'.
-	window backgroundColor: Color paleBlue.
-	window contentExtent: 600@400.
-	colors := { Color red. Color green. Color cyan. Color magenta. Color orange }.
-	(60 to: 320 by: 60) withIndexDo: [ : y : index | 
-		robot := EzRobotWidget new.	
-		robot angle: (index - 1) * 45.
-		window addWidget: robot at: 100@y.
-		rectangle := EzRectangleWidget new.
-		rectangle angle: (index - 1) * 45.
-		window addWidget: rectangle at: 200@y.
-		circle := EzEllipseWidget new.
-		circle color: colors atRandom.
-		window addWidget: circle at: 300@y.
-	].
-
-
-]
