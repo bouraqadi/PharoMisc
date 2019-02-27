@@ -27,7 +27,7 @@ EzKeyboardEventsExample >> defaultBoardColor [
 
 { #category : #initialization }
 EzKeyboardEventsExample >> defaultBoardExtent [
-	^500@400
+	^800@600
 ]
 
 { #category : #initialization }
