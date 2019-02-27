@@ -16,6 +16,14 @@ EzDrawingApp class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+EzDrawingApp class >> openInWindow [
+	<example>
+	^self new
+		openWithSpec;
+		yourself
+]
+
 { #category : #accessing }
 EzDrawingApp >> board [
 	^ board
@@ -34,6 +42,14 @@ EzDrawingApp >> defaultBoardExtent [
 { #category : #accessing }
 EzDrawingApp >> defaultWindowModelClass [
 	^EzWindowPresenter
+]
+
+{ #category : #drawing }
+EzDrawingApp >> drawLine: startPoint to: endPoint width: width color: aColor [
+	| line |
+	line := board newLine: startPoint to: endPoint width: width color: aColor.
+	board add: line.
+	^line
 ]
 
 { #category : #api }
