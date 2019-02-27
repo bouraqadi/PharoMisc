@@ -130,6 +130,19 @@ EzDrawingBoardPresenter >> newEllipseExtent: aPoint fillColor: aColor [
 ]
 
 { #category : #'creating drawings' }
+EzDrawingBoardPresenter >> newLine: startPoint to: endPoint width: width color: aColor [
+	| boundingBox newDrawing relativeStart relativeEnd |
+	boundingBox := startPoint corner: endPoint.
+	newDrawing := self newDrawingExtent: boundingBox extent.
+	relativeStart := startPoint - boundingBox origin.
+	relativeEnd := endPoint - boundingBox origin.
+	newDrawing initialCanvas line: relativeStart to: relativeEnd width: width color: aColor.
+	newDrawing position: boundingBox origin.
+	^newDrawing
+	
+]
+
+{ #category : #'creating drawings' }
 EzDrawingBoardPresenter >> newRectangleExtent: aPoint fillColor: aColor [
 	^(self newDrawingExtent: aPoint)
 		rectangleFillColor: aColor;

@@ -56,7 +56,12 @@ EzDrawing >> center: newCenter [
 
 { #category : #accessing }
 EzDrawing >> currentBoundingBox [
-	^self currentPosition extent: self currentForm extent
+	^ self position extent: self currentExtent
+]
+
+{ #category : #accessing }
+EzDrawing >> currentExtent [
+	^ self currentForm extent
 ]
 
 { #category : #accessing }
@@ -67,11 +72,6 @@ EzDrawing >> currentForm [
 { #category : #accessing }
 EzDrawing >> currentForm: newForm [
 	self updateDisplayAround: [currentForm := newForm]
-]
-
-{ #category : #pose }
-EzDrawing >> currentPosition [
-	^self positionForForm: self currentForm center: self center
 ]
 
 { #category : #initialization }
@@ -136,6 +136,16 @@ EzDrawing >> initialize [
 	self board: self defaultBoard.
 	self extent: self defaultExtent.
 
+]
+
+{ #category : #pose }
+EzDrawing >> position [
+	^self positionForForm: self currentForm center: self center
+]
+
+{ #category : #pose }
+EzDrawing >> position: newPosition [
+	^self center: self center - self position + newPosition
 ]
 
 { #category : #pose }
