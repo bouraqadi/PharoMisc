@@ -59,7 +59,7 @@ EzDrawingApp >> initialExtent [
 
 { #category : #initialization }
 EzDrawingApp >> initializeWidgets [
-	board := EzDrawingBoardPresenter extent: self defaultBoardExtent.
+	board := EzDrawingBoard extent: self defaultBoardExtent.
 	board backgroundColor: self defaultBoardColor.
 ]
 

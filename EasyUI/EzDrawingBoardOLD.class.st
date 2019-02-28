@@ -1,5 +1,5 @@
 Class {
-	#name : #EzDrawingBoardPresenter,
+	#name : #EzDrawingBoardOLD,
 	#superclass : #ImagePresenter,
 	#instVars : [
 		'backgroundColor',
@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-EzDrawingBoardPresenter class >> extent: aPoint [
+EzDrawingBoardOLD class >> extent: aPoint [
 	^self new
 		extent: aPoint;
 		yourself
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> add: aDrawing [
+EzDrawingBoardOLD >> add: aDrawing [
 	(self drawings includes: aDrawing) ifTrue: [ ^self ]. 
 	self drawings add: aDrawing.	
 	self draw: aDrawing.
@@ -24,39 +24,39 @@ EzDrawingBoardPresenter >> add: aDrawing [
 ]
 
 { #category : #accessing }
-EzDrawingBoardPresenter >> backgroundColor [
+EzDrawingBoardOLD >> backgroundColor [
 	^backgroundColor
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> backgroundColor: aColor [ 
+EzDrawingBoardOLD >> backgroundColor: aColor [ 
 	backgroundColor := aColor.
 	self updateDisplay.
 ]
 
 { #category : #accessing }
-EzDrawingBoardPresenter >> canvas [
+EzDrawingBoardOLD >> canvas [
 	^self image getCanvas
 ]
 
 { #category : #initialization }
-EzDrawingBoardPresenter >> defaultBackgroundColor [
+EzDrawingBoardOLD >> defaultBackgroundColor [
 	^Color white
 ]
 
 { #category : #initialization }
-EzDrawingBoardPresenter >> defaultExtent [
+EzDrawingBoardOLD >> defaultExtent [
 	^400@300
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> draw: aDrawing [ 
+EzDrawingBoardOLD >> draw: aDrawing [ 
 	self draw: aDrawing with: self newBitBlt
 
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> draw: aDrawing with: copier [
+EzDrawingBoardOLD >> draw: aDrawing with: copier [
 	^ copier
 		copy: aDrawing currentBoundingBox
 		from: 0 @ 0
@@ -66,24 +66,24 @@ EzDrawingBoardPresenter >> draw: aDrawing with: copier [
 ]
 
 { #category : #accessing }
-EzDrawingBoardPresenter >> drawings [
+EzDrawingBoardOLD >> drawings [
 	^drawings
 ]
 
 { #category : #initialization }
-EzDrawingBoardPresenter >> extent: newExtent [
+EzDrawingBoardOLD >> extent: newExtent [
 self flag: #'TODO: Use inherited extentHolder'.
 	self image: (Form extent: newExtent depth: 8).
 	self updateDisplay
 ]
 
 { #category : #api }
-EzDrawingBoardPresenter >> initialExtent [
+EzDrawingBoardOLD >> initialExtent [
 	^self image extent
 ]
 
 { #category : #initialization }
-EzDrawingBoardPresenter >> initialize [
+EzDrawingBoardOLD >> initialize [
 	super initialize.
 	drawings := OrderedCollection new.
 	self backgroundColor: self defaultBackgroundColor.
@@ -92,17 +92,17 @@ EzDrawingBoardPresenter >> initialize [
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> newBitBlt [
+EzDrawingBoardOLD >> newBitBlt [
 	^ BitBlt toForm: self image
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newCircleDiameter: diameterInt fillColor: aColor [
+EzDrawingBoardOLD >> newCircleDiameter: diameterInt fillColor: aColor [
 	^self newEllipseExtent: diameterInt @ diameterInt fillColor: aColor
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newCircleDiameter: diameterInt fillColor: fillColor frameColor: frameColor arrowColor: arrowColor [
+EzDrawingBoardOLD >> newCircleDiameter: diameterInt fillColor: fillColor frameColor: frameColor arrowColor: arrowColor [
 	| circle radius arrowStart arrowEnd arrowThickness |
 	circle := self newCircleDiameter:  diameterInt fillColor: fillColor.
 	radius := diameterInt//2.
@@ -116,21 +116,21 @@ EzDrawingBoardPresenter >> newCircleDiameter: diameterInt fillColor: fillColor f
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newDrawingExtent: aPoint [ 
+EzDrawingBoardOLD >> newDrawingExtent: aPoint [ 
 	^(EzDrawing extent: aPoint)
 		board: self;
 		yourself
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newEllipseExtent: aPoint fillColor: aColor [
+EzDrawingBoardOLD >> newEllipseExtent: aPoint fillColor: aColor [
 	^(self newDrawingExtent: aPoint)
 		ellipseFillColor: aColor;
 		yourself
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newLine: startPoint to: endPoint width: width color: aColor [
+EzDrawingBoardOLD >> newLine: startPoint to: endPoint width: width color: aColor [
 	| boundingBox newDrawing relativeStart relativeEnd |
 	boundingBox := startPoint corner: endPoint.
 	newDrawing := self newDrawingExtent: boundingBox extent + width.
@@ -146,26 +146,26 @@ EzDrawingBoardPresenter >> newLine: startPoint to: endPoint width: width color: 
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newRectangleExtent: aPoint fillColor: aColor [
+EzDrawingBoardOLD >> newRectangleExtent: aPoint fillColor: aColor [
 	^(self newDrawingExtent: aPoint)
 		rectangleFillColor: aColor;
 		yourself
 ]
 
 { #category : #'creating drawings' }
-EzDrawingBoardPresenter >> newSquareLength: lengthInt fillColor: aColor [
+EzDrawingBoardOLD >> newSquareLength: lengthInt fillColor: aColor [
 	^self newRectangleExtent: lengthInt @ lengthInt fillColor: aColor
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> remove: aDrawing [
+EzDrawingBoardOLD >> remove: aDrawing [
 	self drawings remove: aDrawing ifAbsent: [^self].	
 	self updateDisplay
 	
 ]
 
 { #category : #drawing }
-EzDrawingBoardPresenter >> updateDisplay [
+EzDrawingBoardOLD >> updateDisplay [
 	| copier |
 	self image ifNil: [ ^self ].
 	self canvas fillColor: self backgroundColor.

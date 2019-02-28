@@ -2,36 +2,10 @@ Class {
 	#name : #EzDrawing,
 	#superclass : #Object,
 	#instVars : [
-		'board',
-		'currentForm',
-		'initialForm',
-		'center',
-		'angle'
+		'board'
 	],
 	#category : #'EasyUI-Kernel'
 }
-
-{ #category : #'instance creation' }
-EzDrawing class >> extent: aPoint [
-	^self new
-		extent: aPoint;
-		yourself
-]
-
-{ #category : #pose }
-EzDrawing >> angle [
-	^angle
-]
-
-{ #category : #pose }
-EzDrawing >> angle: degrees [
-	| newForm |
-	angle := degrees % 360.
-	angle = 0 ifTrue: [^self currentForm: self initialForm].
-	newForm := self initialForm rotateBy: angle negated. "form rotation is clockwise"
-	self currentForm: newForm.
-
-]
 
 { #category : #accessing }
 EzDrawing >> board [
@@ -43,133 +17,27 @@ EzDrawing >> board: anObject [
 	board := anObject
 ]
 
-{ #category : #pose }
-EzDrawing >> center [
-	^ center
-]
-
-{ #category : #pose }
-EzDrawing >> center: newCenter [
-	self updateDisplayAround: [center := newCenter].
-
-]
-
 { #category : #accessing }
-EzDrawing >> currentBoundingBox [
-	^ self position extent: self currentExtent
-]
-
-{ #category : #accessing }
-EzDrawing >> currentExtent [
-	^ self currentForm extent
-]
-
-{ #category : #accessing }
-EzDrawing >> currentForm [
-	^ currentForm
-]
-
-{ #category : #accessing }
-EzDrawing >> currentForm: newForm [
-	self updateDisplayAround: [currentForm := newForm]
-]
-
-{ #category : #initialization }
-EzDrawing >> defaultBoard [
-	^EzNullDrawingBoardPresenter new
-]
-
-{ #category : #initialization }
-EzDrawing >> defaultCenter [
-	^0@0
-]
-
-{ #category : #initialization }
-EzDrawing >> defaultExtent [
-	^100@100
-
+EzDrawing >> canvas [
+	^self board canvas
 ]
 
 { #category : #drawing }
-EzDrawing >> ellipseFillColor: aColor [
-	self initialCanvas fillOval: self initialBoundingBox color: aColor
+EzDrawing >> draw [
+	self drawOn: self canvas
 ]
 
-{ #category : #initialization }
-EzDrawing >> extent: aPoint [ 
-	self initialForm: (Form extent: aPoint depth: 8)
+{ #category : #drawing }
+EzDrawing >> drawOn: aCanvas [
+	self subclassResponsibility
 ]
 
 { #category : #displaying }
 EzDrawing >> hide [
-	self currentForm ifNil: [ ^self ].
 	self board remove: self
-
-]
-
-{ #category : #accessing }
-EzDrawing >> initialBoundingBox [
-	^self initialForm boundingBox
-]
-
-{ #category : #drawing }
-EzDrawing >> initialCanvas [
-	^ self initialForm getCanvas 
-]
-
-{ #category : #accessing }
-EzDrawing >> initialForm [
-	^ initialForm
-]
-
-{ #category : #initialization }
-EzDrawing >> initialForm: newForm [
-	initialForm := newForm.
-	self currentForm: newForm.
-]
-
-{ #category : #initialization }
-EzDrawing >> initialize [
-	super initialize.
-	angle := 0.
-	center := self defaultCenter.
-	self board: self defaultBoard.
-	self extent: self defaultExtent.
-
-]
-
-{ #category : #pose }
-EzDrawing >> position [
-	^self positionForForm: self currentForm center: self center
-]
-
-{ #category : #pose }
-EzDrawing >> position: newPosition [
-	^self center: self center - self position + newPosition
-]
-
-{ #category : #pose }
-EzDrawing >> positionForForm: aForm [
-	^self positionForForm: aForm center: self center
-]
-
-{ #category : #pose }
-EzDrawing >> positionForForm: aForm center: aPoint [
-	^aPoint - (aForm extent//2)
-]
-
-{ #category : #drawing }
-EzDrawing >> rectangleFillColor: aColor [
-	self initialCanvas fillColor: aColor
 ]
 
 { #category : #displaying }
 EzDrawing >> show [
 	self board add: self
-]
-
-{ #category : #displaying }
-EzDrawing >> updateDisplayAround: aBlock [
-	aBlock value.
-	self board updateDisplay
 ]

@@ -10,24 +10,24 @@ Class {
 { #category : #running }
 EzDrawingBoardTest >> setUp [
 	super setUp.
-	board := EzDrawingBoardPresenter new.
+	board := EzDrawingBoard new.
 ]
 
 { #category : #running }
 EzDrawingBoardTest >> testAddingSeveralTimeTheSameDrawing [
 	| drawing |
-	drawing := EzDrawing new.
-	10 timesRepeat: [board add: drawing].
-	self assert: board drawings asArray equals: { drawing }.
+	drawing := board newLineFrom: 100@100 to: 700@500 width: 10 color: Color red.
+	10 timesRepeat: [ board add: drawing ].
+	self assert: board drawings asArray equals: {drawing}
 ]
 
 { #category : #running }
 EzDrawingBoardTest >> testRemovingSeveralTimeTheSameDrawing [
 	| drawing |
-	drawing := EzDrawing new.
+	drawing := board newLineFrom: 100@100 to: 700@500 width: 10 color: Color red.
 	board add: drawing.
 	board remove: drawing.
 	self assert: board drawings isEmpty.
-	10 timesRepeat: [board remove: drawing].
-	self assert: board drawings isEmpty.
+	10 timesRepeat: [ board remove: drawing ].
+	self assert: board drawings isEmpty
 ]
