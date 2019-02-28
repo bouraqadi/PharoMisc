@@ -7,6 +7,13 @@ Class {
 	#category : #'EasyUI-Kernel'
 }
 
+{ #category : #'instance creation' }
+EzDrawing class >> board: aDrawingBoard [
+	^self new
+		board: aDrawingBoard;
+		yourself
+]
+
 { #category : #accessing }
 EzDrawing >> board [
 	^ board

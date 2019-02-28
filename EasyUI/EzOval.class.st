@@ -8,7 +8,7 @@ Class {
 EzOval >> drawOn: aCanvas [
 	aCanvas 
 		fillOval: self boundingBox
-		color: self fillColor;
-		borderWidth: self borderWidth;
+		color: self fillColor
+		borderWidth: self borderWidth
 		borderColor: self borderColor
 ]

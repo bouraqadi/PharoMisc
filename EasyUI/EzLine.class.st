@@ -10,16 +10,6 @@ Class {
 	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #'instance creation' }
-EzLine class >> from: point1 to: point2 width: anInt color: aColor [
-	^self new
-		startPoint: point1; 
-		endPoint: point2; 
-		width: anInt;
-		color: aColor;
-		yourself
-]
-
 { #category : #accessing }
 EzLine >> color [
 	^ color
