@@ -52,7 +52,8 @@ EzTDrawingArea >> addRectangleOrigine: origin extent: extent fillColor: fillColo
 EzTDrawingArea >> addRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
 	|robot|
 	robot := self newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
-	self add: robot
+	self add: robot.
+	^robot
 ]
 
 { #category : #drawing }

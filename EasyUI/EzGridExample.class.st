@@ -32,12 +32,11 @@ EzGridExample >> initializeWidgets [
 	| colors cellIndex rectangleColor rectangle |
 	super initializeWidgets.
 	colors := {Color yellow. Color black}.
-	1 to: 10 do: [ : y |
-		1 to: 10 do: [ : x |
+	0 to: 9 do: [ : y |
+		0 to: 9 do: [ : x |
 			cellIndex := x+(y - 1).
 			rectangleColor := colors at: (cellIndex % 2) + 1.
-			rectangle := board newSquareLength: 48 fillColor: rectangleColor.
-			rectangle center: (x@y) * 50 - 25.
+			rectangle := board addSquareOrigine: (x@y) * 50 + 1 length: 48 fillColor: rectangleColor borderWidth: 1 borderColor: Color transparent.
 			board add: rectangle.
 			 ] ].
 

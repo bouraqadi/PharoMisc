@@ -58,9 +58,8 @@ EzKeyboardEventsExample >> initializePresenter [
 { #category : #initialization }
 EzKeyboardEventsExample >> initializeWidgets [
 	super initializeWidgets.
-	robot := board newCircleDiameter: 41 fillColor: Color pink frameColor: Color black arrowColor: Color cyan.	
-	robot center: self robotInitialCenter.
-	board add: robot.
+	robot := board addRobotAt: self robotInitialCenter radius: 20 fillColor: Color pink borderWidth: 4 borderColor: Color black.	
+
 ]
 
 { #category : #initialization }
