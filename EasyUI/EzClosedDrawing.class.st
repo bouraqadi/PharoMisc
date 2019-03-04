@@ -15,8 +15,9 @@ EzClosedDrawing >> borderColor [
 ]
 
 { #category : #accessing }
-EzClosedDrawing >> borderColor: anObject [
-	borderColor := anObject
+EzClosedDrawing >> borderColor: aColor [
+	borderColor := aColor.
+
 ]
 
 { #category : #accessing }
@@ -25,8 +26,9 @@ EzClosedDrawing >> borderWidth [
 ]
 
 { #category : #accessing }
-EzClosedDrawing >> borderWidth: anObject [
-	borderWidth := anObject
+EzClosedDrawing >> borderWidth: anInt [
+	borderWidth := anInt.
+
 ]
 
 { #category : #accessing }

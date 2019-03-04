@@ -46,10 +46,8 @@ EzDrawingApp >> defaultWindowModelClass [
 
 { #category : #drawing }
 EzDrawingApp >> drawLine: startPoint to: endPoint width: width color: aColor [
-	| line |
-	line := board newLine: startPoint to: endPoint width: width color: aColor.
-	board add: line.
-	^line
+	^board addLineFrom: startPoint to: endPoint width: width color: aColor.
+
 ]
 
 { #category : #api }

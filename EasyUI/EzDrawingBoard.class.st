@@ -119,6 +119,24 @@ EzDrawingBoard >> initialize [
 ]
 
 { #category : #drawing }
+EzDrawingBoard >> moveToBack: aDrawing [
+	self drawings 
+		remove: aDrawing ifAbsent: [];
+		addFirst: aDrawing.
+	self updateDisplay 
+
+]
+
+{ #category : #drawing }
+EzDrawingBoard >> moveToFront: aDrawing [
+	self drawings 
+		remove: aDrawing ifAbsent: [];
+		addLast: aDrawing.
+	self updateDisplay 
+
+]
+
+{ #category : #drawing }
 EzDrawingBoard >> newCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self newEllipseCenter: center xRadius: radius yRadius: radius fillColor:  fillColor borderWidth: width borderColor: bColor
 ]

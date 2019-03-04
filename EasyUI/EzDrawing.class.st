@@ -45,6 +45,16 @@ EzDrawing >> hide [
 ]
 
 { #category : #displaying }
+EzDrawing >> moveToBack [
+	self board moveToBack: self
+]
+
+{ #category : #displaying }
+EzDrawing >> moveToFront [
+	self board moveToFront: self
+]
+
+{ #category : #displaying }
 EzDrawing >> show [
 	self board add: self
 ]
