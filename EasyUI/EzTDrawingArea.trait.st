@@ -49,6 +49,13 @@ EzTDrawingArea >> addRectangleOrigine: origin extent: extent fillColor: fillColo
 ]
 
 { #category : #drawing }
+EzTDrawingArea >> addRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
+	|robot|
+	robot := self newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
+	self add: robot
+]
+
+{ #category : #drawing }
 EzTDrawingArea >> addSquareOrigine: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self addRectangleOrigine: origin extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
@@ -118,6 +125,15 @@ EzTDrawingArea >> newRectangleOrigine: origin extent: extent fillColor: fillColo
 		borderWidth: width;
 		borderColor: bColor;
 		yourself
+]
+
+{ #category : #drawing }
+EzTDrawingArea >> newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
+	| robot |
+	robot := EzCompositeDrawing board: self.
+	robot addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
+	robot addLineFrom: center to: center + (radius@0) width: width color: borderColor.
+	^robot
 ]
 
 { #category : #drawing }
