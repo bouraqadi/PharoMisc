@@ -37,7 +37,7 @@ EzDrawingsExample >> initializeWidgets [
 	(60 to: 320 by: 60) withIndexDo: [ : y : index | 
 		robot := view addRobotAt: 100@y radius: widgetRadius fillColor: Color yellow borderWidth: 4 borderColor: Color red.	
 "		robot angle: (index - 1) * 45."
-		rectangle := view addSquareOrigine: 200@(y - widgetRadius) length: widgetDiameter fillColor: Color black borderWidth: 1 borderColor: colors atRandom.
+		rectangle := view addSquareCenter: 200@(y - widgetRadius) length: widgetDiameter fillColor: Color black borderWidth: 1 borderColor: colors atRandom.
 "		rectangle angle: (index - 1) * 45."
 		circle := view addCircleCenter: 300@y radius: widgetRadius fillColor: colors atRandom borderWidth: 1 borderColor: Color black.
 	].

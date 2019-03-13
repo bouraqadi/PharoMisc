@@ -62,9 +62,9 @@ EzDrawing >> addPolygonVertices: vertices fillColor: fillColor borderWidth: widt
 ]
 
 { #category : #drawing }
-EzDrawing >> addRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
+EzDrawing >> addRectangleCenter: center extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
 	| rectangle |
-	rectangle := (self newRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor).
+	rectangle := (self newRectangleCenter: center extent: extent fillColor: fillColor borderWidth: width borderColor: bColor).
 	self add: rectangle.
 	^rectangle
 ]
@@ -78,8 +78,8 @@ EzDrawing >> addRobotAt: center radius: radius fillColor: fillColor borderWidth:
 ]
 
 { #category : #drawing }
-EzDrawing >> addSquareOrigine: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
-	^self addRectangleOrigine: origin extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
+EzDrawing >> addSquareCenter: center length: length fillColor: fillColor borderWidth: width borderColor: bColor [
+	^self addRectangleCenter: center extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
 
 { #category : #accessing }
@@ -178,13 +178,15 @@ EzDrawing >> newPolygonVertices: vertices fillColor: fillColor borderWidth: widt
 ]
 
 { #category : #drawing }
-EzDrawing >> newRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzBox board: self)
-		origin: origin extent: extent;
-		fillColor: fillColor;
-		borderWidth: width;
-		borderColor: bColor;
-		yourself
+EzDrawing >> newRectangleCenter: center extent: extent fillColor: fillColor borderWidth: borderWidth borderColor: borderColor [
+	| border |
+	border := self newBorder: borderWidth color: borderColor.
+	^RSShapeBuilder rectangle
+		position: center;
+		extent: extent ;
+		color: fillColor;
+		border: border;
+		element
 ]
 
 { #category : #drawing }
@@ -197,8 +199,8 @@ EzDrawing >> newRobotAt: center radius: radius fillColor: fillColor borderWidth:
 ]
 
 { #category : #drawing }
-EzDrawing >> newSquareOrigine: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
-	^self newRectangleOrigine: origin extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
+EzDrawing >> newSquareCenter: center length: length fillColor: fillColor borderWidth: width borderColor: bColor [
+	^self newRectangleCenter: center extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
 
 { #category : #api }
