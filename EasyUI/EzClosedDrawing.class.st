@@ -1,6 +1,6 @@
 Class {
 	#name : #EzClosedDrawing,
-	#superclass : #EzDrawing,
+	#superclass : #EzDrawingOLD,
 	#instVars : [
 		'fillColor',
 		'borderColor',

@@ -1,6 +1,6 @@
 Class {
 	#name : #EzKeyboardEventsExample,
-	#superclass : #EzDrawingApp,
+	#superclass : #EzDrawing,
 	#instVars : [
 		'robot'
 	],
@@ -58,7 +58,7 @@ EzKeyboardEventsExample >> initializePresenter [
 { #category : #initialization }
 EzKeyboardEventsExample >> initializeWidgets [
 	super initializeWidgets.
-	robot := board addRobotAt: self robotInitialCenter radius: 20 fillColor: Color pink borderWidth: 4 borderColor: Color black.	
+	robot := view addRobotAt: self robotInitialCenter radius: 20 fillColor: Color pink borderWidth: 4 borderColor: Color black.	
 
 ]
 

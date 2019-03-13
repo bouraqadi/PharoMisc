@@ -1,6 +1,6 @@
 Class {
 	#name : #EzCompositeDrawing,
-	#superclass : #EzDrawing,
+	#superclass : #EzDrawingOLD,
 	#traits : 'EzTDrawingArea',
 	#classTraits : 'EzTDrawingArea classTrait',
 	#instVars : [

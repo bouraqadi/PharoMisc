@@ -1,6 +1,6 @@
 Class {
 	#name : #EzGridExample,
-	#superclass : #EzDrawingApp,
+	#superclass : #EzDrawing,
 	#category : #'EasyUI-Kernel'
 }
 
@@ -36,8 +36,8 @@ EzGridExample >> initializeWidgets [
 		0 to: 9 do: [ : x |
 			cellIndex := x+(y - 1).
 			rectangleColor := colors at: (cellIndex % 2) + 1.
-			rectangle := board addSquareOrigine: (x@y) * 50 + 1 length: 48 fillColor: rectangleColor borderWidth: 1 borderColor: Color transparent.
-			board add: rectangle.
+			rectangle := view addSquareOrigine: (x@y) * 50 + 1 length: 48 fillColor: rectangleColor borderWidth: 1 borderColor: Color transparent.
+			view add: rectangle.
 			 ] ].
 
 ]

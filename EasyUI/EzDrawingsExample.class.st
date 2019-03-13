@@ -1,6 +1,6 @@
 Class {
 	#name : #EzDrawingsExample,
-	#superclass : #EzDrawingApp,
+	#superclass : #EzDrawing,
 	#category : #'EasyUI-Kernel'
 }
 
@@ -35,11 +35,11 @@ EzDrawingsExample >> initializeWidgets [
 	widgetDiameter := 40.
 	widgetRadius := widgetDiameter / 2.
 	(60 to: 320 by: 60) withIndexDo: [ : y : index | 
-		robot := board addRobotAt: 100@y radius: widgetRadius fillColor: Color yellow borderWidth: 4 borderColor: Color red.	
+		robot := view addRobotAt: 100@y radius: widgetRadius fillColor: Color yellow borderWidth: 4 borderColor: Color red.	
 "		robot angle: (index - 1) * 45."
-		rectangle := board addSquareOrigine: 200@(y - widgetRadius) length: widgetDiameter fillColor: Color black borderWidth: 1 borderColor: colors atRandom.
+		rectangle := view addSquareOrigine: 200@(y - widgetRadius) length: widgetDiameter fillColor: Color black borderWidth: 1 borderColor: colors atRandom.
 "		rectangle angle: (index - 1) * 45."
-		circle := board addCircleCenter: 300@y radius: widgetRadius fillColor: colors atRandom borderWidth: 1 borderColor: Color black.
+		circle := view addCircleCenter: 300@y radius: widgetRadius fillColor: colors atRandom borderWidth: 1 borderColor: Color black.
 	].
 	
 ]

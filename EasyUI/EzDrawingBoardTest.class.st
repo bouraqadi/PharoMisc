@@ -10,7 +10,7 @@ Class {
 { #category : #running }
 EzDrawingBoardTest >> setUp [
 	super setUp.
-	board := EzDrawingBoard new.
+	board := EzDrawingBoardOLD new.
 ]
 
 { #category : #running }

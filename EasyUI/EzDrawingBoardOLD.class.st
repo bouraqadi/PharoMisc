@@ -1,5 +1,5 @@
 Class {
-	#name : #EzDrawingBoard,
+	#name : #EzDrawingBoardOLD,
 	#superclass : #ImagePresenter,
 	#traits : 'EzTDrawingArea @ {#basicMoveToFront:->#moveToFront:. #basicMoveToBack:->#moveToBack:}',
 	#classTraits : 'EzTDrawingArea classTrait',
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-EzDrawingBoard class >> extent: aPoint [
+EzDrawingBoardOLD class >> extent: aPoint [
 	^self new
 		extent: aPoint;
 		yourself
 ]
 
-{ #category : #drawing }
-EzDrawingBoard >> add: aDrawing [
+{ #category : #'as yet unclassified' }
+EzDrawingBoardOLD >> add: aDrawing [
 	(self drawings includes: aDrawing)
 		ifTrue: [ ^ self ].
 	self drawings add: aDrawing.
@@ -27,50 +27,50 @@ EzDrawingBoard >> add: aDrawing [
 ]
 
 { #category : #accessing }
-EzDrawingBoard >> backgroundColor [
+EzDrawingBoardOLD >> backgroundColor [
 	^backgroundColor
 ]
 
 { #category : #drawing }
-EzDrawingBoard >> backgroundColor: aColor [ 
+EzDrawingBoardOLD >> backgroundColor: aColor [ 
 	backgroundColor := aColor.
 	self updateDisplay.
 ]
 
 { #category : #accessing }
-EzDrawingBoard >> canvas [
+EzDrawingBoardOLD >> canvas [
 	^self image getCanvas
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> defaultBackgroundColor [
+EzDrawingBoardOLD >> defaultBackgroundColor [
 	^Color white
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> defaultExtent [
+EzDrawingBoardOLD >> defaultExtent [
 	^400@300
 ]
 
 { #category : #accessing }
-EzDrawingBoard >> drawings [
+EzDrawingBoardOLD >> drawings [
 	^drawings
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> extent: newExtent [
+EzDrawingBoardOLD >> extent: newExtent [
 self flag: #'TODO: Use inherited extentHolder'.
 	self image: (Form extent: newExtent depth: 8).
 	self updateDisplay
 ]
 
 { #category : #api }
-EzDrawingBoard >> initialExtent [
+EzDrawingBoardOLD >> initialExtent [
 	^self image extent
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> initialize [
+EzDrawingBoardOLD >> initialize [
 	super initialize.
 	drawings := OrderedCollection new.
 	self backgroundColor: self defaultBackgroundColor.
@@ -79,28 +79,28 @@ EzDrawingBoard >> initialize [
 ]
 
 { #category : #drawing }
-EzDrawingBoard >> moveToBack: aDrawing [
+EzDrawingBoardOLD >> moveToBack: aDrawing [
 	self basicMoveToBack: aDrawing.
 	self updateDisplay 
 
 ]
 
 { #category : #drawing }
-EzDrawingBoard >> moveToFront: aDrawing [
+EzDrawingBoardOLD >> moveToFront: aDrawing [
 	self basicMoveToFront: aDrawing.
 	self updateDisplay 
 
 ]
 
 { #category : #drawing }
-EzDrawingBoard >> remove: aDrawing [
+EzDrawingBoardOLD >> remove: aDrawing [
 	self drawings remove: aDrawing ifAbsent: [^self].	
 	self updateDisplay
 	
 ]
 
 { #category : #drawing }
-EzDrawingBoard >> updateDisplay [
+EzDrawingBoardOLD >> updateDisplay [
 	self image ifNil: [ ^ self ].
 	self canvas fillColor: self backgroundColor.
 	drawings do: [ :aDrawing | aDrawing draw ].

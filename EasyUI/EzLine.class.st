@@ -1,6 +1,6 @@
 Class {
 	#name : #EzLine,
-	#superclass : #EzDrawing,
+	#superclass : #EzDrawingOLD,
 	#instVars : [
 		'startPoint',
 		'endPoint',
