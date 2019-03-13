@@ -133,6 +133,14 @@ EzDrawing >> morph [
 ]
 
 { #category : #drawing }
+EzDrawing >> newBorder: width color: color [
+	^TSBorder new
+		width: width;
+		color: color;
+		yourself
+]
+
+{ #category : #drawing }
 EzDrawing >> newCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self newEllipseCenter: center xRadius: radius yRadius: radius fillColor:  fillColor borderWidth: width borderColor: bColor
 ]
@@ -146,7 +154,7 @@ EzDrawing >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColo
 		radius: (xRadius @ yRadius);
 		color: fillColor;
 		border: border;
-		yourself
+		element
 ]
 
 { #category : #drawing }
