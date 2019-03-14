@@ -21,16 +21,6 @@ EzKeyboardEventsExample class >> demoWorld [
 ]
 
 { #category : #initialization }
-EzKeyboardEventsExample >> defaultBoardColor [
-	^Color paleBlue
-]
-
-{ #category : #initialization }
-EzKeyboardEventsExample >> defaultBoardExtent [
-	^800@600
-]
-
-{ #category : #initialization }
 EzKeyboardEventsExample >> initializePresenter [
 	| deltaX deltaY |
 	super initializePresenter.
@@ -58,13 +48,13 @@ EzKeyboardEventsExample >> initializePresenter [
 { #category : #initialization }
 EzKeyboardEventsExample >> initializeWidgets [
 	super initializeWidgets.
-	robot := view addRobotAt: self robotInitialCenter radius: 20 fillColor: Color pink borderWidth: 4 borderColor: Color black.	
+	robot := self addRobotAt: self robotInitialCenter radius: 20 fillColor: Color pink borderWidth: 2 borderColor: Color black.	
 
 ]
 
 { #category : #initialization }
 EzKeyboardEventsExample >> robotInitialCenter [
-	^self defaultBoardExtent // 2
+	^0@0
 ]
 
 { #category : #api }

@@ -27,9 +27,8 @@ EzDrawing class >> openInWindow [
 
 { #category : #drawing }
 EzDrawing >> add: aShape [
-	self view 
-		add: aShape;
-		signalUpdate.
+	self view add: aShape.
+	self updateDisplay.
 ]
 
 { #category : #drawing }
@@ -71,9 +70,10 @@ EzDrawing >> addRectangleCenter: center extent: extent fillColor: fillColor bord
 
 { #category : #drawing }
 EzDrawing >> addRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
-	|robot|
-	robot := self newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
-	self add: robot.
+	| robot |
+	robot := TSGroup new.
+	robot add: (self addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor).
+	robot add: (self addLineFrom: center to: center + (radius@0) width: width color: borderColor).
 	^robot
 ]
 
@@ -99,19 +99,14 @@ EzDrawing >> defaultBoardColor [
 	^Color white
 ]
 
-{ #category : #initialization }
-EzDrawing >> defaultBoardExtent [
-	^800@600
-]
-
 { #category : #accessing }
 EzDrawing >> defaultWindowModelClass [
 	^EzWindowPresenter
 ]
 
-{ #category : #api }
+{ #category : #initialization }
 EzDrawing >> initialExtent [
-	^600@400
+	^800@600
 ]
 
 { #category : #initialization }
@@ -124,7 +119,7 @@ EzDrawing >> initializeWidgets [
 
 { #category : #accessing }
 EzDrawing >> isWindowResizable [
-	^true
+	^false
 ]
 
 { #category : #accessing }
@@ -147,29 +142,33 @@ EzDrawing >> newCircleCenter: center radius: radius fillColor: fillColor borderW
 
 { #category : #drawing }
 EzDrawing >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: borderWidth borderColor: borderColor [
-	| border |
+	| border roassalShape |
 	border := self newBorder: borderWidth color: borderColor.
-	^RSShapeBuilder ellipse
+	roassalShape := RSShapeBuilder ellipse
 		position: center;
 		radius: (xRadius @ yRadius);
 		color: fillColor;
 		border: border;
-		element
+		element.
+	^EzShape roassalShape: roassalShape presenter: self
 ]
 
 { #category : #drawing }
 EzDrawing >> newLineFrom: point1 to: point2 width: anInt color: aColor [
-	^RSEdgeBuilder line
+	| roassalShape |
+	roassalShape := RSEdgeBuilder line
 		from: point1; 
 		to: point2; 
 		width: anInt;
 		color: aColor;
-		edge
+		capRound;
+		edge.
+	^EzShape roassalShape: roassalShape presenter: self
 ]
 
 { #category : #drawing }
 EzDrawing >> newPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzPolygon board: self)
+	^(EzPolygonOLD board: self)
 		vertices: vertices;
 		fillColor: fillColor;
 		borderWidth: width;
@@ -179,23 +178,15 @@ EzDrawing >> newPolygonVertices: vertices fillColor: fillColor borderWidth: widt
 
 { #category : #drawing }
 EzDrawing >> newRectangleCenter: center extent: extent fillColor: fillColor borderWidth: borderWidth borderColor: borderColor [
-	| border |
+	| border roassalShape |
 	border := self newBorder: borderWidth color: borderColor.
-	^RSShapeBuilder rectangle
+	roassalShape := RSShapeBuilder rectangle
 		position: center;
 		extent: extent ;
 		color: fillColor;
 		border: border;
-		element
-]
-
-{ #category : #drawing }
-EzDrawing >> newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
-	| robot |
-	robot := EzCompositeDrawing board: self.
-	robot addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
-	robot addLineFrom: center to: center + (radius@0) width: width color: borderColor.
-	^robot
+		element.
+	^EzShape roassalShape: roassalShape presenter: self
 ]
 
 { #category : #drawing }
@@ -206,6 +197,11 @@ EzDrawing >> newSquareCenter: center length: length fillColor: fillColor borderW
 { #category : #api }
 EzDrawing >> title [
 	^self className
+]
+
+{ #category : #drawing }
+EzDrawing >> updateDisplay [
+	self view signalUpdate
 ]
 
 { #category : #accessing }

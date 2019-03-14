@@ -23,7 +23,7 @@ EzDrawingsExample >> defaultBoardColor [
 ]
 
 { #category : #initialization }
-EzDrawingsExample >> defaultBoardExtent [
+EzDrawingsExample >> initialExtent [
 	^500@400
 ]
 
@@ -34,12 +34,12 @@ EzDrawingsExample >> initializeWidgets [
 	colors := { Color red. Color green. Color cyan. Color magenta. Color orange }.
 	widgetDiameter := 40.
 	widgetRadius := widgetDiameter / 2.
-	(60 to: 320 by: 60) withIndexDo: [ : y : index | 
-		robot := view addRobotAt: 100@y radius: widgetRadius fillColor: Color yellow borderWidth: 4 borderColor: Color red.	
+	(-120 to: 120 by: 60) withIndexDo: [ : y : index | 
+		robot := self addRobotAt: -100@y radius: widgetRadius fillColor: Color yellow borderWidth: 2 borderColor: Color red.	
 "		robot angle: (index - 1) * 45."
-		rectangle := view addSquareCenter: 200@(y - widgetRadius) length: widgetDiameter fillColor: Color black borderWidth: 1 borderColor: colors atRandom.
-"		rectangle angle: (index - 1) * 45."
-		circle := view addCircleCenter: 300@y radius: widgetRadius fillColor: colors atRandom borderWidth: 1 borderColor: Color black.
+		rectangle := self addSquareCenter: 0@y length: widgetDiameter fillColor: Color black borderWidth: 5 borderColor: colors atRandom.
+		rectangle rotateByDegrees: (index - 1) * 45.
+		circle := self addCircleCenter: 100@y radius: widgetRadius fillColor: colors atRandom borderWidth: 1 borderColor: Color black.
 	].
 	
 ]

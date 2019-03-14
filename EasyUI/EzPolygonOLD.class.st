@@ -1,5 +1,5 @@
 Class {
-	#name : #EzPolygon,
+	#name : #EzPolygonOLD,
 	#superclass : #EzClosedDrawing,
 	#instVars : [
 		'vertices'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #drawing }
-EzPolygon >> drawOn: aCanvas [
+EzPolygonOLD >> drawOn: aCanvas [
 	aCanvas
 		drawPolygon: self vertices 
 		color: self fillColor 
@@ -17,11 +17,11 @@ EzPolygon >> drawOn: aCanvas [
 ]
 
 { #category : #accessing }
-EzPolygon >> vertices [
+EzPolygonOLD >> vertices [
 	^ vertices
 ]
 
 { #category : #accessing }
-EzPolygon >> vertices: anObject [
+EzPolygonOLD >> vertices: anObject [
 	vertices := anObject
 ]

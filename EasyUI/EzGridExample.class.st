@@ -23,7 +23,7 @@ EzGridExample >> defaultBoardColor [
 ]
 
 { #category : #initialization }
-EzGridExample >> defaultBoardExtent [
+EzGridExample >> initialExtent [
 	^500@500
 ]
 
@@ -32,19 +32,14 @@ EzGridExample >> initializeWidgets [
 	| colors cellIndex rectangleColor rectangle |
 	super initializeWidgets.
 	colors := {Color yellow. Color black}.
-	0 to: 9 do: [ : y |
-		0 to: 9 do: [ : x |
+	-4 to: 5 do: [ : y |
+		-4 to: 5 do: [ : x |
 			cellIndex := x+(y - 1).
 			rectangleColor := colors at: (cellIndex % 2) + 1.
-			rectangle := view addSquareCenter: (x@y) * 50 + 1 length: 48 fillColor: rectangleColor borderWidth: 1 borderColor: Color transparent.
+			rectangle := self addSquareCenter: (x@y) * 50 - 25 length: 48 fillColor: rectangleColor borderWidth: 1 borderColor: Color transparent.
 			view add: rectangle.
 			 ] ].
 
-]
-
-{ #category : #accessing }
-EzGridExample >> isWindowResizable [
-	^false
 ]
 
 { #category : #api }
