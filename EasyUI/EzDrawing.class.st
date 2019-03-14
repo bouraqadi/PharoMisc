@@ -168,12 +168,7 @@ EzDrawing >> newLineFrom: point1 to: point2 width: anInt color: aColor [
 
 { #category : #drawing }
 EzDrawing >> newPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzPolygonOLD board: self)
-		vertices: vertices;
-		fillColor: fillColor;
-		borderWidth: width;
-		borderColor: bColor;
-		yourself
+	self error: #todo
 ]
 
 { #category : #drawing }
