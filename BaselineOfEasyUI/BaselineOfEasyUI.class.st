@@ -10,8 +10,11 @@ BaselineOfEasyUI >> baseline: spec [
 
 	spec for: #'common' do: [
 		spec 
+			repository: 'github://ObjectProfile/Roassal3/src';
+			package: 'Roassal3'.
+		spec 
 			blessing: #'baseline';
 			repository: 'github://bouraqadi/PharoMisc'; 
-			package: #EasyUI. ].
+			package: #EasyUI with: [ spec requires: 'Roassal3' ] ].
 
 ]
