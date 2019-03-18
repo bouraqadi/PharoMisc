@@ -3,7 +3,8 @@ Class {
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'view',
-		'morph'
+		'morph',
+		'backgroundColor'
 	],
 	#category : #'EasyUI-Kernel'
 }
@@ -21,7 +22,7 @@ EzDrawing class >> defaultSpec [
 EzDrawing class >> openInWindow [
 	<example>
 	^self new
-		openWithSpec;
+		openInWindow;
 		yourself
 ]
 
@@ -83,10 +84,31 @@ EzDrawing >> addSquareCenter: center length: length fillColor: fillColor borderW
 ]
 
 { #category : #accessing }
+EzDrawing >> backgroundColor [
+	^backgroundColor
+]
+
+{ #category : #accessing }
 EzDrawing >> backgroundColor: aColor [
 	self canvas 
 		color: aColor;
-		signalUpdate
+		signalUpdate.
+	backgroundColor := aColor.
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> bottomLeftCorner [
+	^self boundingBox bottomLeft
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> bottomRightCorner [
+	^self extent // 2
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> boundingBox [
+	^self topLeftCorner corner: self bottomRightCorner 
 ]
 
 { #category : #accessing }
@@ -99,9 +121,25 @@ EzDrawing >> defaultBoardColor [
 	^Color white
 ]
 
+{ #category : #initialization }
+EzDrawing >> defaultTitle [
+	^self className
+]
+
 { #category : #accessing }
 EzDrawing >> defaultWindowModelClass [
 	^EzWindowPresenter
+]
+
+{ #category : #drawing }
+EzDrawing >> erase [
+	self
+		addRectangleCenter: 0 @ 0
+		extent: self extent
+		fillColor: self backgroundColor
+		borderWidth: 0
+		borderColor: self backgroundColor.
+		
 ]
 
 { #category : #initialization }
@@ -111,15 +149,41 @@ EzDrawing >> initialExtent [
 
 { #category : #initialization }
 EzDrawing >> initializeWidgets [
+	self title: self defaultTitle.
 	view := RSView new.
 	extentHolder whenChangedDo: [ : newExtent | self morph extent: newExtent].
 	self backgroundColor: self defaultBoardColor.
 	self extent: self initialExtent.
 ]
 
+{ #category : #testing }
+EzDrawing >> isVisiblePoint: aPoint [
+	^self boundingBox containsPoint: aPoint
+]
+
 { #category : #accessing }
 EzDrawing >> isWindowResizable [
 	^false
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> maxX [
+	^self bottomRightCorner x
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> maxY [
+	^self bottomRightCorner y
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> minX [
+	^self topLeftCorner x
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> minY [
+	^self topLeftCorner y
 ]
 
 { #category : #accessing }
@@ -189,12 +253,24 @@ EzDrawing >> newSquareCenter: center length: length fillColor: fillColor borderW
 	^self newRectangleCenter: center extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
 
-{ #category : #api }
-EzDrawing >> title [
-	^self className
+{ #category : #displaying }
+EzDrawing >> openInWindow [
+	self hasWindow ifFalse: [ ^self openWithSpec].
+	self window isMinimized ifFalse: [ ^self window beTopWindow ].
+	self window restore
 ]
 
-{ #category : #drawing }
+{ #category : #'accessing-geometry' }
+EzDrawing >> topLeftCorner [
+	^self extent // -2
+]
+
+{ #category : #'accessing-geometry' }
+EzDrawing >> topRightCorner [
+	^self boundingBox topRight
+]
+
+{ #category : #displaying }
 EzDrawing >> updateDisplay [
 	self view signalUpdate
 ]

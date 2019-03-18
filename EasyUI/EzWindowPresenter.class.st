@@ -4,6 +4,11 @@ Class {
 	#category : #'EasyUI-Kernel'
 }
 
+{ #category : #windowing }
+EzWindowPresenter >> beTopWindow [
+	self window beTopWindow.
+]
+
 { #category : #initialization }
 EzWindowPresenter >> borderWidth [
 	^5
@@ -21,10 +26,20 @@ EzWindowPresenter >> initialize [
 
 ]
 
+{ #category : #testing }
+EzWindowPresenter >> isMinimized [
+	^self window isMinimized
+]
+
 { #category : #initialization }
 EzWindowPresenter >> isResizeable [
 	isResizeable ifNil: [isResizeable := self model isWindowResizable asValueHolder ].
 	^super isResizeable
+]
+
+{ #category : #windowing }
+EzWindowPresenter >> restore [
+	self window restore.
 ]
 
 { #category : #initialization }
