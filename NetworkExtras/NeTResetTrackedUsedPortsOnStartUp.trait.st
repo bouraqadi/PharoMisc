@@ -16,6 +16,11 @@ NeTResetTrackedUsedPortsOnStartUp classSide >> initialize [
 ]
 
 { #category : #'system startup' }
+NeTResetTrackedUsedPortsOnStartUp classSide >> resetUsedPorts [
+	self explicitRequirement
+]
+
+{ #category : #'system startup' }
 NeTResetTrackedUsedPortsOnStartUp classSide >> startUp: isImageStarting [
 	isImageStarting ifFalse: [ ^self ].
 	self resetUsedPorts.

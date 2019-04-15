@@ -21,13 +21,11 @@ Upon termination, it closes the socket ensuring releasing related resources.
 "
 Class {
 	#name : #NeUdpServer,
-	#superclass : #Object,
+	#superclass : #NeServer,
 	#instVars : [
-		'thread',
 		'socket',
 		'actionBlock',
-		'receivedDataHandlingPriority',
-		'serverName'
+		'receivedDataHandlingPriority'
 	],
 	#category : #'NetworkExtras-UDP-Kernel'
 }
@@ -46,11 +44,6 @@ NeUdpServer class >> unicastPort: portNumber [
 { #category : #'initialize-release' }
 NeUdpServer >> defaultReceivedDataHandlingPriority [
 	^Processor userSchedulingPriority
-]
-
-{ #category : #'initialize-release' }
-NeUdpServer >> defaultServerName [
-	self subclassResponsibility
 ]
 
 { #category : #'initialize-release' }
@@ -73,16 +66,6 @@ NeUdpServer >> initialize [
 ]
 
 { #category : #activity }
-NeUdpServer >> isStarted [
-	^ thread isStarted
-]
-
-{ #category : #activity }
-NeUdpServer >> isStopped [
-	^ thread isStopped
-]
-
-{ #category : #activity }
 NeUdpServer >> newSocket [
 	self subclassResponsibility
 ]
@@ -92,14 +75,13 @@ NeUdpServer >> onReceptionDo: aBlock [
 	actionBlock := aBlock
 ]
 
-{ #category : #accessing }
-NeUdpServer >> priority [
-	^thread priority
-]
-
-{ #category : #accessing }
-NeUdpServer >> priority: aPriority [
-	thread priority: aPriority
+{ #category : #activity }
+NeUdpServer >> printThreadNameOn: stream [
+	stream
+		nextPutAll: self serverName;
+		nextPut: $(.
+	self socket printSocketInfoOn: stream.
+	stream nextPut: $)
 ]
 
 { #category : #activity }
@@ -121,16 +103,6 @@ NeUdpServer >> receivedDataHandlingPriority: anInteger [
 ]
 
 { #category : #accessing }
-NeUdpServer >> serverName [
-	^serverName
-]
-
-{ #category : #accessing }
-NeUdpServer >> serverName: aString [
-	^serverName := aString
-]
-
-{ #category : #accessing }
 NeUdpServer >> socket [
 	^socket
 ]
@@ -142,19 +114,4 @@ NeUdpServer >> start [
 	socket := self newSocket.
 	thread name: self threadName.
 	thread start
-]
-
-{ #category : #activity }
-NeUdpServer >> stop [
-	thread stop
-]
-
-{ #category : #activity }
-NeUdpServer >> threadName [
-	^String streamContents: [: stream |
-		stream 
-			nextPutAll: self serverName;
-			nextPut: $(.
-		self socket printSocketInfoOn: stream.
-		stream nextPut: $)]
 ]
