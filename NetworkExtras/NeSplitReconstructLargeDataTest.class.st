@@ -7,7 +7,7 @@ Class {
 		'reconstructor',
 		'splitter'
 	],
-	#category : #'NetworkExtras-UdpLargeDataTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

@@ -3,7 +3,7 @@ Class {
 	#superclass : #TestCase,
 	#traits : 'NeTWait',
 	#classTraits : 'NeTWait classTrait',
-	#category : #'NetworkExtras-KernelTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

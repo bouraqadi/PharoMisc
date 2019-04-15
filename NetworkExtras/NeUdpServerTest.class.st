@@ -8,7 +8,7 @@ Class {
 		'sender',
 		'allReceivedData'
 	],
-	#category : #'NetworkExtras-KernelTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

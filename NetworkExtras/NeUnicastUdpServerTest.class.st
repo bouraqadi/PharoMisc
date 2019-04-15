@@ -1,7 +1,7 @@
 Class {
 	#name : #NeUnicastUdpServerTest,
 	#superclass : #NeUdpServerTest,
-	#category : #'NetworkExtras-KernelTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

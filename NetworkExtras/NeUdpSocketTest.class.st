@@ -1,27 +1,8 @@
-"
-Shared behavior for UDP socket classes
-"
 Class {
 	#name : #NeUdpSocketTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'allSockets'
-	],
-	#category : #'NetworkExtras-KernelTest'
+	#superclass : #NeSocketTest,
+	#category : #'NetworkExtras-Test'
 }
-
-{ #category : #testing }
-NeUdpSocketTest class >> isAbstract [
-	^self == NeUdpSocketTest 
-]
-
-{ #category : #testing }
-NeUdpSocketTest >> createSocket: aBlock [
-	| newSocket |
-	newSocket := aBlock value.
-	allSockets add: newSocket.
-	^newSocket
-]
 
 { #category : #testing }
 NeUdpSocketTest >> newBroadcastSocketOnPort: port [
@@ -46,20 +27,6 @@ NeUdpSocketTest >> newUnicastUdpSocketEmittingToIp: targetIp port: port [
 
 { #category : #testing }
 NeUdpSocketTest >> newUnicastUdpSocketReceivingOnPort: port [
-	^self createSocket: [NeUnicastUdpSocket receptionPort: port].
-
-]
-
-{ #category : #testing }
-NeUdpSocketTest >> setUp [
-	super setUp.
-	allSockets := Set new.
-
-]
-
-{ #category : #testing }
-NeUdpSocketTest >> tearDown [
-	super tearDown.	
-	allSockets do: #closeAndDestroy.
+	^self createSocket: [NeUnicastUdpSocket listenOnPort: port].
 
 ]

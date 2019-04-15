@@ -5,7 +5,7 @@ Class {
 		'thread',
 		'serverName'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : #'NetworkExtras-Kernel'
 }
 
 { #category : #'initialize-release' }

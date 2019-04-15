@@ -4,7 +4,7 @@ I am an abstract class, use my subclasses
 "
 Class {
 	#name : #NeUdpSocket,
-	#superclass : #Socket,
+	#superclass : #NeSocket,
 	#instVars : [
 		'receptionBuffer',
 		'receptionPort'
@@ -35,12 +35,6 @@ NeUdpSocket >> destroy [
 	[ super destroy ] ensure: [ self unregisterUsedPort]
 ]
 
-{ #category : #testing }
-NeUdpSocket >> ensureValidPort: portNumber [
-	(self isValidPort: portNumber) ifTrue: [ ^self ].
-	NeInvalidSocketPortError signal
-]
-
 { #category : #initialization }
 NeUdpSocket >> initReceptionBuffer [
 	self receptionBufferSize: self defaultBufferSize
@@ -51,11 +45,9 @@ NeUdpSocket >> isUsedPort: portNumber [
 	^self usedPortsTracker isUsedPort: portNumber
 ]
 
-{ #category : #testing }
-NeUdpSocket >> isValidPort: portNumber [
-	portNumber < 0 ifTrue: [ ^false ].
-	portNumber > 65535 ifTrue: [ ^false ].
-	^true
+{ #category : #receiving }
+NeUdpSocket >> listenOnPort: portNumber [
+	self setPort: portNumber.
 ]
 
 { #category : #printing }
@@ -101,11 +93,6 @@ NeUdpSocket >> receptionBufferSize: bytesCount [
 { #category : #receiving }
 NeUdpSocket >> receptionPort [
 	^receptionPort
-]
-
-{ #category : #receiving }
-NeUdpSocket >> receptionPort: portNumber [
-	self setPort: portNumber.
 ]
 
 { #category : #'reception ports tracking' }

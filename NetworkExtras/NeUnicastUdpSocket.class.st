@@ -17,9 +17,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-NeUnicastUdpSocket class >> receptionPort: portNumber [
+NeUnicastUdpSocket class >> listenOnPort: portNumber [
 	^self newUDP
-		receptionPort: portNumber;
+		listenOnPort: portNumber;
 		yourself
 ]
 

@@ -5,7 +5,7 @@ Class {
 		'multicastGroup',
 		'multicastPort'
 	],
-	#category : #'NetworkExtras-KernelTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

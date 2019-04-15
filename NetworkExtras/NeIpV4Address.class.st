@@ -10,7 +10,7 @@ Examples:
 "
 Class {
 	#name : #NeIpV4Address,
-	#superclass : #ByteArray,
+	#superclass : #SocketAddress,
 	#type : #bytes,
 	#category : #'NetworkExtras-Kernel'
 }

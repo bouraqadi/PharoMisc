@@ -8,7 +8,7 @@ Class {
 		'receiver',
 		'sender'
 	],
-	#category : #'NetworkExtras-KernelTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }
@@ -44,8 +44,8 @@ NeUdpUnicastSocketTest >> testCloseWhileReceiving [
 { #category : #testing }
 NeUdpUnicastSocketTest >> testForbideMultipleSocketsListeningOnTheSamePort [
 	| socketCreationBlocks |
-	socketCreationBlocks := {[NeUnicastUdpSocket receptionPort: port].
-		[NeUdpSocket new receptionPort: port; yourself].
+	socketCreationBlocks := {[NeUnicastUdpSocket listenOnPort: port].
+		[NeUdpSocket new listenOnPort: port; yourself].
 		[NeUdpSocket new setPort: port; yourself].
 	}.
 	socketCreationBlocks do: [ : creationBlock | 

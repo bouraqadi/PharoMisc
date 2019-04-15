@@ -8,7 +8,7 @@ Class {
 		'targetPort',
 		'allSenders'
 	],
-	#category : #'NetworkExtras-UdpLargeDataTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

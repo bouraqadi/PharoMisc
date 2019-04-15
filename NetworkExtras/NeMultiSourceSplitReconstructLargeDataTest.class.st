@@ -8,7 +8,7 @@ Class {
 		'splitter1',
 		'splitter2'
 	],
-	#category : #'NetworkExtras-UdpLargeDataTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

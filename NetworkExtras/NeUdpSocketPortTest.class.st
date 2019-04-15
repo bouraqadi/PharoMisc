@@ -1,7 +1,7 @@
 Class {
 	#name : #NeUdpSocketPortTest,
 	#superclass : #NeUdpSocketTest,
-	#category : #'NetworkExtras-KernelTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }

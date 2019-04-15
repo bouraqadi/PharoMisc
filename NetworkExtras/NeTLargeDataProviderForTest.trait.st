@@ -3,7 +3,7 @@ I provide data of multiple size useful for test purpose
 "
 Trait {
 	#name : #NeTLargeDataProviderForTest,
-	#category : #'NetworkExtras-UdpLargeDataTest'
+	#category : #'NetworkExtras-Test'
 }
 
 { #category : #testing }
