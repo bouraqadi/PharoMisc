@@ -12,6 +12,19 @@ Class {
 	#category : #'NetworkExtras-Kernel'
 }
 
+{ #category : #'reception ports tracking' }
+NeUsedPortsTracker class >> ensureFreePort: portNumber [
+	(self isUsedPort: portNumber) ifTrue: [ 
+		NeAlreadyUsedSocketPort signal ].
+
+]
+
+{ #category : #testing }
+NeUsedPortsTracker class >> ensureValidPort: portNumber [
+	(self isValidPort: portNumber) ifTrue: [ ^self ].
+	NeInvalidSocketPortError signal
+]
+
 { #category : #accessing }
 NeUsedPortsTracker class >> freePortAtRandom [
 	| allFreePorts |
@@ -30,6 +43,13 @@ NeUsedPortsTracker class >> isUsedPort: portNumber [
 	^self usedPorts includes: portNumber
 ]
 
+{ #category : #testing }
+NeUsedPortsTracker class >> isValidPort: portNumber [
+	portNumber < 0 ifTrue: [ ^false ].
+	portNumber > 65535 ifTrue: [ ^false ].
+	^true
+]
+
 { #category : #accessing }
 NeUsedPortsTracker class >> maxPortNumber [
 	^65535
@@ -42,6 +62,8 @@ NeUsedPortsTracker class >> minPortNumber [
 
 { #category : #tracking }
 NeUsedPortsTracker class >> registerUsedPort: portNumber [
+	self ensureValidPort: portNumber.
+	self ensureFreePort: portNumber.
 	self usedPorts add: portNumber
 ]
 

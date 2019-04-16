@@ -1,24 +1,58 @@
 Class {
 	#name : #NeSocket,
 	#superclass : #Socket,
+	#instVars : [
+		'receptionPort'
+	],
 	#category : #'NetworkExtras-Kernel'
 }
 
-{ #category : #testing }
-NeSocket class >> ensureValidPort: portNumber [
-	(self isValidPort: portNumber) ifTrue: [ ^self ].
-	NeInvalidSocketPortError signal
+{ #category : #'instance creation' }
+NeSocket class >> new [
+	^self newIfFail: [
+		UIManager default 
+			abort: 'Either network is not available, or no resources left to create another socket'
+			title: self name, ' creation failed!' ]
 ]
 
-{ #category : #testing }
-NeSocket class >> isValidPort: portNumber [
-	portNumber < 0 ifTrue: [ ^false ].
-	portNumber > 65535 ifTrue: [ ^false ].
-	^true
+{ #category : #'instance creation' }
+NeSocket class >> newIfFail: aBlock [
+	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : #'reception ports tracking' }
+NeSocket >> destroy [
+	[ super destroy ] ensure: [ self unregisterUsedPort]
+]
+
+{ #category : #'reception ports tracking' }
 NeSocket >> ensureValidPort: portNumber [
-	^self class ensureValidPort: portNumber.
+	self usedPortsTracker ensureValidPort: portNumber
+]
 
+{ #category : #receiving }
+NeSocket >> receptionPort [
+	^receptionPort
+]
+
+{ #category : #initialization }
+NeSocket >> receptionPort: portNumber [
+	self registerUsedPort: portNumber.
+	receptionPort := portNumber.
+
+]
+
+{ #category : #'reception ports tracking' }
+NeSocket >> registerUsedPort: portNumber [
+	self usedPortsTracker registerUsedPort: portNumber
+]
+
+{ #category : #'reception ports tracking' }
+NeSocket >> unregisterUsedPort [
+	self usedPortsTracker unregisterUsedPort: self receptionPort
+]
+
+{ #category : #'reception ports tracking' }
+NeSocket >> usedPortsTracker [
+	self subclassResponsibility
 ]

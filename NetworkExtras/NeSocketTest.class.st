@@ -33,6 +33,6 @@ NeSocketTest >> setUp [
 { #category : #testing }
 NeSocketTest >> tearDown [
 	super tearDown.	
-	allSockets do: #closeAndDestroy.
+	allSockets do: [: each | each closeAndDestroy].
 
 ]

@@ -6,18 +6,14 @@ Class {
 	#name : #NeUdpSocket,
 	#superclass : #NeSocket,
 	#instVars : [
-		'receptionBuffer',
-		'receptionPort'
+		'receptionBuffer'
 	],
 	#category : #'NetworkExtras-UDP-Kernel'
 }
 
 { #category : #'instance creation' }
-NeUdpSocket class >> new [
-	^self udpCreateIfFail: [
-		UIManager default 
-			abort: 'Either network is not available, or no resources left to create another socket'
-			title: self name, ' creation failed!' ]
+NeUdpSocket class >> newIfFail: aBlock [
+	^self udpCreateIfFail: aBlock
 ]
 
 { #category : #initialization }
@@ -30,19 +26,9 @@ NeUdpSocket >> defaultTimeoutSeconds [
 	^ 30
 ]
 
-{ #category : #'reception ports tracking' }
-NeUdpSocket >> destroy [
-	[ super destroy ] ensure: [ self unregisterUsedPort]
-]
-
 { #category : #initialization }
 NeUdpSocket >> initReceptionBuffer [
 	self receptionBufferSize: self defaultBufferSize
-]
-
-{ #category : #'reception ports tracking' }
-NeUdpSocket >> isUsedPort: portNumber [
-	^self usedPortsTracker isUsedPort: portNumber
 ]
 
 { #category : #receiving }
@@ -90,16 +76,6 @@ NeUdpSocket >> receptionBufferSize: bytesCount [
 
 ]
 
-{ #category : #receiving }
-NeUdpSocket >> receptionPort [
-	^receptionPort
-]
-
-{ #category : #'reception ports tracking' }
-NeUdpSocket >> registerUsedPort: portNumber [
-	self usedPortsTracker registerUsedPort: portNumber
-]
-
 { #category : #sending }
 NeUdpSocket >> send: anObject [
 	self sendData: anObject asByteArray toHost: self targetIp port: self targetPort
@@ -107,11 +83,7 @@ NeUdpSocket >> send: anObject [
 
 { #category : #initialization }
 NeUdpSocket >> setPort: portNumber [
-	self ensureValidPort: portNumber.
-	(self isUsedPort: portNumber) ifTrue: [ 
-		NeAlreadyUsedSocketPort signal ].
-	receptionPort := portNumber.
-	self registerUsedPort: portNumber.
+	self receptionPort: portNumber.
 	super setPort: portNumber.
 ]
 
@@ -161,11 +133,6 @@ By convention:
 { #category : #sending }
 NeUdpSocket >> timeToLiveOptionId [
 	^'IP_TTL'
-]
-
-{ #category : #'reception ports tracking' }
-NeUdpSocket >> unregisterUsedPort [
-	self usedPortsTracker unregisterUsedPort: self receptionPort
 ]
 
 { #category : #'reception ports tracking' }
