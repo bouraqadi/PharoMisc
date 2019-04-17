@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'thread',
-		'serverName'
+		'serverName',
+		'socket'
 	],
 	#category : #'NetworkExtras-Kernel'
 }
@@ -11,6 +12,18 @@ Class {
 { #category : #'initialize-release' }
 NeServer >> defaultServerName [
 	self subclassResponsibility
+]
+
+{ #category : #'initialize-release' }
+NeServer >> destroySocket [
+	self socket closeAndDestroy
+]
+
+{ #category : #'initialize-release' }
+NeServer >> initialize [
+	super initialize.
+	thread := ActiveObject repeat: [ self servingStep ] ensure: [self destroySocket].
+
 ]
 
 { #category : #activity }
@@ -23,9 +36,18 @@ NeServer >> isStopped [
 	^ thread isStopped
 ]
 
-{ #category : #printing }
+{ #category : #activity }
+NeServer >> newSocket [
+	self subclassResponsibility
+]
+
+{ #category : #activity }
 NeServer >> printThreadNameOn: stream [
-	stream nextPutAll: self serverName
+	stream
+		nextPutAll: self serverName;
+		nextPut: $(.
+	self socket printSocketInfoOn: stream.
+	stream nextPut: $)
 ]
 
 { #category : #accessing }
@@ -46,6 +68,25 @@ NeServer >> serverName [
 { #category : #accessing }
 NeServer >> serverName: aString [
 	^serverName := aString
+]
+
+{ #category : #activity }
+NeServer >> servingStep [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+NeServer >> socket [
+	^socket
+]
+
+{ #category : #activity }
+NeServer >> start [
+	self isStarted
+		ifTrue: [ ^ self ].
+	socket := self newSocket.
+	thread name: self threadName.
+	thread start
 ]
 
 { #category : #activity }

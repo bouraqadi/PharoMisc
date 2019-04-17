@@ -23,7 +23,6 @@ Class {
 	#name : #NeUdpServer,
 	#superclass : #NeServer,
 	#instVars : [
-		'socket',
 		'actionBlock',
 		'receivedDataHandlingPriority'
 	],
@@ -46,11 +45,6 @@ NeUdpServer >> defaultReceivedDataHandlingPriority [
 	^Processor userSchedulingPriority
 ]
 
-{ #category : #'initialize-release' }
-NeUdpServer >> destroySocket [
-	self socket closeAndDestroy
-]
-
 { #category : #activity }
 NeUdpServer >> handleReceivedBytes: bytes [
 	'UDP server received bytes: ' bytes asString logCr
@@ -59,37 +53,14 @@ NeUdpServer >> handleReceivedBytes: bytes [
 { #category : #'initialize-release' }
 NeUdpServer >> initialize [
 	super initialize.
-	thread := ActiveObject repeat: [ self receiveData ] ensure: [self destroySocket].
 	actionBlock := [ : bytes | self handleReceivedBytes: bytes].
 	self receivedDataHandlingPriority: self defaultReceivedDataHandlingPriority.
 	self serverName: self defaultServerName.
 ]
 
-{ #category : #activity }
-NeUdpServer >> newSocket [
-	self subclassResponsibility
-]
-
 { #category : #accessing }
 NeUdpServer >> onReceptionDo: aBlock [
 	actionBlock := aBlock
-]
-
-{ #category : #activity }
-NeUdpServer >> printThreadNameOn: stream [
-	stream
-		nextPutAll: self serverName;
-		nextPut: $(.
-	self socket printSocketInfoOn: stream.
-	stream nextPut: $)
-]
-
-{ #category : #activity }
-NeUdpServer >> receiveData [
-	| receivedData |
-	receivedData := [self socket receive] on: ConnectionTimedOut do: [: ex| ^self].
-	receivedData ifEmpty: [ ^ self ].
-	[actionBlock cull: receivedData] forkAt: self receivedDataHandlingPriority
 ]
 
 { #category : #accessing }
@@ -102,16 +73,10 @@ NeUdpServer >> receivedDataHandlingPriority: anInteger [
 	^receivedDataHandlingPriority := anInteger
 ]
 
-{ #category : #accessing }
-NeUdpServer >> socket [
-	^socket
-]
-
 { #category : #activity }
-NeUdpServer >> start [
-	self isStarted
-		ifTrue: [ ^ self ].
-	socket := self newSocket.
-	thread name: self threadName.
-	thread start
+NeUdpServer >> servingStep [
+	| receivedData |
+	receivedData := [self socket receive] on: ConnectionTimedOut do: [: ex| ^self].
+	receivedData ifEmpty: [ ^ self ].
+	[actionBlock cull: receivedData] forkAt: self receivedDataHandlingPriority
 ]

@@ -1,57 +1,57 @@
 Class {
-	#name : #NeTcpServerSocket,
+	#name : #NeTcpSocket,
 	#superclass : #NeSocket,
 	#category : #'NetworkExtras-TCP-Kernel'
 }
 
 { #category : #'instance creation' }
-NeTcpServerSocket class >> listenOnPort: portNumber [
+NeTcpSocket class >> listenOnPort: portNumber [
 	^self new
 		listenOn: portNumber;
 		yourself
 ]
 
 { #category : #'instance creation' }
-NeTcpServerSocket class >> listenOnPort: portNumber backlogSize: backlog [
+NeTcpSocket class >> listenOnPort: portNumber backlogSize: backlog [
 	^self new
 		listenOn: portNumber backlogSize: backlog;
 		yourself
 ]
 
 { #category : #'instance creation' }
-NeTcpServerSocket class >> listenOnPort: portNumber backlogSize: backlog interface: ifAddr [
+NeTcpSocket class >> listenOnPort: portNumber backlogSize: backlog interface: ifAddr [
 	^self new
 		listenOn: portNumber backlogSize: backlog interface: ifAddr;
 		yourself
 ]
 
 { #category : #'instance creation' }
-NeTcpServerSocket class >> newIfFail: aBlock [
+NeTcpSocket class >> newIfFail: aBlock [
 	^self tcpCreateIfFail: aBlock
 ]
 
 { #category : #'connection open/close' }
-NeTcpServerSocket >> listenOn: portNumber [
+NeTcpSocket >> listenOn: portNumber [
 	self receptionPort: portNumber.
 	^super listenOn: portNumber
 
 ]
 
 { #category : #'connection open/close' }
-NeTcpServerSocket >> listenOn: portNumber backlogSize: backlog [
+NeTcpSocket >> listenOn: portNumber backlogSize: backlog [
 	self receptionPort: portNumber.
 	^super listenOn: portNumber backlogSize: backlog
 
 ]
 
 { #category : #'connection open/close' }
-NeTcpServerSocket >> listenOn: portNumber backlogSize: backlog interface: ifAddr [
+NeTcpSocket >> listenOn: portNumber backlogSize: backlog interface: ifAddr [
 	self receptionPort: portNumber.
 	^super listenOn: portNumber backlogSize: backlog interface: ifAddr
 
 ]
 
 { #category : #'reception ports tracking' }
-NeTcpServerSocket >> usedPortsTracker [
+NeTcpSocket >> usedPortsTracker [
 	^NeTcpUsedPortsTracker
 ]

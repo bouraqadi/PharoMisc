@@ -6,18 +6,18 @@ Class {
 
 { #category : #testing }
 NeTcpSocketTest >> newTcpSocketListeningOnPort: port [
-	^self createSocket: [NeTcpServerSocket listenOnPort: port]
+	^self createSocket: [NeTcpSocket listenOnPort: port]
 
 ]
 
 { #category : #testing }
 NeTcpSocketTest >> newTcpSocketListeningOnPort: port backlogSize: backlogSize [
-	^self createSocket: [NeTcpServerSocket listenOnPort: port  backlogSize: backlogSize]
+	^self createSocket: [NeTcpSocket listenOnPort: port  backlogSize: backlogSize]
 
 ]
 
 { #category : #testing }
 NeTcpSocketTest >> newTcpSocketListeningOnPort: port backlogSize: backlogSize interface: itf [
-	^self createSocket: [NeTcpServerSocket listenOnPort: port  backlogSize: backlogSize interface: itf]
+	^self createSocket: [NeTcpSocket listenOnPort: port  backlogSize: backlogSize interface: itf]
 
 ]
