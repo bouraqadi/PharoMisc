@@ -23,8 +23,8 @@ Class {
 	#name : #NeUdpServer,
 	#superclass : #NeServer,
 	#instVars : [
-		'actionBlock',
-		'receivedDataHandlingPriority'
+		'receivedDataHandlingPriority',
+		'receptionHandlingBlock'
 	],
 	#category : #'NetworkExtras-UDP-Kernel'
 }
@@ -45,22 +45,22 @@ NeUdpServer >> defaultReceivedDataHandlingPriority [
 	^Processor userSchedulingPriority
 ]
 
-{ #category : #activity }
-NeUdpServer >> handleReceivedBytes: bytes [
-	'UDP server received bytes: ' bytes asString logCr
+{ #category : #'initialize-release' }
+NeUdpServer >> defaultReceptionHandlingBlock [
+	^ [ :bytes | 'UDP server received bytes: ' bytes asString logCr]
 ]
 
 { #category : #'initialize-release' }
 NeUdpServer >> initialize [
 	super initialize.
-	actionBlock := [ : bytes | self handleReceivedBytes: bytes].
-	self receivedDataHandlingPriority: self defaultReceivedDataHandlingPriority.
-	self serverName: self defaultServerName.
+	receptionHandlingBlock := self defaultReceptionHandlingBlock.
+	self
+		receivedDataHandlingPriority: self defaultReceivedDataHandlingPriority
 ]
 
 { #category : #accessing }
 NeUdpServer >> onReceptionDo: aBlock [
-	actionBlock := aBlock
+	receptionHandlingBlock := aBlock
 ]
 
 { #category : #accessing }
@@ -78,5 +78,5 @@ NeUdpServer >> servingStep [
 	| receivedData |
 	receivedData := [self socket receive] on: ConnectionTimedOut do: [: ex| ^self].
 	receivedData ifEmpty: [ ^ self ].
-	[actionBlock cull: receivedData] forkAt: self receivedDataHandlingPriority
+	[receptionHandlingBlock cull: receivedData] forkAt: self receivedDataHandlingPriority
 ]

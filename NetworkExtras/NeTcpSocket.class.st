@@ -51,6 +51,15 @@ NeTcpSocket >> listenOn: portNumber backlogSize: backlog interface: ifAddr [
 
 ]
 
+{ #category : #printing }
+NeTcpSocket >> printSocketInfoOn: aWriteStream [ 
+	self receptionPort ifNil: [^self].
+	^aWriteStream
+		nextPutAll: 'Reception Port: ';
+		print: self receptionPort
+
+]
+
 { #category : #'reception ports tracking' }
 NeTcpSocket >> usedPortsTracker [
 	^NeTcpUsedPortsTracker

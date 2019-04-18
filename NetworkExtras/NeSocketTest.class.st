@@ -24,6 +24,12 @@ NeSocketTest >> createSocket: aBlock [
 ]
 
 { #category : #testing }
+NeSocketTest >> runCaseManaged [
+	"This library does manage its own forked processes"
+	self runCase
+]
+
+{ #category : #testing }
 NeSocketTest >> setUp [
 	super setUp.
 	allSockets := Set new.

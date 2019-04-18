@@ -23,7 +23,7 @@ NeServer >> destroySocket [
 NeServer >> initialize [
 	super initialize.
 	thread := ActiveObject repeat: [ self servingStep ] ensure: [self destroySocket].
-
+	self serverName: self defaultServerName.
 ]
 
 { #category : #activity }
@@ -39,6 +39,11 @@ NeServer >> isStopped [
 { #category : #activity }
 NeServer >> newSocket [
 	self subclassResponsibility
+]
+
+{ #category : #printing }
+NeServer >> printOn: aStream [
+	self printThreadNameOn: aStream
 ]
 
 { #category : #activity }
