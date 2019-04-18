@@ -12,7 +12,12 @@ Class {
 { #category : #testing }
 ActiveObjectTest >> activeObjProcess [
 	activeObject ifNil: [ ^nil ].
-	^activeObject instVarNamed: #process
+	^activeObject process
+]
+
+{ #category : #testing }
+ActiveObjectTest >> runCaseManaged [
+	self runCase
 ]
 
 { #category : #testing }

@@ -1,8 +1,8 @@
 Class {
 	#name : #NeUdpSendReceiveLargeDataTest,
 	#superclass : #TestCase,
-	#traits : 'NeTWait + NeTLargeDataProviderForTest',
-	#classTraits : 'NeTWait classTrait + NeTLargeDataProviderForTest classTrait',
+	#traits : 'TWaitPolling + NeTLargeDataProviderForTest',
+	#classTraits : 'TWaitPolling classTrait + NeTLargeDataProviderForTest classTrait',
 	#instVars : [
 		'receiver',
 		'targetPort',

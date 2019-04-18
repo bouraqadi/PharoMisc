@@ -1,8 +1,8 @@
 Class {
 	#name : #NeIpAddressTest,
 	#superclass : #TestCase,
-	#traits : 'NeTWait',
-	#classTraits : 'NeTWait classTrait',
+	#traits : 'TWaitPolling',
+	#classTraits : 'TWaitPolling classTrait',
 	#category : #'NetworkExtras-Test'
 }
 

@@ -257,6 +257,11 @@ ActiveObject >> priority: newPriority [
 	process priority: self priority
 ]
 
+{ #category : #accessing }
+ActiveObject >> process [
+	^process
+]
+
 { #category : #finalization }
 ActiveObject >> registerForFinalization [
 	self finalizationRegistry add: self

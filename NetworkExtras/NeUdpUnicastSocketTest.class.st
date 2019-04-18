@@ -1,8 +1,8 @@
 Class {
 	#name : #NeUdpUnicastSocketTest,
 	#superclass : #NeUdpSocketTest,
-	#traits : 'NeTWait',
-	#classTraits : 'NeTWait classTrait',
+	#traits : 'TWaitPolling',
+	#classTraits : 'TWaitPolling classTrait',
 	#instVars : [
 		'port',
 		'receiver',
@@ -37,7 +37,7 @@ NeUdpUnicastSocketTest >> testCloseWhileReceiving [
 	] forkAt: Processor userInterruptPriority.
 	sender send: 'some data'.	
 	receiver closeAndDestroy.
-	self waitUntil: [ done ] timeout: 1 second.
+	self waitUntil: [ done ] timeout: 1100 milliSeconds. "Add 100 millis to take into account context switching"
 	self deny: errorSignaled.
 ]
 
@@ -77,7 +77,7 @@ NeUdpUnicastSocketTest >> testReceiveTimeout [
 	[ 
 		[ receiver receiveTimeout: 1 ] on: ConnectionTimedOut do: [timeoutSignaled := true]. 
 	] forkAt: Processor userInterruptPriority.
-	self waitUntil: [ timeoutSignaled ] timeout: 1 second.
+	self waitUntil: [ timeoutSignaled ] timeout: 1100 milliSeconds. "Add 100 millis to take into account context switching"
 
 ]
 

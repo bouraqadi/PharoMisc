@@ -1,8 +1,8 @@
 Class {
 	#name : #NeTcpServerTest,
 	#superclass : #NeTcpSocketTest,
-	#traits : 'NeTWait',
-	#classTraits : 'NeTWait classTrait',
+	#traits : 'TWaitPolling',
+	#classTraits : 'TWaitPolling classTrait',
 	#instVars : [
 		'server',
 		'allServers'

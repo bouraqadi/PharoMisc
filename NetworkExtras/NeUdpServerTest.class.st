@@ -1,8 +1,8 @@
 Class {
 	#name : #NeUdpServerTest,
 	#superclass : #NeUdpSocketTest,
-	#traits : 'NeTWait',
-	#classTraits : 'NeTWait classTrait',
+	#traits : 'TWaitPolling',
+	#classTraits : 'TWaitPolling classTrait',
 	#instVars : [
 		'server',
 		'sender',
