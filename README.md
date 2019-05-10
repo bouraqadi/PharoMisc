@@ -25,6 +25,9 @@ Metacello new
 - [EasyUI](/EasyUI): Small library to quickly make GUI that responds to user interactions. 
 - [Equals](/Equals): Defines an equality method `=` that is general to apply to different applications. 
 
+## L
+- [LightweightObserver](/LightweightObserver): Lightweight alternative to Announcement. Subclasses of subject automatically generate method wrappers to generate events notifying changes of observed IVs. When IVs reference collections, events can be generated on accessing collection elements. 
+
 ## N
 - [NetworkExtras](/NetworkExtras): Provides classes that wrap the basic sockets to ease networking
 
