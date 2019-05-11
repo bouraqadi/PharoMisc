@@ -23,7 +23,7 @@ Metacello new
 
 ## E
 - [EasyUI](/EasyUI): Small library to quickly make GUI that responds to user interactions. 
-- [Equals](/Equals): Defines an equality method `=` that is general to apply to different applications. 
+- [Equals](/Equals): Defines an equality method `=` that is general and apply to different kinds of objects. Comparison is based on IVs, and it is easily customizable. Also includes a generic `hash` method that matches the `=` implementation, which is mandatory when using hashed collections such as sets.
 
 ## L
 - [LightweightObserver](/LightweightObserver): Lightweight alternative to Announcement. Subclasses of subject automatically generate method wrappers to generate events notifying changes of observed IVs. When IVs reference collections, events can be generated on accessing collection elements. 
