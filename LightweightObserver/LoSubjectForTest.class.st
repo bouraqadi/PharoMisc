@@ -18,12 +18,12 @@ LoSubjectForTest >> a [
 	^ a
 ]
 
-{ #category : #'private-generated' }
+{ #category : #accessing }
 LoSubjectForTest >> a: anObject [
 	a := anObject 
 ]
 
-{ #category : #'private-generated' }
+{ #category : #accessing }
 LoSubjectForTest >> a: objA b: objB [
 	a := objA.
 	b := objB
@@ -34,7 +34,7 @@ LoSubjectForTest >> b [
 	^ b
 ]
 
-{ #category : #'private-generated' }
+{ #category : #accessing }
 LoSubjectForTest >> b: anObject [
 	b := anObject
 ]
@@ -44,7 +44,7 @@ LoSubjectForTest >> collection [
 	^ collection
 ]
 
-{ #category : #'private-generated' }
+{ #category : #accessing }
 LoSubjectForTest >> collection: anObject [
 	collection := anObject
 ]
