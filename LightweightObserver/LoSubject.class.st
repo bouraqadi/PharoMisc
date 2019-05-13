@@ -27,20 +27,49 @@ Class {
 	#category : #'LightweightObserver-Kernel'
 }
 
+{ #category : #'subject support' }
+LoSubject class >> addObservingHooksFor: selector withMethod: compiledMethod [
+	| ivWriteNodes writtenIvs wrapperMethod basicSelector |
+	ivWriteNodes := compiledMethod instanceVariableWriteNodes.
+	basicSelector := self basicMethodSelectorFrom: selector.
+	ivWriteNodes
+		ifEmpty: [ super removeSelector: basicSelector.
+			^ super addSelectorSilently: selector withMethod: compiledMethod ].
+	writtenIvs := ivWriteNodes collect: [ :each | each name ].
+	wrapperMethod := self newWrapperMethod: selector forWritingIvs: writtenIvs.
+	self attachSourceOf: compiledMethod to: wrapperMethod.
+	super addSelectorSilently: selector withMethod: wrapperMethod.
+	super addSelectorSilently: basicSelector withMethod: compiledMethod.
+	self organization classify: basicSelector under: #'private-generated'.
+	{wrapperMethod.
+	compiledMethod}
+		do: [ :each | LoSubjectSupportMethod adoptInstance: each ]
+]
+
 { #category : #'accessing method dictionary' }
 LoSubject class >> addSelectorSilently: selector withMethod: compiledMethod [
-	| result |
 	(self isBasicMethodSelector: selector)
 		ifTrue: [ ^ LoSubjectBasicMethodChangeForbiddenError signal ].
-	result := super
-		addSelectorSilently: selector
-		withMethod: compiledMethod.
 	self == LoSubject
-		ifTrue: [ ^ self ].
+		ifTrue: [ ^ 	super
+							addSelectorSilently: selector
+							withMethod: compiledMethod].
 	self
-		updateSubjectSupportAfterAdding: selector
+		addObservingHooksFor: selector
 		withMethod: compiledMethod.
-	^ result
+
+]
+
+{ #category : #'subject support' }
+LoSubject class >> attachSourceOf: compiledMethod to: wrapperMethod [
+	wrapperMethod
+		putSource: compiledMethod sourceCode
+		withPreamble: [ :f | 
+			f
+				cr;
+				nextPut: $!;
+				nextChunkPut: 'Subject wrapper method';
+				cr ]
 ]
 
 { #category : #'subject support' }
@@ -131,32 +160,6 @@ LoSubject class >> subclass: aName uses: aTraitCompositionOrArray instanceVariab
 ]
 
 { #category : #'subject support' }
-LoSubject class >> updateSubjectSupportAfterAdding: selector withMethod: compiledMethod [
-	| ivWriteNodes writtenIvs wrapperMethod basicSelector |
-	ivWriteNodes := compiledMethod instanceVariableWriteNodes.
-	basicSelector := self basicMethodSelectorFrom: selector.
-	ivWriteNodes ifEmpty: [ ^ super removeSelector: basicSelector ].
-	writtenIvs := ivWriteNodes collect: [ :each | each name ].
-	wrapperMethod := self
-		newWrapperMethod: selector
-		forWritingIvs: writtenIvs.
-	wrapperMethod
-		putSource: compiledMethod sourceCode
-		withPreamble: [ :f | 
-			f
-				cr;
-				nextPut: $!;
-				nextChunkPut: 'Subject wrapper method';
-				cr ].
-	super addSelectorSilently: selector withMethod: wrapperMethod.
-	super addSelectorSilently: basicSelector withMethod: compiledMethod.
-	self organization classify: basicSelector under: #'private-generated'.
-	{wrapperMethod.
-	compiledMethod}
-		do: [ :each | LoSubjectSupportMethod adoptInstance: each ]
-]
-
-{ #category : #'subject support' }
 LoSubject class >> writeMessage: selector on: supportMethodStream [
 	selector isKeyword ifFalse: [^supportMethodStream nextPutAll: selector].
 	selector keywords
@@ -231,20 +234,20 @@ LoSubject >> dispatch: anEvent [
 	self dispatcher dispatch: anEvent
 ]
 
-{ #category : #observing }
+{ #category : #accessing }
 LoSubject >> dispatcher [
 	dispatcher ifNil: [dispatcher := LoEventDispatcher new].
 	^dispatcher
 ]
 
-{ #category : #observing }
+{ #category : #'observing-private' }
 LoSubject >> makeSubject: anObject [
 	anObject
 		asSubject;
 		dispatcher: self dispatcher
 ]
 
-{ #category : #observing }
+{ #category : #'observing-private' }
 LoSubject >> makeSubjectIvNamed: ivName [
 	self makeSubject: (self instVarNamed: ivName)
 
