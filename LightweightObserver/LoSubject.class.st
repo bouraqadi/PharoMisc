@@ -27,37 +27,34 @@ Class {
 	#category : #'LightweightObserver-Kernel'
 }
 
+{ #category : #'accessing method dictionary' }
+LoSubject class >> addAndClassifySelector: selector withMethod: compiledMethod inProtocol: aProtocol [
+	(self isBasicMethodSelector: selector)
+		ifTrue: [ ^ LoSubjectBasicMethodChangeForbiddenError signal ].
+	self
+		addObservingHooksFor: selector
+		withMethod: compiledMethod
+		inProtocol: aProtocol.
+	
+
+]
+
 { #category : #'subject support' }
-LoSubject class >> addObservingHooksFor: selector withMethod: compiledMethod [
+LoSubject class >> addObservingHooksFor: selector withMethod: compiledMethod inProtocol: aProtocol [
 	| ivWriteNodes writtenIvs wrapperMethod basicSelector |
-	ivWriteNodes := compiledMethod instanceVariableWriteNodes.
+	ivWriteNodes := compiledMethod instanceVariableWriteNodes reject: [: ivNode | ivNode name = self dispatcherIvName].
 	basicSelector := self basicMethodSelectorFrom: selector.
-	ivWriteNodes
-		ifEmpty: [ super removeSelector: basicSelector.
-			^ super addSelectorSilently: selector withMethod: compiledMethod ].
+	ivWriteNodes ifEmpty: [ 
+		super removeSelector: basicSelector.
+		^ super addAndClassifySelector: selector withMethod: compiledMethod inProtocol: aProtocol].
 	writtenIvs := ivWriteNodes collect: [ :each | each name ].
 	wrapperMethod := self newWrapperMethod: selector forWritingIvs: writtenIvs.
 	self attachSourceOf: compiledMethod to: wrapperMethod.
-	super addSelectorSilently: selector withMethod: wrapperMethod.
-	super addSelectorSilently: basicSelector withMethod: compiledMethod.
-	self organization classify: basicSelector under: #'private-generated'.
+	super addAndClassifySelector: selector withMethod: wrapperMethod inProtocol: aProtocol.
+	super addAndClassifySelector: basicSelector withMethod: compiledMethod inProtocol: #'private-generated'.
 	{wrapperMethod.
 	compiledMethod}
 		do: [ :each | LoSubjectSupportMethod adoptInstance: each ]
-]
-
-{ #category : #'accessing method dictionary' }
-LoSubject class >> addSelectorSilently: selector withMethod: compiledMethod [
-	(self isBasicMethodSelector: selector)
-		ifTrue: [ ^ LoSubjectBasicMethodChangeForbiddenError signal ].
-	self == LoSubject
-		ifTrue: [ ^ 	super
-							addSelectorSilently: selector
-							withMethod: compiledMethod].
-	self
-		addObservingHooksFor: selector
-		withMethod: compiledMethod.
-
 ]
 
 { #category : #'subject support' }
@@ -81,6 +78,11 @@ LoSubject class >> basicMethodSelectorFrom: selector [
 LoSubject class >> basicMethodSelectorPrefix [
 	^#basicSubjectMethod_
 
+]
+
+{ #category : #'subject support' }
+LoSubject class >> dispatcherIvName [
+	^#dispatcher
 ]
 
 { #category : #'subject support' }
@@ -139,8 +141,10 @@ LoSubject class >> newWrapperMethodSource: selector forWriting: writtenIvs [
 
 { #category : #'subject support' }
 LoSubject class >> recompile: selector from: oldClass [
-	(selector beginsWith: self basicMethodSelectorPrefix) ifTrue: [ ^self ].
-	^super recompile: selector from: oldClass
+	| compiledMethod |
+	super recompile: selector from: oldClass.
+	compiledMethod := self compiledMethodAt: selector.
+	self addAndClassifySelector: selector withMethod: compiledMethod inProtocol: compiledMethod protocol.
 ]
 
 { #category : #'subject support' }

@@ -9,6 +9,11 @@ Class {
 	#category : #'LightweightObserver-Kernel'
 }
 
+{ #category : #'as yet unclassified' }
+LoNullPackage >> addMethod: aCollection [ 
+	^self
+]
+
 { #category : #converting }
 LoNullPackage >> asRingDefinition [
 	^self
