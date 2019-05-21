@@ -69,6 +69,11 @@ LoSubject class >> attachSourceOf: compiledMethod to: wrapperMethod [
 				cr ]
 ]
 
+{ #category : #'accessing method dictionary' }
+LoSubject class >> basicLocalSelectors [
+	^super localSelectors
+]
+
 { #category : #'subject support' }
 LoSubject class >> basicMethodSelectorFrom: selector [
 	^(self basicMethodSelectorPrefix, selector) asSymbol
@@ -88,6 +93,12 @@ LoSubject class >> dispatcherIvName [
 { #category : #'subject support' }
 LoSubject class >> isBasicMethodSelector: selector [
 	^ selector beginsWith: self basicMethodSelectorPrefix
+]
+
+{ #category : #'accessing method dictionary' }
+LoSubject class >> localSelectors [
+	^self basicLocalSelectors reject: [ : each | 
+		each beginsWith: self basicMethodSelectorPrefix ]
 ]
 
 { #category : #'subject support' }
@@ -142,6 +153,7 @@ LoSubject class >> newWrapperMethodSource: selector forWriting: writtenIvs [
 { #category : #'subject support' }
 LoSubject class >> recompile: selector from: oldClass [
 	| compiledMethod |
+	(self isBasicMethodSelector: selector) ifTrue: [ ^self ].
 	super recompile: selector from: oldClass.
 	compiledMethod := self compiledMethodAt: selector.
 	self addAndClassifySelector: selector withMethod: compiledMethod inProtocol: compiledMethod protocol.

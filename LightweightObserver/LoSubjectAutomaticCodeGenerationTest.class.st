@@ -68,7 +68,7 @@ LoSubjectAutomaticCodeGenerationTest >> testGeneratingSupportMethodsForMultipleI
 	class compile: 'a: objA b: objB
 	a := objA.
 	b := objB.'.
-	self assertCollection: class localSelectors hasSameElements: #(a:b: basicSubjectMethod_a:b:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a:b: basicSubjectMethod_a:b:).
 
 ]
 
@@ -79,13 +79,13 @@ LoSubjectAutomaticCodeGenerationTest >> testGeneratingSupportMethodsUponCompilat
 	self assertCollection: class localSelectors hasSameElements: #(a).
 	class compile: 'a: anObject
 		a := anObject'.
-	self assertCollection: class localSelectors hasSameElements: #(a a: basicSubjectMethod_a:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a a: basicSubjectMethod_a:).
 	class compile: 'b
 		^b'.
-	self assertCollection: class localSelectors hasSameElements: #(a a: basicSubjectMethod_a: b).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a a: basicSubjectMethod_a: b).
 	class compile: 'b: anObject
 		b := anObject'.
-	self assertCollection: class localSelectors hasSameElements: #(a a: basicSubjectMethod_a: b b: basicSubjectMethod_b:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a a: basicSubjectMethod_a: b b: basicSubjectMethod_b:).
 	
 	
 	
@@ -99,8 +99,9 @@ LoSubjectAutomaticCodeGenerationTest >> testGeneratingSupportMethodsUponInherita
 	newClass compile: 'x: anObject
 		x := anObject'.
 	self assertCollection: newClass localSelectors hasSameElements: #(x:).
-	LoSubject subclass: newClass name instanceVariableNames: 'x' classVariableNames: '' poolDictionaries: '' category: newClass category.
-	self assertCollection: newClass localSelectors hasSameElements: #(x: basicSubjectMethod_x:).
+	LoSubject subclass: newClass name instanceVariableNames: 'x' classVariableNames: '' package: newClass category.
+	self assert: newClass superclass == LoSubject.
+	self assertCollection: newClass basicLocalSelectors hasSameElements: #(x: basicSubjectMethod_x:).
 	
 	
 	
@@ -112,7 +113,7 @@ LoSubjectAutomaticCodeGenerationTest >> testGeneratingSupportMethodsWithoutParam
 	class compile: 'noParam
 	a := #().
 	b := #objB.'.
-	self assertCollection: class localSelectors hasSameElements: #(noParam #basicSubjectMethod_noParam).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(noParam #basicSubjectMethod_noParam).
 
 ]
 
@@ -123,7 +124,23 @@ LoSubjectAutomaticCodeGenerationTest >> testRemovingBasicMethods [
 	self 
 		should: [class removeSelector: #basicSubjectMethod_a:] 
 		raise: LoSubjectBasicMethodChangeForbiddenError.
-	self assertCollection: class localSelectors hasSameElements: #(a: basicSubjectMethod_a:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a: basicSubjectMethod_a:).
+	
+	
+	
+	
+]
+
+{ #category : #testing }
+LoSubjectAutomaticCodeGenerationTest >> testRemovingGeneratedSupportMethodsUponInheritance [
+	| newClass |
+	newClass := factory newSubclassOf: LoSubject instanceVariableNames: 'x'  classVariableNames: ''.
+	newClass compile: 'x: anObject
+		x := anObject'.
+	self assertCollection: newClass basicLocalSelectors hasSameElements: #(x: basicSubjectMethod_x:).
+	Object subclass: newClass name instanceVariableNames: 'x' classVariableNames: '' package: newClass category.
+	self assert: newClass superclass == Object.
+	self assertCollection: newClass localSelectors hasSameElements: #(x:).
 	
 	
 	
@@ -136,7 +153,7 @@ LoSubjectAutomaticCodeGenerationTest >> testRemovingNonSupportMethods [
 		a := anObject'.
 	class compile: 'm'.
 	self shouldnt: [class removeSelector: #m] raise: Error.
-	self assertCollection: class localSelectors hasSameElements: #(a: basicSubjectMethod_a:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a: basicSubjectMethod_a:).
 	
 	
 	
@@ -150,7 +167,7 @@ LoSubjectAutomaticCodeGenerationTest >> testRemovingSupportMethods [
 	class compile: 'b: anObject
 		b := anObject'.
 	class removeSelector: #a:.
-	self assertCollection: class localSelectors hasSameElements: #(b: basicSubjectMethod_b:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(b: basicSubjectMethod_b:).
 	
 	
 	
@@ -161,9 +178,9 @@ LoSubjectAutomaticCodeGenerationTest >> testRemovingSupportMethods [
 LoSubjectAutomaticCodeGenerationTest >> testUpdatingSupportMethods [
 	class compile: 'a: anObject
 		a := anObject'.
-	self assertCollection: class localSelectors hasSameElements: #(a: basicSubjectMethod_a:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a: basicSubjectMethod_a:).
 	class compile: 'a: anObject'.
-	self assertCollection: class localSelectors hasSameElements: #(a:).
+	self assertCollection: class basicLocalSelectors hasSameElements: #(a:).
 	
 	
 	
