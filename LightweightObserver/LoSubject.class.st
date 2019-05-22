@@ -51,7 +51,10 @@ LoSubject class >> addObservingHooksFor: selector withMethod: compiledMethod inP
 	wrapperMethod := self newWrapperMethod: selector forWritingIvs: writtenIvs.
 	self attachSourceOf: compiledMethod to: wrapperMethod.
 	super addAndClassifySelector: selector withMethod: wrapperMethod inProtocol: aProtocol.
-	super addAndClassifySelector: basicSelector withMethod: compiledMethod inProtocol: #'private-generated'.
+	self addSelectorSilently: basicSelector withMethod: compiledMethod. "Avoid having basic method showup in package info"
+	self organization 
+			classify: basicSelector 
+			under: #'private-generated'.
 	{wrapperMethod.
 	compiledMethod}
 		do: [ :each | LoSubjectSupportMethod adoptInstance: each ]

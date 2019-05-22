@@ -18,7 +18,7 @@ LoCustomEventObserverTest >> setUp [
 { #category : #testing }
 LoCustomEventObserverTest >> testEventData [
 	| eventData newEvent |
-	subject on: LoEvent1ForTest do: [: event | eventData := event data  ].
+	subject when: LoEvent1ForTest do: [: event | eventData := event data  ].
 	newEvent := LoEvent1ForTest new.
 	newEvent data: 123.
 	subject dispatch: newEvent.
@@ -29,7 +29,7 @@ LoCustomEventObserverTest >> testEventData [
 LoCustomEventObserverTest >> testEventInheritanceObserver [
 	| eventCounter |
 	eventCounter := 0.
-	subject on: LoEvent2ForTest do: [eventCounter := eventCounter + 1  ].
+	subject when: LoEvent2ForTest do: [eventCounter := eventCounter + 1  ].
 	3 timesRepeat: [subject dispatch: LoEvent3ForTest new].
 	self assert: eventCounter equals: 3.
 ]
@@ -38,7 +38,7 @@ LoCustomEventObserverTest >> testEventInheritanceObserver [
 LoCustomEventObserverTest >> testSingleEventObserver [
 	| eventCounter |
 	eventCounter := 0.
-	subject on: LoEvent1ForTest do: [eventCounter := eventCounter + 1  ].
+	subject when: LoEvent1ForTest do: [eventCounter := eventCounter + 1  ].
 	3 timesRepeat: [subject dispatch: LoEvent1ForTest new].
 	self assert: eventCounter equals: 3.
 ]
@@ -47,9 +47,9 @@ LoCustomEventObserverTest >> testSingleEventObserver [
 LoCustomEventObserverTest >> testTwoObserversForDifferentEvents [
 	| counterA counterB |
 	counterA := 0.
-	subject on: LoEvent1ForTest do: [counterA := counterA + 1  ].
+	subject when: LoEvent1ForTest do: [counterA := counterA + 1  ].
 	counterB := 0.
-	subject on: LoEvent2ForTest do: [counterB := counterB + 1  ].
+	subject when: LoEvent2ForTest do: [counterB := counterB + 1  ].
 	subject dispatch: LoEvent1ForTest new.
 	self assert: counterA equals: 1.
 	self assert: counterB equals: 0.
@@ -63,10 +63,10 @@ LoCustomEventObserverTest >> testTwoObserversForDifferentEvents [
 LoCustomEventObserverTest >> testTwoObserversForSameEvent [
 	| counterA counterB |
 	counterA := 0.
-	subject on: LoEvent1ForTest do: [counterA := counterA + 1  ].
+	subject when: LoEvent1ForTest do: [counterA := counterA + 1  ].
 	subject dispatch: LoEvent1ForTest new.
 	counterB := 0.
-	subject on: LoEvent1ForTest do: [counterB := counterB + 1  ].
+	subject when: LoEvent1ForTest do: [counterB := counterB + 1  ].
 	subject dispatch: LoEvent1ForTest new.
 	self assert: counterA equals: 2.
 	self assert: counterB equals: 1.
@@ -77,7 +77,7 @@ LoCustomEventObserverTest >> testTwoObserversForSameEvent [
 LoCustomEventObserverTest >> testUnsbscribingAnEventObserver [
 	| eventCounter observer |
 	eventCounter := 0.
-	observer := subject on: LoEvent1ForTest do: [eventCounter := eventCounter + 1  ].
+	observer := subject when: LoEvent1ForTest do: [eventCounter := eventCounter + 1  ].
 	subject unsubscribe: observer.
 	3 timesRepeat: [subject dispatch: LoEvent1ForTest new].
 	self assert: eventCounter equals: 0.

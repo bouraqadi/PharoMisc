@@ -25,12 +25,17 @@ LoDice class >> of: facesCount [
 	^self faces: (1 to: facesCount)
 ]
 
+{ #category : #playing }
+LoDice >> faceUp [
+	^faceUp
+]
+
 { #category : #initialization }
 LoDice >> faces [
 	^faces
 ]
 
-{ #category : #initialization }
+{ #category : #'private-generated' }
 LoDice >> faces: aCollection [
 	faces := aCollection
 ]
@@ -45,7 +50,7 @@ LoDice >> facesCount: faceMaxValue [
 	self faces: (1 to: faceMaxValue)
 ]
 
-{ #category : #initialization }
+{ #category : #playing }
 LoDice >> roll [
 	^faceUp := self faces atRandom
 ]
