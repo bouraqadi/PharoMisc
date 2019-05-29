@@ -17,7 +17,7 @@ LoDiceGame >> diceSet [
 { #category : #'initialize-release' }
 LoDiceGame >> initialize [
 	super initialize.
-	diceSet := LoDiceSet withTwoDice.
+	diceSet := LoDiceGroup withTwoDice.
 	probabilityDistribution := LoProbabilityDistribution new.
 	diceSet afterChangeOf: #total do: [: diceTotal | probabilityDistribution updateOccurenceCountFor: diceTotal ]
 	

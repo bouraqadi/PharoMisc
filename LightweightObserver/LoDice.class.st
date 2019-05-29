@@ -25,22 +25,28 @@ LoDice class >> of: facesCount [
 	^self faces: (1 to: facesCount)
 ]
 
+{ #category : #initialization }
+LoDice >> defaultFacesCount [
+	^6
+]
+
 { #category : #playing }
 LoDice >> faceUp [
 	^faceUp
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 LoDice >> faces [
 	^faces
 ]
 
-{ #category : #'private-generated' }
+{ #category : #initialization }
 LoDice >> faces: aCollection [
-	faces := aCollection
+	faces := aCollection.
+	self roll
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 LoDice >> facesCount [
 	^self faces size
 ]
@@ -48,6 +54,12 @@ LoDice >> facesCount [
 { #category : #initialization }
 LoDice >> facesCount: faceMaxValue [
 	self faces: (1 to: faceMaxValue)
+]
+
+{ #category : #initialization }
+LoDice >> initialize [
+	super initialize.
+	self facesCount: self defaultFacesCount
 ]
 
 { #category : #playing }
