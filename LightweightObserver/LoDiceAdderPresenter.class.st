@@ -1,5 +1,24 @@
+"
+I am a spect presenter for DiceAdder.
+I display the faces up for all Dice.
+I display the total of all faces  up.
+I allow rolling all dice or make individual dice roll.
+I allow adding/removing dice dynamically.
+
+For an example, see class side methods: 
+- example
+
+I rely on LoDice, LoDicePresenter and LoDiceListPresenter
+
+-linkTo: aDiceAdder
+Makes the receiver observe aDiceAdder and act on it = when a dice is changed, its face up is displayed, when a dice is added or removed, the display is adapted accordingly + roll dice upon clicks
+
+   Implementation Points
+Relies on the observer pattern.
+
+"
 Class {
-	#name : #LoDiceGamePresenter,
+	#name : #LoDiceAdderPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'totalPresenter',
@@ -12,11 +31,11 @@ Class {
 }
 
 { #category : #specs }
-LoDiceGamePresenter class >> defaultSpec [
+LoDiceAdderPresenter class >> defaultSpec [
 	<spec: #default>
 	^ SpecLayout composed
 		newColumn: [ : rootColumn |  
-			rootColumn add: #diceGroupPresenter height: 100.
+			rootColumn add: #diceListPresenter height: 100.
 			rootColumn 
 				newRow: [ : diceButtonsRow |
 					diceButtonsRow add: #addDiceButton.
@@ -29,38 +48,38 @@ LoDiceGamePresenter class >> defaultSpec [
 ]
 
 { #category : #examples }
-LoDiceGamePresenter class >> example [
+LoDiceAdderPresenter class >> example [
 	<example>
 	| presenter diceGroup |
 	presenter := self new.
-	diceGroup := LoDiceGroup withDiceCount: 3.
+	diceGroup := LoDiceAdder withDiceCount: 3.
 	presenter linkTo: diceGroup.
 	presenter openWithSpec.
 	^ presenter
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> addDiceButton [
+LoDiceAdderPresenter >> addDiceButton [
 	^ addDiceButton
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> diceGroupPresenter [
+LoDiceAdderPresenter >> diceListPresenter [
 	^ diceGroupPresenter
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> dicePresenters [
-	^ self diceGroupPresenter dicePresenters
+LoDiceAdderPresenter >> dicePresenters [
+	^ self diceListPresenter dicePresenters
 ]
 
 { #category : #api }
-LoDiceGamePresenter >> initialExtent [
+LoDiceAdderPresenter >> initialExtent [
 	^360@440
 ]
 
 { #category : #initialization }
-LoDiceGamePresenter >> initializeWidgets [
+LoDiceAdderPresenter >> initializeWidgets [
 	totalPresenter := self newButton.
 	totalPresenter font: self majorFont.
 	totalPresenter color: Color green.
@@ -73,11 +92,11 @@ LoDiceGamePresenter >> initializeWidgets [
 	rollButton  := self newButton.
 	rollButton label: 'Roll Dice'.
 	rollButton font: self minorFont.
-	diceGroupPresenter := LoDiceGroupPresenter new.
+	diceGroupPresenter := LoDiceListPresenter new.
 ]
 
 { #category : #initialization }
-LoDiceGamePresenter >> linkTo: aDiceGroup [
+LoDiceAdderPresenter >> linkTo: aDiceGroup [
 	diceGroupPresenter linkTo: aDiceGroup.
 	addDiceButton action: [ aDiceGroup addDice ].
 	removeDiceButton action: [ aDiceGroup removeDice ].
@@ -89,41 +108,41 @@ LoDiceGamePresenter >> linkTo: aDiceGroup [
 ]
 
 { #category : #initialization }
-LoDiceGamePresenter >> majorFont [
+LoDiceAdderPresenter >> majorFont [
 	^LogicalFont familyName: StandardFonts defaultFont familyName pointSize: 42. 
 ]
 
 { #category : #initialization }
-LoDiceGamePresenter >> minorFont [
+LoDiceAdderPresenter >> minorFont [
 	^LogicalFont familyName: StandardFonts defaultFont familyName pointSize: 24. 
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> removeDiceButton [
+LoDiceAdderPresenter >> removeDiceButton [
 	^ removeDiceButton
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> rollButton [
+LoDiceAdderPresenter >> rollButton [
 	^ rollButton
 ]
 
 { #category : #api }
-LoDiceGamePresenter >> title [
+LoDiceAdderPresenter >> title [
 	^'Dice Game'
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> totalPresenter [
+LoDiceAdderPresenter >> totalPresenter [
 	^ totalPresenter
 ]
 
 { #category : #accessing }
-LoDiceGamePresenter >> totalValue [
-	^self totalPresenter text
+LoDiceAdderPresenter >> totalString [
+	^self totalPresenter label asString
 ]
 
 { #category : #initialization }
-LoDiceGamePresenter >> totalValue: newTotal [
+LoDiceAdderPresenter >> totalValue: newTotal [
 	^ totalPresenter label: newTotal asString
 ]

@@ -1,3 +1,31 @@
+"
+I represent a dice with many faces, one and only one is always up.
+See class side example methods in LoDicePresenter
+
+Public API and Key Messages
+- roll
+Randomly choose the face up among my faces   
+
+- faceUp 
+Answers the current face up
+
+- how to create instances.
+-- faces: aCollection
+Creates a dice where faces are objects of the collection
+
+-- of: numberOfFaces
+Creates a dice with the provided number of faces. Each face is a number starting from 1 and up to numberOfFaces 
+ 
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	faceUp:		<Object>
+	faces:		<Collection of Object>
+
+
+    Implementation Points
+Rolling a dice = defines the faceUp using the atRandom = uses the global shared random number generator
+"
 Class {
 	#name : #LoDice,
 	#superclass : #LoSubject,
@@ -7,11 +35,6 @@ Class {
 	],
 	#category : #'LightweightObserver-Example'
 }
-
-{ #category : #'instance creation' }
-LoDice class >> basic [
-	^self of: 6
-]
 
 { #category : #'instance creation' }
 LoDice class >> faces: faces [
@@ -33,6 +56,11 @@ LoDice >> defaultFacesCount [
 { #category : #playing }
 LoDice >> faceUp [
 	^faceUp
+]
+
+{ #category : #playing }
+LoDice >> faceUp: currentFace [
+	^faceUp := currentFace
 ]
 
 { #category : #accessing }
@@ -64,5 +92,5 @@ LoDice >> initialize [
 
 { #category : #playing }
 LoDice >> roll [
-	^faceUp := self faces atRandom
+	^self faceUp: self faces atRandom
 ]
