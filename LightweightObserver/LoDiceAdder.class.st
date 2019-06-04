@@ -19,13 +19,6 @@ Class {
 	#category : #'LightweightObserver-Example'
 }
 
-{ #category : #playing }
-LoDiceAdder >> addDice: newDice [
-	super addDice: newDice.
-	self linkTo: newDice.
-
-]
-
 { #category : #'initialize-release' }
 LoDiceAdder >> dice: aCollection [
 	super dice: aCollection.
@@ -37,6 +30,10 @@ LoDiceAdder >> dice: aCollection [
 LoDiceAdder >> initialize [
 	super initialize.
 	self afterChangeOfCollection: #dice do: [ self updateTotal ].
+	self afterReplaceInCollection: #dice do: [: index : newDice | 
+		self linkTo: newDice ].
+	self afterAddToCollection: #dice do: [: newDice | 
+		self linkTo: newDice ].
 	self afterChangeOf: #dice do: [ self updateTotal ].
 	self updateTotal
 ]

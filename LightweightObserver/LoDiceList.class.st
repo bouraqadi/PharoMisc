@@ -73,7 +73,7 @@ LoDiceList >> dice [
 
 { #category : #'initialize-release' }
 LoDiceList >> dice: aCollection [
-	dice := aCollection
+	dice := aCollection asOrderedCollection
 
 ]
 

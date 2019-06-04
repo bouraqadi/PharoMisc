@@ -34,6 +34,23 @@ LoDiceAdderTest >> testTotalUpdatedUponAddingDice [
 ]
 
 { #category : #tests }
+LoDiceAdderTest >> testTotalUpdatedUponAddingDiceDirectlyToCollection [
+	| newDice expectedTotal |
+	diceAdder := LoDiceAdder new.
+	expectedTotal := 0.
+	10 timesRepeat: [ 
+		newDice := LoDice of: 100.
+		newDice faceUp: 1.
+		diceAdder dice add: newDice.
+		self assert: diceAdder total equals: expectedTotal + 1.
+		newDice faceUp: 100.
+		expectedTotal := expectedTotal + 100.
+		self assert: diceAdder total equals: expectedTotal.
+	]
+
+]
+
+{ #category : #tests }
 LoDiceAdderTest >> testTotalUpdatedUponInsertingDice [
 	| insertedDice |
 	diceAdder := LoDiceAdder withDiceCount: 10.
@@ -41,8 +58,10 @@ LoDiceAdderTest >> testTotalUpdatedUponInsertingDice [
 	self assert: diceAdder total equals: 10.
 	#(1 5 10) with: #(109 208 307) do: [ : index : expectedTotal|
 		insertedDice := LoDice of: 100.
-		insertedDice faceUp: 100.
+		insertedDice faceUp: 1.
 		diceAdder dice at: index put: insertedDice.
+		self assert: diceAdder total equals: expectedTotal - 99.
+		insertedDice faceUp: 100.
 		self assert: diceAdder total equals: expectedTotal.
 	]
 
@@ -64,15 +83,40 @@ LoDiceAdderTest >> testTotalUpdatedUponRemovingDice [
 ]
 
 { #category : #tests }
+LoDiceAdderTest >> testTotalUpdatedUponRemovingDiceDirectlyToCollection [
+	| removedDice expectedTotal |
+	diceAdder := LoDiceAdder withDiceCount: 10.
+	diceAdder dice do: [ : each | each faceUp: 6 ].
+	expectedTotal := 60.
+	self assert: diceAdder total equals: expectedTotal.
+	10 timesRepeat: [ 
+		removedDice := diceAdder dice last.
+		diceAdder dice remove: removedDice.
+		expectedTotal := expectedTotal - removedDice faceUp.
+		self assert: diceAdder total equals: expectedTotal.
+	]
+
+]
+
+{ #category : #tests }
 LoDiceAdderTest >> testTotalUpdatedUponReplaceDiceCollection [
-	| newDiceArray |
+	| newDiceArray extraDice |
 	diceAdder := LoDiceAdder withDiceCount: 10.
 	diceAdder dice do: [ : each | each faceUp: 6 ].
 	newDiceArray := { LoDice new. LoDice new }.
 	newDiceArray first faceUp: 1.
 	newDiceArray last faceUp: 2.
 	diceAdder dice: newDiceArray.
-	self assert: diceAdder total equals: 3
+	self assert: diceAdder total equals: 3.
+	extraDice := LoDice new.
+	extraDice faceUp: 5.
+	diceAdder addDice: extraDice.
+	self assert: diceAdder total equals: 8.
+	extraDice faceUp: 1.
+	self assert: diceAdder total equals: 4.
+	diceAdder removeDice: extraDice.
+	self assert: diceAdder total equals: 3.
+
 
 ]
 

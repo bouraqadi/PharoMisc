@@ -273,11 +273,11 @@ LoSubject >> makeSubjectIvNamed: ivName [
 ]
 
 { #category : #observing }
-LoSubject >> on: eventClass do: actionBlock [
-	^self dispatcher on: eventClass do: actionBlock
+LoSubject >> unsubscribe: anObserver [
+	^self dispatcher unsubscribe: anObserver
 ]
 
 { #category : #observing }
-LoSubject >> unsubscribe: anObserver [
-	^self dispatcher unsubscribe: anObserver
+LoSubject >> when: eventClass do: actionBlock [
+	^self dispatcher on: eventClass do: actionBlock
 ]
