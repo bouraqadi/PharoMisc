@@ -93,6 +93,11 @@ LoSubject class >> dispatcherIvName [
 	^#dispatcher
 ]
 
+{ #category : #'class initialization' }
+LoSubject class >> initialize [
+	self allSubclassesDo: #compileAll
+]
+
 { #category : #'subject support' }
 LoSubject class >> isBasicMethodSelector: selector [
 	^ selector beginsWith: self basicMethodSelectorPrefix
