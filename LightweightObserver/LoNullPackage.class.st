@@ -9,14 +9,14 @@ Class {
 	#category : #'LightweightObserver-Kernel'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 LoNullPackage >> addMethod: aCollection [ 
 	^self
 ]
 
 { #category : #converting }
 LoNullPackage >> asRingDefinition [
-	^self
+	^nil
 ]
 
 { #category : #testing }
@@ -27,6 +27,16 @@ LoNullPackage >> isDefault [
 { #category : #accessing }
 LoNullPackage >> name [
 	^'NullPackage'
+]
+
+{ #category : #accessing }
+LoNullPackage >> package [
+	^self
+]
+
+{ #category : #accessing }
+LoNullPackage >> packageManifestOrNil [
+	^nil
 ]
 
 { #category : #'organization updating' }
