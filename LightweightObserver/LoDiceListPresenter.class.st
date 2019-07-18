@@ -43,7 +43,7 @@ LoDiceListPresenter class >> exampleBasicDice [
 	<example>
 	| presenter diceList |
 	presenter := self new.
-	diceList := LoDiceAdder withDiceCount: 3.
+	diceList := LoDiceList withDiceCount: 3.
 	presenter linkTo: diceList.
 	presenter openWithSpec.
 	^ diceList
