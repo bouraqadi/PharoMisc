@@ -59,6 +59,18 @@ LoElasticCollectionAutomaticEventGenerationTest >> testArbitraryChange [
 ]
 
 { #category : #testing }
+LoElasticCollectionAutomaticEventGenerationTest >> testObservingBeforeInitiionalizingCollect [
+	| addedObjects recordedObjects |
+	subject collection: nil.
+	recordedObjects := OrderedCollection new.
+	subject afterAddToCollection: #collection do: [ : newValue | recordedObjects add: newValue].
+	subject collection: self newCollection.
+	addedObjects := 1 to: 10.
+	subject collection addAll: addedObjects.
+	self assertCollection: recordedObjects hasSameElements: addedObjects.
+]
+
+{ #category : #testing }
 LoElasticCollectionAutomaticEventGenerationTest >> testRemoveManyObjects [
 	| removedObjects recordedObjects |
 	subject collection addAll: { 11. 12. 13. 20. 31. 32. 33 }.
