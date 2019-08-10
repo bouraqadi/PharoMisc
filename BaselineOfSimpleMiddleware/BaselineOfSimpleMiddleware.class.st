@@ -10,6 +10,7 @@ BaselineOfSimpleMiddleware >> baseline: spec [
 
 	spec for: #'common' do: [
 		spec 
+			repository: 'github://bouraqadi/PharoMisc';
 			package: #SimpleMiddleware
 	].
 
