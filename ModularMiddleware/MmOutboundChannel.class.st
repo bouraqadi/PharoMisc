@@ -7,6 +7,18 @@ Class {
 	#category : #'ModularMiddleware-Kernel'
 }
 
+{ #category : #'instance creation' }
+MmOutboundChannel class >> middleware: aMiddleware address: anAddress [
+	^(self middleware: aMiddleware)
+		address: anAddress;
+		yourself
+]
+
+{ #category : #initialization }
+MmOutboundChannel >> address: anAddress [
+	self subclassResponsibility
+]
+
 { #category : #sending }
 MmOutboundChannel >> futureClass [
 	^CcFuture
@@ -29,10 +41,10 @@ MmOutboundChannel >> newResultId [
 ]
 
 { #category : #sending }
-MmOutboundChannel >> receiveObject: remoteResult [
+MmOutboundChannel >> receiveObject: remoteResponse [
 	| future |
-	future := futuresDict at: remoteResult id ifAbsent: [^self].
-	future value: remoteResult actualValue
+	future := futuresDict at: remoteResponse id ifAbsent: [^self].
+	future value: remoteResponse response
 ]
 
 { #category : #sending }

@@ -1,8 +1,23 @@
 Class {
 	#name : #MmChannel,
 	#superclass : #Object,
+	#instVars : [
+		'middleware'
+	],
 	#category : #'ModularMiddleware-Kernel'
 }
+
+{ #category : #'instance creation' }
+MmChannel class >> middleware: aMiddleware [
+	^self new
+		middleware: aMiddleware;
+		yourself
+]
+
+{ #category : #accessing }
+MmChannel >> exportedObjectsDict [
+	^self middleware exportedObjectsDict
+]
 
 { #category : #protocol }
 MmChannel >> marshall: anObject [ 
@@ -14,6 +29,21 @@ MmChannel >> marshall: anObject [
 { #category : #protocol }
 MmChannel >> materializeFrom: bytes [ 
 	^self protocol materializeFromByteArray: bytes
+]
+
+{ #category : #accessing }
+MmChannel >> middleware [
+	^ middleware
+]
+
+{ #category : #accessing }
+MmChannel >> middleware: anObject [
+	middleware := anObject
+]
+
+{ #category : #accessing }
+MmChannel >> objectAt: id [
+	^self exportedObjectsDict at: id
 ]
 
 { #category : #protocol }
@@ -52,7 +82,7 @@ MmChannel >> serialize: remoteMessage [
 	^self protocol serializeToByteArray: remoteMessage
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #protocol }
 MmChannel >> unmarshall: anObject [ 
 	^anObject
 ]

@@ -1,22 +1,15 @@
 Class {
 	#name : #MmLocalMiddleware,
 	#superclass : #MmMiddleware,
-	#category : #'ModularMiddleware-Kernel'
+	#category : #'ModularMiddleware-Tests'
 }
 
 { #category : #communicating }
 MmLocalMiddleware >> address [
-	^nil
+	^MmLocalInboundChannel middleware: self
 ]
 
 { #category : #communicating }
-MmLocalMiddleware >> newOutboundChannelTo: anAddress [
-	| inboundChannel outboundChannel |
-	inboundChannel := MmLocalInboundChannel new.
-	inboundChannel exportedObjectsDict: exportedObjectsDict.
-	outboundChannel := MmLocalOutboundChannel new.
-	inboundChannel targetChannel: outboundChannel.
-	outboundChannel targetChannel: inboundChannel.
-	^outboundChannel
-	
+MmLocalMiddleware >> outboundChannelClass [
+	^MmLocalOutboundChannel 
 ]

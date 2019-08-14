@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'targetChannel'
 	],
-	#category : #'ModularMiddleware-Kernel'
+	#category : #'ModularMiddleware-Tests'
 }
 
 { #category : #sending }

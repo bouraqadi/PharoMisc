@@ -18,27 +18,32 @@ MmMiddleware >> export: anObject as: id [
 	exportedObjectsDict at: id put: anObject
 ]
 
+{ #category : #accessing }
+MmMiddleware >> exportedObjectsDict [
+	^exportedObjectsDict
+]
+
 { #category : #initialization }
 MmMiddleware >> initialize [
 	super initialize.
-	outboundChannelsDict := Dictionary new.
 	exportedObjectsDict := Dictionary new
 ]
 
 { #category : #communicating }
-MmMiddleware >> newOutboundChannelTo: anAddress [
+MmMiddleware >> outboundChannelClass [
 	self subclassResponsibility
 ]
 
 { #category : #communicating }
-MmMiddleware >> outboundChannelAt: anAddress [
-	^outboundChannelsDict at: anAddress ifAbsentPut: [ self newOutboundChannelTo: anAddress]
+MmMiddleware >> outboundChannelTo: anAddress [
+	^self outboundChannelClass middleware: self address: anAddress 
+		
 ]
 
 { #category : #communicating }
 MmMiddleware >> proxyId: aSymbol address: anAddress [
 	| channel |
-	channel := self outboundChannelAt: anAddress.
+	channel := self outboundChannelTo: anAddress.
 	^ self proxyId: aSymbol channel: channel
 ]
 

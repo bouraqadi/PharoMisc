@@ -1,27 +1,22 @@
 Class {
 	#name : #MmInboundChannel,
 	#superclass : #MmChannel,
-	#instVars : [
-		'exportedObjectsDict'
-	],
 	#category : #'ModularMiddleware-Kernel'
 }
 
-{ #category : #accessing }
-MmInboundChannel >> exportedObjectsDict: aDictionary [
-	exportedObjectsDict := aDictionary
-]
-
-{ #category : #accessing }
-MmInboundChannel >> objectAt: id [
-	^exportedObjectsDict at: id
-]
-
 { #category : #receiving }
 MmInboundChannel >> receiveObject: remoteMessage [
-	| receiver result remoteResult |
+	| receiver result response remoteException |
 	receiver := self objectAt: remoteMessage receiverId.
-	result := remoteMessage sendTo: receiver.
-	remoteResult := MmRemoteResult id: remoteMessage resultId value: result.
-	self sendObject: remoteResult
+	[
+		result := remoteMessage sendTo: receiver. 
+		response := MmNormalRemoteResponse id: remoteMessage resultId response: result.
+	] on: Exception
+	  do: [ : exception |
+		remoteException := MmRemoteException on: exception.
+		response := MmExceptionRemoteResponse id: remoteMessage resultId response: remoteException.
+		].
+	self sendObject: response
+
+
 ]

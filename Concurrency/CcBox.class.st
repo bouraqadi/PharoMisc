@@ -1,3 +1,6 @@
+"
+This is an object wrapper. It is used for forwardBecome in future objects when the actual value is a basic objects such as an integer. This is a workaround to the bug that forbides some basic objects to be used as arguments of becomeForward: 
+"
 Class {
 	#name : #CcBox,
 	#superclass : #Object,
@@ -17,6 +20,11 @@ CcBox class >> value: anObject [
 { #category : #'reflective operations' }
 CcBox >> doesNotUnderstand: aMessage [
 	^aMessage sendTo: value
+]
+
+{ #category : #'reflective operations' }
+CcBox >> value [
+	^value
 ]
 
 { #category : #'reflective operations' }
