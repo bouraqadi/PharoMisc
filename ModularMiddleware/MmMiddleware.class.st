@@ -2,73 +2,47 @@ Class {
 	#name : #MmMiddleware,
 	#superclass : #Object,
 	#instVars : [
-		'bus'
+		'outboundChannelsDict',
+		'exportedObjectsDict'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
 
 { #category : #communicating }
 MmMiddleware >> address [
-	^nil
+	self subclassResponsibility
 ]
 
 { #category : #communicating }
-MmMiddleware >> bus [
-	^bus
+MmMiddleware >> export: anObject as: id [ 
+	exportedObjectsDict at: id put: anObject
 ]
 
-{ #category : #'initialize-release' }
-MmMiddleware >> bus: aBus [
-	bus := aBus
-]
-
-{ #category : #'initialize-release' }
-MmMiddleware >> defaultBusClass [
-	^MmBus
-]
-
-{ #category : #communicating }
-MmMiddleware >> export: anObject as: aString [ 
-	^self
-]
-
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 MmMiddleware >> initialize [
 	super initialize.
-	self bus: self defaultBusClass new
-]
-
-{ #category : #activity }
-MmMiddleware >> isStarted [
-	^self bus isStarted
-]
-
-{ #category : #activity }
-MmMiddleware >> isStopped [
-	^self isStarted not
-]
-
-{ #category : #activity }
-MmMiddleware >> onStartDo: aBlockClosure [ 
-	self bus onStartDo: aBlockClosure 
-]
-
-{ #category : #activity }
-MmMiddleware >> onStopDo: aBlockClosure [ 
-	self bus onStopDo: aBlockClosure 
+	outboundChannelsDict := Dictionary new.
+	exportedObjectsDict := Dictionary new
 ]
 
 { #category : #communicating }
-MmMiddleware >> proxyId: aSymbol address: anAddress [ 
-	^MmProxy id: aSymbol address: anAddress bus: self bus
+MmMiddleware >> newOutboundChannelTo: anAddress [
+	self subclassResponsibility
 ]
 
-{ #category : #activity }
-MmMiddleware >> start [
-	self bus start
+{ #category : #communicating }
+MmMiddleware >> outboundChannelAt: anAddress [
+	^outboundChannelsDict at: anAddress ifAbsentPut: [ self newOutboundChannelTo: anAddress]
 ]
 
-{ #category : #activity }
-MmMiddleware >> stop [
-	self bus stop
+{ #category : #communicating }
+MmMiddleware >> proxyId: aSymbol address: anAddress [
+	| channel |
+	channel := self outboundChannelAt: anAddress.
+	^ self proxyId: aSymbol channel: channel
+]
+
+{ #category : #communicating }
+MmMiddleware >> proxyId: aSymbol channel: channel [
+	^ MmProxy id: aSymbol channel: channel
 ]

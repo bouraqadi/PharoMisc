@@ -3,27 +3,25 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'id',
-		'address',
-		'bus'
+		'channel'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
 
 { #category : #'instance creation' }
-MmProxy class >> id: aSymbol address: anAddress bus: aGateway [
-	^self new
-		id: aSymbol address: anAddress bus: aGateway;
+MmProxy class >> id: aSymbol channel: aChannel [
+	^ self new
+		id: aSymbol channel: aChannel;
 		yourself
 ]
 
 { #category : #'reflective operations' }
 MmProxy >> doesNotUnderstand: aMessage [
-	^bus send: aMessage receiverId: id address: address
+	^channel send: aMessage receiverId: id
 ]
 
 { #category : #'initialize-release' }
-MmProxy >> id: aSymbol address: anAddress bus: aGateway [
+MmProxy >> id: aSymbol channel: aChannel [
 	id := aSymbol. 
-	address := anAddress.
-	bus := aGateway.
+	channel := aChannel.
 ]
