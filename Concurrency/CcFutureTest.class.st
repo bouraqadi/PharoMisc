@@ -12,14 +12,17 @@ Class {
 
 { #category : #tests }
 CcFutureTest >> assertFutureValue: value withBlock: aBlock leadsToResult: expectedResult [
-	| result processDone |
+	| result processStarted processDone |
 	future := CcFuture new.
+	processStarted := Semaphore new.
 	processDone := Semaphore new.
-	process := [ 
+	process := [
+		processStarted signal. 
 		result := aBlock value.
 		processDone signal] fork.
+	self assertSemaphore: processStarted signaledWithinMilliseconds: 300.
 	future value: value.
-	processDone wait.
+	self assertSemaphore: processDone signaledWithinMilliseconds: 300.
 	self assert: result equals: expectedResult
 ]
 
@@ -31,6 +34,13 @@ CcFutureTest >> setUp [
 ]
 
 { #category : #tests }
+CcFutureTest >> testBlockClosureValue [
+	self assertFutureValue: [10] withBlock: [future value] leadsToResult: 10.
+	self assertFutureValue: [10] withBlock: [future value + 1] leadsToResult: 11.
+
+]
+
+{ #category : #tests }
 CcFutureTest >> testBooleanValue [
 	self assertFutureValue: true withBlock: [future not] leadsToResult: false.
 	self assertFutureValue: false withBlock: [future not] leadsToResult: true.
@@ -38,8 +48,36 @@ CcFutureTest >> testBooleanValue [
 ]
 
 { #category : #tests }
+CcFutureTest >> testEquality [
+	self assertFutureValue: #(10) withBlock: [future = #(10)] leadsToResult: true.
+
+]
+
+{ #category : #tests }
+CcFutureTest >> testException [
+	| capturedException doneSemaphore |
+	doneSemaphore := Semaphore new.
+	[
+		[future foo] on: Exception do: [ : ex | capturedException := ex ].
+		doneSemaphore signal.
+	] fork.
+	future exceptionBlock: [ZeroDivide signal].
+	self assertSemaphore: doneSemaphore signaledWithinMilliseconds:  300.
+	self assert: (capturedException isKindOf: ZeroDivide)
+]
+
+{ #category : #tests }
 CcFutureTest >> testFloatValue [
+	self assertFutureValue: 3.14 withBlock: [future] leadsToResult: 3.14.
 	self assertFutureValue: 3.14 withBlock: [future asInteger] leadsToResult: 3.
+
+]
+
+{ #category : #tests }
+CcFutureTest >> testHash [
+	| actualValue |
+	actualValue := Object new.
+	self assertFutureValue: actualValue withBlock: [future hash] leadsToResult: actualValue hash.
 
 ]
 
@@ -51,16 +89,16 @@ CcFutureTest >> testLargeIntegerValue [
 
 { #category : #tests }
 CcFutureTest >> testMultipleProcessUsingASameFuture [
-	| results semaphores |
+	| results doneSemaphores |
 	results := Array new: 10.
-	semaphores := (1 to: 10) collect: [: each| Semaphore new ].
+	doneSemaphores := (1 to: 10) collect: [: each| Semaphore new ].
 	1 to: 10 do: [: index |
 		[ 
 			results at: index put: future + index.
-			(semaphores at: index) signal] fork
+			(doneSemaphores at: index) signal] fork
 	].
 	future value: 100.
-	semaphores do: [ : each |
+	doneSemaphores do: [ : each |
 		 self assertSemaphore: each signaledWithinMilliseconds: 300].
 	self assert: results equals: (101 to: 110) asArray.
 ]
@@ -89,12 +127,13 @@ CcFutureTest >> testProcessSuspendedUponMessageToFuture [
 		processStarts signal.
 		future + 1.
 		processStops signal] fork.
-	processStarts wait.
+	self assertSemaphore: processStarts signaledWithinMilliseconds:  300.
 	self denySemaphore: processStops signaledWithinMilliseconds: 300
 ]
 
 { #category : #tests }
 CcFutureTest >> testSmallIntegerValue [
+	self assertFutureValue: 10 withBlock: [future] leadsToResult: 10.
 	self assertFutureValue: 10 withBlock: [future + 1] leadsToResult: 11.
 
 ]

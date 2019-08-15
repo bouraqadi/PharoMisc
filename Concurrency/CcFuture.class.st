@@ -37,6 +37,14 @@ CcFuture >> doesNotUnderstand: aMessage [
 	self incrementWaitingProcessesCount.
 	valueLock wait.
 	^aMessage sendTo: self
+
+]
+
+{ #category : #accessing }
+CcFuture >> exceptionBlock: aBlock [
+	| futureException |
+	futureException := CcFutureException exceptionBlock: aBlock.
+	self value: futureException
 ]
 
 { #category : #accessing }

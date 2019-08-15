@@ -17,9 +17,19 @@ CcBox class >> value: anObject [
 		yourself
 ]
 
+{ #category : #comparing }
+CcBox >> = anObject [
+	^self value = anObject
+]
+
 { #category : #'reflective operations' }
 CcBox >> doesNotUnderstand: aMessage [
 	^aMessage sendTo: value
+]
+
+{ #category : #comparing }
+CcBox >> hash [ 
+	^self value hash
 ]
 
 { #category : #'reflective operations' }

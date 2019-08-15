@@ -17,7 +17,7 @@ MmMiddlewareTest >> assert: proxy isProxyOf: exportedObject [
 MmMiddlewareTest >> assertMessageResult: expectedResult [
 	| proxy |
 	proxy := self proxyForValueHolderWithContents: expectedResult.
-	self assert: proxy contents value equals: expectedResult
+	self assert: proxy contents equals: expectedResult
 ]
 
 { #category : #running }
