@@ -26,5 +26,5 @@ CcFutureException >> exceptionBlock: aBlock [
 
 { #category : #sending }
 CcFutureException >> perform: selector withArguments: arguments [
-	exceptionBlock value
+	^exceptionBlock value
 ]

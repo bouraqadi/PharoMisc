@@ -13,7 +13,7 @@ sets the actual value of the future. All threads that were waiting for the actua
 "
 Class {
 	#name : #CcFuture,
-	#superclass : #Object,
+	#superclass : #ProtoObject,
 	#instVars : [
 		'accessLock',
 		'waitingProcessesCount',

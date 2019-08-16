@@ -12,18 +12,33 @@ Class {
 
 { #category : #tests }
 CcFutureTest >> assertFutureValue: value withBlock: aBlock leadsToResult: expectedResult [
-	| result processStarted processDone |
+	| result  |
 	future := CcFuture new.
-	processStarted := Semaphore new.
-	processDone := Semaphore new.
-	process := [
-		processStarted signal. 
-		result := aBlock value.
-		processDone signal] fork.
-	self assertSemaphore: processStarted signaledWithinMilliseconds: 300.
-	future value: value.
-	self assertSemaphore: processDone signaledWithinMilliseconds: 300.
+	self assertTerminationOfForkedBlock: [result := aBlock value] afterValueOf: [future value: value]. 
 	self assert: result equals: expectedResult
+]
+
+{ #category : #tests }
+CcFutureTest >> assertTerminationOfForkedBlock: blockToFork afterValueOf: mainBlock [ 
+	| processDone |
+	future := CcFuture new.
+	processDone := self semaphoreSingaledAfterForkedBlock: blockToFork.
+	mainBlock value.
+	self assertSemaphore: processDone signaledWithinMilliseconds: 300.
+
+]
+
+{ #category : #tests }
+CcFutureTest >> semaphoreSingaledAfterForkedBlock: aBlock [
+	| processStarts processStops |
+	processStarts := Semaphore new.
+	processStops := Semaphore new.
+	process := [
+		processStarts signal.
+		aBlock value.
+		processStops signal] fork.
+	self assertSemaphore: processStarts signaledWithinMilliseconds:  300.
+	^processStops
 ]
 
 { #category : #tests }
@@ -49,20 +64,17 @@ CcFutureTest >> testBooleanValue [
 
 { #category : #tests }
 CcFutureTest >> testEquality [
-	self assertFutureValue: #(10) withBlock: [future = #(10)] leadsToResult: true.
+	{Object new. 1. 92.78. $q. 'text'. #(10)} do: [ : actualValue |
+		self assertFutureValue: actualValue withBlock: [future = actualValue] leadsToResult: true].
 
 ]
 
 { #category : #tests }
 CcFutureTest >> testException [
-	| capturedException doneSemaphore |
-	doneSemaphore := Semaphore new.
-	[
-		[future foo] on: Exception do: [ : ex | capturedException := ex ].
-		doneSemaphore signal.
-	] fork.
-	future exceptionBlock: [ZeroDivide signal].
-	self assertSemaphore: doneSemaphore signaledWithinMilliseconds:  300.
+	| capturedException |
+	self 
+		assertTerminationOfForkedBlock: [[future foo] on: Exception do: [ : ex | capturedException := ex ]]
+		afterValueOf: [future exceptionBlock: [ZeroDivide signal]].
 	self assert: (capturedException isKindOf: ZeroDivide)
 ]
 
@@ -75,9 +87,9 @@ CcFutureTest >> testFloatValue [
 
 { #category : #tests }
 CcFutureTest >> testHash [
-	| actualValue |
-	actualValue := Object new.
-	self assertFutureValue: actualValue withBlock: [future hash] leadsToResult: actualValue hash.
+	{1. 92.78. $q. 'text'. #(10)} do: [ : actualValue |
+		self assertFutureValue: actualValue withBlock: [future hash] leadsToResult: actualValue hash.
+	]
 
 ]
 
@@ -105,29 +117,14 @@ CcFutureTest >> testMultipleProcessUsingASameFuture [
 
 { #category : #tests }
 CcFutureTest >> testProcessResumedWhenFutureValueSet [
-	| processStarts processStops |
-	processStarts := Semaphore new.
-	processStops := Semaphore new.
-	process := [
-		processStarts signal.
-		future asByteArray.
-		processStops signal] fork.
-	processStarts wait.
-	future value: 'abc'.
-	self assertSemaphore: processStops signaledWithinMilliseconds: 300.
+	self assertTerminationOfForkedBlock: [future asByteArray] afterValueOf: [future value: 'abc'] 
 
 ]
 
 { #category : #tests }
 CcFutureTest >> testProcessSuspendedUponMessageToFuture [
-	| processStarts processStops |
-	processStarts := Semaphore new.
-	processStops := Semaphore new.
-	process := [
-		processStarts signal.
-		future + 1.
-		processStops signal] fork.
-	self assertSemaphore: processStarts signaledWithinMilliseconds:  300.
+	| processStops |
+	processStops := self semaphoreSingaledAfterForkedBlock: [future + 1].
 	self denySemaphore: processStops signaledWithinMilliseconds: 300
 ]
 
