@@ -13,7 +13,7 @@ sets the actual value of the future. All threads that were waiting for the actua
 "
 Class {
 	#name : #CcFuture,
-	#superclass : #ProtoObject,
+	#superclass : #Object,
 	#instVars : [
 		'accessLock',
 		'waitingProcessesCount',
@@ -41,13 +41,6 @@ CcFuture >> doesNotUnderstand: aMessage [
 ]
 
 { #category : #accessing }
-CcFuture >> exceptionBlock: aBlock [
-	| futureException |
-	futureException := CcFutureException exceptionBlock: aBlock.
-	self value: futureException
-]
-
-{ #category : #accessing }
 CcFuture >> incrementWaitingProcessesCount [
 	accessLock critical: [
 		waitingProcessesCount := waitingProcessesCount + 1]
@@ -71,6 +64,13 @@ CcFuture >> value: actualValue [
 	self becomeForward: actualValue.
 	signalsCount timesRepeat: [ lock signal ].
 
+]
+
+{ #category : #accessing }
+CcFuture >> valueBlock: aBlock [
+	| evaluator |
+	evaluator := CcBlockEvaluator valueBlock: aBlock.
+	self value: evaluator
 ]
 
 { #category : #accessing }

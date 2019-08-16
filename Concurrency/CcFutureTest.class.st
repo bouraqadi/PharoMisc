@@ -12,10 +12,24 @@ Class {
 
 { #category : #tests }
 CcFutureTest >> assertFutureValue: value withBlock: aBlock leadsToResult: expectedResult [
+	self assertSettingFutureValue: value beforeBlock: aBlock leadsToResult: expectedResult.
+	self assertSettingFutureValue: value afterBlock: aBlock leadsToResult: expectedResult.
+	
+]
+
+{ #category : #tests }
+CcFutureTest >> assertSettingFutureValue: value afterBlock: aBlock leadsToResult: expectedResult [
 	| result  |
 	future := CcFuture new.
 	self assertTerminationOfForkedBlock: [result := aBlock value] afterValueOf: [future value: value]. 
 	self assert: result equals: expectedResult
+]
+
+{ #category : #tests }
+CcFutureTest >> assertSettingFutureValue: value beforeBlock: aBlock leadsToResult: expectedResult [
+	future := CcFuture new.
+	future value: value.
+	self assert: aBlock value equals: expectedResult
 ]
 
 { #category : #tests }
@@ -70,11 +84,21 @@ CcFutureTest >> testEquality [
 ]
 
 { #category : #tests }
-CcFutureTest >> testException [
+CcFutureTest >> testExceptionSetAfterFutureReceivesMessage [
 	| capturedException |
 	self 
 		assertTerminationOfForkedBlock: [[future foo] on: Exception do: [ : ex | capturedException := ex ]]
-		afterValueOf: [future exceptionBlock: [ZeroDivide signal]].
+		afterValueOf: [future valueBlock: [ZeroDivide signal]].
+	self assert: (capturedException isKindOf: ZeroDivide)
+]
+
+{ #category : #tests }
+CcFutureTest >> testExceptionSetBeforeFutureReceivesMessage [
+	| processDone capturedException |
+	future valueBlock: [ZeroDivide signal].
+	processDone := self semaphoreSingaledAfterForkedBlock: [
+		[future foo] on: Exception do: [ : ex | capturedException := ex ]].
+	self assertSemaphore: processDone signaledWithinMilliseconds: 300.
 	self assert: (capturedException isKindOf: ZeroDivide)
 ]
 
