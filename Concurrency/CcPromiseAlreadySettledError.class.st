@@ -1,5 +1,5 @@
 Class {
-	#name : #CcPromiseSettledError,
+	#name : #CcPromiseAlreadySettledError,
 	#superclass : #Error,
 	#category : #'Concurrency-Kernel'
 }
