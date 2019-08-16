@@ -41,7 +41,7 @@ CcPromiseTest >> testMultipleFulfillActionPerformed [
 	| semaphores |
 	semaphores := (1 to: 10) collect: [: index| Semaphore new ].
 	semaphores do: [: aSemaphore | 
-		promise onfulfillDo: [aSemaphore signal]].
+		promise onFulfillDo: [aSemaphore signal]].
 	300 milliSeconds wait.
 	self assert: (semaphores allSatisfy: [:aSemaphore | aSemaphore wait: 0 milliSeconds]).
 	promise fulfillWith: 456.
@@ -66,7 +66,7 @@ CcPromiseTest >> testMultipleRejectActionPerformed [
 CcPromiseTest >> testOneFulfillAction [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
-	promise onfulfillDo: [fulfillSemaphore signal].
+	promise onFulfillDo: [fulfillSemaphore signal].
 	self denySemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
 	promise fulfillWith: 456.
 	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
@@ -90,7 +90,7 @@ CcPromiseTest >> testOnlyFulfillActionPerformed [
 	fulfillSemaphore := Semaphore new.
 	rejectSemaphore := Semaphore new.
 	promise 
-		onfulfillDo: [fulfillSemaphore signal]
+		onFulfillDo: [fulfillSemaphore signal]
 		onRejectDo: [rejectSemaphore signal].
 	promise fulfillWith: 123.
 	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
@@ -103,7 +103,7 @@ CcPromiseTest >> testOnlyRejectActionPerformed [
 	fulfillSemaphore := Semaphore new.
 	rejectSemaphore := Semaphore new.
 	promise 
-		onfulfillDo: [fulfillSemaphore signal]
+		onFulfillDo: [fulfillSemaphore signal]
 		onRejectDo: [rejectSemaphore signal].
 	promise rejectWith: 123.
 	self assertSemaphore: rejectSemaphore signaledWithinMilliseconds: 300.
@@ -124,7 +124,7 @@ CcPromiseTest >> testRegisterActionAfterFulfillment [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
 	promise fulfillWith: 123.
-	promise onfulfillDo: [ 
+	promise onFulfillDo: [ 
 		fulfillSemaphore signal].
 	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
 	
@@ -166,7 +166,7 @@ CcPromiseTest >> testRejecting [
 CcPromiseTest >> testSuspendActionUntilFulfillment [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
-	promise onfulfillDo: [ 
+	promise onFulfillDo: [ 
 		fulfillSemaphore signal].
 	self denySemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
 	promise fulfillWith: 123.

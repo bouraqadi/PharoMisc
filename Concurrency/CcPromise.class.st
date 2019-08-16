@@ -3,7 +3,7 @@ I manage the outcome of a single asynchronous computation, i.e. asynchronous mes
 Callbacks can be registered for triggering either upon computation normal termination, or upon failure, such as exceptions.
 
 Public API and Key Messages
-- onfulfillDo: aBlock
+- onFulfillDo: aBlock
 Store aBlock to be valued upon normal termination of the computation.
 The block can take an argument which is the result of the computation.
 
@@ -45,23 +45,23 @@ Class {
 }
 
 { #category : #'instance creation' }
+CcPromise class >> onFulfillDo: aBlockClosure [
+	^self new
+		onFulfillDo: aBlockClosure;
+		yourself
+]
+
+{ #category : #'instance creation' }
+CcPromise class >> onFulfillDo: fulfillBlock onRejectDo: rejectBlock [
+	^self new
+		onFulfillDo: fulfillBlock onRejectDo: rejectBlock;
+		yourself
+]
+
+{ #category : #'instance creation' }
 CcPromise class >> onRejectDo: aBlockClosure [
 	^self new
 		onRejectDo: aBlockClosure;
-		yourself
-]
-
-{ #category : #'instance creation' }
-CcPromise class >> onfulfillDo: aBlockClosure [
-	^self new
-		onfulfillDo: aBlockClosure;
-		yourself
-]
-
-{ #category : #'instance creation' }
-CcPromise class >> onfulfillDo: fulfillBlock onRejectDo: rejectBlock [
-	^self new
-		onfulfillDo: fulfillBlock onRejectDo: rejectBlock;
 		yourself
 ]
 
@@ -106,15 +106,7 @@ CcPromise >> isSettled [
 ]
 
 { #category : #acting }
-CcPromise >> onRejectDo: aBlockClosure [ 
-	stateLock critical: [
-		self isRejected ifTrue: [^self valueRejectAction: aBlockClosure].
-		rejectActions add: aBlockClosure
-	]
-]
-
-{ #category : #acting }
-CcPromise >> onfulfillDo: aBlockClosure [ 
+CcPromise >> onFulfillDo: aBlockClosure [ 
 	stateLock critical: [
 		self isFulfilled ifTrue: [^self valueFulfillAction: aBlockClosure].
 		fulfillActions add: aBlockClosure
@@ -122,9 +114,17 @@ CcPromise >> onfulfillDo: aBlockClosure [
 ]
 
 { #category : #acting }
-CcPromise >> onfulfillDo: fulfillActionBlock onRejectDo: rejectActionBlock [
-	self onfulfillDo: fulfillActionBlock.
+CcPromise >> onFulfillDo: fulfillActionBlock onRejectDo: rejectActionBlock [
+	self onFulfillDo: fulfillActionBlock.
 	self onRejectDo: rejectActionBlock.
+]
+
+{ #category : #acting }
+CcPromise >> onRejectDo: aBlockClosure [ 
+	stateLock critical: [
+		self isRejected ifTrue: [^self valueRejectAction: aBlockClosure].
+		rejectActions add: aBlockClosure
+	]
 ]
 
 { #category : #state }
