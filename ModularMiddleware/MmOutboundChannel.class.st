@@ -2,7 +2,7 @@ Class {
 	#name : #MmOutboundChannel,
 	#superclass : #MmChannel,
 	#instVars : [
-		'futuresDict'
+		'promisesDict'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
@@ -19,20 +19,10 @@ MmOutboundChannel >> address: anAddress [
 	self subclassResponsibility
 ]
 
-{ #category : #sending }
-MmOutboundChannel >> futureClass [
-	^CcFuture
-]
-
 { #category : #initialization }
 MmOutboundChannel >> initialize [
 	super initialize.
-	futuresDict := WeakValueDictionary new
-]
-
-{ #category : #sending }
-MmOutboundChannel >> newFutureForResultId: resultId [
-	^futuresDict at: resultId put: self futureClass new
+	promisesDict := WeakValueDictionary new
 ]
 
 { #category : #sending }
@@ -42,18 +32,28 @@ MmOutboundChannel >> newResultId [
 
 { #category : #sending }
 MmOutboundChannel >> receiveObject: remoteResponse [
-	| future |
-	future := futuresDict at: remoteResponse id ifAbsent: [^self].
-	future value: remoteResponse response
+	| promise |
+	promise := promisesDict at: remoteResponse id ifAbsent: [^self].
+	remoteResponse trigger: promise
+
 ]
 
 { #category : #sending }
 MmOutboundChannel >> send: aMessage receiverId: receiverId [
-	| future resultId |
+	| promise resultId result semaphore |
 	resultId := self newResultId.
-	future := self newFutureForResultId: resultId.
+	promise := CcPromise
+		onFulfillDo: [: answer | 
+			result := answer.
+			semaphore signal.] 
+		onRejectDo: [: exception | 
+			result := [exception signal].
+			semaphore signal.].
+	promisesDict at: resultId put: promise.
+	semaphore := Semaphore new.		
 	self send: aMessage receiverId: receiverId resultId: resultId.
-	^ future
+	semaphore wait.
+	^ result value
 ]
 
 { #category : #sending }
