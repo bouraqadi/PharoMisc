@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'outboundChannelsDict',
-		'exportedObjectsDict'
+		'exportedObjectsDict',
+		'marshaller'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
@@ -13,12 +14,12 @@ MmMiddleware >> address [
 	self subclassResponsibility
 ]
 
-{ #category : #communicating }
+{ #category : #exporting }
 MmMiddleware >> export: anObject as: id [ 
 	exportedObjectsDict at: id put: anObject
 ]
 
-{ #category : #accessing }
+{ #category : #exporting }
 MmMiddleware >> exportedObjectsDict [
 	^exportedObjectsDict
 ]
@@ -26,7 +27,24 @@ MmMiddleware >> exportedObjectsDict [
 { #category : #initialization }
 MmMiddleware >> initialize [
 	super initialize.
-	exportedObjectsDict := Dictionary new
+	exportedObjectsDict := Dictionary new.
+	marshaller := self marshallerClass new.
+	marshaller middleware: self
+]
+
+{ #category : #accessing }
+MmMiddleware >> marshaller [
+	^ marshaller
+]
+
+{ #category : #'initialize-release' }
+MmMiddleware >> marshallerClass [
+	^MmMarshaller
+]
+
+{ #category : #exporting }
+MmMiddleware >> objectAt: id [
+	^self exportedObjectsDict at: id
 ]
 
 { #category : #communicating }
@@ -40,14 +58,14 @@ MmMiddleware >> outboundChannelTo: anAddress [
 		
 ]
 
-{ #category : #communicating }
+{ #category : #proxies }
 MmMiddleware >> proxyId: aSymbol address: anAddress [
 	| channel |
 	channel := self outboundChannelTo: anAddress.
 	^ self proxyId: aSymbol channel: channel
 ]
 
-{ #category : #communicating }
+{ #category : #proxies }
 MmMiddleware >> proxyId: aSymbol channel: channel [
 	^ MmProxy id: aSymbol channel: channel
 ]

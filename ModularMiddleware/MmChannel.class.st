@@ -14,16 +14,16 @@ MmChannel class >> middleware: aMiddleware [
 		yourself
 ]
 
-{ #category : #accessing }
-MmChannel >> exportedObjectsDict [
-	^self middleware exportedObjectsDict
+{ #category : #protocol }
+MmChannel >> marshal: anObject [ 
+	^self marshaller marshal: anObject 
+
+
 ]
 
-{ #category : #protocol }
-MmChannel >> marshall: anObject [ 
-	^anObject 
-
-
+{ #category : #accessing }
+MmChannel >> marshaller [
+	^self middleware marshaller
 ]
 
 { #category : #protocol }
@@ -43,7 +43,7 @@ MmChannel >> middleware: anObject [
 
 { #category : #accessing }
 MmChannel >> objectAt: id [
-	^self exportedObjectsDict at: id
+	^self middleware objectAt: id
 ]
 
 { #category : #protocol }
@@ -55,7 +55,7 @@ MmChannel >> protocol [
 MmChannel >> receiveBytes: bytes [
 	| receivedObject unmarshalledObject  |
 	receivedObject := self materializeFrom: bytes.
-	unmarshalledObject := self unmarshall: receivedObject.
+	unmarshalledObject := self unmarshal: receivedObject.
 	self receiveObject: unmarshalledObject
 ]
 
@@ -72,7 +72,7 @@ MmChannel >> sendBytes: aCollection [
 { #category : #sending }
 MmChannel >> sendObject: anObject [
 	| marshalledObject bytes |
-	marshalledObject := self marshall: anObject.
+	marshalledObject := self marshal: anObject.
 	bytes := self serialize: marshalledObject.
 	self sendBytes: bytes
 ]
@@ -83,6 +83,6 @@ MmChannel >> serialize: remoteMessage [
 ]
 
 { #category : #protocol }
-MmChannel >> unmarshall: anObject [ 
-	^anObject
+MmChannel >> unmarshal: anObject [ 
+	^self marshaller unmarshal: anObject.
 ]
