@@ -41,11 +41,6 @@ MmChannel >> middleware: anObject [
 	middleware := anObject
 ]
 
-{ #category : #accessing }
-MmChannel >> objectAt: id [
-	^self middleware objectAt: id
-]
-
 { #category : #protocol }
 MmChannel >> protocol [
 	^MmProtocol new

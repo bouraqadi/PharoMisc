@@ -2,7 +2,7 @@ Extension { #name : #ProtoObject }
 
 { #category : #'*ModularMiddleware' }
 ProtoObject >> marshalWith: aMarshaller [
-	^aMarshaller proxyFor: self
+	^aMarshaller marshalObject: self
 ]
 
 { #category : #'*ModularMiddleware' }

@@ -5,11 +5,16 @@ Class {
 }
 
 { #category : #communicating }
-MmLocalMiddleware >> address [
-	^MmLocalInboundChannel middleware: self
+MmLocalMiddleware >> outboundChannelClass [
+	^MmLocalOutboundChannel 
 ]
 
 { #category : #communicating }
-MmLocalMiddleware >> outboundChannelClass [
-	^MmLocalOutboundChannel 
+MmLocalMiddleware >> outboundChannelTo: remoteReference [
+	| inboundChannel |
+	inboundChannel := MmLocalInboundChannel middleware: self.
+	^(super outboundChannelTo: remoteReference)
+		targetChannel: inboundChannel;
+		yourself.
+	
 ]

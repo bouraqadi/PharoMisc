@@ -2,26 +2,31 @@ Class {
 	#name : #MmProxy,
 	#superclass : #Object,
 	#instVars : [
-		'id',
-		'channel'
+		'channel',
+		'remoteReference'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
 
 { #category : #'instance creation' }
-MmProxy class >> id: aSymbol channel: aChannel [
+MmProxy class >> channel: aChannel remoteReference: aRemoteReference [
 	^ self new
-		id: aSymbol channel: aChannel;
+		channel: aChannel remoteReference: aRemoteReference;
 		yourself
+]
+
+{ #category : #'initialize-release' }
+MmProxy >> channel: aChannel remoteReference: aRemoteReference [
+	remoteReference := aRemoteReference. 
+	channel := aChannel.
 ]
 
 { #category : #'reflective operations' }
 MmProxy >> doesNotUnderstand: aMessage [
-	^channel send: aMessage receiverId: id
+	^channel send: aMessage to: self
 ]
 
-{ #category : #'initialize-release' }
-MmProxy >> id: aSymbol channel: aChannel [
-	id := aSymbol. 
-	channel := aChannel.
+{ #category : #marshalling }
+MmProxy >> marshalWith: marshaller [
+	^marshaller marshalRemoteReference: remoteReference
 ]

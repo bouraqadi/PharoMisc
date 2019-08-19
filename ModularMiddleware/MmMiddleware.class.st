@@ -9,14 +9,11 @@ Class {
 	#category : #'ModularMiddleware-Kernel'
 }
 
-{ #category : #communicating }
-MmMiddleware >> address [
-	self subclassResponsibility
-]
-
 { #category : #exporting }
-MmMiddleware >> export: anObject as: id [ 
-	exportedObjectsDict at: id put: anObject
+MmMiddleware >> export: anObject id: id [ 
+	| reference |
+	reference := self remoteReferenceWithId: id.
+	exportedObjectsDict at: reference put: anObject
 ]
 
 { #category : #exporting }
@@ -37,14 +34,14 @@ MmMiddleware >> marshaller [
 	^ marshaller
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 MmMiddleware >> marshallerClass [
 	^MmMarshaller
 ]
 
 { #category : #exporting }
-MmMiddleware >> objectAt: id [
-	^self exportedObjectsDict at: id
+MmMiddleware >> objectAt: aRemoteReference [
+	^self exportedObjectsDict at: aRemoteReference
 ]
 
 { #category : #communicating }
@@ -53,19 +50,39 @@ MmMiddleware >> outboundChannelClass [
 ]
 
 { #category : #communicating }
-MmMiddleware >> outboundChannelTo: anAddress [
-	^self outboundChannelClass middleware: self address: anAddress 
-		
+MmMiddleware >> outboundChannelTo: remoteReference [
+	^self outboundChannelClass new
+				middleware: self
+				yourself
 ]
 
 { #category : #proxies }
-MmMiddleware >> proxyId: aSymbol address: anAddress [
+MmMiddleware >> proxyTo: remoteReference [
 	| channel |
-	channel := self outboundChannelTo: anAddress.
-	^ self proxyId: aSymbol channel: channel
+	channel := self outboundChannelTo: remoteReference.
+	^ self proxyVia: channel to: remoteReference
 ]
 
 { #category : #proxies }
-MmMiddleware >> proxyId: aSymbol channel: channel [
-	^ MmProxy id: aSymbol channel: channel
+MmMiddleware >> proxyVia: channel to: remoteReference [
+	^ MmProxy channel: channel remoteReference: remoteReference
+]
+
+{ #category : #proxies }
+MmMiddleware >> proxyWithId: id [
+	| reference |
+	reference := self remoteReferenceWithId: id.
+	^self proxyTo: reference
+]
+
+{ #category : #exporting }
+MmMiddleware >> remoteReferenceClass [
+	^MmRemoteReference
+]
+
+{ #category : #exporting }
+MmMiddleware >> remoteReferenceWithId: id [
+	^self remoteReferenceClass new
+		id: id;
+		yourself
 ]

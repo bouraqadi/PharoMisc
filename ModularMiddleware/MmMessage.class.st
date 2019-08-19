@@ -1,69 +1,79 @@
 Class {
-	#name : #MmRemoteMessage,
+	#name : #MmMessage,
 	#superclass : #Object,
 	#instVars : [
 		'selector',
 		'arguments',
-		'receiverId',
+		'receiver',
 		'resultId'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
 
 { #category : #'instance creation' }
-MmRemoteMessage class >> selector: selector arguments: args receiverId: receiverId resultId: resultId [
+MmMessage class >> selector: selector arguments: args receiver: receiver resultId: resultId [
 	^self new
 		selector: selector; 
 		arguments: args; 
-		receiverId: receiverId;
+		receiver: receiver;
 		resultId: resultId; 
 		yourself
 
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> arguments [
+MmMessage >> arguments [
 	^ arguments
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> arguments: anObject [
+MmMessage >> arguments: anObject [
 	arguments := anObject
 ]
 
-{ #category : #accessing }
-MmRemoteMessage >> receiverId [
-	^ receiverId
+{ #category : #marshalling }
+MmMessage >> marshalWith: aMarshaller [
+	^aMarshaller marshalMessage: self
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> receiverId: anObject [
-	receiverId := anObject
+MmMessage >> receiver [
+	^ receiver
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> resultId [
+MmMessage >> receiver: anObject [
+	receiver := anObject
+]
+
+{ #category : #accessing }
+MmMessage >> resultId [
 	^ resultId
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> resultId: anObject [
+MmMessage >> resultId: anObject [
 	resultId := anObject
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> selector [
+MmMessage >> selector [
 	^ selector
 ]
 
 { #category : #accessing }
-MmRemoteMessage >> selector: anObject [
+MmMessage >> selector: anObject [
 	selector := anObject
 ]
 
 { #category : #performing }
-MmRemoteMessage >> sendTo: anObject [ 
-	^anObject
+MmMessage >> send [
+	^self receiver
 		perform: selector 
 		withArguments: arguments
+]
+
+{ #category : #marshalling }
+MmMessage >> unmarshalWith: aMarshaller [
+	^aMarshaller unmarshalMessage: self
 ]

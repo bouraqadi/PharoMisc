@@ -1,6 +1,6 @@
 Class {
-	#name : #MmNormalRemoteResponse,
-	#superclass : #MmRemoteResponse,
+	#name : #MmNormalResponse,
+	#superclass : #MmResponse,
 	#instVars : [
 		'result'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-MmNormalRemoteResponse class >> id: id result: result [
+MmNormalResponse class >> id: id result: result [
 	^self new
 		id: id;
 		result: result;
@@ -16,16 +16,16 @@ MmNormalRemoteResponse class >> id: id result: result [
 ]
 
 { #category : #accessing }
-MmNormalRemoteResponse >> result [
+MmNormalResponse >> result [
 	^ result
 ]
 
 { #category : #accessing }
-MmNormalRemoteResponse >> result: anObject [
+MmNormalResponse >> result: anObject [
 	result := anObject
 ]
 
 { #category : #acting }
-MmNormalRemoteResponse >> trigger: aPromise [
+MmNormalResponse >> trigger: aPromise [
 	aPromise fulfillWith: self result
 ]

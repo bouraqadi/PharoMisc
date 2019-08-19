@@ -7,13 +7,18 @@ Class {
 	#category : #'ModularMiddleware-Tests'
 }
 
-{ #category : #initialization }
-MmLocalOutboundChannel >> address: aLocalInboundChannel [
-	targetChannel := aLocalInboundChannel.
-	aLocalInboundChannel targetChannel: self
-]
-
 { #category : #communicating }
 MmLocalOutboundChannel >> sendBytes: bytes [ 
 	targetChannel receiveBytes: bytes
+]
+
+{ #category : #accessing }
+MmLocalOutboundChannel >> targetChannel [
+	^ targetChannel
+]
+
+{ #category : #accessing }
+MmLocalOutboundChannel >> targetChannel: inboundChannel [
+	targetChannel := inboundChannel.
+	inboundChannel targetChannel: self
 ]

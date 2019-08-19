@@ -7,18 +7,6 @@ Class {
 	#category : #'ModularMiddleware-Kernel'
 }
 
-{ #category : #'instance creation' }
-MmOutboundChannel class >> middleware: aMiddleware address: anAddress [
-	^(self middleware: aMiddleware)
-		address: anAddress;
-		yourself
-]
-
-{ #category : #initialization }
-MmOutboundChannel >> address: anAddress [
-	self subclassResponsibility
-]
-
 { #category : #initialization }
 MmOutboundChannel >> initialize [
 	super initialize.
@@ -39,30 +27,30 @@ MmOutboundChannel >> receiveObject: remoteResponse [
 ]
 
 { #category : #sending }
-MmOutboundChannel >> send: aMessage receiverId: receiverId [
+MmOutboundChannel >> send: aMessage to: receiver [
 	| promise resultId result semaphore |
 	resultId := self newResultId.
+	semaphore := Semaphore new.		
 	promise := CcPromise
 		onFulfillDo: [: answer | 
 			result := answer.
-			semaphore signal.] 
+			semaphore signal] 
 		onRejectDo: [: exception | 
 			result := [exception signal].
-			semaphore signal.].
+			semaphore signal].
 	promisesDict at: resultId put: promise.
-	semaphore := Semaphore new.		
-	self send: aMessage receiverId: receiverId resultId: resultId.
+	self send: aMessage to: receiver resultId: resultId.
 	semaphore wait.
 	^ result value
 ]
 
 { #category : #sending }
-MmOutboundChannel >> send: aMessage receiverId: receiverId resultId: resultId [
+MmOutboundChannel >> send: aMessage to: receiver resultId: resultId [
 	| remoteMessage |
-	remoteMessage := MmRemoteMessage
+	remoteMessage := MmMessage
 		selector: aMessage selector
 		arguments: aMessage arguments
-		receiverId: receiverId 
+		receiver: receiver 
 		resultId: resultId.
 	self sendObject: remoteMessage
 ]

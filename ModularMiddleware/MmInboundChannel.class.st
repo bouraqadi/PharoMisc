@@ -6,15 +6,14 @@ Class {
 
 { #category : #receiving }
 MmInboundChannel >> receiveObject: remoteMessage [
-	| receiver result response remoteException |
-	receiver := self objectAt: remoteMessage receiverId.
+	|  result response remoteException |
 	[
-		result := remoteMessage sendTo: receiver. 
-		response := MmNormalRemoteResponse id: remoteMessage resultId result: result.
+		result := remoteMessage send. 
+		response := MmNormalResponse id: remoteMessage resultId result: result.
 	] on: Exception
 	  do: [ : exception |
 		remoteException := MmRemoteException on: exception.
-		response := MmExceptionRemoteResponse id: remoteMessage resultId exception: remoteException.
+		response := MmExceptionResponse id: remoteMessage resultId exception: remoteException.
 		].
 	self sendObject: response
 

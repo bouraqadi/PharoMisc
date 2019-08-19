@@ -31,8 +31,8 @@ MmMiddlewareTest >> proxyForValueHolderWithContents: anObject [
 	id := #myObject.
 	exportedObject := ValueHolder new.
 	exportedObject contents: anObject.
-	middleware export: exportedObject as: id.
-	^ middleware proxyId: id address: middleware address
+	middleware export: exportedObject id: id.
+	^ middleware proxyWithId: id
 ]
 
 { #category : #running }
@@ -47,8 +47,8 @@ MmMiddlewareTest >> testProxyCreation [
 	| id exportedObject proxy |
 	id := #myObject.
 	exportedObject := Object new.
-	middleware export: exportedObject as: id.
-	proxy := middleware proxyId: id address: middleware address.
+	middleware export: exportedObject id: id.
+	proxy := middleware proxyWithId: id.
 	self assert: proxy isProxyOf: exportedObject
 ]
 
@@ -57,8 +57,8 @@ MmMiddlewareTest >> testRemoteMessageWithBlockArgument [
 	| result id exportedArray proxy |
 	id := #myArray.
 	exportedArray := #('Hello World' #Pharo #Middleware).
-	middleware export: exportedArray as: id.
-	proxy := middleware proxyId: id address: middleware address.
+	middleware export: exportedArray id: id.
+	proxy := middleware proxyWithId: id.
 	result := proxy collect: [ :each | each size ].
 	self assert: result first equals: exportedArray first size.
 	self assert: result last equals: exportedArray last size

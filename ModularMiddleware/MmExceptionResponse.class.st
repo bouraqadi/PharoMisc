@@ -1,6 +1,6 @@
 Class {
-	#name : #MmExceptionRemoteResponse,
-	#superclass : #MmRemoteResponse,
+	#name : #MmExceptionResponse,
+	#superclass : #MmResponse,
 	#instVars : [
 		'exception'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-MmExceptionRemoteResponse class >> id: id exception: exception [
+MmExceptionResponse class >> id: id exception: exception [
 	^self new
 		id: id;
 		exception: exception;
@@ -16,16 +16,16 @@ MmExceptionRemoteResponse class >> id: id exception: exception [
 ]
 
 { #category : #accessing }
-MmExceptionRemoteResponse >> exception [
+MmExceptionResponse >> exception [
 	^ exception
 ]
 
 { #category : #accessing }
-MmExceptionRemoteResponse >> exception: anObject [
+MmExceptionResponse >> exception: anObject [
 	exception := anObject
 ]
 
 { #category : #acting }
-MmExceptionRemoteResponse >> trigger: aPromise [
+MmExceptionResponse >> trigger: aPromise [
 	aPromise rejectWith: self exception
 ]
