@@ -1,6 +1,8 @@
 Class {
 	#name : #MmRemoteReference,
 	#superclass : #Object,
+	#traits : 'TEquality',
+	#classTraits : 'TEquality classTrait',
 	#instVars : [
 		'id'
 	],

@@ -25,6 +25,11 @@ MmExceptionResponse >> exception: anObject [
 	exception := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+MmExceptionResponse >> marshallWith: marshaller [
+	^self marshallExceptionRensponse: self
+]
+
 { #category : #acting }
 MmExceptionResponse >> trigger: aPromise [
 	aPromise rejectWith: self exception

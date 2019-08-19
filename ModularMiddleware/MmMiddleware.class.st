@@ -10,10 +10,15 @@ Class {
 }
 
 { #category : #exporting }
+MmMiddleware >> export: anObject [
+	^self export: anObject id: self newExportId
+]
+
+{ #category : #exporting }
 MmMiddleware >> export: anObject id: id [ 
 	| reference |
-	reference := self remoteReferenceWithId: id.
-	exportedObjectsDict at: reference put: anObject
+	reference := self newRemoteReferenceWithId: id.
+	^exportedObjectsDict at: reference put: anObject
 ]
 
 { #category : #exporting }
@@ -37,6 +42,18 @@ MmMiddleware >> marshaller [
 { #category : #initialization }
 MmMiddleware >> marshallerClass [
 	^MmMarshaller
+]
+
+{ #category : #exporting }
+MmMiddleware >> newExportId [
+	^UUID new asString
+]
+
+{ #category : #exporting }
+MmMiddleware >> newRemoteReferenceWithId: id [
+	^self remoteReferenceClass new
+		id: id;
+		yourself
 ]
 
 { #category : #exporting }
@@ -71,7 +88,7 @@ MmMiddleware >> proxyVia: channel to: remoteReference [
 { #category : #proxies }
 MmMiddleware >> proxyWithId: id [
 	| reference |
-	reference := self remoteReferenceWithId: id.
+	reference := self newRemoteReferenceWithId: id.
 	^self proxyTo: reference
 ]
 
@@ -81,8 +98,6 @@ MmMiddleware >> remoteReferenceClass [
 ]
 
 { #category : #exporting }
-MmMiddleware >> remoteReferenceWithId: id [
-	^self remoteReferenceClass new
-		id: id;
-		yourself
+MmMiddleware >> remoteReferenceFor: anObject [
+	^self exportedObjectsDict keyAtValue: anObject ifAbsent: [ self export: anObject ]
 ]

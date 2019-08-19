@@ -26,12 +26,17 @@ MmMarshaller >> marshalMessage: message [
 
 { #category : #marshalling }
 MmMarshaller >> marshalObject: anObject [ 
-	^anObject
+	^self remoteReferenceFor: anObject
 ]
 
 { #category : #marshalling }
 MmMarshaller >> marshalRemoteReference: aRemoteReference [
 	^aRemoteReference
+]
+
+{ #category : #marshalling }
+MmMarshaller >> marshalString: aString [
+	^aString
 ]
 
 { #category : #accessing }
@@ -47,6 +52,11 @@ MmMarshaller >> middleware: anObject [
 { #category : #accessing }
 MmMarshaller >> objectAt: aRemoteReference [
 	^self middleware objectAt: aRemoteReference
+]
+
+{ #category : #accessing }
+MmMarshaller >> remoteReferenceFor: anObject [ 
+	^self middleware remoteReferenceFor: anObject
 ]
 
 { #category : #unmarshalling }
