@@ -3,7 +3,9 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'middlewareA',
-		'middlewareB'
+		'middlewareB',
+		'middlewareC',
+		'proxyOfAInC'
 	],
 	#category : #'ModularMiddleware-Tests'
 }
@@ -51,6 +53,7 @@ MmMiddlwareTests >> setUp [
 	super setUp.
 	middlewareA := 	self middlewareClass new.
 	middlewareB := 	self middlewareClass new.
+	middlewareC := 	self middlewareClass new.
 
 ]
 
@@ -85,7 +88,21 @@ MmMiddlwareTests >> testArgPassByReference [
 
 { #category : #tests }
 MmMiddlwareTests >> testArgProxyToObjectInThirdMiddleware [
-	self fail: #todo
+	| a refA proxyAInB c refC proxyCInB proxyCInA |
+	a := self newValueHolder.
+	refA := middlewareA export: a.
+	proxyAInB := middlewareB proxyAt: refA.
+	c := self newValueHolder.
+	refC := middlewareC export: c.
+	proxyCInB := middlewareB proxyAt: refC.
+	proxyAInB contents: proxyCInB.
+	proxyCInA := a contents.
+	self assertIsProxy: proxyCInA.
+	self deny: proxyCInA == proxyCInB.
+	self passByCopyObjects do: [ : arg |
+		proxyCInA contents: arg.
+		self assert: c contents equals: arg]
+	
 ]
 
 { #category : #tests }
@@ -167,5 +184,19 @@ MmMiddlwareTests >> testResultPassByReference [
 
 { #category : #tests }
 MmMiddlwareTests >> testResultProxyToObjectInThirdMiddleware [
-	self fail: #todo
+	| a refA proxyAInB c refC proxyCInB proxyCInA |
+	a := self newValueHolder.
+	refA := middlewareA export: a.
+	proxyAInB := middlewareB proxyAt: refA.
+	c := self newValueHolder.
+	refC := middlewareC export: c.
+	proxyCInA := middlewareA proxyAt: refC.
+	a contents: proxyCInA.
+	proxyCInB := proxyAInB contents.
+	self assertIsProxy: proxyCInB.
+	self deny: proxyAInB == proxyCInB.
+	self passByCopyObjects do: [ : arg |
+		proxyCInB contents: arg.
+		self assert: c contents equals: arg]
+	
 ]
