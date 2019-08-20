@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'outboundChannelsDict',
 		'exportedObjectsDict',
-		'marshaller'
+		'marshaller',
+		'proxiesDict'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
@@ -18,7 +19,8 @@ MmMiddleware >> export: anObject [
 MmMiddleware >> export: anObject id: id [ 
 	| reference |
 	reference := self newRemoteReferenceWithId: id.
-	^exportedObjectsDict at: reference put: anObject
+	exportedObjectsDict at: reference put: anObject.
+	^reference
 ]
 
 { #category : #exporting }
@@ -30,6 +32,7 @@ MmMiddleware >> exportedObjectsDict [
 MmMiddleware >> initialize [
 	super initialize.
 	exportedObjectsDict := Dictionary new.
+	proxiesDict := Dictionary new.
 	marshaller := self marshallerClass new.
 	marshaller middleware: self
 ]
@@ -49,16 +52,28 @@ MmMiddleware >> newExportId [
 	^UUID new asString
 ]
 
+{ #category : #proxies }
+MmMiddleware >> newProxyTo: remoteReference [
+	| channel |
+	channel := self outboundChannelTo: remoteReference.
+	^ self newProxyVia: channel to: remoteReference
+]
+
+{ #category : #proxies }
+MmMiddleware >> newProxyVia: channel to: remoteReference [
+	^ MmProxy channel: channel remoteReference: remoteReference
+]
+
 { #category : #exporting }
 MmMiddleware >> newRemoteReferenceWithId: id [
 	^self remoteReferenceClass new
-		id: id;
+		objectId: id;
 		yourself
 ]
 
 { #category : #exporting }
 MmMiddleware >> objectAt: aRemoteReference [
-	^self exportedObjectsDict at: aRemoteReference
+	^self exportedObjectsDict at: aRemoteReference ifAbsent: [ self proxyAt: aRemoteReference ]
 ]
 
 { #category : #communicating }
@@ -73,23 +88,16 @@ MmMiddleware >> outboundChannelTo: remoteReference [
 				yourself
 ]
 
-{ #category : #proxies }
-MmMiddleware >> proxyTo: remoteReference [
-	| channel |
-	channel := self outboundChannelTo: remoteReference.
-	^ self proxyVia: channel to: remoteReference
+{ #category : #'as yet unclassified' }
+MmMiddleware >> proxyAt: remoteReference [ 
+	^proxiesDict at: remoteReference ifAbsentPut: [ self newProxyTo: remoteReference]
 ]
 
 { #category : #proxies }
-MmMiddleware >> proxyVia: channel to: remoteReference [
-	^ MmProxy channel: channel remoteReference: remoteReference
-]
-
-{ #category : #proxies }
-MmMiddleware >> proxyWithId: id [
+MmMiddleware >> proxyAtId: id [
 	| reference |
 	reference := self newRemoteReferenceWithId: id.
-	^self proxyTo: reference
+	^self newProxyTo: reference
 ]
 
 { #category : #exporting }

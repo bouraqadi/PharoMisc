@@ -17,15 +17,24 @@ MmMarshaller >> marshalMessage: message [
 	|marshalledArgs marshalledReceiver |
 	marshalledReceiver := self marshal: message receiver.
 	marshalledArgs := message arguments collect: [ : each | self marshal: each ].
-	^MmMessage 
-		selector: message selector
-		arguments: marshalledArgs
-		receiver: marshalledReceiver 
-		resultId: message resultId.
+	^message 
+		arguments: marshalledArgs;
+		receiver: marshalledReceiver; 
+		yourself.
+]
+
+{ #category : #marshalling }
+MmMarshaller >> marshalNormalResponse: response [ 
+	| marshalledResult |
+	marshalledResult := self marshal: response result.
+	^response
+		result: marshalledResult;
+		yourself
 ]
 
 { #category : #marshalling }
 MmMarshaller >> marshalObject: anObject [ 
+	anObject isPassByCopy ifTrue: [ ^anObject ].
 	^self remoteReferenceFor: anObject
 ]
 
@@ -35,8 +44,12 @@ MmMarshaller >> marshalRemoteReference: aRemoteReference [
 ]
 
 { #category : #marshalling }
-MmMarshaller >> marshalString: aString [
-	^aString
+MmMarshaller >> marshallExceptionResponse: aMmExceptionResponse [ 
+	| marshalledException |
+	marshalledException := MmRemoteException on: aMmExceptionResponse exception.
+	^aMmExceptionResponse
+		exception: marshalledException;
+		yourself
 ]
 
 { #category : #accessing }
@@ -59,24 +72,33 @@ MmMarshaller >> remoteReferenceFor: anObject [
 	^self middleware remoteReferenceFor: anObject
 ]
 
-{ #category : #unmarshalling }
+{ #category : #marshalling }
 MmMarshaller >> unmarshal: anObject [ 
 	^anObject unmarshalWith: self
 ]
 
-{ #category : #unmarshalling }
+{ #category : #marshalling }
 MmMarshaller >> unmarshalMessage: message [ 
 	|unmarshalledArgs unmarshalledReceiver |
 	unmarshalledReceiver := self unmarshal: message receiver.
 	unmarshalledArgs := message arguments collect: [ : each | self unmarshal: each ].
-	^MmMessage 
+	^MmRemoteMessage 
 		selector: message selector
 		arguments: unmarshalledArgs
 		receiver: unmarshalledReceiver 
 		resultId: message resultId.
 ]
 
-{ #category : #unmarshalling }
+{ #category : #marshalling }
+MmMarshaller >> unmarshalNormalResponse: response [ 
+	| unmarshalledResult |
+	unmarshalledResult := self unmarshal: response result.
+	^response
+		result: unmarshalledResult;
+		yourself
+]
+
+{ #category : #marshalling }
 MmMarshaller >> unmarshalObject: anObject [ 
 	^anObject
 ]

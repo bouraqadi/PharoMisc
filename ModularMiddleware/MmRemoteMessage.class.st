@@ -1,5 +1,5 @@
 Class {
-	#name : #MmMessage,
+	#name : #MmRemoteMessage,
 	#superclass : #Object,
 	#instVars : [
 		'selector',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-MmMessage class >> selector: selector arguments: args receiver: receiver resultId: resultId [
+MmRemoteMessage class >> selector: selector arguments: args receiver: receiver resultId: resultId [
 	^self new
 		selector: selector; 
 		arguments: args; 
@@ -22,58 +22,58 @@ MmMessage class >> selector: selector arguments: args receiver: receiver resultI
 ]
 
 { #category : #accessing }
-MmMessage >> arguments [
+MmRemoteMessage >> arguments [
 	^ arguments
 ]
 
 { #category : #accessing }
-MmMessage >> arguments: anObject [
+MmRemoteMessage >> arguments: anObject [
 	arguments := anObject
 ]
 
 { #category : #marshalling }
-MmMessage >> marshalWith: aMarshaller [
+MmRemoteMessage >> marshalWith: aMarshaller [
 	^aMarshaller marshalMessage: self
 ]
 
 { #category : #accessing }
-MmMessage >> receiver [
+MmRemoteMessage >> receiver [
 	^ receiver
 ]
 
 { #category : #accessing }
-MmMessage >> receiver: anObject [
+MmRemoteMessage >> receiver: anObject [
 	receiver := anObject
 ]
 
 { #category : #accessing }
-MmMessage >> resultId [
+MmRemoteMessage >> resultId [
 	^ resultId
 ]
 
 { #category : #accessing }
-MmMessage >> resultId: anObject [
+MmRemoteMessage >> resultId: anObject [
 	resultId := anObject
 ]
 
 { #category : #accessing }
-MmMessage >> selector [
+MmRemoteMessage >> selector [
 	^ selector
 ]
 
 { #category : #accessing }
-MmMessage >> selector: anObject [
+MmRemoteMessage >> selector: anObject [
 	selector := anObject
 ]
 
 { #category : #performing }
-MmMessage >> send [
+MmRemoteMessage >> send [
 	^self receiver
 		perform: selector 
 		withArguments: arguments
 ]
 
 { #category : #marshalling }
-MmMessage >> unmarshalWith: aMarshaller [
+MmRemoteMessage >> unmarshalWith: aMarshaller [
 	^aMarshaller unmarshalMessage: self
 ]

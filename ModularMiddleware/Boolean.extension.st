@@ -1,6 +1,6 @@
 Extension { #name : #Boolean }
 
 { #category : #'*ModularMiddleware' }
-Boolean >> marshalWith: marshaller [
-	^self 
+Boolean >> isPassByCopy [
+	^true
 ]

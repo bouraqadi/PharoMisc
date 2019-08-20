@@ -47,7 +47,7 @@ MmOutboundChannel >> send: aMessage to: receiver [
 { #category : #sending }
 MmOutboundChannel >> send: aMessage to: receiver resultId: resultId [
 	| remoteMessage |
-	remoteMessage := MmMessage
+	remoteMessage := MmRemoteMessage
 		selector: aMessage selector
 		arguments: aMessage arguments
 		receiver: receiver 

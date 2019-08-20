@@ -15,6 +15,11 @@ MmNormalResponse class >> id: id result: result [
 		yourself
 ]
 
+{ #category : #marshalling }
+MmNormalResponse >> marshalWith: marshaller [
+	^marshaller marshalNormalResponse: self
+]
+
 { #category : #accessing }
 MmNormalResponse >> result [
 	^ result
@@ -28,4 +33,9 @@ MmNormalResponse >> result: anObject [
 { #category : #acting }
 MmNormalResponse >> trigger: aPromise [
 	aPromise fulfillWith: self result
+]
+
+{ #category : #marshalling }
+MmNormalResponse >> unmarshalWith: marshaller [
+	^marshaller unmarshalNormalResponse: self
 ]

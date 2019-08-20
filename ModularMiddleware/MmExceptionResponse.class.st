@@ -25,9 +25,9 @@ MmExceptionResponse >> exception: anObject [
 	exception := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-MmExceptionResponse >> marshallWith: marshaller [
-	^self marshallExceptionRensponse: self
+{ #category : #marshalling }
+MmExceptionResponse >> marshalWith: marshaller [
+	^marshaller marshallExceptionResponse: self
 ]
 
 { #category : #acting }

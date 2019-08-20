@@ -4,19 +4,26 @@ Class {
 	#traits : 'TEquality',
 	#classTraits : 'TEquality classTrait',
 	#instVars : [
-		'id'
+		'objectId'
 	],
 	#category : #'ModularMiddleware-Kernel'
 }
 
 { #category : #accessing }
-MmRemoteReference >> id [
-	^ id
+MmRemoteReference >> objectId [
+	^ objectId
 ]
 
 { #category : #accessing }
-MmRemoteReference >> id: anObject [
-	id := anObject
+MmRemoteReference >> objectId: anObject [
+	objectId := anObject
+]
+
+{ #category : #printing }
+MmRemoteReference >> printOn: aStream [
+	aStream 
+		<< 'ID: '
+		<< self objectId
 ]
 
 { #category : #marshalling }
