@@ -10,8 +10,14 @@ BaselineOfModularMiddleware >> baseline: spec [
 
 	spec for: #'common' do: [
 		spec 
+			baseline: 'Equals' with: [
+				spec
+					repository: 'github://bouraqadi/PharoMisc' ].
+
+		spec 
 			repository: 'github://bouraqadi/PharoMisc';
-			package: #ModularMiddleware
+			package: #ModularMiddleware with: [
+				spec requires: #('Equals')]
 	].
 
 ]
