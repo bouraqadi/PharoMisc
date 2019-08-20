@@ -33,3 +33,4 @@ Metacello new
 
 ## S
 - [StateMachine](/StateMachine): Defines automaton, states and transition. 
+- [SimpleMiddleware](/SimpleMiddleware): a basic middleware supporting remote object messages over TCP
