@@ -93,7 +93,7 @@ CsvToPillarConverter >> pillarFileName [
 
 { #category : #accessing }
 CsvToPillarConverter >> pillarFileName: aString [
-	^pillarFileName
+	^pillarFileName := aString
 ]
 
 { #category : #accessing }
