@@ -27,6 +27,6 @@ NeUdpSocketTest >> newUnicastUdpSocketEmittingToIp: targetIp port: port [
 
 { #category : #testing }
 NeUdpSocketTest >> newUnicastUdpSocketReceivingOnPort: port [
-	^self createSocket: [NeUnicastUdpSocket listenOnPort: port].
+	^self createSocket: [NeUnicastUdpSocket listenOn: port].
 
 ]

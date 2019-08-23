@@ -25,7 +25,7 @@ NeUnicastUdpServer >> defaultServerName [
 
 { #category : #activity }
 NeUnicastUdpServer >> newSocket [
-	^NeUnicastUdpSocket listenOnPort: self port
+	^NeUnicastUdpSocket listenOn: self port
 ]
 
 { #category : #accessing }

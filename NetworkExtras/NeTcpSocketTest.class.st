@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 NeTcpSocketTest >> newTcpSocketListeningOnPort: port [
-	^self createSocket: [NeTcpSocket listenOnPort: port]
+	^self createSocket: [NeTcpSocket listenOn: port]
 
 ]
 

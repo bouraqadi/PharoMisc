@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-NeTcpSocket class >> listenOnPort: portNumber [
+NeTcpSocket class >> listenOn: portNumber [
 	^self new
 		listenOn: portNumber;
 		yourself

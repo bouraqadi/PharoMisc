@@ -32,7 +32,7 @@ NeUdpSocket >> initReceptionBuffer [
 ]
 
 { #category : #receiving }
-NeUdpSocket >> listenOnPort: portNumber [
+NeUdpSocket >> listenOn: portNumber [
 	self setPort: portNumber.
 ]
 
