@@ -14,6 +14,22 @@ Trait {
 }
 
 { #category : #testing }
+TConcurrencyTest >> assertFork: aBlock endsWithinMilliseconds: milliseconds [
+	| semaphore |
+	semaphore := Semaphore new.
+	[ aBlock ensure: [ semaphore signal ] ] fork.
+	self assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds
+]
+
+{ #category : #testing }
+TConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
+	| semaphore |
+	semaphore := Semaphore new.
+	[ aBlock ensure: [ semaphore signal ] ] fork.
+	self assertSemaphore: semaphore signaledWithinSeconds: seconds
+]
+
+{ #category : #testing }
 TConcurrencyTest >> assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds [
 	self deny: (semaphore waitTimeoutMSecs: milliseconds)
 ]
