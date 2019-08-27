@@ -1,6 +1,6 @@
 Class {
-	#name : #ActiveObjectStateTest,
-	#superclass : #ActiveObjectTest,
+	#name : #CcThreadStateTest,
+	#superclass : #CcThreadTest,
 	#instVars : [
 		'startSemaphore',
 		'stopSemaphore'
@@ -9,11 +9,11 @@ Class {
 }
 
 { #category : #'test state requests' }
-ActiveObjectStateTest >> setUp [
+CcThreadStateTest >> setUp [
 	super setUp.
 	startSemaphore := Semaphore new.
 	stopSemaphore := Semaphore new.
-	activeObject := ActiveObject
+	activeObject := CcThread
 		do: [startSemaphore signal]
 		thenRepeat: [ ]
 		every: 50 milliSeconds
@@ -21,14 +21,14 @@ ActiveObjectStateTest >> setUp [
 ]
 
 { #category : #'test state requests' }
-ActiveObjectStateTest >> testNewActiveObjectShouldBeStopped [
+CcThreadStateTest >> testNewActiveObjectShouldBeStopped [
 	self deny: activeObject isStarted.
 	self assert: activeObject isStopped.
 
 ]
 
 { #category : #'test state requests' }
-ActiveObjectStateTest >> testStartedObjectShouldBeStarted [
+CcThreadStateTest >> testStartedObjectShouldBeStarted [
 	activeObject start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
 	self assert: activeObject isStarted.
@@ -37,7 +37,7 @@ ActiveObjectStateTest >> testStartedObjectShouldBeStarted [
 ]
 
 { #category : #'test state requests' }
-ActiveObjectStateTest >> testStartedThenStoppedObjectShouldBeStopped [
+CcThreadStateTest >> testStartedThenStoppedObjectShouldBeStopped [
 	activeObject start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
 	activeObject stop.
@@ -47,7 +47,7 @@ ActiveObjectStateTest >> testStartedThenStoppedObjectShouldBeStopped [
 ]
 
 { #category : #'test state requests' }
-ActiveObjectStateTest >> testStartedThenStoppedThenStartedObjectShouldBeStarted [
+CcThreadStateTest >> testStartedThenStoppedThenStartedObjectShouldBeStarted [
 	activeObject start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
 	activeObject stop.

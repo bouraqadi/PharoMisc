@@ -1,18 +1,18 @@
 "
-See class side for examples of ActiveObject
+See class side for examples of CcThread
 "
 Class {
-	#name : #ActiveObjectExamples,
+	#name : #CcThreadExamples,
 	#superclass : #Object,
 	#category : #'Concurrency-Kernel'
 }
 
 { #category : #examples }
-ActiveObjectExamples class >> autoStopOnGarbageCollect [
+CcThreadExamples class >> autoStopOnGarbageCollect [
 	<example>
 	|counter runner |
 	counter := 0.
-	runner := ActiveObject 
+	runner := CcThread 
 		repeat: [
 			counter := counter + 1.
 			self inform: counter printString]
@@ -22,11 +22,11 @@ ActiveObjectExamples class >> autoStopOnGarbageCollect [
 ]
 
 { #category : #examples }
-ActiveObjectExamples class >> countUpTo10 [
+CcThreadExamples class >> countUpTo10 [
 	<example>
 	|counter runner |
 	counter := 0.
-	runner := ActiveObject 
+	runner := CcThread 
 		repeat: [
 			counter := counter + 1.
 			self inform: counter printString]
@@ -37,14 +37,14 @@ ActiveObjectExamples class >> countUpTo10 [
 ]
 
 { #category : #examples }
-ActiveObjectExamples class >> pingPong [
+CcThreadExamples class >> pingPong [
 	<example>
 	|ping pong |
 	Transcript open.
-	ping := ActiveObject 
+	ping := CcThread 
 		repeat: [Transcript cr; show: '--------ping']
 		every: 400 milliSeconds.
-	pong := ActiveObject 
+	pong := CcThread 
 		repeat: [Transcript cr; show: 'PONG']
 		every: 200 milliSeconds.
 	ping start.

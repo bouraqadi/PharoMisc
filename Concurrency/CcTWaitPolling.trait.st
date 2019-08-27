@@ -5,42 +5,42 @@ By default, the current thread is suspended for 50 milliseconds on every iterati
 
 "
 Trait {
-	#name : #TWaitPolling,
+	#name : #CcTWaitPolling,
 	#category : #'Concurrency-Kernel'
 }
 
 { #category : #waiting }
-TWaitPolling >> defaultTimeoutDuration [
+CcTWaitPolling >> defaultTimeoutDuration [
 	^500 milliSeconds 
 ]
 
 { #category : #waiting }
-TWaitPolling >> iterationDuration [
+CcTWaitPolling >> iterationDuration [
 	^ 50 milliSeconds
 ]
 
 { #category : #waiting }
-TWaitPolling >> waitUntil: conditionBlock [
+CcTWaitPolling >> waitUntil: conditionBlock [
 	self waitUntil: conditionBlock timeout: self defaultTimeoutDuration
 ]
 
 { #category : #waiting }
-TWaitPolling >> waitUntil: conditionBlock onTimeout: aDuration do: aBlock [
+CcTWaitPolling >> waitUntil: conditionBlock onTimeout: aDuration do: aBlock [
 	self waitWhile: [ conditionBlock value not ] onTimeout: aDuration do: aBlock
 ]
 
 { #category : #waiting }
-TWaitPolling >> waitUntil: conditionBlock timeout: aDuration [
+CcTWaitPolling >> waitUntil: conditionBlock timeout: aDuration [
 	self waitUntil: conditionBlock onTimeout: aDuration do: [ self fail: 'Timeout' ]
 ]
 
 { #category : #waiting }
-TWaitPolling >> waitWhile: conditionBlock [
+CcTWaitPolling >> waitWhile: conditionBlock [
 	self waitWhile: conditionBlock timeout: self defaultTimeoutDuration
 ]
 
 { #category : #waiting }
-TWaitPolling >> waitWhile: conditionBlock onTimeout: aDuration do: aBlock [
+CcTWaitPolling >> waitWhile: conditionBlock onTimeout: aDuration do: aBlock [
 	| iterationCount iterationDuration |
 	iterationDuration := self iterationDuration.
 	iterationCount := (aDuration / iterationDuration) ceiling max: 1.
@@ -52,6 +52,6 @@ TWaitPolling >> waitWhile: conditionBlock onTimeout: aDuration do: aBlock [
 ]
 
 { #category : #waiting }
-TWaitPolling >> waitWhile: conditionBlock timeout: aDuration [
+CcTWaitPolling >> waitWhile: conditionBlock timeout: aDuration [
 	self waitWhile: conditionBlock onTimeout: aDuration do: [self fail: 'Timeout']
 ]

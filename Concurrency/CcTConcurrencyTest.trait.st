@@ -9,12 +9,12 @@ TConcurrencyTest provides methods to ease testing concurrent code with the follo
 
 "
 Trait {
-	#name : #TConcurrencyTest,
-	#category : #'Concurrency-Test'
+	#name : #CcTConcurrencyTest,
+	#category : #'Concurrency-Kernel'
 }
 
 { #category : #testing }
-TConcurrencyTest >> assertFork: aBlock endsWithinMilliseconds: milliseconds [
+CcTConcurrencyTest >> assertFork: aBlock endsWithinMilliseconds: milliseconds [
 	| semaphore |
 	semaphore := Semaphore new.
 	[ aBlock ensure: [ semaphore signal ] ] fork.
@@ -22,7 +22,7 @@ TConcurrencyTest >> assertFork: aBlock endsWithinMilliseconds: milliseconds [
 ]
 
 { #category : #testing }
-TConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
+CcTConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
 	| semaphore |
 	semaphore := Semaphore new.
 	[ aBlock ensure: [ semaphore signal ] ] fork.
@@ -30,21 +30,21 @@ TConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
 ]
 
 { #category : #testing }
-TConcurrencyTest >> assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds [
+CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds [
 	self deny: (semaphore waitTimeoutMSecs: milliseconds)
 ]
 
 { #category : #testing }
-TConcurrencyTest >> assertSemaphore: semaphore signaledWithinSeconds: seconds [
+CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinSeconds: seconds [
 	self deny: (semaphore waitTimeoutSeconds: seconds)
 ]
 
 { #category : #testing }
-TConcurrencyTest >> denySemaphore: semaphore signaledWithinMilliseconds: milliseconds [
+CcTConcurrencyTest >> denySemaphore: semaphore signaledWithinMilliseconds: milliseconds [
 	self assert: (semaphore waitTimeoutMSecs: milliseconds)
 ]
 
 { #category : #testing }
-TConcurrencyTest >> denySemaphore: semaphore signaledWithinSeconds: seconds [
+CcTConcurrencyTest >> denySemaphore: semaphore signaledWithinSeconds: seconds [
 	self assert: (semaphore waitTimeoutSeconds: seconds)
 ]

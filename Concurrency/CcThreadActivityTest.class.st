@@ -1,6 +1,6 @@
 Class {
-	#name : #ActiveObjectActivityTest,
-	#superclass : #ActiveObjectTest,
+	#name : #CcThreadActivityTest,
+	#superclass : #CcThreadTest,
 	#instVars : [
 		'counter',
 		'activityTerminatedSemaphore'
@@ -9,10 +9,10 @@ Class {
 }
 
 { #category : #testing }
-ActiveObjectActivityTest >> assertEnsureBlockRunUponFinalizationForPriority: activeObjPriority [
+CcThreadActivityTest >> assertEnsureBlockRunUponFinalizationForPriority: activeObjPriority [
 	| activityStartedSemaphore process |
 	activityStartedSemaphore := Semaphore new.
-	activeObject := ActiveObject 
+	activeObject := CcThread 
 		do: [ 
 			activityStartedSemaphore signal.
 			[50 milliSeconds wait] repeat]
@@ -30,10 +30,10 @@ ActiveObjectActivityTest >> assertEnsureBlockRunUponFinalizationForPriority: act
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> assertEnsureBlockRunUponStopForPriority: activeObjPriority [
+CcThreadActivityTest >> assertEnsureBlockRunUponStopForPriority: activeObjPriority [
 	| activityStartedSemaphore |
 	activityStartedSemaphore := Semaphore new.
-	activeObject := ActiveObject 
+	activeObject := CcThread 
 		do: [ 
 			activityStartedSemaphore signal.
 			[50 milliSeconds wait] repeat]
@@ -49,7 +49,7 @@ ActiveObjectActivityTest >> assertEnsureBlockRunUponStopForPriority: activeObjPr
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> setUp [
+CcThreadActivityTest >> setUp [
 	super setUp.
 	counter := 0.
 	activityTerminatedSemaphore := Semaphore new.
@@ -57,8 +57,8 @@ ActiveObjectActivityTest >> setUp [
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testDoesActivity [
-	activeObject := ActiveObject do: [
+CcThreadActivityTest >> testDoesActivity [
+	activeObject := CcThread do: [
 			counter := 1.
 			activityTerminatedSemaphore signal
 	].
@@ -69,8 +69,8 @@ ActiveObjectActivityTest >> testDoesActivity [
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testDoesEnsureBlock [
-	activeObject := ActiveObject 
+CcThreadActivityTest >> testDoesEnsureBlock [
+	activeObject := CcThread 
 		do: [counter := 1]
 		ensure:	 [activityTerminatedSemaphore signal].
 	activeObject start.
@@ -80,29 +80,29 @@ ActiveObjectActivityTest >> testDoesEnsureBlock [
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testDoesEnsureBlockUponFinalizationForHighestPriority [
+CcThreadActivityTest >> testDoesEnsureBlockUponFinalizationForHighestPriority [
 	self assertEnsureBlockRunUponFinalizationForPriority: Processor highestPriority
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testDoesEnsureBlockUponFinalizationForLowestPriority [
+CcThreadActivityTest >> testDoesEnsureBlockUponFinalizationForLowestPriority [
 	self assertEnsureBlockRunUponFinalizationForPriority: Processor lowestPriority
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testDoesEnsureBlockUponStopForHighestPriority [
+CcThreadActivityTest >> testDoesEnsureBlockUponStopForHighestPriority [
 	self assertEnsureBlockRunUponStopForPriority: Processor highestPriority
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testDoesEnsureBlockUponStopForLowestPriority [
+CcThreadActivityTest >> testDoesEnsureBlockUponStopForLowestPriority [
 	self assertEnsureBlockRunUponStopForPriority: Processor lowestPriority
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testRestartUponForcedStop [
+CcThreadActivityTest >> testRestartUponForcedStop [
 	| previousCounter |
-	activeObject := ActiveObject repeat: [counter := counter + 1] every: 50 milliSeconds ensure: [ activityTerminatedSemaphore signal].
+	activeObject := CcThread repeat: [counter := counter + 1] every: 50 milliSeconds ensure: [ activityTerminatedSemaphore signal].
 	activeObject start.
 	self denySemaphore:  activityTerminatedSemaphore signaledWithinMilliseconds: 500.
 	activeObject stop.
@@ -117,8 +117,8 @@ ActiveObjectActivityTest >> testRestartUponForcedStop [
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testRestartUponNormalTermination [
-	activeObject := ActiveObject 
+CcThreadActivityTest >> testRestartUponNormalTermination [
+	activeObject := CcThread 
 		do: [counter := counter + 1] 
 		ensure: [activityTerminatedSemaphore signal].
 	activeObject priority: Processor userSchedulingPriority.
@@ -133,8 +133,8 @@ ActiveObjectActivityTest >> testRestartUponNormalTermination [
 ]
 
 { #category : #testing }
-ActiveObjectActivityTest >> testRunUntilCompletness [
-	activeObject := ActiveObject 
+CcThreadActivityTest >> testRunUntilCompletness [
+	activeObject := CcThread 
 		repeat: [counter := counter + 1]
 		every: 10 milliSeconds
 		while: [ counter < 10 ]

@@ -1,7 +1,7 @@
 "
-An ActiveObject is an Object that drives a process to perform some action block. Note that an active object has a name that is attached to its process. So, it's easier to track on the process Browser.
+A CcThread is an Object that drives a low-level process to perform some action block. Note that an thread has a name that is attached to its process. So, it's easier to track on the process Browser.
 
-Examples are provided as class side methods of ActiveObjectExamples
+Examples are provided as class side methods of CcThreadExamples
  
 Instance Variables
 	process:		<Process>
@@ -13,20 +13,21 @@ Instance Variables
 
 "
 Class {
-	#name : #ActiveObject,
+	#name : #CcThread,
 	#superclass : #Object,
 	#instVars : [
 		'process',
 		'activityBlock',
 		'activityLock',
 		'priority',
-		'name'
+		'name',
+		'state'
 	],
 	#category : #'Concurrency-Kernel'
 }
 
 { #category : #private }
-ActiveObject class >> blockForRepeating: aBlockClosure every: aDuration [
+CcThread class >> blockForRepeating: aBlockClosure every: aDuration [
 	^ [ 
 	| delay |
 	delay := aDuration asDelay.
@@ -36,7 +37,7 @@ ActiveObject class >> blockForRepeating: aBlockClosure every: aDuration [
 ]
 
 { #category : #private }
-ActiveObject class >> blockForRepeating: stepBlock every: aDuration while: conditionBlock [
+CcThread class >> blockForRepeating: stepBlock every: aDuration while: conditionBlock [
 	^ [ 
 	| delay |
 	delay := aDuration asDelay.
@@ -47,19 +48,19 @@ ActiveObject class >> blockForRepeating: stepBlock every: aDuration while: condi
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: taskBlock [
+CcThread class >> do: taskBlock [
 	^self new
 		activityBlock: taskBlock;
 		yourself
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: taskBlock ensure: cleanupBlock [ 
+CcThread class >> do: taskBlock ensure: cleanupBlock [ 
 	^self do: [taskBlock ensure: cleanupBlock]
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: initBlock thenRepeat: loopBlock [
+CcThread class >> do: initBlock thenRepeat: loopBlock [
 	^self do: [
 		initBlock value.
 		loopBlock repeat
@@ -67,7 +68,7 @@ ActiveObject class >> do: initBlock thenRepeat: loopBlock [
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
+CcThread class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
 	^self 
 		do: [
 			initBlock value.
@@ -76,7 +77,7 @@ ActiveObject class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: initBlock thenRepeat: stepBlock every: aDuration [ 
+CcThread class >> do: initBlock thenRepeat: stepBlock every: aDuration [ 
 	^self do: [
 		initBlock value.
 		(self blockForRepeating: stepBlock every: aDuration) value
@@ -84,7 +85,7 @@ ActiveObject class >> do: initBlock thenRepeat: stepBlock every: aDuration [
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: cleanUpBlock [
+CcThread class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: cleanUpBlock [
 	^self 
 		do: [
 			initBlock value.
@@ -93,7 +94,7 @@ ActiveObject class >> do: initBlock thenRepeat: stepBlock every: aDuration ensur
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock [ 
+CcThread class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock [ 
 	^self 
 		do:[
 			initBlock value. 
@@ -102,7 +103,7 @@ ActiveObject class >> do: initBlock thenRepeat:  taskBlock every: aDuration whil
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
+CcThread class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
 	^self 
 		do:[
 			initBlock value. 
@@ -111,80 +112,80 @@ ActiveObject class >> do: initBlock thenRepeat:  taskBlock every: aDuration whil
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock [
+CcThread class >> repeat: taskBlock [
 	^self do: [ taskBlock repeat ]
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock  ensure: cleanupBlock [
+CcThread class >> repeat: taskBlock  ensure: cleanupBlock [
 	^self 
 		do: [ taskBlock repeat ]
 		ensure: cleanupBlock
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock every: aDuration [
+CcThread class >> repeat: taskBlock every: aDuration [
 	^ self do: (self blockForRepeating: taskBlock every: aDuration)
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock every: aDuration ensure: cleanupBlock [
+CcThread class >> repeat: taskBlock every: aDuration ensure: cleanupBlock [
 	^self 
 		do: (self blockForRepeating: taskBlock every: aDuration)
 		ensure: cleanupBlock
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock every: aDuration while: conditionBlock [
+CcThread class >> repeat: taskBlock every: aDuration while: conditionBlock [
 	^self do: (self blockForRepeating: taskBlock every: aDuration while: conditionBlock)
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
+CcThread class >> repeat: taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
 	^self 
 		do: (self blockForRepeating: taskBlock every: aDuration while: conditionBlock)
 		ensure: cleanupBlock
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock while: conditionBlock [
+CcThread class >> repeat: taskBlock while: conditionBlock [
 	^self do: [ conditionBlock whileTrue: taskBlock ]
 ]
 
 { #category : #'instance-creation' }
-ActiveObject class >> repeat: taskBlock while: conditionBlock  ensure: cleanupBlock [
+CcThread class >> repeat: taskBlock while: conditionBlock  ensure: cleanupBlock [
 	^self 
 		do: [ conditionBlock whileTrue: taskBlock ]
 		ensure: cleanupBlock
 ]
 
 { #category : #accessing }
-ActiveObject >> activityBlock [
+CcThread >> activityBlock [
 	^ activityBlock
 ]
 
 { #category : #accessing }
-ActiveObject >> activityBlock: aBlock [
+CcThread >> activityBlock: aBlock [
 	activityBlock := aBlock 
 ]
 
 { #category : #'initailize-release' }
-ActiveObject >> defaultName [
-	^'anActiveObject'
+CcThread >> defaultName [
+	^'aThread'
 ]
 
 { #category : #'initailize-release' }
-ActiveObject >> defaultPriority [
+CcThread >> defaultPriority [
 	^30
 ]
 
 { #category : #finalization }
-ActiveObject >> finalize [
+CcThread >> finalize [
 	self stop
 ]
 
 { #category : #'testing-private' }
-ActiveObject >> ifProcessAlive: blockForLiveProcess ifDead: blockForDeadProcess [
+CcThread >> ifProcessAlive: blockForLiveProcess ifDead: blockForDeadProcess [
 	"WARNING: Low-level use ifStarted:ifStoped: instead"
 	activityLock critical: [
 		process ifNil: [ ^blockForDeadProcess value ].
@@ -193,103 +194,112 @@ ActiveObject >> ifProcessAlive: blockForLiveProcess ifDead: blockForDeadProcess 
 ]
 
 { #category : #testing }
-ActiveObject >> ifStarted: aBlock [ 
+CcThread >> ifStarted: aBlock [ 
 	^self 
 		ifStarted: aBlock
 		ifStopped: self 
 ]
 
 { #category : #testing }
-ActiveObject >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
+CcThread >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	^self ifProcessAlive: blockForStarted ifDead: blockForStopped 
 ]
 
 { #category : #testing }
-ActiveObject >> ifStopped: aBlock [ 
+CcThread >> ifStopped: aBlock [ 
 	^self 
 		ifStarted:  self 
 		ifStopped: aBlock 
 ]
 
 { #category : #'initailize-release' }
-ActiveObject >> initialize [
+CcThread >> initialize [
 	super initialize.
 	activityLock := Mutex new.
 	self name: self defaultName.
-	self priority: self defaultPriority
+	self priority: self defaultPriority.
+	self state: CcStopped new.
 ]
 
 { #category : #testing }
-ActiveObject >> isStarted [
+CcThread >> isStarted [
 	^self 
 		ifStarted: [ true ] 
 		ifStopped: [false] 
 ]
 
 { #category : #testing }
-ActiveObject >> isStopped [
+CcThread >> isStopped [
 	^self 
 		ifStarted: [ false ] 
 		ifStopped: [true] 
 ]
 
 { #category : #accessing }
-ActiveObject >> name [
+CcThread >> name [
 	^ name
 ]
 
 { #category : #accessing }
-ActiveObject >> name: aString [
+CcThread >> name: aString [
 	name := aString.
 	self ifStopped: [^self].
 	process name: self name
 ]
 
+{ #category : #acting }
+CcThread >> newProcess [
+	^self activityBlock newProcess
+]
+
 { #category : #accessing }
-ActiveObject >> priority [
+CcThread >> priority [
 	^ priority
 ]
 
 { #category : #accessing }
-ActiveObject >> priority: newPriority [
+CcThread >> priority: newPriority [
 	priority := newPriority.
 	self ifStopped: [^self].
 	process priority: self priority
 ]
 
 { #category : #accessing }
-ActiveObject >> process [
+CcThread >> process [
 	^process
 ]
 
+{ #category : #accessing }
+CcThread >> process: aProcess [
+	process := aProcess
+]
+
 { #category : #finalization }
-ActiveObject >> registerForFinalization [
+CcThread >> registerForFinalization [
 	self finalizationRegistry add: self
 ]
 
 { #category : #acting }
-ActiveObject >> runTillDone [
+CcThread >> runTillDone [
 	[self start] fork
 ]
 
 { #category : #acting }
-ActiveObject >> start [
-	"The process (i.e. the activityBlock) MUST NOT have any reference to the active object (self) to enable finalization"
-	"This is because processes are never GCed unless they are terminated.
-	And we want force stopping the active object i.e. terminate the process once the active object reference is forgotten"
-	self ifStopped: [ 
-		process := self activityBlock newProcess.
-		process priority: self priority.
-		process name: self name.
-		self registerForFinalization.
-		process resume
-	]
+CcThread >> start [
+	self state start
+]
+
+{ #category : #accessing }
+CcThread >> state [
+	^ state
+]
+
+{ #category : #accessing }
+CcThread >> state: anObject [
+	state := anObject
 ]
 
 { #category : #acting }
-ActiveObject >> stop [
-	self ifStarted: [
-		process terminate.
-	]
-	
+CcThread >> stop [
+	self state stop
 ]

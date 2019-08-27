@@ -1,12 +1,12 @@
 Class {
-	#name : #ActiveObjectNameAndPriorityTest,
-	#superclass : #ActiveObjectTest,
+	#name : #CcThreadNameAndPriorityTest,
+	#superclass : #CcThreadTest,
 	#category : #'Concurrency-Test'
 }
 
 { #category : #testing }
-ActiveObjectNameAndPriorityTest >> testNameChangeWhileStarted [
-	activeObject := ActiveObject do: [ [ 50 milliSeconds wait] repeat ].
+CcThreadNameAndPriorityTest >> testNameChangeWhileStarted [
+	activeObject := CcThread do: [ [ 50 milliSeconds wait] repeat ].
 	activeObject start.
 	activeObject name: 'active object for test only'.
 	self assert: self activeObjProcess name equals: activeObject name.
@@ -14,8 +14,8 @@ ActiveObjectNameAndPriorityTest >> testNameChangeWhileStarted [
 ]
 
 { #category : #testing }
-ActiveObjectNameAndPriorityTest >> testNameChangeWhileStopped [
-	activeObject := ActiveObject do: [ [ 50 milliSeconds wait] repeat ].
+CcThreadNameAndPriorityTest >> testNameChangeWhileStopped [
+	activeObject := CcThread do: [ [ 50 milliSeconds wait] repeat ].
 	activeObject name: 'active object for test only'.
 	activeObject start.
 	self assert: self activeObjProcess name equals: activeObject name.
@@ -23,10 +23,10 @@ ActiveObjectNameAndPriorityTest >> testNameChangeWhileStopped [
 ]
 
 { #category : #testing }
-ActiveObjectNameAndPriorityTest >> testPriorityChangeWhileStarted [
+CcThreadNameAndPriorityTest >> testPriorityChangeWhileStarted [
 	| initialPriority newPriority |
 	initialPriority := Processor highestPriority.
-	activeObject := ActiveObject do: [
+	activeObject := CcThread do: [
 			[(Delay forMilliseconds: 100) wait] repeat
 	].
 	activeObject 
@@ -41,10 +41,10 @@ ActiveObjectNameAndPriorityTest >> testPriorityChangeWhileStarted [
 ]
 
 { #category : #testing }
-ActiveObjectNameAndPriorityTest >> testPriorityChangeWhileStopped [
+CcThreadNameAndPriorityTest >> testPriorityChangeWhileStopped [
 	| initialPriority |
 	initialPriority := Processor highestPriority.
-	activeObject := ActiveObject do: [
+	activeObject := CcThread do: [
 			[(Delay forMilliseconds: 100) wait]repeat
 			].
 	self assert: activeObject isStopped.

@@ -1,8 +1,8 @@
 Class {
 	#name : #NeTcpServerTest,
 	#superclass : #NeTcpSocketTest,
-	#traits : 'TWaitPolling',
-	#classTraits : 'TWaitPolling classTrait',
+	#traits : 'CcTWaitPolling',
+	#classTraits : 'CcTWaitPolling classTrait',
 	#instVars : [
 		'server',
 		'allServers'
@@ -37,7 +37,7 @@ NeTcpServerTest >> setUp [
 
 { #category : #testing }
 NeTcpServerTest >> startServer [
-	[server start] fork.
+	server start.
 	self waitUntil: [ server isStarted ]
 ]
 
@@ -59,6 +59,15 @@ NeTcpServerTest >> test1ClientConnection [
 	| clientStream |
 	clientStream := self newClientStream.
 	self assert: clientStream isConnected
+]
+
+{ #category : #testing }
+NeTcpServerTest >> testFastStartStop [
+	self 
+		shouldnt: [
+			5 timesRepeat: [server stop; start]]
+		raise: NeAlreadyUsedSocketPort
+
 ]
 
 { #category : #testing }

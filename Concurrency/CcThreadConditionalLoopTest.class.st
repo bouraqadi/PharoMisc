@@ -1,6 +1,6 @@
 Class {
-	#name : #ActiveObjectConditionalLoopTest,
-	#superclass : #ActiveObjectTest,
+	#name : #CcThreadConditionalLoopTest,
+	#superclass : #CcThreadTest,
 	#instVars : [
 		'count',
 		'actionFinishedSemaphore'
@@ -9,11 +9,11 @@ Class {
 }
 
 { #category : #testing }
-ActiveObjectConditionalLoopTest >> setUp [
+CcThreadConditionalLoopTest >> setUp [
 	super setUp.
 	count := 0.
 	actionFinishedSemaphore := Semaphore new.
-	activeObject  := ActiveObject 
+	activeObject  := CcThread 
 						repeat: [ count := count + 1]
 						every: 10 milliSeconds 
 						while: [ count < 10 ]
@@ -22,7 +22,7 @@ ActiveObjectConditionalLoopTest >> setUp [
 ]
 
 { #category : #testing }
-ActiveObjectConditionalLoopTest >> testPerformsOnlyIfWhileConditionIsTrueOnStart [
+CcThreadConditionalLoopTest >> testPerformsOnlyIfWhileConditionIsTrueOnStart [
 	count := 20.
 	activeObject start.
 	self assertSemaphore: actionFinishedSemaphore signaledWithinSeconds: 1.
@@ -31,7 +31,7 @@ ActiveObjectConditionalLoopTest >> testPerformsOnlyIfWhileConditionIsTrueOnStart
 ]
 
 { #category : #testing }
-ActiveObjectConditionalLoopTest >> testStopWhenWhileConditionIsFalse [
+CcThreadConditionalLoopTest >> testStopWhenWhileConditionIsFalse [
 	activeObject start.
 	self assertSemaphore: actionFinishedSemaphore signaledWithinSeconds: 1.
 	self assert: count = 10.

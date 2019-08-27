@@ -22,7 +22,7 @@ NeServer >> destroySocket [
 { #category : #'initialize-release' }
 NeServer >> initialize [
 	super initialize.
-	thread := ActiveObject repeat: [ self servingStep ] ensure: [self destroySocket].
+	thread := CcThread repeat: [ self servingStep ] ensure: [self destroySocket].
 	self serverName: self defaultServerName.
 ]
 
@@ -51,7 +51,9 @@ NeServer >> printThreadNameOn: stream [
 	stream
 		nextPutAll: self serverName;
 		nextPut: $(.
-	self socket printSocketInfoOn: stream.
+	self socket 
+		ifNil: [ stream nextPutAll: 'No Socket' ]
+		ifNotNil: [self socket printSocketInfoOn: stream].
 	stream nextPut: $)
 ]
 

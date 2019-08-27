@@ -1,8 +1,8 @@
 Class {
 	#name : #CcPromiseTest,
 	#superclass : #TestCase,
-	#traits : 'TConcurrencyTest',
-	#classTraits : 'TConcurrencyTest classTrait',
+	#traits : 'CcTConcurrencyTest',
+	#classTraits : 'CcTConcurrencyTest classTrait',
 	#instVars : [
 		'promise'
 	],

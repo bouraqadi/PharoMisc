@@ -1,8 +1,8 @@
 Class {
-	#name : #ActiveObjectTest,
+	#name : #CcThreadTest,
 	#superclass : #TestCase,
-	#traits : 'TConcurrencyTest',
-	#classTraits : 'TConcurrencyTest classTrait',
+	#traits : 'CcTConcurrencyTest',
+	#classTraits : 'CcTConcurrencyTest classTrait',
 	#instVars : [
 		'activeObject'
 	],
@@ -10,18 +10,18 @@ Class {
 }
 
 { #category : #testing }
-ActiveObjectTest >> activeObjProcess [
+CcThreadTest >> activeObjProcess [
 	activeObject ifNil: [ ^nil ].
 	^activeObject process
 ]
 
 { #category : #testing }
-ActiveObjectTest >> runCaseManaged [
+CcThreadTest >> runCaseManaged [
 	self runCase
 ]
 
 { #category : #testing }
-ActiveObjectTest >> tearDown [
+CcThreadTest >> tearDown [
 	super tearDown.
 	self activeObjProcess ifNotNil: [ :process | process terminate ]
 ]
