@@ -17,14 +17,19 @@ CcThreadState >> doExitAction [
 	^self
 ]
 
-{ #category : #activity }
-CcThreadState >> isStarted [
-	self subclassResponsibility 
+{ #category : #testing }
+CcThreadState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
+	self subclassResponsibility
 ]
 
-{ #category : #activity }
+{ #category : #testing }
+CcThreadState >> isStarted [
+	self subclassResponsibility
+]
+
+{ #category : #testing }
 CcThreadState >> isStopped [
-	self subclassResponsibility 
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -52,6 +57,11 @@ CcThreadState >> process: aProcess [
 	self thread process: aProcess
 ]
 
+{ #category : #accessing }
+CcThreadState >> processName: aString [
+	self subclassResponsibility
+]
+
 { #category : #activity }
 CcThreadState >> registerForFinalization [
 	self thread registerForFinalization
@@ -63,9 +73,14 @@ CcThreadState >> start [
 ]
 
 { #category : #accessing }
+CcThreadState >> state [
+	^self thread state
+]
+
+{ #category : #accessing }
 CcThreadState >> state: aState [
 	self doExitAction.
-	aState thread: self thread.
+	self thread state: aState.
 ]
 
 { #category : #activity }

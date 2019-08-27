@@ -11,18 +11,9 @@ CcStopping >> doEnterAction [
 ]
 
 { #category : #activity }
-CcStopping >> isStarted [
-	^false
-]
-
-{ #category : #activity }
-CcStopping >> isStopped [
-	^false
-]
-
-{ #category : #activity }
 CcStopping >> start [
-	lock wait
+	self wait.
+	self state start
 ]
 
 { #category : #activity }

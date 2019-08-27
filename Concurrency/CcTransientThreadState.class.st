@@ -9,14 +9,14 @@ Class {
 
 { #category : #activity }
 CcTransientThreadState >> doExitAction [
-	lock signalAll
+	self signalAll
 
 ]
 
 { #category : #activity }
 CcTransientThreadState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
-	lock wait.
-	self currentState ifStarted: blockForStarted ifStopped: blockForStopped 
+	self wait.
+	self state ifStarted: blockForStarted ifStopped: blockForStopped 
 	
 ]
 
@@ -28,10 +28,28 @@ CcTransientThreadState >> initialize [
 
 { #category : #activity }
 CcTransientThreadState >> isStarted [
-	^false
+	self wait.
+	^self state isStopped
 ]
 
 { #category : #activity }
 CcTransientThreadState >> isStopped [
-	^false
+	self wait.
+	^self state isStopped
+]
+
+{ #category : #accessing }
+CcTransientThreadState >> processName: aString [
+	self wait.
+	self state processName: aString
+]
+
+{ #category : #initialization }
+CcTransientThreadState >> signalAll [
+	lock critical: [ lock signalAll ]
+]
+
+{ #category : #initialization }
+CcTransientThreadState >> wait [
+	lock critical: [ lock wait ]
 ]

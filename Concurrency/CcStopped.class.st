@@ -19,6 +19,11 @@ CcStopped >> isStopped [
 	^true
 ]
 
+{ #category : #accessing }
+CcStopped >> processName: aString [
+	^self
+]
+
 { #category : #activity }
 CcStopped >> start [
 	self transitionTo: CcStarting

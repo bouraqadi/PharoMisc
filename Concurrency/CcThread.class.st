@@ -18,7 +18,6 @@ Class {
 	#instVars : [
 		'process',
 		'activityBlock',
-		'activityLock',
 		'priority',
 		'name',
 		'state'
@@ -184,15 +183,6 @@ CcThread >> finalize [
 	self stop
 ]
 
-{ #category : #'testing-private' }
-CcThread >> ifProcessAlive: blockForLiveProcess ifDead: blockForDeadProcess [
-	"WARNING: Low-level use ifStarted:ifStoped: instead"
-	activityLock critical: [
-		process ifNil: [ ^blockForDeadProcess value ].
-		process isTerminated ifTrue:  [ ^blockForDeadProcess value ].
-		^blockForLiveProcess value]
-]
-
 { #category : #testing }
 CcThread >> ifStarted: aBlock [ 
 	^self 
@@ -202,7 +192,7 @@ CcThread >> ifStarted: aBlock [
 
 { #category : #testing }
 CcThread >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
-	^self ifProcessAlive: blockForStarted ifDead: blockForStopped 
+	^self state ifStarted: blockForStarted ifStopped: blockForStopped 
 ]
 
 { #category : #testing }
@@ -215,24 +205,21 @@ CcThread >> ifStopped: aBlock [
 { #category : #'initailize-release' }
 CcThread >> initialize [
 	super initialize.
-	activityLock := Mutex new.
+	self state: CcStopped new.
 	self name: self defaultName.
 	self priority: self defaultPriority.
-	self state: CcStopped new.
+
 ]
 
 { #category : #testing }
 CcThread >> isStarted [
-	^self 
-		ifStarted: [ true ] 
-		ifStopped: [false] 
+	^self state isStarted
 ]
 
 { #category : #testing }
 CcThread >> isStopped [
-	^self 
-		ifStarted: [ false ] 
-		ifStopped: [true] 
+	^self state isStopped
+
 ]
 
 { #category : #accessing }
@@ -243,8 +230,7 @@ CcThread >> name [
 { #category : #accessing }
 CcThread >> name: aString [
 	name := aString.
-	self ifStopped: [^self].
-	process name: self name
+	self processName: name
 ]
 
 { #category : #acting }
@@ -274,6 +260,11 @@ CcThread >> process: aProcess [
 	process := aProcess
 ]
 
+{ #category : #accessing }
+CcThread >> processName: aString [
+	self state processName: aString
+]
+
 { #category : #finalization }
 CcThread >> registerForFinalization [
 	self finalizationRegistry add: self
@@ -295,8 +286,10 @@ CcThread >> state [
 ]
 
 { #category : #accessing }
-CcThread >> state: anObject [
-	state := anObject
+CcThread >> state: aState [
+	state := aState.
+	state thread: self.
+
 ]
 
 { #category : #acting }

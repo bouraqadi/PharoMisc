@@ -4,7 +4,7 @@ Class {
 	#category : #'Concurrency-Kernel'
 }
 
-{ #category : #activity }
+{ #category : #testing }
 CcStarted >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	^blockForStarted value
 ]
@@ -17,6 +17,11 @@ CcStarted >> isStarted [
 { #category : #activity }
 CcStarted >> isStopped [
 	^false
+]
+
+{ #category : #accessing }
+CcStarted >> processName: aString [
+	self process name: aString
 ]
 
 { #category : #activity }

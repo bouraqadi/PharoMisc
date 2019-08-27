@@ -22,6 +22,6 @@ CcStarting >> start [
 
 { #category : #activity }
 CcStarting >> stop [
-	lock wait.
-	self currentState stop
+	self wait.
+	self state stop
 ]
