@@ -22,7 +22,7 @@ NeServer >> destroySocket [
 { #category : #'initialize-release' }
 NeServer >> initialize [
 	super initialize.
-	thread := CcThread repeat: [ self servingStep ] ensure: [self destroySocket].
+	thread := CcService repeat: [ self servingStep ] ensure: [self destroySocket].
 	self serverName: self defaultServerName.
 ]
 

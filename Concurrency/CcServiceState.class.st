@@ -1,5 +1,5 @@
 Class {
-	#name : #CcThreadState,
+	#name : #CcServiceState,
 	#superclass : #Object,
 	#instVars : [
 		'thread'
@@ -8,98 +8,98 @@ Class {
 }
 
 { #category : #state }
-CcThreadState >> doEnterAction [
+CcServiceState >> doEnterAction [
 	^self
 ]
 
 { #category : #state }
-CcThreadState >> doExitAction [
+CcServiceState >> doExitAction [
 	^self
 ]
 
 { #category : #testing }
-CcThreadState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
+CcServiceState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	self subclassResponsibility
 ]
 
 { #category : #testing }
-CcThreadState >> isStarted [
+CcServiceState >> isCurrentState [
+	^self state == self
+]
+
+{ #category : #testing }
+CcServiceState >> isStarted [
 	self subclassResponsibility
 ]
 
 { #category : #testing }
-CcThreadState >> isStopped [
+CcServiceState >> isStopped [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-CcThreadState >> name [
+CcServiceState >> name [
 	^self thread name
 ]
 
 { #category : #activity }
-CcThreadState >> newProcess [
+CcServiceState >> newProcess [
 	^self thread newProcess
 ]
 
 { #category : #accessing }
-CcThreadState >> priority [
+CcServiceState >> priority [
 	^self thread priority
 ]
 
 { #category : #accessing }
-CcThreadState >> process [
+CcServiceState >> process [
 	^self thread process
 ]
 
 { #category : #accessing }
-CcThreadState >> process: aProcess [
+CcServiceState >> process: aProcess [
 	self thread process: aProcess
 ]
 
 { #category : #accessing }
-CcThreadState >> processName: aString [
+CcServiceState >> processName: aString [
 	self subclassResponsibility
 ]
 
 { #category : #activity }
-CcThreadState >> registerForFinalization [
-	self thread registerForFinalization
-]
-
-{ #category : #activity }
-CcThreadState >> start [
+CcServiceState >> start [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-CcThreadState >> state [
+CcServiceState >> state [
 	^self thread state
 ]
 
 { #category : #accessing }
-CcThreadState >> state: aState [
+CcServiceState >> state: aState [
 	self doExitAction.
 	self thread state: aState.
 ]
 
 { #category : #activity }
-CcThreadState >> stop [
+CcServiceState >> stop [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-CcThreadState >> thread [
+CcServiceState >> thread [
 	^ thread
 ]
 
 { #category : #accessing }
-CcThreadState >> thread: aThread [
+CcServiceState >> thread: aThread [
 	thread := aThread.
 	self doEnterAction
 ]
 
 { #category : #state }
-CcThreadState >> transitionTo: aStateClass [
+CcServiceState >> transitionTo: aStateClass [
 	self state: aStateClass new
 ]

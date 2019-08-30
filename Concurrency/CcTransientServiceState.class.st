@@ -1,6 +1,6 @@
 Class {
-	#name : #CcTransientThreadState,
-	#superclass : #CcThreadState,
+	#name : #CcTransientServiceState,
+	#superclass : #CcServiceState,
 	#instVars : [
 		'lock'
 	],
@@ -8,48 +8,50 @@ Class {
 }
 
 { #category : #activity }
-CcTransientThreadState >> doExitAction [
+CcTransientServiceState >> doExitAction [
 	self signalAll
 
 ]
 
 { #category : #activity }
-CcTransientThreadState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
+CcTransientServiceState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	self wait.
 	self state ifStarted: blockForStarted ifStopped: blockForStopped 
 	
 ]
 
 { #category : #initialization }
-CcTransientThreadState >> initialize [
+CcTransientServiceState >> initialize [
 	super initialize.
 	lock := Monitor new
 ]
 
 { #category : #activity }
-CcTransientThreadState >> isStarted [
+CcTransientServiceState >> isStarted [
 	self wait.
 	^self state isStopped
 ]
 
 { #category : #activity }
-CcTransientThreadState >> isStopped [
+CcTransientServiceState >> isStopped [
 	self wait.
 	^self state isStopped
 ]
 
 { #category : #accessing }
-CcTransientThreadState >> processName: aString [
+CcTransientServiceState >> processName: aString [
 	self wait.
 	self state processName: aString
 ]
 
 { #category : #initialization }
-CcTransientThreadState >> signalAll [
+CcTransientServiceState >> signalAll [
 	lock critical: [ lock signalAll ]
 ]
 
 { #category : #initialization }
-CcTransientThreadState >> wait [
-	lock critical: [ lock wait ]
+CcTransientServiceState >> wait [
+	lock critical: [
+		self isCurrentState ifFalse: [ ^self ].
+		lock wait]
 ]

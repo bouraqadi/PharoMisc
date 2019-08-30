@@ -1,7 +1,7 @@
 "
-A CcThread is an Object that drives a low-level process to perform some action block. Note that an thread has a name that is attached to its process. So, it's easier to track on the process Browser.
+A service drives a low-level process to perform some action block. Note that a some has a name that is attached to its process. So, it's easier to track on the Process Browser.
 
-Examples are provided as class side methods of CcThreadExamples
+Examples are provided as class side methods of CcServiceExamples
  
 Instance Variables
 	process:		<Process>
@@ -13,7 +13,7 @@ Instance Variables
 
 "
 Class {
-	#name : #CcThread,
+	#name : #CcService,
 	#superclass : #Object,
 	#instVars : [
 		'process',
@@ -26,7 +26,7 @@ Class {
 }
 
 { #category : #private }
-CcThread class >> blockForRepeating: aBlockClosure every: aDuration [
+CcService class >> blockForRepeating: aBlockClosure every: aDuration [
 	^ [ 
 	| delay |
 	delay := aDuration asDelay.
@@ -36,7 +36,7 @@ CcThread class >> blockForRepeating: aBlockClosure every: aDuration [
 ]
 
 { #category : #private }
-CcThread class >> blockForRepeating: stepBlock every: aDuration while: conditionBlock [
+CcService class >> blockForRepeating: stepBlock every: aDuration while: conditionBlock [
 	^ [ 
 	| delay |
 	delay := aDuration asDelay.
@@ -47,19 +47,19 @@ CcThread class >> blockForRepeating: stepBlock every: aDuration while: condition
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: taskBlock [
+CcService class >> do: taskBlock [
 	^self new
 		activityBlock: taskBlock;
 		yourself
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: taskBlock ensure: cleanupBlock [ 
+CcService class >> do: taskBlock ensure: cleanupBlock [ 
 	^self do: [taskBlock ensure: cleanupBlock]
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: initBlock thenRepeat: loopBlock [
+CcService class >> do: initBlock thenRepeat: loopBlock [
 	^self do: [
 		initBlock value.
 		loopBlock repeat
@@ -67,7 +67,7 @@ CcThread class >> do: initBlock thenRepeat: loopBlock [
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
+CcService class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
 	^self 
 		do: [
 			initBlock value.
@@ -76,7 +76,7 @@ CcThread class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: initBlock thenRepeat: stepBlock every: aDuration [ 
+CcService class >> do: initBlock thenRepeat: stepBlock every: aDuration [ 
 	^self do: [
 		initBlock value.
 		(self blockForRepeating: stepBlock every: aDuration) value
@@ -84,7 +84,7 @@ CcThread class >> do: initBlock thenRepeat: stepBlock every: aDuration [
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: cleanUpBlock [
+CcService class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: cleanUpBlock [
 	^self 
 		do: [
 			initBlock value.
@@ -93,7 +93,7 @@ CcThread class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: c
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock [ 
+CcService class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock [ 
 	^self 
 		do:[
 			initBlock value. 
@@ -102,7 +102,7 @@ CcThread class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: c
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
+CcService class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
 	^self 
 		do:[
 			initBlock value. 
@@ -111,99 +111,99 @@ CcThread class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: c
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock [
+CcService class >> repeat: taskBlock [
 	^self do: [ taskBlock repeat ]
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock  ensure: cleanupBlock [
+CcService class >> repeat: taskBlock  ensure: cleanupBlock [
 	^self 
 		do: [ taskBlock repeat ]
 		ensure: cleanupBlock
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock every: aDuration [
+CcService class >> repeat: taskBlock every: aDuration [
 	^ self do: (self blockForRepeating: taskBlock every: aDuration)
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock every: aDuration ensure: cleanupBlock [
+CcService class >> repeat: taskBlock every: aDuration ensure: cleanupBlock [
 	^self 
 		do: (self blockForRepeating: taskBlock every: aDuration)
 		ensure: cleanupBlock
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock every: aDuration while: conditionBlock [
+CcService class >> repeat: taskBlock every: aDuration while: conditionBlock [
 	^self do: (self blockForRepeating: taskBlock every: aDuration while: conditionBlock)
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
+CcService class >> repeat: taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
 	^self 
 		do: (self blockForRepeating: taskBlock every: aDuration while: conditionBlock)
 		ensure: cleanupBlock
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock while: conditionBlock [
+CcService class >> repeat: taskBlock while: conditionBlock [
 	^self do: [ conditionBlock whileTrue: taskBlock ]
 ]
 
 { #category : #'instance-creation' }
-CcThread class >> repeat: taskBlock while: conditionBlock  ensure: cleanupBlock [
+CcService class >> repeat: taskBlock while: conditionBlock  ensure: cleanupBlock [
 	^self 
 		do: [ conditionBlock whileTrue: taskBlock ]
 		ensure: cleanupBlock
 ]
 
 { #category : #accessing }
-CcThread >> activityBlock [
+CcService >> activityBlock [
 	^ activityBlock
 ]
 
 { #category : #accessing }
-CcThread >> activityBlock: aBlock [
-	activityBlock := aBlock 
+CcService >> activityBlock: aBlock [
+	activityBlock := aBlock
 ]
 
 { #category : #'initailize-release' }
-CcThread >> defaultName [
-	^'aThread'
+CcService >> defaultName [
+	^self printString
 ]
 
 { #category : #'initailize-release' }
-CcThread >> defaultPriority [
+CcService >> defaultPriority [
 	^30
 ]
 
 { #category : #finalization }
-CcThread >> finalize [
+CcService >> finalize [
 	self stop
 ]
 
 { #category : #testing }
-CcThread >> ifStarted: aBlock [ 
+CcService >> ifStarted: aBlock [ 
 	^self 
 		ifStarted: aBlock
 		ifStopped: self 
 ]
 
 { #category : #testing }
-CcThread >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
+CcService >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	^self state ifStarted: blockForStarted ifStopped: blockForStopped 
 ]
 
 { #category : #testing }
-CcThread >> ifStopped: aBlock [ 
+CcService >> ifStopped: aBlock [ 
 	^self 
 		ifStarted:  self 
 		ifStopped: aBlock 
 ]
 
 { #category : #'initailize-release' }
-CcThread >> initialize [
+CcService >> initialize [
 	super initialize.
 	self state: CcStopped new.
 	self name: self defaultName.
@@ -212,87 +212,95 @@ CcThread >> initialize [
 ]
 
 { #category : #testing }
-CcThread >> isStarted [
+CcService >> isStarted [
 	^self state isStarted
 ]
 
 { #category : #testing }
-CcThread >> isStopped [
+CcService >> isStopped [
 	^self state isStopped
 
 ]
 
 { #category : #accessing }
-CcThread >> name [
+CcService >> name [
 	^ name
 ]
 
 { #category : #accessing }
-CcThread >> name: aString [
+CcService >> name: aString [
 	name := aString.
 	self processName: name
 ]
 
 { #category : #acting }
-CcThread >> newProcess [
-	^self activityBlock newProcess
+CcService >> newProcess [
+	^ [ self performAction ] newProcess
+]
+
+{ #category : #acting }
+CcService >> performAction [
+	^ self activityBlock
+		ensure: [ self stop ]
 ]
 
 { #category : #accessing }
-CcThread >> priority [
+CcService >> priority [
 	^ priority
 ]
 
 { #category : #accessing }
-CcThread >> priority: newPriority [
+CcService >> priority: newPriority [
 	priority := newPriority.
 	self ifStopped: [^self].
 	process priority: self priority
 ]
 
 { #category : #accessing }
-CcThread >> process [
+CcService >> process [
 	^process
 ]
 
 { #category : #accessing }
-CcThread >> process: aProcess [
-	process := aProcess
+CcService >> process: aProcess [
+	process := aProcess.
+	self registerForFinalization.
+
 ]
 
 { #category : #accessing }
-CcThread >> processName: aString [
+CcService >> processName: aString [
 	self state processName: aString
 ]
 
 { #category : #finalization }
-CcThread >> registerForFinalization [
+CcService >> registerForFinalization [
 	self finalizationRegistry add: self
 ]
 
 { #category : #acting }
-CcThread >> runTillDone [
+CcService >> runTillDone [
 	[self start] fork
 ]
 
 { #category : #acting }
-CcThread >> start [
+CcService >> start [
 	self state start
 ]
 
 { #category : #accessing }
-CcThread >> state [
+CcService >> state [
 	^ state
 ]
 
 { #category : #accessing }
-CcThread >> state: aState [
+CcService >> state: aState [
 	state := aState.
 	state thread: self.
 
 ]
 
 { #category : #acting }
-CcThread >> stop [
+CcService >> stop [
 	self state stop
 ]

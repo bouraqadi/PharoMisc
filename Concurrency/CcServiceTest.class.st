@@ -1,27 +1,27 @@
 Class {
-	#name : #CcThreadTest,
+	#name : #CcServiceTest,
 	#superclass : #TestCase,
 	#traits : 'CcTConcurrencyTest',
 	#classTraits : 'CcTConcurrencyTest classTrait',
 	#instVars : [
-		'activeObject'
+		'service'
 	],
 	#category : #'Concurrency-Test'
 }
 
 { #category : #testing }
-CcThreadTest >> activeObjProcess [
-	activeObject ifNil: [ ^nil ].
-	^activeObject process
+CcServiceTest >> activeObjProcess [
+	service ifNil: [ ^nil ].
+	^service process
 ]
 
 { #category : #testing }
-CcThreadTest >> runCaseManaged [
+CcServiceTest >> runCaseManaged [
 	self runCase
 ]
 
 { #category : #testing }
-CcThreadTest >> tearDown [
+CcServiceTest >> tearDown [
 	super tearDown.
 	self activeObjProcess ifNotNil: [ :process | process terminate ]
 ]

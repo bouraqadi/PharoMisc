@@ -1,6 +1,6 @@
 Class {
-	#name : #CcThreadStateTest,
-	#superclass : #CcThreadTest,
+	#name : #CcServiceStateTest,
+	#superclass : #CcServiceTest,
 	#instVars : [
 		'startSemaphore',
 		'stopSemaphore'
@@ -9,11 +9,11 @@ Class {
 }
 
 { #category : #'test state requests' }
-CcThreadStateTest >> setUp [
+CcServiceStateTest >> setUp [
 	super setUp.
 	startSemaphore := Semaphore new.
 	stopSemaphore := Semaphore new.
-	activeObject := CcThread
+	service := CcService
 		do: [startSemaphore signal]
 		thenRepeat: [ ]
 		every: 50 milliSeconds
@@ -21,40 +21,40 @@ CcThreadStateTest >> setUp [
 ]
 
 { #category : #'test state requests' }
-CcThreadStateTest >> testNewActiveObjectShouldBeStopped [
-	self deny: activeObject isStarted.
-	self assert: activeObject isStopped.
+CcServiceStateTest >> testNewActiveObjectShouldBeStopped [
+	self deny: service isStarted.
+	self assert: service isStopped.
 
 ]
 
 { #category : #'test state requests' }
-CcThreadStateTest >> testStartedObjectShouldBeStarted [
-	activeObject start.
+CcServiceStateTest >> testStartedObjectShouldBeStarted [
+	service start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
-	self assert: activeObject isStarted.
-	self deny: activeObject isStopped.
+	self assert: service isStarted.
+	self deny: service isStopped.
 
 ]
 
 { #category : #'test state requests' }
-CcThreadStateTest >> testStartedThenStoppedObjectShouldBeStopped [
-	activeObject start.
+CcServiceStateTest >> testStartedThenStoppedObjectShouldBeStopped [
+	service start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
-	activeObject stop.
+	service stop.
 	self assertSemaphore: stopSemaphore signaledWithinMilliseconds: 100.
-	self deny: activeObject isStarted.
-	self assert: activeObject isStopped
+	self deny: service isStarted.
+	self assert: service isStopped
 ]
 
 { #category : #'test state requests' }
-CcThreadStateTest >> testStartedThenStoppedThenStartedObjectShouldBeStarted [
-	activeObject start.
+CcServiceStateTest >> testStartedThenStoppedThenStartedObjectShouldBeStarted [
+	service start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
-	activeObject stop.
+	service stop.
 	self assertSemaphore: stopSemaphore signaledWithinMilliseconds: 100.
-	activeObject start.
+	service start.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
-	self assert: activeObject isStarted.
-	self deny: activeObject isStopped.
+	self assert: service isStarted.
+	self deny: service isStopped.
 	
 ]

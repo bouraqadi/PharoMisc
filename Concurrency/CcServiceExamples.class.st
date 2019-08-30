@@ -2,17 +2,17 @@
 See class side for examples of CcThread
 "
 Class {
-	#name : #CcThreadExamples,
+	#name : #CcServiceExamples,
 	#superclass : #Object,
 	#category : #'Concurrency-Kernel'
 }
 
 { #category : #examples }
-CcThreadExamples class >> autoStopOnGarbageCollect [
+CcServiceExamples class >> autoStopOnGarbageCollect [
 	<example>
 	|counter runner |
 	counter := 0.
-	runner := CcThread 
+	runner := CcService 
 		repeat: [
 			counter := counter + 1.
 			self inform: counter printString]
@@ -22,11 +22,11 @@ CcThreadExamples class >> autoStopOnGarbageCollect [
 ]
 
 { #category : #examples }
-CcThreadExamples class >> countUpTo10 [
+CcServiceExamples class >> countUpTo10 [
 	<example>
 	|counter runner |
 	counter := 0.
-	runner := CcThread 
+	runner := CcService 
 		repeat: [
 			counter := counter + 1.
 			self inform: counter printString]
@@ -37,14 +37,14 @@ CcThreadExamples class >> countUpTo10 [
 ]
 
 { #category : #examples }
-CcThreadExamples class >> pingPong [
+CcServiceExamples class >> pingPong [
 	<example>
 	|ping pong |
 	Transcript open.
-	ping := CcThread 
+	ping := CcService 
 		repeat: [Transcript cr; show: '--------ping']
 		every: 400 milliSeconds.
-	pong := CcThread 
+	pong := CcService 
 		repeat: [Transcript cr; show: 'PONG']
 		every: 200 milliSeconds.
 	ping start.

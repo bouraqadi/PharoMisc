@@ -1,6 +1,6 @@
 Class {
 	#name : #CcStopping,
-	#superclass : #CcTransientThreadState,
+	#superclass : #CcTransientServiceState,
 	#category : #'Concurrency-Kernel'
 }
 

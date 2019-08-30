@@ -1,6 +1,6 @@
 Class {
 	#name : #CcStarted,
-	#superclass : #CcThreadState,
+	#superclass : #CcServiceState,
 	#category : #'Concurrency-Kernel'
 }
 
