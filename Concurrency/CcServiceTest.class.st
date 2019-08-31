@@ -4,16 +4,11 @@ Class {
 	#traits : 'CcTConcurrencyTest',
 	#classTraits : 'CcTConcurrencyTest classTrait',
 	#instVars : [
-		'service'
+		'service',
+		'runner'
 	],
 	#category : #'Concurrency-Test'
 }
-
-{ #category : #testing }
-CcServiceTest >> activeObjProcess [
-	service ifNil: [ ^nil ].
-	^service process
-]
 
 { #category : #testing }
 CcServiceTest >> runCaseManaged [
@@ -21,7 +16,19 @@ CcServiceTest >> runCaseManaged [
 ]
 
 { #category : #testing }
+CcServiceTest >> serviceProcess [
+	runner ifNil: [ ^nil ].
+	^runner process
+]
+
+{ #category : #testing }
+CcServiceTest >> startService [
+	runner := service runner.
+	service start
+]
+
+{ #category : #testing }
 CcServiceTest >> tearDown [
 	super tearDown.
-	self activeObjProcess ifNotNil: [ :process | process terminate ]
+	self serviceProcess ifNotNil: [ :process | process terminate ]
 ]

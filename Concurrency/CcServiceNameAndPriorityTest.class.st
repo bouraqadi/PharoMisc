@@ -7,18 +7,18 @@ Class {
 { #category : #testing }
 CcServiceNameAndPriorityTest >> testNameChangeWhileStarted [
 	service := CcService do: [ [ 50 milliSeconds wait] repeat ].
-	service start.
-	service name: 'active object for test only'.
-	self assert: self activeObjProcess name equals: service name.
+	self startService.
+	service name: 'Service for test only'.
+	self assert: self serviceProcess name equals: service name.
 	
 ]
 
 { #category : #testing }
 CcServiceNameAndPriorityTest >> testNameChangeWhileStopped [
 	service := CcService do: [ [ 50 milliSeconds wait] repeat ].
-	service name: 'active object for test only'.
-	service start.
-	self assert: self activeObjProcess name equals: service name.
+	service name: 'Service for test only'.
+	self startService.
+	self assert: self serviceProcess name equals: service name.
 	
 ]
 
@@ -29,14 +29,13 @@ CcServiceNameAndPriorityTest >> testPriorityChangeWhileStarted [
 	service := CcService do: [
 			[(Delay forMilliseconds: 100) wait] repeat
 	].
-	service 
-		priority: initialPriority;
-		start.
+	service priority: initialPriority.
+	self startService.
 	newPriority := Processor userBackgroundPriority.
 	self deny: newPriority = initialPriority.
 	self assert: service isStarted.
 	service priority: newPriority.
-	self assert: self activeObjProcess priority = newPriority
+	self assert: self serviceProcess priority = newPriority
 
 ]
 
@@ -48,8 +47,7 @@ CcServiceNameAndPriorityTest >> testPriorityChangeWhileStopped [
 			[(Delay forMilliseconds: 100) wait]repeat
 			].
 	self assert: service isStopped.
-	service 
-		priority: initialPriority;
-		start.
-	self assert: self activeObjProcess priority = initialPriority 
+	service priority: initialPriority.
+	self startService.
+	self assert: self serviceProcess priority = initialPriority 
 ]

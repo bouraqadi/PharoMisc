@@ -6,12 +6,19 @@ Class {
 
 { #category : #activity }
 CcStarting >> doEnterAction [
-		self process: self newProcess.
-		self process priority: self priority.
-		self process name: self name.
-		self process resume.
-		self transitionTo: CcStarted.
+	self runner start.
+	self transitionTo: CcStarted.
 
+]
+
+{ #category : #accessing }
+CcStarting >> name [
+	^self service name
+]
+
+{ #category : #accessing }
+CcStarting >> priority [
+	^self service priority
 ]
 
 { #category : #activity }

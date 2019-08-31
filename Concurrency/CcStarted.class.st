@@ -20,8 +20,13 @@ CcStarted >> isStopped [
 ]
 
 { #category : #accessing }
-CcStarted >> processName: aString [
+CcStarted >> name: aString [ 
 	self process name: aString
+]
+
+{ #category : #accessing }
+CcStarted >> priority: anInteger [ 
+	self process priority: anInteger.
 ]
 
 { #category : #activity }

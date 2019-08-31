@@ -21,24 +21,24 @@ CcServiceStateTest >> setUp [
 ]
 
 { #category : #'test state requests' }
-CcServiceStateTest >> testNewActiveObjectShouldBeStopped [
+CcServiceStateTest >> testNewService [
 	self deny: service isStarted.
 	self assert: service isStopped.
 
 ]
 
 { #category : #'test state requests' }
-CcServiceStateTest >> testStartedObjectShouldBeStarted [
-	service start.
-	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
+CcServiceStateTest >> testStart [
+	self startService.
+	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
 	self assert: service isStarted.
 	self deny: service isStopped.
 
 ]
 
 { #category : #'test state requests' }
-CcServiceStateTest >> testStartedThenStoppedObjectShouldBeStopped [
-	service start.
+CcServiceStateTest >> testStartStop [
+	self startService.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
 	service stop.
 	self assertSemaphore: stopSemaphore signaledWithinMilliseconds: 100.
@@ -47,12 +47,12 @@ CcServiceStateTest >> testStartedThenStoppedObjectShouldBeStopped [
 ]
 
 { #category : #'test state requests' }
-CcServiceStateTest >> testStartedThenStoppedThenStartedObjectShouldBeStarted [
-	service start.
+CcServiceStateTest >> testStartStopStart [
+	self startService.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
 	service stop.
 	self assertSemaphore: stopSemaphore signaledWithinMilliseconds: 100.
-	service start.
+	self startService.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
 	self assert: service isStarted.
 	self deny: service isStopped.

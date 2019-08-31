@@ -6,7 +6,7 @@ Class {
 
 { #category : #state }
 CcStopping >> doEnterAction [
-	self process terminate.
+	self runner stop.
 	self transitionTo: CcStopped
 ]
 

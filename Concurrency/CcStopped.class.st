@@ -20,7 +20,12 @@ CcStopped >> isStopped [
 ]
 
 { #category : #accessing }
-CcStopped >> processName: aString [
+CcStopped >> name: aString [ 
+	^self
+]
+
+{ #category : #accessing }
+CcStopped >> priority: anInteger [ 
 	^self
 ]
 

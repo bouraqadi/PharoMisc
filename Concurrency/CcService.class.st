@@ -20,7 +20,8 @@ Class {
 		'activityBlock',
 		'priority',
 		'name',
-		'state'
+		'state',
+		'runner'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -168,12 +169,12 @@ CcService >> activityBlock: aBlock [
 	activityBlock := aBlock
 ]
 
-{ #category : #'initailize-release' }
+{ #category : #'initialize-release' }
 CcService >> defaultName [
 	^self printString
 ]
 
-{ #category : #'initailize-release' }
+{ #category : #'initialize-release' }
 CcService >> defaultPriority [
 	^30
 ]
@@ -202,12 +203,15 @@ CcService >> ifStopped: aBlock [
 		ifStopped: aBlock 
 ]
 
-{ #category : #'initailize-release' }
+{ #category : #'initialize-release' }
 CcService >> initialize [
 	super initialize.
 	self state: CcStopped new.
 	self name: self defaultName.
 	self priority: self defaultPriority.
+	runner := self serviceRunnerClass new.
+	runner service: self.
+	self registerForFinalization.
 
 ]
 
@@ -230,18 +234,7 @@ CcService >> name [
 { #category : #accessing }
 CcService >> name: aString [
 	name := aString.
-	self processName: name
-]
-
-{ #category : #acting }
-CcService >> newProcess [
-	^ [ self performAction ] newProcess
-]
-
-{ #category : #acting }
-CcService >> performAction [
-	^ self activityBlock
-		ensure: [ self stop ]
+	self state name: aString
 ]
 
 { #category : #accessing }
@@ -252,25 +245,12 @@ CcService >> priority [
 { #category : #accessing }
 CcService >> priority: newPriority [
 	priority := newPriority.
-	self ifStopped: [^self].
-	process priority: self priority
+	self state priority: newPriority
 ]
 
 { #category : #accessing }
 CcService >> process [
-	^process
-]
-
-{ #category : #accessing }
-CcService >> process: aProcess [
-	process := aProcess.
-	self registerForFinalization.
-
-]
-
-{ #category : #accessing }
-CcService >> processName: aString [
-	self state processName: aString
+	^self runner process
 ]
 
 { #category : #finalization }
@@ -281,6 +261,16 @@ CcService >> registerForFinalization [
 { #category : #acting }
 CcService >> runTillDone [
 	[self start] fork
+]
+
+{ #category : #accessing }
+CcService >> runner [
+	^runner
+]
+
+{ #category : #'initialize-release' }
+CcService >> serviceRunnerClass [
+	^CcServiceRunner
 ]
 
 { #category : #acting }
@@ -296,7 +286,7 @@ CcService >> state [
 { #category : #accessing }
 CcService >> state: aState [
 	state := aState.
-	state thread: self.
+	state service: self.
 
 ]
 

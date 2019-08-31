@@ -2,7 +2,7 @@ Class {
 	#name : #CcServiceState,
 	#superclass : #Object,
 	#instVars : [
-		'thread'
+		'service'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -38,33 +38,24 @@ CcServiceState >> isStopped [
 ]
 
 { #category : #accessing }
-CcServiceState >> name [
-	^self thread name
-]
-
-{ #category : #activity }
-CcServiceState >> newProcess [
-	^self thread newProcess
-]
-
-{ #category : #accessing }
-CcServiceState >> priority [
-	^self thread priority
-]
-
-{ #category : #accessing }
 CcServiceState >> process [
-	^self thread process
+	^self service process
 ]
 
 { #category : #accessing }
-CcServiceState >> process: aProcess [
-	self thread process: aProcess
+CcServiceState >> runner [
+	^self service runner
 ]
 
 { #category : #accessing }
-CcServiceState >> processName: aString [
-	self subclassResponsibility
+CcServiceState >> service [
+	^ service
+]
+
+{ #category : #accessing }
+CcServiceState >> service: aService [
+	service := aService.
+	self doEnterAction
 ]
 
 { #category : #activity }
@@ -74,29 +65,18 @@ CcServiceState >> start [
 
 { #category : #accessing }
 CcServiceState >> state [
-	^self thread state
+	^self service state
 ]
 
 { #category : #accessing }
 CcServiceState >> state: aState [
 	self doExitAction.
-	self thread state: aState.
+	self service state: aState.
 ]
 
 { #category : #activity }
 CcServiceState >> stop [
 	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CcServiceState >> thread [
-	^ thread
-]
-
-{ #category : #accessing }
-CcServiceState >> thread: aThread [
-	thread := aThread.
-	self doEnterAction
 ]
 
 { #category : #state }

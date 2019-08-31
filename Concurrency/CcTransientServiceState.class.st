@@ -38,12 +38,6 @@ CcTransientServiceState >> isStopped [
 	^self state isStopped
 ]
 
-{ #category : #accessing }
-CcTransientServiceState >> processName: aString [
-	self wait.
-	self state processName: aString
-]
-
 { #category : #initialization }
 CcTransientServiceState >> signalAll [
 	lock critical: [ lock signalAll ]
