@@ -16,7 +16,6 @@ Class {
 	#name : #CcService,
 	#superclass : #Object,
 	#instVars : [
-		'process',
 		'activityBlock',
 		'priority',
 		'name',
@@ -181,7 +180,7 @@ CcService >> defaultPriority [
 
 { #category : #finalization }
 CcService >> finalize [
-	self stop
+	self runner stop
 ]
 
 { #category : #testing }
@@ -212,7 +211,6 @@ CcService >> initialize [
 	runner := self serviceRunnerClass new.
 	runner service: self.
 	self registerForFinalization.
-
 ]
 
 { #category : #testing }

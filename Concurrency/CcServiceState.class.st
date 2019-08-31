@@ -2,7 +2,7 @@ Class {
 	#name : #CcServiceState,
 	#superclass : #Object,
 	#instVars : [
-		'service'
+		'serviceWeakArray'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -49,12 +49,12 @@ CcServiceState >> runner [
 
 { #category : #accessing }
 CcServiceState >> service [
-	^ service
+	^ serviceWeakArray first
 ]
 
 { #category : #accessing }
 CcServiceState >> service: aService [
-	service := aService.
+	serviceWeakArray := WeakArray with: aService.
 	self doEnterAction
 ]
 
