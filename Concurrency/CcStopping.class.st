@@ -6,8 +6,7 @@ Class {
 
 { #category : #state }
 CcStopping >> doEnterAction [
-	self runner stop.
-	self transitionTo: CcStopped
+	self runner stopThenDo: [self transitionTo: CcStopped]
 ]
 
 { #category : #activity }

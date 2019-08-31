@@ -11,16 +11,6 @@ CcStarting >> doEnterAction [
 
 ]
 
-{ #category : #accessing }
-CcStarting >> name [
-	^self service name
-]
-
-{ #category : #accessing }
-CcStarting >> priority [
-	^self service priority
-]
-
 { #category : #activity }
 CcStarting >> start [
 	^self
