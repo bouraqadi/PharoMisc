@@ -35,6 +35,11 @@ CcStopped >> start [
 	
 ]
 
+{ #category : #printing }
+CcStopped >> stateString [
+	^'stopped'
+]
+
 { #category : #activity }
 CcStopped >> stop [
 	^self

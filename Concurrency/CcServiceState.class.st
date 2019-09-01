@@ -74,6 +74,11 @@ CcServiceState >> state: aState [
 	self service state: aState.
 ]
 
+{ #category : #printing }
+CcServiceState >> stateString [
+	self subclassResponsibility
+]
+
 { #category : #activity }
 CcServiceState >> stop [
 	self subclassResponsibility

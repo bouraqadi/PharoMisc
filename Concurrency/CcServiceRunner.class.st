@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'process',
-		'serviceWeakArray',
-		'postStopActionBlock'
+		'serviceWeakArray'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -12,12 +11,6 @@ Class {
 { #category : #accessing }
 CcServiceRunner >> activityBlock [
 	^self service activityBlock
-]
-
-{ #category : #running }
-CcServiceRunner >> doPostStopAction [
-	postStopActionBlock ifNil: [ ^self ].
-	postStopActionBlock value
 ]
 
 { #category : #initialization }
@@ -33,7 +26,7 @@ CcServiceRunner >> name [
 
 { #category : #running }
 CcServiceRunner >> newProcess [
-	^[self activityBlock ensure: [ self doPostStopAction ]] newProcess
+	^[self activityBlock ensure: [ self signalProcessTerminated ]] newProcess
 ]
 
 { #category : #accessing }
@@ -57,6 +50,12 @@ CcServiceRunner >> service: aService [
 ]
 
 { #category : #running }
+CcServiceRunner >> signalProcessTerminated [
+	self service ifNil: [ ^self ].
+	self service onProcessTermination
+]
+
+{ #category : #running }
 CcServiceRunner >> start [
 	process := self newProcess.
 	process name: self name.
@@ -70,11 +69,4 @@ CcServiceRunner >> stop [
 	process ifNil: [ ^self ].
 	process terminate
 
-]
-
-{ #category : #running }
-CcServiceRunner >> stopThenDo: aBlock [
-	process ifNil: [ ^aBlock value ].
-	postStopActionBlock := aBlock.
-	process terminate
 ]

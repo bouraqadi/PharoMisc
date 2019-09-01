@@ -25,6 +25,11 @@ CcStarted >> name: aString [
 ]
 
 { #category : #accessing }
+CcStarted >> onProcessTermination [
+	self transitionTo: CcStopped
+]
+
+{ #category : #accessing }
 CcStarted >> priority: anInteger [ 
 	self process priority: anInteger.
 ]
@@ -32,6 +37,11 @@ CcStarted >> priority: anInteger [
 { #category : #activity }
 CcStarted >> start [
 	^self
+]
+
+{ #category : #printing }
+CcStarted >> stateString [
+	^'started'
 ]
 
 { #category : #activity }

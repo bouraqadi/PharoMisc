@@ -170,7 +170,7 @@ CcService >> activityBlock: aBlock [
 
 { #category : #'initialize-release' }
 CcService >> defaultName [
-	^self printString
+	^'a Service'
 ]
 
 { #category : #'initialize-release' }
@@ -235,6 +235,21 @@ CcService >> name: aString [
 	self state name: aString
 ]
 
+{ #category : #acting }
+CcService >> onProcessTermination [
+	self state onProcessTermination
+]
+
+{ #category : #printing }
+CcService >> printOn: aStream [
+	aStream
+		<< self name;
+		space;
+		<< $(;
+		<< self stateString;
+		<< $)
+]
+
 { #category : #accessing }
 CcService >> priority [
 	^ priority
@@ -286,6 +301,11 @@ CcService >> state: aState [
 	state := aState.
 	state service: self.
 
+]
+
+{ #category : #printing }
+CcService >> stateString [
+	^self state stateString
 ]
 
 { #category : #acting }

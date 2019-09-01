@@ -124,6 +124,7 @@ CcServiceActivityTest >> testRestartUponNormalTermination [
 	service priority: Processor userSchedulingPriority.
 	self startService.
 	self assertSemaphore:  activityTerminatedSemaphore signaledWithinMilliseconds: 500.
+	self assert: service isStopped.
 	self assert: counter equals: 1.
 	self startService.
 	self assertSemaphore:  activityTerminatedSemaphore signaledWithinMilliseconds: 500.

@@ -16,6 +16,11 @@ CcStarting >> start [
 	^self
 ]
 
+{ #category : #printing }
+CcStarting >> stateString [
+	^'starting'
+]
+
 { #category : #activity }
 CcStarting >> stop [
 	self wait.
