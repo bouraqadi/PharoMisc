@@ -8,32 +8,12 @@ Class {
 }
 
 { #category : #accessing }
-CcServiceState >> currentState [
-	^self service state
-]
-
-{ #category : #accessing }
 CcServiceState >> currentState: aState [
 	self service state: aState
 ]
 
 { #category : #testing }
 CcServiceState >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
-	self subclassResponsibility
-]
-
-{ #category : #testing }
-CcServiceState >> isCurrentState [
-	^self currentState == self
-]
-
-{ #category : #testing }
-CcServiceState >> isStarted [
-	self subclassResponsibility
-]
-
-{ #category : #testing }
-CcServiceState >> isStopped [
 	self subclassResponsibility
 ]
 
@@ -58,6 +38,18 @@ CcServiceState >> service: aService [
 
 ]
 
+{ #category : #signalling }
+CcServiceState >> signalProcessStarted [
+	self service signalProcessStarted
+	
+]
+
+{ #category : #signalling }
+CcServiceState >> signalProcessStopped [
+	self service signalProcessStopped
+	
+]
+
 { #category : #activity }
 CcServiceState >> start [
 	self subclassResponsibility
@@ -76,4 +68,16 @@ CcServiceState >> stop [
 { #category : #state }
 CcServiceState >> transitionTo: aStateClass [
 	self currentState: aStateClass new
+]
+
+{ #category : #signalling }
+CcServiceState >> waitProcessStarted [
+	self service waitProcessStarted
+	
+]
+
+{ #category : #signalling }
+CcServiceState >> waitProcessStopped [
+	self service waitProcessStopped
+	
 ]

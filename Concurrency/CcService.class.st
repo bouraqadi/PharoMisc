@@ -17,6 +17,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'activityBlock',
+		'ensureBlock',
 		'priority',
 		'name',
 		'state',
@@ -51,14 +52,16 @@ CcService class >> blockForRepeating: stepBlock every: aDuration while: conditio
 
 { #category : #'instance-creation' }
 CcService class >> do: taskBlock [
-	^self new
-		activityBlock: taskBlock;
-		yourself
+	^self do: taskBlock ensure: [  ]
 ]
 
 { #category : #'instance-creation' }
 CcService class >> do: taskBlock ensure: cleanupBlock [ 
-	^self do: [taskBlock ensure: cleanupBlock]
+	^self new
+		activityBlock: taskBlock;
+		ensureBlock: cleanupBlock;
+		yourself
+
 ]
 
 { #category : #'instance-creation' }
@@ -181,6 +184,16 @@ CcService >> defaultPriority [
 	^30
 ]
 
+{ #category : #accessing }
+CcService >> ensureBlock [
+	^ ensureBlock
+]
+
+{ #category : #accessing }
+CcService >> ensureBlock: anObject [
+	ensureBlock := anObject
+]
+
 { #category : #finalization }
 CcService >> finalize [
 	self runner stop
@@ -195,7 +208,7 @@ CcService >> ifStarted: aBlock [
 
 { #category : #testing }
 CcService >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
-	^self state ifStarted: blockForStarted ifStopped: blockForStopped 
+	^lock critical: [self state ifStarted: blockForStarted ifStopped: blockForStopped] 
 ]
 
 { #category : #testing }
@@ -208,7 +221,8 @@ CcService >> ifStopped: aBlock [
 { #category : #'initialize-release' }
 CcService >> initialize [
 	super initialize.
-	lock := Mutex new.
+	lock := Semaphore forMutualExclusion.
+	processStartedSemaphore := Semaphore new.
 	processStoppedSemaphore := Semaphore new.
 	self state: CcStopped new.
 	self name: self defaultName.
@@ -220,13 +234,12 @@ CcService >> initialize [
 
 { #category : #testing }
 CcService >> isStarted [
-	^self state isStarted
+	^self ifStarted: [ true ] ifStopped: [ false ]
 ]
 
 { #category : #testing }
 CcService >> isStopped [
-	^self state isStopped
-
+	^self ifStarted: [ false ] ifStopped: [ true ]
 ]
 
 { #category : #accessing }
@@ -247,7 +260,8 @@ CcService >> onProcessStarted [
 
 { #category : #acting }
 CcService >> onProcessStopped [
-	self state onProcessStopped
+	self state onProcessStopped.
+
 ]
 
 { #category : #printing }
@@ -297,9 +311,20 @@ CcService >> serviceRunnerClass [
 ]
 
 { #category : #acting }
+CcService >> signalProcessStarted [
+	processStartedSemaphore signal
+]
+
+{ #category : #acting }
+CcService >> signalProcessStopped [
+	processStoppedSemaphore signal
+]
+
+{ #category : #acting }
 CcService >> start [
 	lock critical: [
-		self state start]
+		self state start].
+
 ]
 
 { #category : #accessing }
@@ -321,5 +346,17 @@ CcService >> stateString [
 
 { #category : #acting }
 CcService >> stop [
-	lock critical: [self state stop]
+	lock critical: [
+		self state stop].
+
+]
+
+{ #category : #acting }
+CcService >> waitProcessStarted [
+	processStartedSemaphore wait
+]
+
+{ #category : #acting }
+CcService >> waitProcessStopped [
+	processStoppedSemaphore wait
 ]
