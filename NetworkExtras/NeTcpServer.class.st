@@ -109,7 +109,7 @@ NeTcpServer >> port: anObject [
 
 { #category : #activity }
 NeTcpServer >> secondsToWaitForConnection [
-	^30
+	^1
 ]
 
 { #category : #activity }

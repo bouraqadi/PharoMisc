@@ -2,9 +2,9 @@ Class {
 	#name : #NeServer,
 	#superclass : #Object,
 	#instVars : [
-		'thread',
 		'serverName',
-		'socket'
+		'socket',
+		'service'
 	],
 	#category : #'NetworkExtras-Kernel'
 }
@@ -22,18 +22,18 @@ NeServer >> destroySocket [
 { #category : #'initialize-release' }
 NeServer >> initialize [
 	super initialize.
-	thread := CcService repeat: [ self servingStep ] ensure: [self destroySocket].
+	service := CcService repeat: [ self servingStep ] ensure: [self destroySocket].
 	self serverName: self defaultServerName.
 ]
 
 { #category : #activity }
 NeServer >> isStarted [
-	^ thread isStarted
+	^ service isStarted
 ]
 
 { #category : #activity }
 NeServer >> isStopped [
-	^ thread isStopped
+	^ service isStopped
 ]
 
 { #category : #activity }
@@ -43,11 +43,11 @@ NeServer >> newSocket [
 
 { #category : #printing }
 NeServer >> printOn: aStream [
-	self printThreadNameOn: aStream
+	self printServiceNameOn: aStream
 ]
 
 { #category : #activity }
-NeServer >> printThreadNameOn: stream [
+NeServer >> printServiceNameOn: stream [
 	stream
 		nextPutAll: self serverName;
 		nextPut: $(.
@@ -59,12 +59,12 @@ NeServer >> printThreadNameOn: stream [
 
 { #category : #accessing }
 NeServer >> priority [
-	^thread priority
+	^service priority
 ]
 
 { #category : #accessing }
 NeServer >> priority: aPriority [
-	thread priority: aPriority
+	service priority: aPriority
 ]
 
 { #category : #accessing }
@@ -75,6 +75,12 @@ NeServer >> serverName [
 { #category : #accessing }
 NeServer >> serverName: aString [
 	^serverName := aString
+]
+
+{ #category : #printing }
+NeServer >> serviceName [
+	^String streamContents: [: stream |
+		self printServiceNameOn: stream]
 ]
 
 { #category : #activity }
@@ -92,17 +98,11 @@ NeServer >> start [
 	self isStarted
 		ifTrue: [ ^ self ].
 	socket := self newSocket.
-	thread name: self threadName.
-	thread start
+	service name: self serviceName.
+	service start
 ]
 
 { #category : #activity }
 NeServer >> stop [
-	thread stop
-]
-
-{ #category : #printing }
-NeServer >> threadName [
-	^String streamContents: [: stream |
-		self printThreadNameOn: stream]
+	service stop
 ]
