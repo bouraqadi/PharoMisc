@@ -7,14 +7,14 @@ Class {
 	#category : #'Concurrency-Kernel'
 }
 
-{ #category : #state }
-CcServiceState >> doEnterAction [
-	^self
+{ #category : #accessing }
+CcServiceState >> currentState [
+	^self service state
 ]
 
-{ #category : #state }
-CcServiceState >> doExitAction [
-	^self
+{ #category : #accessing }
+CcServiceState >> currentState: aState [
+	self service state: aState
 ]
 
 { #category : #testing }
@@ -24,7 +24,7 @@ CcServiceState >> ifStarted: blockForStarted ifStopped: blockForStopped [
 
 { #category : #testing }
 CcServiceState >> isCurrentState [
-	^self state == self
+	^self currentState == self
 ]
 
 { #category : #testing }
@@ -55,23 +55,12 @@ CcServiceState >> service [
 { #category : #accessing }
 CcServiceState >> service: aService [
 	serviceWeakArray := WeakArray with: aService.
-	self doEnterAction
+
 ]
 
 { #category : #activity }
 CcServiceState >> start [
 	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CcServiceState >> state [
-	^self service state
-]
-
-{ #category : #accessing }
-CcServiceState >> state: aState [
-	self doExitAction.
-	self service state: aState.
 ]
 
 { #category : #printing }
@@ -86,5 +75,5 @@ CcServiceState >> stop [
 
 { #category : #state }
 CcServiceState >> transitionTo: aStateClass [
-	self state: aStateClass new
+	self currentState: aStateClass new
 ]

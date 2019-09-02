@@ -1,8 +1,8 @@
 Class {
 	#name : #CcServiceTest,
 	#superclass : #TestCase,
-	#traits : 'CcTConcurrencyTest',
-	#classTraits : 'CcTConcurrencyTest classTrait',
+	#traits : 'CcTConcurrencyTest + CcTWaitPolling',
+	#classTraits : 'CcTConcurrencyTest classTrait + CcTWaitPolling classTrait',
 	#instVars : [
 		'service',
 		'runner'

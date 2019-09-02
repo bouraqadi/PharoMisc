@@ -20,7 +20,10 @@ Class {
 		'priority',
 		'name',
 		'state',
-		'runner'
+		'runner',
+		'lock',
+		'processStartedSemaphore',
+		'processStoppedSemaphore'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -205,6 +208,8 @@ CcService >> ifStopped: aBlock [
 { #category : #'initialize-release' }
 CcService >> initialize [
 	super initialize.
+	lock := Mutex new.
+	processStoppedSemaphore := Semaphore new.
 	self state: CcStopped new.
 	self name: self defaultName.
 	self priority: self defaultPriority.
@@ -236,8 +241,13 @@ CcService >> name: aString [
 ]
 
 { #category : #acting }
-CcService >> onProcessTermination [
-	self state onProcessTermination
+CcService >> onProcessStarted [
+	self state onProcessStarted
+]
+
+{ #category : #acting }
+CcService >> onProcessStopped [
+	self state onProcessStopped
 ]
 
 { #category : #printing }
@@ -288,7 +298,8 @@ CcService >> serviceRunnerClass [
 
 { #category : #acting }
 CcService >> start [
-	self state start
+	lock critical: [
+		self state start]
 ]
 
 { #category : #accessing }
@@ -310,5 +321,5 @@ CcService >> stateString [
 
 { #category : #acting }
 CcService >> stop [
-	self state stop
+	lock critical: [self state stop]
 ]

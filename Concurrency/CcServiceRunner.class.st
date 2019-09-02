@@ -26,7 +26,11 @@ CcServiceRunner >> name [
 
 { #category : #running }
 CcServiceRunner >> newProcess [
-	^[self activityBlock ensure: [ self signalProcessTerminated ]] newProcess
+	^[
+		self signalProcessStarted.
+		self activityBlock ensure: [ 
+			self signalProcessTerminated ]
+	] newProcess
 ]
 
 { #category : #accessing }
@@ -50,9 +54,15 @@ CcServiceRunner >> service: aService [
 ]
 
 { #category : #running }
+CcServiceRunner >> signalProcessStarted [
+	self service ifNil: [ ^self ].
+	self service onProcessStarted
+]
+
+{ #category : #running }
 CcServiceRunner >> signalProcessTerminated [
 	self service ifNil: [ ^self ].
-	self service onProcessTermination
+	self service onProcessStopped
 ]
 
 { #category : #running }

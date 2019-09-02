@@ -1,12 +1,22 @@
 Class {
 	#name : #CcStarted,
 	#superclass : #CcServiceState,
+	#instVars : [
+		'lock',
+		'processStoppedSemaphore'
+	],
 	#category : #'Concurrency-Kernel'
 }
 
 { #category : #testing }
 CcStarted >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	^blockForStarted value
+]
+
+{ #category : #initialization }
+CcStarted >> initialize [
+	super initialize.
+	processStoppedSemaphore := Semaphore new
 ]
 
 { #category : #activity }
@@ -25,8 +35,9 @@ CcStarted >> name: aString [
 ]
 
 { #category : #accessing }
-CcStarted >> onProcessTermination [
-	self transitionTo: CcStopped
+CcStarted >> onProcessStopped [
+	self transitionTo: CcStopped.
+	processStoppedSemaphore signal
 ]
 
 { #category : #accessing }
@@ -46,5 +57,6 @@ CcStarted >> stateString [
 
 { #category : #activity }
 CcStarted >> stop [
-	self transitionTo: CcStopping
+	self runner stop.
+	processStoppedSemaphore wait.
 ]
