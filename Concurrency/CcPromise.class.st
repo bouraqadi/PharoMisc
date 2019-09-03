@@ -65,6 +65,11 @@ CcPromise class >> onRejectDo: aBlockClosure [
 		yourself
 ]
 
+{ #category : #acting }
+CcPromise >> defaultTimeoutDuration [
+	^500 milliSeconds 
+]
+
 { #category : #state }
 CcPromise >> fulfillWith: anObject [
 	stateLock critical: [
@@ -82,7 +87,7 @@ CcPromise >> initialize [
 	isRejected := false.
 	fulfillActions := Set new.
 	rejectActions := Set new.
-	stateLock := Mutex new.
+	stateLock := Monitor new.
 ]
 
 { #category : #state }
@@ -145,4 +150,17 @@ CcPromise >> valueFulfillAction: aBlock [
 { #category : #acting }
 CcPromise >> valueRejectAction: aBlock [
 	aBlock cull: rejectResult
+]
+
+{ #category : #acting }
+CcPromise >> wait [
+	self wait: self defaultTimeoutDuration
+]
+
+{ #category : #acting }
+CcPromise >> wait: aDuration [
+	stateLock critical: [ 
+		self isSettled ifTrue: [ ^self ].
+		stateLock waitMaxMilliseconds: aDuration asMilliSeconds.
+		self isPending ifTrue: [ CcPromiseTimeout signal ] ]
 ]

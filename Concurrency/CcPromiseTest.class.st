@@ -185,3 +185,54 @@ CcPromiseTest >> testSuspendActionUntilRejection [
 	self assertSemaphore: rejectSemaphore signaledWithinMilliseconds: 300.
 	
 ]
+
+{ #category : #tests }
+CcPromiseTest >> testWaitAlreadyFulfill [
+	| fulfillSemaphore |
+	promise fulfillWith: 456.
+	fulfillSemaphore := Semaphore new.
+	[promise wait.
+	fulfillSemaphore signal] fork.
+	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 100.
+
+]
+
+{ #category : #tests }
+CcPromiseTest >> testWaitAlreadyReject [
+	| fulfillSemaphore |
+	promise rejectWith: 456.
+	fulfillSemaphore := Semaphore new.
+	[promise wait.
+	fulfillSemaphore signal] fork.
+	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 100.
+
+]
+
+{ #category : #tests }
+CcPromiseTest >> testWaitTimeout [
+	self should: [promise wait: 100 milliSeconds] raise: CcPromiseTimeout
+]
+
+{ #category : #tests }
+CcPromiseTest >> testWaitUntilFulfill [
+	| fulfillSemaphore |
+	fulfillSemaphore := Semaphore new.
+	[promise wait.
+	fulfillSemaphore signal] fork.
+	self denySemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
+	promise fulfillWith: 456.
+	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
+
+]
+
+{ #category : #tests }
+CcPromiseTest >> testWaitUntilReject [
+	| fulfillSemaphore |
+	fulfillSemaphore := Semaphore new.
+	[promise wait.
+	fulfillSemaphore signal] fork.
+	self denySemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
+	promise rejectWith: 456.
+	self assertSemaphore: fulfillSemaphore signaledWithinMilliseconds: 300.
+
+]
