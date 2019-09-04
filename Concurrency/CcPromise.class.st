@@ -132,6 +132,15 @@ CcPromise >> onRejectDo: aBlockClosure [
 	]
 ]
 
+{ #category : #printing }
+CcPromise >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		<< $(;
+		<< self stateString;
+		<< $)
+]
+
 { #category : #state }
 CcPromise >> rejectWith: anObject [ 
 	stateLock critical: [
@@ -140,6 +149,16 @@ CcPromise >> rejectWith: anObject [
 		isRejected := true.
 		rejectActions do: [ : aBlock | self valueRejectAction: aBlock ]
 	]
+]
+
+{ #category : #printing }
+CcPromise >> stateString [
+	"Don't use accessors since they rely on critical section"
+	"stateString is most helpful during debug. Locking freezes the debugger."
+	isFulfilled ifTrue: [ ^'Fulfilled' ].
+	isRejected ifTrue: [ ^'Rejected' ].
+	^'Pending'
+
 ]
 
 { #category : #acting }
