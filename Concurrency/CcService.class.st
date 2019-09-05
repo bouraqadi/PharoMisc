@@ -5,10 +5,19 @@ Examples are provided as class side methods of CcServiceExamples
  
 Instance Variables
 	process:		<Process>
-	actionBlock:		<activityBlock> action to be performed by the active object within the process
-	activityLock:		<Mutex> for synchronizing start and stop
+	activityBlock		<BlockClosure> action to be performed within the process
+	ensureBlock		<BlockClosure> action to be performed upon the process thermination
+	lock		<Semaphore> for synchronizing start and stop
 	name:		<String> process name
 	priority:		<Integer> process priority
+	processStartTimeoutMilliseconds <Integer> duration to wait before saying something went wrong upon start up.
+	processStartSemaphore <Semaphore> Signaled when process is started
+	processStopTimeoutMilliseconds <Integer> duration to wait before saying something went wrong upon stopping.
+	processStopSemaphore <Semaphore> Signaled when process is stopped
+	runner <ServiceRunner> takes care of process lifecycle as well as issuing notifications when state actually changed.
+	state <ServiceState> defines the service behavior depending on its state. As defined by the State Design Pattern
+	
+	
 
 
 "
@@ -23,8 +32,10 @@ Class {
 		'state',
 		'runner',
 		'lock',
-		'processStartedSemaphore',
-		'processStoppedSemaphore'
+		'processStartTimeoutMilliseconds',
+		'processStopTimeoutMilliseconds',
+		'processStartSemaphore',
+		'processStopSemaphore'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -184,6 +195,16 @@ CcService >> defaultPriority [
 	^30
 ]
 
+{ #category : #'initialize-release' }
+CcService >> defaultProcessStartTimeoutMilliseconds [
+	^500
+]
+
+{ #category : #'initialize-release' }
+CcService >> defaultProcessStopTimeoutMilliseconds [
+	^self defaultProcessStartTimeoutMilliseconds
+]
+
 { #category : #accessing }
 CcService >> ensureBlock [
 	^ ensureBlock
@@ -222,8 +243,10 @@ CcService >> ifStopped: aBlock [
 CcService >> initialize [
 	super initialize.
 	lock := Semaphore forMutualExclusion.
-	processStartedSemaphore := Semaphore new.
-	processStoppedSemaphore := Semaphore new.
+	processStartSemaphore := Semaphore new.
+	processStopSemaphore := Semaphore new.
+	processStartTimeoutMilliseconds := self defaultProcessStartTimeoutMilliseconds.
+	processStopTimeoutMilliseconds := self defaultProcessStopTimeoutMilliseconds.
 	self state: CcStopped new.
 	self name: self defaultName.
 	self priority: self defaultPriority.
@@ -290,6 +313,26 @@ CcService >> process [
 	^self runner process
 ]
 
+{ #category : #accessing }
+CcService >> processStartTimeoutMilliseconds [
+	^processStartTimeoutMilliseconds
+]
+
+{ #category : #accessing }
+CcService >> processStartTimeoutMilliseconds: anObject [
+	processStartTimeoutMilliseconds := anObject
+]
+
+{ #category : #accessing }
+CcService >> processStopTimeoutMilliseconds [
+	^processStopTimeoutMilliseconds
+]
+
+{ #category : #accessing }
+CcService >> processStopTimeoutMilliseconds: anObject [
+	processStopTimeoutMilliseconds := anObject
+]
+
 { #category : #finalization }
 CcService >> registerForFinalization [
 	self finalizationRegistry add: self
@@ -312,12 +355,12 @@ CcService >> serviceRunnerClass [
 
 { #category : #acting }
 CcService >> signalProcessStarted [
-	processStartedSemaphore signal
+	processStartSemaphore signal
 ]
 
 { #category : #acting }
 CcService >> signalProcessStopped [
-	processStoppedSemaphore signal
+	processStopSemaphore signal
 ]
 
 { #category : #acting }
@@ -353,10 +396,10 @@ CcService >> stop [
 
 { #category : #acting }
 CcService >> waitProcessStarted [
-	processStartedSemaphore wait
+	processStartSemaphore waitTimeoutMSecs: self processStartTimeoutMilliseconds
 ]
 
 { #category : #acting }
 CcService >> waitProcessStopped [
-	processStoppedSemaphore wait
+	processStopSemaphore waitTimeoutMSecs: self processStopTimeoutMilliseconds
 ]
