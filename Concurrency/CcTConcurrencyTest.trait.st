@@ -30,8 +30,23 @@ CcTConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
 ]
 
 { #category : #testing }
+CcTConcurrencyTest >> assertFork: aBlock raise: exceptionClass withinMilliseconds: milliseconds [
+	| semaphore |
+	semaphore := Semaphore new.
+	[ aBlock on: exceptionClass do: [: ex| semaphore signal ] ] fork.
+	self assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds
+]
+
+{ #category : #testing }
+CcTConcurrencyTest >> assertFork: aBlock raise: exceptionClass withinSeconds: seconds [
+	self assertFork: aBlock raise: exceptionClass withinMilliseconds: seconds * 1000
+]
+
+{ #category : #testing }
 CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds [
-	self deny: (semaphore waitTimeoutMSecs: milliseconds)
+	| isTimeout |
+	isTimeout := [(semaphore waitTimeoutMSecs: milliseconds)] on: TestTookTooMuchTime do: [ : ex| true ].
+	self deny: isTimeout
 ]
 
 { #category : #testing }
