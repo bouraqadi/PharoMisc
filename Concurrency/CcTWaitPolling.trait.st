@@ -10,6 +10,11 @@ Trait {
 }
 
 { #category : #waiting }
+CcTWaitPolling >> defaultActionOnTimeout [
+	CcTimeout signal
+]
+
+{ #category : #waiting }
 CcTWaitPolling >> defaultTimeoutDuration [
 	^500 milliSeconds 
 ]
@@ -53,5 +58,5 @@ CcTWaitPolling >> waitWhile: conditionBlock onTimeout: aDuration do: aBlock [
 
 { #category : #waiting }
 CcTWaitPolling >> waitWhile: conditionBlock timeout: aDuration [
-	self waitWhile: conditionBlock onTimeout: aDuration do: [self fail: 'Timeout']
+	self waitWhile: conditionBlock onTimeout: aDuration do: [self defaultActionOnTimeout]
 ]

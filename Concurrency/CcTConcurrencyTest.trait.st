@@ -10,6 +10,8 @@ TConcurrencyTest provides methods to ease testing concurrent code with the follo
 "
 Trait {
 	#name : #CcTConcurrencyTest,
+	#traits : 'CcTWaitPolling',
+	#classTraits : 'CcTWaitPolling classTrait',
 	#category : #'Concurrency-Kernel'
 }
 
@@ -52,6 +54,11 @@ CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinMilliseconds: mil
 { #category : #testing }
 CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinSeconds: seconds [
 	self deny: (semaphore waitTimeoutSeconds: seconds)
+]
+
+{ #category : #waiting }
+CcTConcurrencyTest >> defaultActionOnTimeout [
+	self fail: 'Timeout'
 ]
 
 { #category : #testing }
