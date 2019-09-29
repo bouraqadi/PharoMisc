@@ -39,7 +39,8 @@ Class {
 		'rejectActions',
 		'fulfillResult',
 		'rejectResult',
-		'stateLock'
+		'stateLock',
+		'waitSemaphore'
 	],
 	#category : #'Concurrency-Kernel'
 }
@@ -73,10 +74,11 @@ CcPromise >> defaultTimeoutDuration [
 { #category : #state }
 CcPromise >> fulfillWith: anObject [
 	stateLock critical: [
-		fulfillResult := anObject.
 		self isSettled ifTrue: [ CcPromiseAlreadySettledError signal ]. 
+		fulfillResult := anObject.
 		isFulfilled := true.
-		fulfillActions do: [ : aBlock | self valueFulfillAction: aBlock]
+		fulfillActions do: [ : aBlock | self valueFulfillAction: aBlock].
+		self signalAllWaitingProcesses
 	]
 ]
 
@@ -87,7 +89,8 @@ CcPromise >> initialize [
 	isRejected := false.
 	fulfillActions := Set new.
 	rejectActions := Set new.
-	stateLock := Monitor new.
+	stateLock := Mutex new.
+	waitSemaphore := Semaphore new
 ]
 
 { #category : #state }
@@ -97,7 +100,7 @@ CcPromise >> isFulfilled [
 
 { #category : #state }
 CcPromise >> isPending [
-	^stateLock critical: [self isSettled not]
+	^self isSettled not
 ]
 
 { #category : #state }
@@ -144,11 +147,17 @@ CcPromise >> printOn: aStream [
 { #category : #state }
 CcPromise >> rejectWith: anObject [ 
 	stateLock critical: [
-		rejectResult := anObject.
 		self isSettled ifTrue: [ CcPromiseAlreadySettledError signal ]. 
+		rejectResult := anObject.
 		isRejected := true.
-		rejectActions do: [ : aBlock | self valueRejectAction: aBlock ]
+		rejectActions do: [ : aBlock | self valueRejectAction: aBlock ].
+		self signalAllWaitingProcesses
 	]
+]
+
+{ #category : #state }
+CcPromise >> signalAllWaitingProcesses [
+	waitSemaphore size timesRepeat: [ waitSemaphore signal ]
 ]
 
 { #category : #printing }
@@ -178,8 +187,7 @@ CcPromise >> wait [
 
 { #category : #acting }
 CcPromise >> wait: aDuration [
-	stateLock critical: [ 
-		self isSettled ifTrue: [ ^self ].
-		stateLock waitMaxMilliseconds: aDuration asMilliSeconds.
-		self isPending ifTrue: [ CcPromiseTimeout signal ] ]
+	self isSettled ifTrue: [ ^self ].
+	waitSemaphore wait: aDuration.
+	self isPending ifTrue: [ CcPromiseTimeout signal ]
 ]
