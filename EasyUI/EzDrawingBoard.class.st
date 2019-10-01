@@ -1,7 +1,7 @@
 Class {
 	#name : #EzDrawingBoard,
 	#superclass : #ImagePresenter,
-	#traits : 'EzTDrawingArea @ {#basicMoveToFront:->#moveToFront:. #basicMoveToBack:->#moveToBack:}',
+	#traits : 'EzTDrawingArea @ {#basicMoveToFront:->#moveToFront:. #basicMoveToBack:->#moveToBack:. #basicRemove:->#remove:}',
 	#classTraits : 'EzTDrawingArea classTrait',
 	#instVars : [
 		'backgroundColor',
@@ -35,6 +35,14 @@ EzDrawingBoard >> backgroundColor [
 EzDrawingBoard >> backgroundColor: aColor [ 
 	backgroundColor := aColor.
 	self updateDisplay.
+]
+
+{ #category : #drawing }
+EzDrawingBoard >> basicAdd: aDrawing [
+	(self drawings includes: aDrawing)
+		ifTrue: [ ^ self ].
+	self drawings add: aDrawing.
+
 ]
 
 { #category : #accessing }
