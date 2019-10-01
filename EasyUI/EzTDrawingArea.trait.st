@@ -138,7 +138,7 @@ EzTDrawingArea >> newRobotAt: center radius: radius fillColor: fillColor borderW
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newSquareOrigine: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingArea >> newSquareOrigin: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self newRectangleOrigine: origin extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
 
