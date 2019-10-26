@@ -56,6 +56,11 @@ NeUdpLargeDataReceiver >> initialize [
 			show: reconstructedData asString]
 ]
 
+{ #category : #accessing }
+NeUdpLargeDataReceiver >> name [
+	^'UDP large data receiver'
+]
+
 { #category : #acting }
 NeUdpLargeDataReceiver >> priority: anInteger [ 
 	self server priority: anInteger
@@ -69,13 +74,8 @@ NeUdpLargeDataReceiver >> server [
 { #category : #accessing }
 NeUdpLargeDataReceiver >> server: udpServer [
 	server := udpServer.
-	server serverName: self serverName.
+	server name: self name.
 	server onReceptionDo: [: byteArray | self handleReceivedBytes: byteArray ]
-]
-
-{ #category : #accessing }
-NeUdpLargeDataReceiver >> serverName [
-	^'UDP large data receiver'
 ]
 
 { #category : #acting }

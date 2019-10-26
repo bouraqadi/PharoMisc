@@ -23,7 +23,7 @@ NeServer >> destroySocket [
 NeServer >> initialize [
 	super initialize.
 	service := CcService repeat: [ self servingStep ] ensure: [self destroySocket].
-	self serverName: self defaultServerName.
+	self name: self defaultServerName.
 ]
 
 { #category : #activity }
@@ -34,6 +34,16 @@ NeServer >> isStarted [
 { #category : #activity }
 NeServer >> isStopped [
 	^ service isStopped
+]
+
+{ #category : #accessing }
+NeServer >> name [
+	^serverName
+]
+
+{ #category : #accessing }
+NeServer >> name: aString [
+	^serverName := aString
 ]
 
 { #category : #activity }
@@ -49,7 +59,7 @@ NeServer >> printOn: aStream [
 { #category : #activity }
 NeServer >> printServiceNameOn: stream [
 	stream
-		nextPutAll: self serverName;
+		nextPutAll: self name;
 		nextPut: $(.
 	self socket 
 		ifNil: [ stream nextPutAll: 'No Socket' ]
@@ -65,16 +75,6 @@ NeServer >> priority [
 { #category : #accessing }
 NeServer >> priority: aPriority [
 	service priority: aPriority
-]
-
-{ #category : #accessing }
-NeServer >> serverName [
-	^serverName
-]
-
-{ #category : #accessing }
-NeServer >> serverName: aString [
-	^serverName := aString
 ]
 
 { #category : #printing }
