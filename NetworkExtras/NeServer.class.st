@@ -27,6 +27,11 @@ NeServer >> initialize [
 ]
 
 { #category : #activity }
+NeServer >> isRunning [
+	^ self isStarted
+]
+
+{ #category : #activity }
 NeServer >> isStarted [
 	^ service isStarted
 ]
