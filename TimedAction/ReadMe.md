@@ -5,3 +5,11 @@ The block can be performed repeatedly at a given frequency. It can be repeated f
 Conversely, it can be repeated for a given amount of iterations, or until some point in time.
 
 `TaAction` is the entry point class. See its comment and class methods.
+
+## Install
+```
+Metacello new
+  baseline: 'TimedAction';
+  repository: 'github://bouraqadi/PharoMisc';
+  load
+```
