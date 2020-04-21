@@ -34,3 +34,6 @@ Metacello new
 ## S
 - [StateMachine](/StateMachine): Defines automaton, states and transition. 
 - [SimpleMiddleware](/SimpleMiddleware): a basic middleware supporting remote object messages over TCP
+
+## T
+- [TimedAction](/TimedAction): Small library to define tasks (actions) that need to be performed at a specific point in time or repeatedly
