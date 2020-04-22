@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'stepBlock',
 		'setUpBlock',
-		'isSetUpDone'
+		'isSetUpDone',
+		'period',
+		'dueTime'
 	],
 	#category : #Tasks
 }
@@ -49,7 +51,8 @@ TkTask class >> repeat: stepBlock while: continueConditionBlock [
 
 { #category : #acting }
 TkTask >> afterStep [
-	^self
+	self period ifNil: [ ^self ].
+	self dueTime: self now + self period
 ]
 
 { #category : #acting }
@@ -58,6 +61,16 @@ TkTask >> beforeStep [
 		ifTrue: [ ^ self ].
 	self setUp.
 	self isSetUpDone: true
+]
+
+{ #category : #accessing }
+TkTask >> dueTime [
+	^dueTime
+]
+
+{ #category : #accessing }
+TkTask >> dueTime: aDateAndTime [
+	dueTime := aDateAndTime
 ]
 
 { #category : #initialization }
@@ -71,7 +84,13 @@ TkTask >> isDone [
 	^false
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
+TkTask >> isDue [
+	self dueTime ifNil: [ ^true ].
+	^self dueTime <= self now
+]
+
+{ #category : #testing }
 TkTask >> isSetUpDone [
 	^ isSetUpDone
 ]
@@ -81,9 +100,25 @@ TkTask >> isSetUpDone: anObject [
 	isSetUpDone := anObject
 ]
 
+{ #category : #accessing }
+TkTask >> now [
+	^DateAndTime now
+]
+
+{ #category : #accessing }
+TkTask >> period [
+	^period
+]
+
+{ #category : #accessing }
+TkTask >> period: aDuration [ 
+	period := aDuration
+]
+
 { #category : #initialization }
 TkTask >> reset [
-	self isSetUpDone: false
+	self isSetUpDone: false.
+	self dueTime: nil.
 ]
 
 { #category : #acting }
@@ -99,6 +134,11 @@ TkTask >> setUpBlock [
 { #category : #accessing }
 TkTask >> setUpBlock: aBlockClosure [ 
 	setUpBlock := aBlockClosure
+]
+
+{ #category : #initialization }
+TkTask >> startAfter: aDuration [
+	self dueTime: self now + aDuration
 ]
 
 { #category : #acting }

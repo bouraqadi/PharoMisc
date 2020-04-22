@@ -17,6 +17,7 @@ TkTaskTest >> setUp [
 { #category : #tests }
 TkTaskTest >> testOneShotTask [
 	task  := bench taskOneShot.
+	self assert: task isDue.
 	self assert: bench count equals: 0.
 	self deny: task isDone.
 	self deny: task isEndConditionMet.
@@ -34,15 +35,19 @@ TkTaskTest >> testOneShotTask [
 TkTaskTest >> testResetFiniteCountTask [
 	task  := bench taskRepeating3TimesWithSetupAndTearDown.
 	self assert: bench count equals: 0.
+	self assert: task isDue.
 	1 to: 4 do: [: expectedCount |
 		task step.
 	].
 	self assert: task isDone.
+	self deny: task isDue.
 	task reset.
+	self assert: task isDue.
 	self deny: task isDone.
 	4 to: 7 do: [: expectedCount |
 		task step.
 	].
+	self deny: task isDue.
 	self assert: task isDone.
 	self assert: bench setUpCount equals: 2.
 	self assert: bench tearDownCount equals: 2.
@@ -50,24 +55,51 @@ TkTaskTest >> testResetFiniteCountTask [
 ]
 
 { #category : #tests }
+TkTaskTest >> testResetFiniteCountTaskPeriod100Milliseconds [
+	task  := bench taskRepeating3TimesPeriod100Milliseconds.
+	self assert: task isDue.
+	task step.
+	self deny: task isDue.
+	task reset.
+	self assert: task isDue.
+
+]
+
+{ #category : #tests }
 TkTaskTest >> testResetFiniteDurationTask [
 	task  := bench taskDoneAfter100MillisecondsWithSetupAndTearDown.
+	self assert: task isDue.
 	task step.
+	self assert: task isDue.
 	100 milliSeconds wait.
 	self assert: bench count equals: 1.
 	self assert: task isEndConditionMet.
 	self deny: task isDone.
 	task reset.
+	self assert: task isDue.
 	self deny: task isEndConditionMet.
 	task step.
 	100 milliSeconds wait.
 	self assert: task isEndConditionMet.
 	self deny: task isDone.
+	self assert: task isDue.
 	task step. "Ensure tearDown"
+	self deny: task isDue.
 	self assert: task isDone.	
 	self assert: bench count equals: 2.
 	self assert: bench setUpCount equals: 2.
 	self assert: bench tearDownCount equals: 1. "Reset called before task isDone"
+
+]
+
+{ #category : #tests }
+TkTaskTest >> testResetFiniteDurationTaskPeriod100Milliseconds [
+	task := bench taskDoneAfter300MillisecondsPeriod100Milliseconds.
+	self assert: task isDue.
+	task step.
+	self deny: task isDue.
+	task reset.
+	self assert: task isDue.
 
 ]
 
@@ -94,10 +126,23 @@ TkTaskTest >> testResetTaskRepeatingForever [
 	3 timesRepeat: [task step].
 	self assert: bench count equals: 3.
 	self assert: bench setUpCount equals: 1.
+	self assert: task isDue.
 	task reset.
+	self assert: task isDue.
 	task step.
 	self assert: bench count equals: 4.
 	self assert: bench setUpCount equals: 2.
+
+]
+
+{ #category : #tests }
+TkTaskTest >> testResetTaskRepeatingForeverPeriod100Milliseconds [
+	task := bench taskRepeatingForeverPeriod100Milliseconds.
+	self assert: task isDue.
+	task step.
+	self deny: task isDue.
+	task reset.
+	self assert: task isDue.
 
 ]
 
@@ -162,6 +207,63 @@ TkTaskTest >> testSetUpTearDownOneShotTask [
 ]
 
 { #category : #tests }
+TkTaskTest >> testShiftStartOneShotTask [
+	task  := bench taskOneShot.
+	self assert: task isDue.
+	bench postPoneStartBy100Milliseconds.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+	
+	
+	
+]
+
+{ #category : #tests }
+TkTaskTest >> testShiftStartTaskDoneAfterDurationSinceStart [
+	task  := bench taskDoneAfter100Milliseconds.
+	self assert: task isDue.
+	bench postPoneStartBy100Milliseconds.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+
+]
+
+{ #category : #tests }
+TkTaskTest >> testShiftStartTaskDoneAfterFixedIterationsCount [
+	task  := bench taskRepeating3Times.
+	self assert: task isDue.
+	bench postPoneStartBy100Milliseconds.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+
+]
+
+{ #category : #tests }
+TkTaskTest >> testShiftStartTaskDoneUntilConditionMet [
+	task  := bench taskRepeatingUntilFlagTrue.
+	self assert: task isDue.
+	bench postPoneStartBy100Milliseconds.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+
+]
+
+{ #category : #tests }
+TkTaskTest >> testShiftStartTaskRepeatingForever [
+	task  := bench taskRepeatingForever.
+	self assert: task isDue.
+	bench postPoneStartBy100Milliseconds.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+	
+]
+
+{ #category : #tests }
 TkTaskTest >> testTaskContinuesWhileConditionMet [
 	task  := bench taskRepeatingWhileFlagTrue.
 	self assert: bench count equals: 0.
@@ -183,16 +285,40 @@ TkTaskTest >> testTaskContinuesWhileConditionMet [
 { #category : #tests }
 TkTaskTest >> testTaskDoneAfterDurationSinceStart [
 	task  := bench taskDoneAfter100Milliseconds.
+	self assert: task isDue.
 	200 milliSeconds wait.
 	self assert: bench count equals: 0.
 	self deny: task isEndConditionMet.
 	self deny: task isDone.
+	self assert: task isDue.
 	task step.
+	self assert: task isDue.
 	100 milliSeconds wait.
+	self assert: task isDue.
 	self assert: bench count equals: 1.
 	self assert: task isEndConditionMet.
 	self deny: task isDone.
 	task step.
+	self deny: task isDue.
+	self assert: task isDone.
+
+]
+
+{ #category : #tests }
+TkTaskTest >> testTaskDoneAfterDurationSinceStartPeriod100Milliseconds [
+	task  := bench taskDoneAfter300MillisecondsPeriod100Milliseconds.
+	self assert: task isDue.
+	task step.
+	20 milliSeconds wait.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+	200 milliSeconds wait.
+	self assert: task isEndConditionMet.
+	self deny: task isDone.
+	self assert: task isDue.
+	task step.
+	self deny: task isDue.
 	self assert: task isDone.
 
 ]
@@ -202,13 +328,36 @@ TkTaskTest >> testTaskDoneAfterFixedIterationsCount [
 	task  := bench taskRepeating3Times.
 	self assert: bench count equals: 0.
 	1 to: 3 do: [: expectedCount |
+		self assert: task isDue.
 		self deny: task isDone.
 		task step.
 		self assert: bench count equals: expectedCount.
 	].
+	self assert: task isDue.
 	self assert: task isEndConditionMet.
 	self deny: task isDone.
-	3 timesRepeat: [ task step ].
+	task step.
+	self deny: task isDue.
+	self assert: bench count equals: 3.
+	self assert: task isDone.
+	
+	
+]
+
+{ #category : #tests }
+TkTaskTest >> testTaskDoneAfterFixedIterationsCountPeriod100Milliseconds [
+	task  := bench taskRepeating3TimesPeriod100Milliseconds.
+	self assert: bench count equals: 0.
+	self assert: task isDue.
+	task step.
+	20 milliSeconds wait.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+	2 timesRepeat: [ task step ].
+	self assert: task isDue.
+	task step.
+	self deny: task isDue.
 	self assert: bench count equals: 3.
 	self assert: task isDone.
 	
@@ -220,13 +369,33 @@ TkTaskTest >> testTaskDoneUntilConditionMet [
 	task  := bench taskRepeatingUntilFlagTrue.
 	self assert: bench count equals: 0.
 	1 to: 3 do: [: expectedCount |
+		self assert: task isDue.
 		task step.
 		self assert: bench count equals: expectedCount.
 		self deny: task isDone.
 	].
 	bench setFlagTrue.
+	self assert: task isDue.
 	task step.
+	self deny: task isDue.
 	self assert: bench count equals: 3.
+	self assert: task isDone.
+]
+
+{ #category : #tests }
+TkTaskTest >> testTaskDoneUntilConditionMetPeriod100Milliseconds [
+	task  := bench taskRepeatingUntilFlagTruePeriod100Milliseconds.
+	self assert: bench count equals: 0.
+	self assert: task isDue.
+	task step.
+	20 milliSeconds wait.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+	bench setFlagTrue.
+	self assert: task isDue.
+	task step.
+	self deny: task isDue.
 
 ]
 
@@ -235,11 +404,26 @@ TkTaskTest >> testTaskRepeatingForever [
 	task  := bench taskRepeatingForever.
 	self assert: bench count equals: 0.
 	1 to: 3 do: [: expectedCount |
+		self assert: task isDue.
 		self deny: task isDone.
 		task step.
 		self assert: bench count equals: expectedCount.
 	].
 	self deny: task isDone.
+	self assert: task isDue.
+
 	
-	
+]
+
+{ #category : #tests }
+TkTaskTest >> testTaskRepeatingForeverPeriod100Milliseconds [
+	task  := bench taskRepeatingForeverPeriod100Milliseconds.
+	self assert: bench count equals: 0.
+	self assert: task isDue.
+	task step.
+	20 milliSeconds wait.
+	self deny: task isDue.
+	100 milliSeconds wait.
+	self assert: task isDue.
+
 ]

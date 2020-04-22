@@ -14,7 +14,8 @@ Class {
 { #category : #creating }
 TkTaskTestBench >> addSetUpTearDownBlocks [
 	task setUpBlock: [ setUpCount := setUpCount + 1 ].
-	task tearDownBlock: [ tearDownCount := tearDownCount + 1 ]
+	task tearDownBlock: [ tearDownCount := tearDownCount + 1 ].
+
 ]
 
 { #category : #accessing }
@@ -35,6 +36,12 @@ TkTaskTestBench >> initialize [
 	tearDownCount := 0.
 ]
 
+{ #category : #creating }
+TkTaskTestBench >> postPoneStartBy100Milliseconds [
+	task startAfter: 100 milliSeconds.
+
+]
+
 { #category : #accessing }
 TkTaskTestBench >> setFlagFalse [
 	flag := false
@@ -43,6 +50,12 @@ TkTaskTestBench >> setFlagFalse [
 { #category : #accessing }
 TkTaskTestBench >> setFlagTrue [
 	flag := true
+]
+
+{ #category : #creating }
+TkTaskTestBench >> setPeriod100Milliseconds [
+	task period: 100 milliSeconds.
+
 ]
 
 { #category : #accessing }
@@ -61,6 +74,13 @@ TkTaskTestBench >> taskDoneAfter100MillisecondsWithSetupAndTearDown [
 	self taskDoneAfter100Milliseconds.
 	self addSetUpTearDownBlocks.
 	^ task
+]
+
+{ #category : #creating }
+TkTaskTestBench >> taskDoneAfter300MillisecondsPeriod100Milliseconds [
+	task := TkTask repeat: [ count := count + 1 ] during: 300 milliSeconds.
+	self setPeriod100Milliseconds.
+	^task
 ]
 
 { #category : #creating }
@@ -83,6 +103,13 @@ TkTaskTestBench >> taskRepeating3Times [
 ]
 
 { #category : #creating }
+TkTaskTestBench >> taskRepeating3TimesPeriod100Milliseconds [
+	self taskRepeating3Times.
+	self setPeriod100Milliseconds.
+	^task
+]
+
+{ #category : #creating }
 TkTaskTestBench >> taskRepeating3TimesWithSetupAndTearDown [
 	self taskRepeating3Times.
 	self addSetUpTearDownBlocks.
@@ -93,6 +120,13 @@ TkTaskTestBench >> taskRepeating3TimesWithSetupAndTearDown [
 TkTaskTestBench >> taskRepeatingForever [
 	^task := TkTask repeat: [ count := count + 1 ].
 
+]
+
+{ #category : #creating }
+TkTaskTestBench >> taskRepeatingForeverPeriod100Milliseconds [
+	self taskRepeatingForever.
+	self setPeriod100Milliseconds.
+	^task
 ]
 
 { #category : #creating }
@@ -107,6 +141,13 @@ TkTaskTestBench >> taskRepeatingUntilFlagTrue [
 	self setFlagFalse.
 	^task := TkTask repeat: [ count := count + 1 ] until: [flag].
 
+]
+
+{ #category : #creating }
+TkTaskTestBench >> taskRepeatingUntilFlagTruePeriod100Milliseconds [
+	self taskRepeatingUntilFlagTrue.
+	self setPeriod100Milliseconds.
+	^task
 ]
 
 { #category : #creating }

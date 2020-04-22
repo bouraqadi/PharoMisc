@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #accessing }
+TkFiniteTask >> dueTime [
+	self isEndConditionMet ifTrue: [ ^nil ].
+	^super dueTime
+]
+
+{ #category : #accessing }
 TkFiniteTask >> endConditionBlock [
 	^ endConditionBlock
 ]
@@ -19,9 +25,14 @@ TkFiniteTask >> endConditionBlock: anObject [
 	endConditionBlock := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 TkFiniteTask >> isDone [
 	^self isEndConditionMet and: [ self isTearDownDone ]
+]
+
+{ #category : #testing }
+TkFiniteTask >> isDue [
+	^self isDone not and: [ ^super isDue ]
 ]
 
 { #category : #accessing }
@@ -29,7 +40,7 @@ TkFiniteTask >> isEndConditionMet [
 	^self endConditionBlock value
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 TkFiniteTask >> isTearDownDone [
 	^ isTearDownDone
 ]

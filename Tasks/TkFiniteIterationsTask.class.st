@@ -10,6 +10,7 @@ Class {
 
 { #category : #acting }
 TkFiniteIterationsTask >> afterStep [
+	super afterStep.
 	self iterationsCount: self iterationsCount + 1
 ]
 
