@@ -43,6 +43,25 @@ SmAutomatonTest >> testChangeStateWhenTransitionConditionIsVerified [
 ]
 
 { #category : #testing }
+SmAutomatonTest >> testCustomState [
+	|firstState secondState|
+	firstState := automaton newState: SmCustomStateForTest.
+	self assert: firstState class == SmCustomStateForTest.
+	secondState := automaton newState: SmCustomStateForTest.
+	self assert: secondState class == SmCustomStateForTest.
+	initialState transitionTo: firstState.
+	firstState transitionTo: secondState.
+	secondState transitionTo: firstState.
+	automaton step.
+	self assert: automaton currentState equals: firstState.
+	automaton step.
+	self assert: automaton currentState equals: secondState.
+	automaton step.
+	self assert: automaton currentState equals: firstState.
+	
+]
+
+{ #category : #testing }
 SmAutomatonTest >> testEntryActionOfInitialStatePerformed [
 	|newState entryActionPeformed|
 	entryActionPeformed := false.

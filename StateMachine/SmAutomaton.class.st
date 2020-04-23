@@ -40,6 +40,11 @@ SmAutomaton >> currentState: aState [
 
 ]
 
+{ #category : #'creating states' }
+SmAutomaton >> defaultStateClass [
+	^ SmState
+]
+
 { #category : #'initialize-release' }
 SmAutomaton >> initialState: aState [
 	self currentState: aState.
@@ -49,7 +54,49 @@ SmAutomaton >> initialState: aState [
 
 { #category : #'creating states' }
 SmAutomaton >> newState [
-	^SmState automaton: self
+	^ self newState: self defaultStateClass
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass [
+	^stateClass automaton: self
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass doing: aBlock [
+	^(self newState: stateClass)
+		mainActionBlock: aBlock;
+		yourself
+		
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass doing: mainActionBlock onEntryDo: entryActionBlock [ 
+	^self newState: stateClass doing: mainActionBlock onEntryDo: entryActionBlock onExitDo: nil.
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass doing: mainActionBlock onEntryDo: entryActionBlock onExitDo: exitActionBlock [
+	^(self newState: stateClass doing: mainActionBlock)
+		entryActionBlock: entryActionBlock;
+		exitActionBlock: exitActionBlock;
+		yourself
+
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass doing: mainActionBlock onExitDo: exitActionBlock [ 
+	^self newState: stateClass doing: mainActionBlock onEntryDo: nil onExitDo: exitActionBlock.
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass onEntryDo: aBlockClosure [ 
+	^self newState: stateClass doing: nil onEntryDo: aBlockClosure
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newState: stateClass onExitDo: aBlockClosure [ 
+	^self newState: stateClass doing: nil onExitDo: aBlockClosure
 ]
 
 { #category : #'creating states' }
