@@ -2,18 +2,28 @@ Class {
 	#name : #TkTaskTestBench,
 	#superclass : #Object,
 	#instVars : [
-		'count',
 		'task',
-		'flag',
+		'count',
 		'setUpCount',
-		'tearDownCount'
+		'tearDownCount',
+		'resetCount',
+		'flag'
 	],
 	#category : #Tasks
 }
 
 { #category : #creating }
-TkTaskTestBench >> addSetUpTearDownBlocks [
-	task setUpBlock: [ setUpCount := setUpCount + 1 ].
+TkTaskTestBench >> addResetBlock [
+	task resetBlock: [ resetCount := resetCount + 1 ]
+]
+
+{ #category : #creating }
+TkTaskTestBench >> addSetUpBlock [
+	task setUpBlock: [ setUpCount := setUpCount + 1 ]
+]
+
+{ #category : #creating }
+TkTaskTestBench >> addTearDownBlock [
 	task tearDownBlock: [ tearDownCount := tearDownCount + 1 ].
 
 ]
@@ -23,23 +33,18 @@ TkTaskTestBench >> count [
 	^ count
 ]
 
-{ #category : #accessing }
-TkTaskTestBench >> flag [
-	^flag
-]
-
 { #category : #initialization }
 TkTaskTestBench >> initialize [
 	super initialize.
 	count := 0.
 	setUpCount := 0.
 	tearDownCount := 0.
+	resetCount := 0
 ]
 
-{ #category : #creating }
-TkTaskTestBench >> postPoneStartBy100Milliseconds [
-	task startAfter: 100 milliSeconds.
-
+{ #category : #accessing }
+TkTaskTestBench >> resetCount [
+	^ resetCount
 ]
 
 { #category : #accessing }
@@ -52,109 +57,41 @@ TkTaskTestBench >> setFlagTrue [
 	flag := true
 ]
 
-{ #category : #creating }
-TkTaskTestBench >> setPeriod100Milliseconds [
-	task period: 100 milliSeconds.
-
-]
-
 { #category : #accessing }
 TkTaskTestBench >> setUpCount [
 	^ setUpCount
 ]
 
-{ #category : #creating }
-TkTaskTestBench >> taskDoneAfter100Milliseconds [
-	^task := TkTask repeat: [ count := count + 1 ] during: 100 milliSeconds.
-
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskDoneAfter100MillisecondsWithSetupAndTearDown [
-	self taskDoneAfter100Milliseconds.
-	self addSetUpTearDownBlocks.
+{ #category : #accessing }
+TkTaskTestBench >> task [
 	^ task
 ]
 
 { #category : #creating }
-TkTaskTestBench >> taskDoneAfter300MillisecondsPeriod100Milliseconds [
-	task := TkTask repeat: [ count := count + 1 ] during: 300 milliSeconds.
-	self setPeriod100Milliseconds.
-	^task
+TkTaskTestBench >> taskClass [
+	^TkTask
 ]
 
 { #category : #creating }
 TkTaskTestBench >> taskOneShot [
-	^task := TkTask doOnce: [ count := count + 1 ].
-
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskOneShotWithSetUpTearDown [
-	self taskOneShot.
-	self addSetUpTearDownBlocks.
-	^task
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeating3Times [
-	^task := TkTask repeat: [ count := count + 1 ] times: 3.
-
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeating3TimesPeriod100Milliseconds [
-	self taskRepeating3Times.
-	self setPeriod100Milliseconds.
-	^task
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeating3TimesWithSetupAndTearDown [
-	self taskRepeating3Times.
-	self addSetUpTearDownBlocks.
+	task := self taskClass doOnce: [ count := count + 1 ].
+	self addResetBlock.
 	^task
 ]
 
 { #category : #creating }
 TkTaskTestBench >> taskRepeatingForever [
-	^task := TkTask repeat: [ count := count + 1 ].
-
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeatingForeverPeriod100Milliseconds [
-	self taskRepeatingForever.
-	self setPeriod100Milliseconds.
-	^task
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeatingForeverWithSetup [
-	self taskRepeatingForever.
-	task setUpBlock: [ setUpCount := setUpCount + 1 ].
+	task := self taskClass repeat: [ count := count + 1 ].
+	self addResetBlock.
 	^task
 ]
 
 { #category : #creating }
 TkTaskTestBench >> taskRepeatingUntilFlagTrue [
 	self setFlagFalse.
-	^task := TkTask repeat: [ count := count + 1 ] until: [flag].
-
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeatingUntilFlagTruePeriod100Milliseconds [
-	self taskRepeatingUntilFlagTrue.
-	self setPeriod100Milliseconds.
+	task := TkTask repeat: [ count := count + 1 ] until: [flag].
+	self addResetBlock.
 	^task
-]
-
-{ #category : #creating }
-TkTaskTestBench >> taskRepeatingWhileFlagTrue [
-	self setFlagTrue.
-	^task := TkTask repeat: [ count := count + 1 ] while: [flag].
-
 ]
 
 { #category : #accessing }

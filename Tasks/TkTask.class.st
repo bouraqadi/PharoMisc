@@ -2,11 +2,14 @@ Class {
 	#name : #TkTask,
 	#superclass : #Object,
 	#instVars : [
-		'stepBlock',
+		'actionBlock',
+		'automaton',
+		'pendingState',
+		'actionState',
 		'setUpBlock',
-		'isSetUpDone',
-		'period',
-		'dueTime'
+		'setUpState',
+		'resetBlock',
+		'tearDownBlock'
 	],
 	#category : #Tasks
 }
@@ -19,7 +22,7 @@ TkTask class >> doOnce: aBlockClosure [
 { #category : #'instance creation' }
 TkTask class >> repeat: aBlockClosure [ 
 	^self new
-		stepBlock: aBlockClosure;
+		actionBlock: aBlockClosure;
 		yourself
 ]
 
@@ -39,7 +42,7 @@ TkTask class >> repeat: aBlockClosure times: times [
 
 { #category : #'instance creation' }
 TkTask class >> repeat: stepBlock until: endConditionBlock [
-	^(TkFiniteTask repeat: stepBlock)
+	^(TkGenericFiniteTask repeat: stepBlock)
 		endConditionBlock: endConditionBlock;
 		yourself
 ]
@@ -50,80 +53,67 @@ TkTask class >> repeat: stepBlock while: continueConditionBlock [
 ]
 
 { #category : #acting }
-TkTask >> afterStep [
-	self period ifNil: [ ^self ].
-	self dueTime: self now + self period
-]
-
-{ #category : #acting }
-TkTask >> beforeStep [
-	self isSetUpDone
-		ifTrue: [ ^ self ].
-	self setUp.
-	self isSetUpDone: true
+TkTask >> act [
+	self state act
 ]
 
 { #category : #accessing }
-TkTask >> dueTime [
-	^dueTime
+TkTask >> actionBlock [
+	^ actionBlock
 ]
 
 { #category : #accessing }
-TkTask >> dueTime: aDateAndTime [
-	dueTime := aDateAndTime
+TkTask >> actionBlock: anObject [
+	actionBlock := anObject
 ]
 
 { #category : #initialization }
 TkTask >> initialize [
 	super initialize.
-	self reset
+	automaton := SmAutomaton new.
+	pendingState := self newState: TkPendingTaskState.
+	pendingState 
+	automaton initialState: pendingState.
+	actionState := self newState: TkActingTaskState.
+	setUpState := self newState: TkSetUpTaskState.
+	pendingState transitionTo: actionState when: [self setUpBlock isNil].
+	pendingState transitionTo: setUpState when: [ self setUpBlock notNil ].
+	setUpState transitionTo: actionState.
+
 ]
 
 { #category : #testing }
 TkTask >> isDone [
-	^false
+	^self state isDone
 ]
 
 { #category : #testing }
 TkTask >> isDue [
-	self dueTime ifNil: [ ^true ].
-	^self dueTime <= self now
-]
-
-{ #category : #testing }
-TkTask >> isSetUpDone [
-	^ isSetUpDone
-]
-
-{ #category : #accessing }
-TkTask >> isSetUpDone: anObject [
-	isSetUpDone := anObject
-]
-
-{ #category : #accessing }
-TkTask >> now [
-	^DateAndTime now
-]
-
-{ #category : #accessing }
-TkTask >> period [
-	^period
-]
-
-{ #category : #accessing }
-TkTask >> period: aDuration [ 
-	period := aDuration
+	^self state isDue
 ]
 
 { #category : #initialization }
-TkTask >> reset [
-	self isSetUpDone: false.
-	self dueTime: nil.
+TkTask >> newState: stateClass [
+	| newState |
+	newState := automaton newState: stateClass.
+	newState task: self.
+	^newState
 ]
 
 { #category : #acting }
-TkTask >> setUp [
-	self setUpBlock value
+TkTask >> reset [
+	self resetBlock value.
+	automaton currentState: pendingState
+]
+
+{ #category : #accessing }
+TkTask >> resetBlock [
+	^ resetBlock
+]
+
+{ #category : #accessing }
+TkTask >> resetBlock: anObject [
+	resetBlock := anObject
 ]
 
 { #category : #accessing }
@@ -136,24 +126,23 @@ TkTask >> setUpBlock: aBlockClosure [
 	setUpBlock := aBlockClosure
 ]
 
-{ #category : #initialization }
-TkTask >> startAfter: aDuration [
-	self dueTime: self now + aDuration
+{ #category : #accessing }
+TkTask >> state [
+	^ automaton currentState
 ]
 
 { #category : #acting }
 TkTask >> step [
-	self beforeStep.
-	self stepBlock value.
-	self afterStep.
+	automaton step.
+	self act
 ]
 
 { #category : #accessing }
-TkTask >> stepBlock [
-	^ stepBlock
+TkTask >> tearDownBlock [
+	^ tearDownBlock
 ]
 
 { #category : #accessing }
-TkTask >> stepBlock: anObject [
-	stepBlock := anObject
+TkTask >> tearDownBlock: aBlockClosure [ 
+	tearDownBlock := aBlockClosure
 ]

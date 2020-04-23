@@ -10,6 +10,10 @@ BaselineOfTasks >> baseline: spec [
 
 	spec for: #'common' do: [
 		spec 
+			baseline: 'StateMachine' with: [
+				spec
+					repository: 'github://bouraqadi/PharoMisc' ].
+		spec 
 			package: 'Tasks'.
 	]
 ]
