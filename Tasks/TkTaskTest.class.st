@@ -16,22 +16,56 @@ TkTaskTest >> setUp [
 
 { #category : #tests }
 TkTaskTest >> testOneShotTask [
-	task  := bench taskOneShot.
+	task :=  bench taskOneShot.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	task step.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 1.
-	task step.
+	self assert: bench actionCount equals: 1.
 	2 timesRepeat: [
+		task step.
 		self deny: task isDue.
 		self assert: task isDone.
-		self assert: bench count equals: 1
+		self assert: bench actionCount equals: 1
 	].
 	
 	
+]
+
+{ #category : #tests }
+TkTaskTest >> testResetOneShotTask [
+	task := bench taskOneShot.
+	2 timesRepeat: [task step].
+	self deny: task isDue.
+	self assert: task isDone.
+	task reset.
+	self assert: task isDue.
+	self deny: task isDone.
+	2 timesRepeat: [task step].
+	self deny: task isDue.
+	self assert: task isDone.
+	self assert: bench actionCount equals: 2.
+	
+	
+]
+
+{ #category : #tests }
+TkTaskTest >> testResetTaskDoneRepeatingForFixedIterationsCount [
+	task := bench taskRepeating3Times.
+	4 timesRepeat: [task step].
+	self deny: task isDue.
+	self assert: task isDone.
+	self assert: bench actionCount equals: 3.
+	task reset.
+	self assert: task isDue.
+	self deny: task isDone.
+	4 timesRepeat: [task step].
+	self deny: task isDue.
+	self assert: task isDone.
+	self assert: bench actionCount equals: 6.
+	self assert: bench resetCount equals: 1.
 ]
 
 { #category : #tests }
@@ -39,33 +73,33 @@ TkTaskTest >> testResetTaskRepeatingForever [
 	task := bench taskRepeatingForever.
 	bench addSetUpBlock.
 	task step.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 1.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
 	task reset.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 1.
 	self assert: bench resetCount equals: 1.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 1.
 	task step.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 2.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 1.
 	task step.
-	self assert: bench count equals: 1.
+	self assert: bench actionCount equals: 1.
 	self assert: bench setUpCount equals: 2.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 1.
 	task reset.
-	self assert: bench count equals: 1.
+	self assert: bench actionCount equals: 1.
 	self assert: bench setUpCount equals: 2.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 2.
 	task step.
-	self assert: bench count equals: 1.
+	self assert: bench actionCount equals: 1.
 	self assert: bench setUpCount equals: 3.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 2.
@@ -74,26 +108,26 @@ TkTaskTest >> testResetTaskRepeatingForever [
 
 { #category : #tests }
 TkTaskTest >> testResetTaskRepeatingUntilConditionMet [
-	task  := bench taskRepeatingUntilFlagTrue.
+	task := bench taskRepeatingUntilFlagTrue.
 	bench addTearDownBlock.
 	task step.
-	self assert: bench count equals: 1.
+	self assert: bench actionCount equals: 1.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
 	task reset.
-	self assert: bench count equals: 1.
+	self assert: bench actionCount equals: 1.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 1.
 	task step.
-	self assert: bench count equals: 2.
+	self assert: bench actionCount equals: 2.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 1.
 	bench setFlagTrue.
 	task step.
-	self assert: bench count equals: 2.
+	self assert: bench actionCount equals: 2.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 1.
 	self assert: bench resetCount equals: 1.
@@ -103,7 +137,7 @@ TkTaskTest >> testResetTaskRepeatingUntilConditionMet [
 	task reset.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 2.
+	self assert: bench actionCount equals: 2.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 1.
 	self assert: bench resetCount equals: 2.
@@ -117,14 +151,14 @@ TkTaskTest >> testSetUpTaskRepeatingForever [
 	bench addSetUpBlock.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
 	task step.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 1.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
@@ -132,7 +166,7 @@ TkTaskTest >> testSetUpTaskRepeatingForever [
 		task step.
 		self assert: task isDue.
 		self deny: task isDone.
-		self assert: bench count equals: expectedCount.
+		self assert: bench actionCount equals: expectedCount.
 		self assert: bench setUpCount equals: 1.
 		self assert: bench tearDownCount equals: 0.
 		self assert: bench resetCount equals: 0.
@@ -142,18 +176,18 @@ TkTaskTest >> testSetUpTaskRepeatingForever [
 
 { #category : #tests }
 TkTaskTest >> testSetUpTaskRepeatingUntilConditionMet [
-	task  := bench taskRepeatingUntilFlagTrue.
+	task := bench taskRepeatingUntilFlagTrue.
 	bench addSetUpBlock.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
 	task step.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 1.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
@@ -161,7 +195,7 @@ TkTaskTest >> testSetUpTaskRepeatingUntilConditionMet [
 		task step.
 		self assert: task isDue.
 		self deny: task isDone.
-		self assert: bench count equals: expectedCount.
+		self assert: bench actionCount equals: expectedCount.
 		self assert: bench setUpCount equals: 1.
 		self assert: bench tearDownCount equals: 0.
 		self assert: bench resetCount equals: 0.
@@ -170,7 +204,7 @@ TkTaskTest >> testSetUpTaskRepeatingUntilConditionMet [
 	task step.
 	self deny: task isDue.
 	self assert: task isDone.
-	self assert: bench count equals: 2.
+	self assert: bench actionCount equals: 2.
 	self assert: bench setUpCount equals: 1.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
@@ -179,11 +213,31 @@ TkTaskTest >> testSetUpTaskRepeatingUntilConditionMet [
 ]
 
 { #category : #tests }
-TkTaskTest >> testTaskRepeatingForever [
-	task  := bench taskRepeatingForever.
+TkTaskTest >> testTaskDoneRepeatingForFixedIterationsCount [
+	task := bench taskRepeating3Times.
+	self assert: bench actionCount equals: 0.
+	1 to: 3 do: [: expectedCount |
+		self assert: task isDue.
+		self deny: task isDone.
+		task step.
+		self assert: bench actionCount equals: expectedCount.
+	].
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	task step.
+	self deny: task isDue.
+	self assert: task isDone.
+	self assert: bench actionCount equals: 3.
+	
+	
+]
+
+{ #category : #tests }
+TkTaskTest >> testTaskRepeatingForever [
+	task := bench taskRepeatingForever.
+	self assert: task isDue.
+	self deny: task isDone.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
@@ -191,7 +245,7 @@ TkTaskTest >> testTaskRepeatingForever [
 		task step.
 		self assert: task isDue.
 		self deny: task isDone.
-		self assert: bench count equals: expectedCount.
+		self assert: bench actionCount equals: expectedCount.
 		self assert: bench setUpCount equals: 0.
 		self assert: bench tearDownCount equals: 0.
 		self assert: bench resetCount equals: 0.
@@ -200,10 +254,10 @@ TkTaskTest >> testTaskRepeatingForever [
 
 { #category : #tests }
 TkTaskTest >> testTaskRepeatingUntilConditionMet [
-	task  := bench taskRepeatingUntilFlagTrue.
+	task := bench taskRepeatingUntilFlagTrue.
 	self assert: task isDue.
 	self deny: task isDone.
-	self assert: bench count equals: 0.
+	self assert: bench actionCount equals: 0.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
@@ -211,7 +265,7 @@ TkTaskTest >> testTaskRepeatingUntilConditionMet [
 		task step.
 		self assert: task isDue.
 		self deny: task isDone.
-		self assert: bench count equals: expectedCount.
+		self assert: bench actionCount equals: expectedCount.
 		self assert: bench setUpCount equals: 0.
 		self assert: bench tearDownCount equals: 0.
 		self assert: bench resetCount equals: 0.
@@ -220,7 +274,7 @@ TkTaskTest >> testTaskRepeatingUntilConditionMet [
 	task step.
 	self deny: task isDue.
 	self assert: task isDone.
-	self assert: bench count equals: 2.
+	self assert: bench actionCount equals: 2.
 	self assert: bench setUpCount equals: 0.
 	self assert: bench tearDownCount equals: 0.
 	self assert: bench resetCount equals: 0.
@@ -230,7 +284,7 @@ TkTaskTest >> testTaskRepeatingUntilConditionMet [
 
 { #category : #tests }
 TkTaskTest >> testTearDownTaskRepeatingUntilConditionMet [
-	task  := bench taskRepeatingUntilFlagTrue.
+	task := bench taskRepeatingUntilFlagTrue.
 	bench addTearDownBlock.
 	2 timesRepeat: [task step].
 	bench setFlagTrue.
@@ -241,7 +295,7 @@ TkTaskTest >> testTearDownTaskRepeatingUntilConditionMet [
 		task step.
 		self deny: task isDue.
 		self assert: task isDone.
-		self assert: bench count equals: 2.
+		self assert: bench actionCount equals: 2.
 		self assert: bench setUpCount equals: 0.
 		self assert: bench tearDownCount equals: 1.
 	]

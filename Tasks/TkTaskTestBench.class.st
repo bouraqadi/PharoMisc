@@ -3,14 +3,24 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'task',
-		'count',
 		'setUpCount',
 		'tearDownCount',
 		'resetCount',
-		'flag'
+		'flag',
+		'actionCount'
 	],
 	#category : #Tasks
 }
+
+{ #category : #accessing }
+TkTaskTestBench >> actionBlock [
+	^ [ actionCount := actionCount + 1 ]
+]
+
+{ #category : #accessing }
+TkTaskTestBench >> actionCount [
+	^ actionCount
+]
 
 { #category : #creating }
 TkTaskTestBench >> addResetBlock [
@@ -28,15 +38,10 @@ TkTaskTestBench >> addTearDownBlock [
 
 ]
 
-{ #category : #accessing }
-TkTaskTestBench >> count [
-	^ count
-]
-
 { #category : #initialization }
 TkTaskTestBench >> initialize [
 	super initialize.
-	count := 0.
+	actionCount := 0.
 	setUpCount := 0.
 	tearDownCount := 0.
 	resetCount := 0
@@ -67,6 +72,13 @@ TkTaskTestBench >> task [
 	^ task
 ]
 
+{ #category : #accessing }
+TkTaskTestBench >> task: aTask [
+	task := aTask.
+	self addResetBlock.
+	^task
+]
+
 { #category : #creating }
 TkTaskTestBench >> taskClass [
 	^TkTask
@@ -74,24 +86,33 @@ TkTaskTestBench >> taskClass [
 
 { #category : #creating }
 TkTaskTestBench >> taskOneShot [
-	task := self taskClass doOnce: [ count := count + 1 ].
-	self addResetBlock.
-	^task
+	^self task: (self taskClass doOnce: self actionBlock).
+
+]
+
+{ #category : #creating }
+TkTaskTestBench >> taskRepeating3Times [
+	^self task: (self taskClass repeat: self actionBlock times: 3).
+
 ]
 
 { #category : #creating }
 TkTaskTestBench >> taskRepeatingForever [
-	task := self taskClass repeat: [ count := count + 1 ].
-	self addResetBlock.
-	^task
+	^self task: (self taskClass repeat: self actionBlock).
+
 ]
 
 { #category : #creating }
 TkTaskTestBench >> taskRepeatingUntilFlagTrue [
 	self setFlagFalse.
-	task := TkTask repeat: [ count := count + 1 ] until: [flag].
-	self addResetBlock.
-	^task
+	^self task: (TkTask repeat: self actionBlock until: [flag]).
+
+]
+
+{ #category : #creating }
+TkTaskTestBench >> taskRepeatingWhileFlagTrue [
+	self setFlagTrue.
+	^ self task: (TkTask repeat: self actionBlock while: [ flag ])
 ]
 
 { #category : #accessing }

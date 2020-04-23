@@ -29,6 +29,12 @@ TkFiniteIterationsTask >> iterationsCount: anObject [
 	iterationsCount := anObject
 ]
 
+{ #category : #acting }
+TkFiniteIterationsTask >> reset [
+	super reset.
+	self resetIterationsCount
+]
+
 { #category : #initialization }
 TkFiniteIterationsTask >> resetIterationsCount [
 	self iterationsCount: 0
