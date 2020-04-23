@@ -6,5 +6,5 @@ Class {
 
 { #category : #acting }
 TkTearDownTaskState >> act [
-	self task tearDownBlock value
+	self task valueTearDownBlock
 ]

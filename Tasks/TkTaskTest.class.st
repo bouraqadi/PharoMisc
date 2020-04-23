@@ -9,36 +9,29 @@ Class {
 }
 
 { #category : #tests }
-TkTaskTest >> oneShotTaskTestTODO [
+TkTaskTest >> setUp [
+	super setUp.
+	bench := TkTaskTestBench new
+]
+
+{ #category : #tests }
+TkTaskTest >> testOneShotTask [
 	task  := bench taskOneShot.
 	self assert: task isDue.
 	self deny: task isDone.
 	self assert: bench count equals: 0.
-	self assert: bench setUpCount equals: 0.
-	self assert: bench tearDownCount equals: 0.
-	self assert: bench resetCount equals: 0.
 	task step.
-	self deny: task isDue.
-	self assert: task isDone.
+	self assert: task isDue.
+	self deny: task isDone.
 	self assert: bench count equals: 1.
-	self assert: bench setUpCount equals: 0.
-	self assert: bench tearDownCount equals: 0.
-	self assert: bench resetCount equals: 0.
 	task step.
-	self deny: task isDue.
-	self assert: task isDone.
-	self assert: bench count equals: 1.
-	self assert: bench setUpCount equals: 0.
-	self assert: bench tearDownCount equals: 0.
-	self assert: bench resetCount equals: 0.
+	2 timesRepeat: [
+		self deny: task isDue.
+		self assert: task isDone.
+		self assert: bench count equals: 1
+	].
 	
 	
-]
-
-{ #category : #tests }
-TkTaskTest >> setUp [
-	super setUp.
-	bench := TkTaskTestBench new
 ]
 
 { #category : #tests }
@@ -244,13 +237,13 @@ TkTaskTest >> testTearDownTaskRepeatingUntilConditionMet [
 	task step.
 	self assert: task isDue.
 	self deny: task isDone.
-	task step.
-	self deny: task isDue.
-	self assert: task isDone.
-	self assert: bench count equals: 2.
-	self assert: bench setUpCount equals: 0.
-	self assert: bench tearDownCount equals: 1.
-	self assert: bench resetCount equals: 0.
-
+	2 timesRepeat: [
+		task step.
+		self deny: task isDue.
+		self assert: task isDone.
+		self assert: bench count equals: 2.
+		self assert: bench setUpCount equals: 0.
+		self assert: bench tearDownCount equals: 1.
+	]
 
 ]

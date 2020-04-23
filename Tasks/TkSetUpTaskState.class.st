@@ -6,5 +6,5 @@ Class {
 
 { #category : #acting }
 TkSetUpTaskState >> act [
-	self task setUpBlock value
+	self task valueSetUpBlock
 ]

@@ -6,5 +6,5 @@ Class {
 
 { #category : #acting }
 TkActingTaskState >> act [
-	self task actionBlock value
+	self task valueActionBlock
 ]

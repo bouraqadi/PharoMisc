@@ -134,7 +134,8 @@ TkTask >> state [
 { #category : #acting }
 TkTask >> step [
 	automaton step.
-	self act
+	self act.
+
 ]
 
 { #category : #accessing }
@@ -145,4 +146,19 @@ TkTask >> tearDownBlock [
 { #category : #accessing }
 TkTask >> tearDownBlock: aBlockClosure [ 
 	tearDownBlock := aBlockClosure
+]
+
+{ #category : #acting }
+TkTask >> valueActionBlock [
+	self actionBlock value
+]
+
+{ #category : #acting }
+TkTask >> valueSetUpBlock [
+	self setUpBlock value
+]
+
+{ #category : #acting }
+TkTask >> valueTearDownBlock [
+	self tearDownBlock value
 ]
