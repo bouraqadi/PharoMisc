@@ -17,6 +17,15 @@ SmAutomatonTest >> setUp [
 ]
 
 { #category : #testing }
+SmAutomatonTest >> testAutomaticTransition [
+	|newState|
+	newState := automaton newState.
+	initialState transitionTo: newState.
+	automaton step.
+	self assert: automaton currentState equals: newState
+]
+
+{ #category : #testing }
 SmAutomatonTest >> testAutomatonAtInitialState [
 	self assert: automaton currentState equals: initialState.
 	self assert: initialState automaton equals: automaton

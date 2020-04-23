@@ -120,6 +120,11 @@ SmState >> step [
 		ifFound: [ :actionableTransition| actionableTransition perform]
 ]
 
+{ #category : #running }
+SmState >> transitionTo: aSmState [ 
+	self transitionTo: aSmState when: true.
+]
+
 { #category : #transitions }
 SmState >> transitionTo: targetState when: conditionBlock [ 
 	| newTransition |
