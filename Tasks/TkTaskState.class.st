@@ -4,12 +4,22 @@ Class {
 	#instVars : [
 		'task'
 	],
-	#category : #Tasks
+	#category : #'Tasks-Kernel'
 }
 
 { #category : #acting }
 TkTaskState >> act [
 	^self
+]
+
+{ #category : #testing }
+TkTaskState >> dueTime [
+	^self task dueTime
+]
+
+{ #category : #testing }
+TkTaskState >> dueTime: aDateAndTime [
+	^self task dueTime: aDateAndTime
 ]
 
 { #category : #testing }
@@ -20,6 +30,22 @@ TkTaskState >> isDone [
 { #category : #testing }
 TkTaskState >> isDue [
 	^true
+]
+
+{ #category : #testing }
+TkTaskState >> isDueTimePassed [
+	self dueTime ifNil: [ ^ true ].
+	^ self dueTime <= self now
+]
+
+{ #category : #testing }
+TkTaskState >> now [
+	^self task now
+]
+
+{ #category : #initialization }
+TkTaskState >> startAfter: aDuration [
+	^self
 ]
 
 { #category : #accessing }

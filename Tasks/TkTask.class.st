@@ -9,9 +9,11 @@ Class {
 		'setUpBlock',
 		'setUpState',
 		'resetBlock',
-		'tearDownBlock'
+		'tearDownBlock',
+		'period',
+		'dueTime'
 	],
-	#category : #Tasks
+	#category : #'Tasks-Kernel'
 }
 
 { #category : #'instance creation' }
@@ -67,6 +69,26 @@ TkTask >> actionBlock: anObject [
 	actionBlock := anObject
 ]
 
+{ #category : #accessing }
+TkTask >> dueTime [
+	^ dueTime
+]
+
+{ #category : #accessing }
+TkTask >> dueTime: anObject [
+	dueTime := anObject
+]
+
+{ #category : #accessing }
+TkTask >> frequency [
+	^1000 / self period asMilliSeconds
+]
+
+{ #category : #accessing }
+TkTask >> frequency: newFrequency [
+	self period: (1000/newFrequency) milliSeconds
+]
+
 { #category : #initialization }
 TkTask >> initialize [
 	super initialize.
@@ -100,10 +122,26 @@ TkTask >> newState: stateClass [
 	^newState
 ]
 
+{ #category : #accessing }
+TkTask >> now [
+	^DateAndTime now
+]
+
+{ #category : #accessing }
+TkTask >> period [
+	^ period
+]
+
+{ #category : #accessing }
+TkTask >> period: anObject [
+	period := anObject
+]
+
 { #category : #acting }
 TkTask >> reset [
 	self resetBlock value.
-	automaton currentState: pendingState
+	automaton currentState: pendingState.
+	self dueTime: nil.
 ]
 
 { #category : #accessing }
@@ -124,6 +162,16 @@ TkTask >> setUpBlock [
 { #category : #accessing }
 TkTask >> setUpBlock: aBlockClosure [ 
 	setUpBlock := aBlockClosure
+]
+
+{ #category : #acting }
+TkTask >> startAfter: aDuration [
+	self state startAfter: aDuration
+]
+
+{ #category : #acting }
+TkTask >> startOn: dateAndTime [
+	self startAfter: dateAndTime - self now
 ]
 
 { #category : #accessing }
@@ -149,8 +197,15 @@ TkTask >> tearDownBlock: aBlockClosure [
 ]
 
 { #category : #acting }
+TkTask >> updateDueTime [
+	self period ifNil: [ ^self ].
+	self dueTime: self now + self period
+]
+
+{ #category : #acting }
 TkTask >> valueActionBlock [
-	self actionBlock value
+	self actionBlock value.
+	self updateDueTime.
 ]
 
 { #category : #acting }

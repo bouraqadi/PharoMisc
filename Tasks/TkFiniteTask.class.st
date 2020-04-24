@@ -5,7 +5,7 @@ Class {
 		'doneState',
 		'tearDownState'
 	],
-	#category : #Tasks
+	#category : #'Tasks-Kernel'
 }
 
 { #category : #initialization }
@@ -20,7 +20,7 @@ TkFiniteTask >> initialize [
 	tearDownState transitionTo: doneState.
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TkFiniteTask >> isEndConditionMet [
 	^self subclassResponsibility 
 ]

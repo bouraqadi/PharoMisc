@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'endConditionBlock'
 	],
-	#category : #Tasks
+	#category : #'Tasks-Kernel'
 }
 
 { #category : #accessing }

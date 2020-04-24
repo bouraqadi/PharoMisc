@@ -1,7 +1,7 @@
 Class {
 	#name : #TkTearDownTaskState,
 	#superclass : #TkTaskState,
-	#category : #Tasks
+	#category : #'Tasks-Kernel'
 }
 
 { #category : #acting }

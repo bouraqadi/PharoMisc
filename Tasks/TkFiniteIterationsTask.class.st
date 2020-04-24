@@ -5,7 +5,7 @@ Class {
 		'totalIterations',
 		'iterationsCount'
 	],
-	#category : #Tasks
+	#category : #'Tasks-Kernel'
 }
 
 { #category : #initialization }
@@ -53,7 +53,7 @@ TkFiniteIterationsTask >> totalIterations: anInteger [
 
 { #category : #acting }
 TkFiniteIterationsTask >> valueActionBlock [
-	self iterationsCount: self iterationsCount + 1.
 	super valueActionBlock.
+	self iterationsCount: self iterationsCount + 1.
 	
 ]
