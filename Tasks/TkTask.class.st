@@ -13,45 +13,80 @@ Class {
 		'period',
 		'dueTime'
 	],
-	#category : #'Tasks-Kernel'
+	#category : #'Tasks-Kernel-Tasks'
 }
 
 { #category : #'instance creation' }
-TkTask class >> doOnce: aBlockClosure [ 
-	^self repeat: aBlockClosure times: 1.
+TkTask class >> doOnce: actionBlock [ 
+	^self repeat: actionBlock times: 1.
 ]
 
 { #category : #'instance creation' }
-TkTask class >> repeat: aBlockClosure [ 
+TkTask class >> repeat: actionBlock [ 
 	^self new
-		actionBlock: aBlockClosure;
+		actionBlock: actionBlock;
 		yourself
 ]
 
 { #category : #'instance creation' }
-TkTask class >> repeat: aBlockClosure during: aDuration [ 
-	^(TkFiniteDurationTask repeat: aBlockClosure)
+TkTask class >> repeat: actionBlock during: aDuration [ 
+	^(TkFiniteDurationTask repeat: actionBlock)
 		duration: aDuration;
 		yourself 
 ]
 
 { #category : #'instance creation' }
-TkTask class >> repeat: aBlockClosure times: times [
-	^(TkFiniteIterationsTask repeat: aBlockClosure) 
+TkTask class >> repeat: actionBlock during: aDuration every: durationPeriod [
+	^(self repeat: actionBlock during: aDuration)
+		period: durationPeriod;
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkTask class >> repeat: actionBlock every: durationPeriod [
+	^(self repeat: actionBlock)
+		period: durationPeriod;
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkTask class >> repeat: actionBlock times: times [
+	^(TkFiniteIterationsTask repeat: actionBlock) 
 		totalIterations: times;
 		yourself 
 ]
 
 { #category : #'instance creation' }
-TkTask class >> repeat: stepBlock until: endConditionBlock [
-	^(TkGenericFiniteTask repeat: stepBlock)
+TkTask class >> repeat: actionBlock times: times every: durationPeriod [
+	^(self repeat: actionBlock times: times)
+		period: durationPeriod;
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkTask class >> repeat: actionBlock until: endConditionBlock [
+	^(TkGenericFiniteTask repeat: actionBlock)
 		endConditionBlock: endConditionBlock;
 		yourself
 ]
 
 { #category : #'instance creation' }
-TkTask class >> repeat: stepBlock while: continueConditionBlock [
-	^self repeat: stepBlock until: [continueConditionBlock value not]
+TkTask class >> repeat: actionBlock until: endConditionBlock every: durationPeriod [
+	^(self repeat: actionBlock until: endConditionBlock)
+		period: durationPeriod;
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkTask class >> repeat: actionBlock while: continueConditionBlock [
+	^self repeat: actionBlock until: [continueConditionBlock value not]
+]
+
+{ #category : #'instance creation' }
+TkTask class >> repeat: actionBlock while: continueConditionBlock every: durationPeriod [
+	^(self repeat: actionBlock while: continueConditionBlock)
+		period: durationPeriod;
+		yourself
 ]
 
 { #category : #acting }
@@ -94,7 +129,6 @@ TkTask >> initialize [
 	super initialize.
 	automaton := SmAutomaton new.
 	pendingState := self newState: TkPendingTaskState.
-	pendingState 
 	automaton initialState: pendingState.
 	actionState := self newState: TkActingTaskState.
 	setUpState := self newState: TkSetUpTaskState.

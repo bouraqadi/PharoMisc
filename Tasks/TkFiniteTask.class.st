@@ -5,7 +5,7 @@ Class {
 		'doneState',
 		'tearDownState'
 	],
-	#category : #'Tasks-Kernel'
+	#category : #'Tasks-Kernel-Tasks'
 }
 
 { #category : #initialization }

@@ -1,35 +1,20 @@
 Class {
 	#name : #TkTaskTestBench,
-	#superclass : #Object,
+	#superclass : #TkTestBench,
 	#instVars : [
-		'task',
-		'setUpCount',
-		'tearDownCount',
-		'resetCount',
-		'flag',
-		'actionCount'
+		'task'
 	],
 	#category : #'Tasks-Tests'
 }
 
-{ #category : #accessing }
-TkTaskTestBench >> actionBlock [
-	^ [ actionCount := actionCount + 1 ]
-]
-
-{ #category : #accessing }
-TkTaskTestBench >> actionCount [
-	^ actionCount
-]
-
 { #category : #creating }
 TkTaskTestBench >> addResetBlock [
-	task resetBlock: [ resetCount := resetCount + 1 ]
+	task resetBlock: self resetBlock
 ]
 
 { #category : #creating }
 TkTaskTestBench >> addSetUpBlock [
-	task setUpBlock: [ setUpCount := setUpCount + 1 ]
+	task setUpBlock: self setUpBlock
 ]
 
 { #category : #creating }
@@ -40,38 +25,13 @@ TkTaskTestBench >> addSetUpTearDownBlocks [
 
 { #category : #creating }
 TkTaskTestBench >> addTearDownBlock [
-	task tearDownBlock: [ tearDownCount := tearDownCount + 1 ].
-
-]
-
-{ #category : #initialization }
-TkTaskTestBench >> initialize [
-	super initialize.
-	actionCount := 0.
-	setUpCount := 0.
-	tearDownCount := 0.
-	resetCount := 0
+	task tearDownBlock: self tearDownBlock
 ]
 
 { #category : #creating }
 TkTaskTestBench >> postponeStartBy100Milliseconds [
 	task startAfter: 100 milliSeconds.
 
-]
-
-{ #category : #accessing }
-TkTaskTestBench >> resetCount [
-	^ resetCount
-]
-
-{ #category : #accessing }
-TkTaskTestBench >> setFlagFalse [
-	flag := false
-]
-
-{ #category : #accessing }
-TkTaskTestBench >> setFlagTrue [
-	flag := true
 ]
 
 { #category : #creating }
@@ -96,11 +56,6 @@ TkTaskTestBench >> setStartTime100MillisecondsInTheFuture [
 TkTaskTestBench >> setStartTime100MillisecondsInThePast [
 	task startOn: DateAndTime now - 100 milliSeconds.
 
-]
-
-{ #category : #accessing }
-TkTaskTestBench >> setUpCount [
-	^ setUpCount
 ]
 
 { #category : #accessing }
@@ -149,8 +104,7 @@ TkTaskTestBench >> taskRepeatingForeverPeriod100Milliseconds [
 { #category : #creating }
 TkTaskTestBench >> taskRepeatingUntilFlagTrue [
 	self setFlagFalse.
-	^self task: (TkTask repeat: self actionBlock until: [flag]).
-
+	^ self task: (TkTask repeat: self actionBlock until: self flagBlock)
 ]
 
 { #category : #creating }
@@ -163,10 +117,5 @@ TkTaskTestBench >> taskRepeatingUntilFlagTruePeriod100Milliseconds [
 { #category : #creating }
 TkTaskTestBench >> taskRepeatingWhileFlagTrue [
 	self setFlagTrue.
-	^ self task: (TkTask repeat: self actionBlock while: [ flag ])
-]
-
-{ #category : #accessing }
-TkTaskTestBench >> tearDownCount [
-	^ tearDownCount
+	^ self task: (TkTask repeat: self actionBlock while: self flagBlock)
 ]

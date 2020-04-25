@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'task'
 	],
-	#category : #'Tasks-Kernel'
+	#category : #'Tasks-Kernel-Tasks'
 }
 
 { #category : #acting }

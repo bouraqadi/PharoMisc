@@ -5,7 +5,7 @@ Class {
 		'totalIterations',
 		'iterationsCount'
 	],
-	#category : #'Tasks-Kernel'
+	#category : #'Tasks-Kernel-Tasks'
 }
 
 { #category : #initialization }
