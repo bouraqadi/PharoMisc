@@ -48,14 +48,12 @@ TkTaskTestBench >> setPeriod100Milliseconds [
 
 { #category : #creating }
 TkTaskTestBench >> setStartTime100MillisecondsInTheFuture [
-	task startOn: DateAndTime now + 100 milliSeconds.
-
+	task startOn: self time100MillisecondsInTheFuture
 ]
 
 { #category : #creating }
 TkTaskTestBench >> setStartTime100MillisecondsInThePast [
-	task startOn: DateAndTime now - 100 milliSeconds.
-
+	task startOn: self time100MillisecondsInThePast
 ]
 
 { #category : #accessing }

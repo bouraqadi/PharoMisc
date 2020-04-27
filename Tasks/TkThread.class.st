@@ -134,6 +134,11 @@ TkThread >> newState: stateClass [
 ]
 
 { #category : #accessing }
+TkThread >> period: aDuration [ 
+	self task period: aDuration
+]
+
+{ #category : #accessing }
 TkThread >> priority [
 	^ priority
 ]
@@ -164,6 +169,11 @@ TkThread >> restart [
 	^self state restart
 ]
 
+{ #category : #initialization }
+TkThread >> setUpBlock: aBlock [
+	self task setUpBlock: aBlock
+]
+
 { #category : #living }
 TkThread >> start [
 	^self state start
@@ -188,6 +198,7 @@ TkThread >> step [
 
 { #category : #living }
 TkThread >> stepTask [
+	self waitUntilTaskIsDue.
 	self task step
 ]
 
@@ -206,7 +217,18 @@ TkThread >> task: anObject [
 	task := anObject
 ]
 
+{ #category : #initialization }
+TkThread >> tearDownBlock: aBlock [
+	self task tearDownBlock: aBlock
+]
+
 { #category : #living }
 TkThread >> terminateProcess [
 	self process terminate
+]
+
+{ #category : #living }
+TkThread >> waitUntilTaskIsDue [
+	self task isDue ifTrue: [ ^self ].
+	self task period wait
 ]

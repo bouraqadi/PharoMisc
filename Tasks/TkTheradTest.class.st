@@ -73,6 +73,18 @@ TkTheradTest >> testNormalTermination [
 ]
 
 { #category : #tests }
+TkTheradTest >> testPeriod [
+	| startTime endTime |
+	thread := bench threadRepeatingForeverPeriod100Milliseconds.
+	startTime := DateAndTime now.
+	thread start.
+	self waitUntil: [ bench actionCount >= 11 ] timeout: 2 seconds.
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 1 seconds.
+
+]
+
+{ #category : #tests }
 TkTheradTest >> testRestartAfterKill [
 	| previousCount |
 	thread := bench threadRepeatingForever.
@@ -134,6 +146,19 @@ TkTheradTest >> testRestartThreadNeverStarted [
 	self assert: thread isStarted.
 	self assert: bench resetCount equals: 0.
 
+]
+
+{ #category : #tests }
+TkTheradTest >> testSetUpTearDown [
+	thread := bench threadRepeating3Times.
+	bench addSetUpTearDownBlocks.
+	thread start.
+	self waitUntil: [ thread isDone ].
+	self assert: bench setUpCount equals: 1.	
+	self assert: bench tearDownCount equals: 1.	
+	
+	
+	
 ]
 
 { #category : #tests }

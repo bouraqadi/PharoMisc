@@ -74,3 +74,13 @@ TkTestBench >> tearDownBlock [
 TkTestBench >> tearDownCount [
 	^ tearDownCount
 ]
+
+{ #category : #creating }
+TkTestBench >> time100MillisecondsInTheFuture [
+	^ DateAndTime now + 100 milliSeconds
+]
+
+{ #category : #creating }
+TkTestBench >> time100MillisecondsInThePast [
+	^ DateAndTime now - 100 milliSeconds
+]

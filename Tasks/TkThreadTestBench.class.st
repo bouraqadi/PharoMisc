@@ -12,6 +12,12 @@ TkThreadTestBench >> addResetBlock [
 	thread resetBlock: self resetBlock
 ]
 
+{ #category : #initialization }
+TkThreadTestBench >> addSetUpTearDownBlocks [
+	thread setUpBlock: self setUpBlock.
+	thread tearDownBlock: self tearDownBlock
+]
+
 { #category : #creating }
 TkThreadTestBench >> thread: aThread [
 	thread := aThread.
@@ -40,4 +46,11 @@ TkThreadTestBench >> threadRepeating3Times [
 TkThreadTestBench >> threadRepeatingForever [
 	^self thread: (self threadClass repeat: self actionBlock).
 
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadRepeatingForeverPeriod100Milliseconds [
+	self threadRepeatingForever.
+	thread period: 100 milliSeconds.
+	^thread
 ]
