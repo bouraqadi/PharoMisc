@@ -8,3 +8,13 @@ Class {
 TkStartedThreadState >> isStarted [
 	^true
 ]
+
+{ #category : #living }
+TkStartedThreadState >> start [
+	^self
+]
+
+{ #category : #living }
+TkStartedThreadState >> stop [
+	self thread isStopRequested: true
+]

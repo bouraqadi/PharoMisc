@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #testing }
+TkThreadState >> isDone [
+	^false
+]
+
+{ #category : #testing }
 TkThreadState >> isKilled [
 	^false
 ]
@@ -22,21 +27,20 @@ TkThreadState >> isStopped [
 	^false
 ]
 
-{ #category : #testing }
-TkThreadState >> isStopping [
-	^false
-]
-
 { #category : #living }
 TkThreadState >> kill [
+	self thread terminateProcess.
+	self automaton step
 ]
 
 { #category : #living }
 TkThreadState >> start [
+	self automaton step
 ]
 
 { #category : #living }
 TkThreadState >> stop [
+	^self
 ]
 
 { #category : #accessing }

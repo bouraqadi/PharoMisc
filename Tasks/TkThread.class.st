@@ -7,7 +7,11 @@ Class {
 		'stoppedState',
 		'priority',
 		'startedState',
-		'process'
+		'process',
+		'stoppingState',
+		'isStopRequested',
+		'killedState',
+		'doneState'
 	],
 	#category : #'Tasks-Kernel-Threads'
 }
@@ -16,6 +20,13 @@ Class {
 TkThread class >> repeat: actionBlock [
 	^self new
 		task: (TkTask repeat: actionBlock);
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkThread class >> repeat: aBlockClosure times: anInteger [ 
+	^self new
+		task: (TkTask repeat: aBlockClosure times: anInteger);
 		yourself
 ]
 
@@ -39,13 +50,21 @@ TkThread >> initialize [
 	stoppedState := self newState: TkStoppedThreadState.
 	automaton initialState: stoppedState.
 	startedState := self newState: TkStartedThreadState.
-	startedState entryActionBlock: [self startProcess].
-
+	startedState
+		entryActionBlock: [self startProcess];
+		mainActionBlock: [ self stepTask ].
+	killedState := self newState: TkKilledThreadState.
+	doneState := self newState: TkDoneThreadState.
+	stoppedState transitionTo: startedState.
+	startedState transitionTo: stoppedState when: [self isStopRequested].
+	startedState transitionTo: killedState when: [ self isProcessTerminated ].	
+	startedState transitionTo: doneState when: [ self isTaskDone ].	
+	
 ]
 
 { #category : #testing }
 TkThread >> isDone [
-	^self task isDone
+	^self state isDone
 ]
 
 { #category : #testing }
@@ -54,8 +73,29 @@ TkThread >> isKilled [
 ]
 
 { #category : #testing }
+TkThread >> isProcessTerminated [
+	^self process isTerminated
+]
+
+{ #category : #testing }
 TkThread >> isStarted [
 	^self state isStarted
+]
+
+{ #category : #testing }
+TkThread >> isStopConditionMet [
+	^self isStopRequested or: [ self isTaskDone ]
+
+]
+
+{ #category : #testing }
+TkThread >> isStopRequested [
+	^ isStopRequested
+]
+
+{ #category : #accessing }
+TkThread >> isStopRequested: anObject [
+	^ isStopRequested := anObject
 ]
 
 { #category : #testing }
@@ -64,13 +104,20 @@ TkThread >> isStopped [
 ]
 
 { #category : #testing }
-TkThread >> isStopping [
-	^self state isStopping
+TkThread >> isTaskDone [
+	^self task isDone
 ]
 
 { #category : #living }
 TkThread >> kill [
 	^self state kill
+]
+
+{ #category : #living }
+TkThread >> loop [
+	[self isStopConditionMet] whileFalse: [self step].
+	automaton step.
+
 ]
 
 { #category : #initialization }
@@ -87,8 +134,14 @@ TkThread >> priority [
 ]
 
 { #category : #accessing }
-TkThread >> priority: anObject [
-	priority := anObject
+TkThread >> priority: newPriority [
+	priority := newPriority.
+
+]
+
+{ #category : #accessing }
+TkThread >> process [
+	^process
 ]
 
 { #category : #living }
@@ -98,12 +151,24 @@ TkThread >> start [
 
 { #category : #living }
 TkThread >> startProcess [
-	self process resume
+	self isStopRequested: false.
+	process := [self loop] forkAt: self priority.
+	
 ]
 
 { #category : #accessing }
 TkThread >> state [
 	^ automaton currentState
+]
+
+{ #category : #living }
+TkThread >> step [
+	automaton step
+]
+
+{ #category : #living }
+TkThread >> stepTask [
+	self task step
 ]
 
 { #category : #living }
@@ -119,4 +184,9 @@ TkThread >> task [
 { #category : #accessing }
 TkThread >> task: anObject [
 	task := anObject
+]
+
+{ #category : #living }
+TkThread >> terminateProcess [
+	self process terminate
 ]

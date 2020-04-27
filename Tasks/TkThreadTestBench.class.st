@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'thread'
 	],
-	#category : #'Tasks-Tests'
+	#category : #'Tasks-Kernel-Threads'
 }
 
 { #category : #creating }
@@ -20,6 +20,12 @@ TkThreadTestBench >> threadClass [
 { #category : #creating }
 TkThreadTestBench >> threadPeriod100Milliseconds [
 	^self thread: (self threadClass repeat: self actionBlock until: self flagBlock every: 100 milliSeconds ).
+
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadRepeating3Times [
+	^self thread: (self threadClass repeat: self actionBlock times: 3).
 
 ]
 

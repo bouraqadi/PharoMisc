@@ -1,10 +1,10 @@
 Class {
-	#name : #TkStoppedThreadState,
+	#name : #TkDoneThreadState,
 	#superclass : #TkThreadState,
 	#category : #'Tasks-Kernel-Threads'
 }
 
 { #category : #testing }
-TkStoppedThreadState >> isStopped [
+TkDoneThreadState >> isDone [
 	^true
 ]
