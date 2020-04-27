@@ -9,7 +9,6 @@ Class {
 		'setUpBlock',
 		'setUpState',
 		'resetBlock',
-		'tearDownBlock',
 		'period',
 		'dueTime'
 	],
@@ -218,16 +217,6 @@ TkTask >> step [
 	automaton step.
 	self act.
 
-]
-
-{ #category : #accessing }
-TkTask >> tearDownBlock [
-	^ tearDownBlock
-]
-
-{ #category : #accessing }
-TkTask >> tearDownBlock: aBlockClosure [ 
-	tearDownBlock := aBlockClosure
 ]
 
 { #category : #acting }

@@ -3,7 +3,8 @@ Class {
 	#superclass : #TkTask,
 	#instVars : [
 		'doneState',
-		'tearDownState'
+		'tearDownState',
+		'tearDownBlock'
 	],
 	#category : #'Tasks-Kernel-Tasks'
 }
@@ -23,4 +24,14 @@ TkFiniteTask >> initialize [
 { #category : #accessing }
 TkFiniteTask >> isEndConditionMet [
 	^self subclassResponsibility 
+]
+
+{ #category : #accessing }
+TkFiniteTask >> tearDownBlock [
+	^ tearDownBlock
+]
+
+{ #category : #accessing }
+TkFiniteTask >> tearDownBlock: aBlockClosure [ 
+	tearDownBlock := aBlockClosure
 ]
