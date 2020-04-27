@@ -29,13 +29,18 @@ TkThreadState >> isStopped [
 
 { #category : #living }
 TkThreadState >> kill [
-	self thread terminateProcess.
-	self automaton step
+	^self
+]
+
+{ #category : #living }
+TkThreadState >> restart [
+	self thread resetTask.
+	self automaton step.
 ]
 
 { #category : #living }
 TkThreadState >> start [
-	self automaton step
+	^self
 ]
 
 { #category : #living }

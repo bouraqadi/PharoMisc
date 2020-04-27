@@ -11,7 +11,8 @@ Class {
 		'stoppingState',
 		'isStopRequested',
 		'killedState',
-		'doneState'
+		'doneState',
+		'newThreadState'
 	],
 	#category : #'Tasks-Kernel-Threads'
 }
@@ -47,18 +48,22 @@ TkThread >> initialize [
 	super initialize.
 	self priority: self defaultPriority.
 	automaton := SmAutomaton new.
+	newThreadState := self newState: TkNewThreadState.
+	automaton initialState: newThreadState.
 	stoppedState := self newState: TkStoppedThreadState.
-	automaton initialState: stoppedState.
 	startedState := self newState: TkStartedThreadState.
 	startedState
 		entryActionBlock: [self startProcess];
 		mainActionBlock: [ self stepTask ].
 	killedState := self newState: TkKilledThreadState.
 	doneState := self newState: TkDoneThreadState.
+	newThreadState transitionTo: startedState.
 	stoppedState transitionTo: startedState.
 	startedState transitionTo: stoppedState when: [self isStopRequested].
 	startedState transitionTo: killedState when: [ self isProcessTerminated ].	
 	startedState transitionTo: doneState when: [ self isTaskDone ].	
+	killedState transitionTo: startedState.
+	doneState transitionTo: startedState.
 	
 ]
 
@@ -142,6 +147,21 @@ TkThread >> priority: newPriority [
 { #category : #accessing }
 TkThread >> process [
 	^process
+]
+
+{ #category : #initialization }
+TkThread >> resetBlock: aBlock [
+	self task resetBlock: aBlock
+]
+
+{ #category : #living }
+TkThread >> resetTask [
+	self task reset
+]
+
+{ #category : #living }
+TkThread >> restart [
+	^self state restart
 ]
 
 { #category : #living }

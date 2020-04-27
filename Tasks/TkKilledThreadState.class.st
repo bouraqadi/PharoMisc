@@ -8,8 +8,3 @@ Class {
 TkKilledThreadState >> isKilled [
 	^true
 ]
-
-{ #category : #living }
-TkKilledThreadState >> kill [
-	^self
-]

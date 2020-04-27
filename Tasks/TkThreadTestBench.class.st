@@ -4,12 +4,19 @@ Class {
 	#instVars : [
 		'thread'
 	],
-	#category : #'Tasks-Kernel-Threads'
+	#category : #'Tasks-Tests'
 }
+
+{ #category : #initialization }
+TkThreadTestBench >> addResetBlock [
+	thread resetBlock: self resetBlock
+]
 
 { #category : #creating }
 TkThreadTestBench >> thread: aThread [
-	^thread := aThread.
+	thread := aThread.
+	self addResetBlock.
+	^thread
 ]
 
 { #category : #creating }

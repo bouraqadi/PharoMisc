@@ -1,6 +1,6 @@
 Class {
 	#name : #TkStoppedThreadState,
-	#superclass : #TkThreadState,
+	#superclass : #TkStartableThreadState,
 	#category : #'Tasks-Kernel-Threads'
 }
 

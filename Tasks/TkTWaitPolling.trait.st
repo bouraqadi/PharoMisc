@@ -1,6 +1,6 @@
 Trait {
 	#name : #TkTWaitPolling,
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Kernel-Common'
 }
 
 { #category : #waiting }
