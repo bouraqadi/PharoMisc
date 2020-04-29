@@ -28,14 +28,19 @@ TkFiniteDurationTask >> endTime: aDateAndTime [
 	endTime := aDateAndTime
 ]
 
+{ #category : #initialization }
+TkFiniteDurationTask >> initEndTime [
+	self endTime: self now + self duration	
+]
+
+{ #category : #initialization }
+TkFiniteDurationTask >> initialize [
+	super initialize.
+	pendingState exitActionBlock: [ self initEndTime ]
+]
+
 { #category : #accessing }
 TkFiniteDurationTask >> isEndConditionMet [
 	self endTime ifNil: [ ^false ].
 	^self now >= self endTime
-]
-
-{ #category : #acting }
-TkFiniteDurationTask >> valueActionBlock [
-	super valueActionBlock.
-	self endTime: self now + self duration	
 ]

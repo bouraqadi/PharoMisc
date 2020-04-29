@@ -87,6 +87,12 @@ TkTaskTestBench >> taskRepeatingFor100Milliseconds [
 ]
 
 { #category : #creating }
+TkTaskTestBench >> taskRepeatingFor500Milliseconds [
+	^self task: (self taskClass repeat: self actionBlock during: 500 milliSeconds).
+
+]
+
+{ #category : #creating }
 TkTaskTestBench >> taskRepeatingForever [
 	^self task: (self taskClass repeat: self actionBlock).
 

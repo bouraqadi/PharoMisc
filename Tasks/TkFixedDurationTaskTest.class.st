@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-TkFixedDurationTaskTest >> testDoneAfterActing [
+TkFixedDurationTaskTest >> testDoneAfterActingDuring100Milliseconds [
 	task := bench taskRepeatingFor100Milliseconds.
 	self assert: bench actionCount equals: 0.
 	self deny: task isDone.
@@ -19,6 +19,26 @@ TkFixedDurationTaskTest >> testDoneAfterActing [
 	self deny: task isDue.
 	self assert: task isDone.
 	self assert: bench actionCount equals: 2.
+	
+
+]
+
+{ #category : #tests }
+TkFixedDurationTaskTest >> testDoneAfterActingDuring500Milliseconds [
+	task := bench taskRepeatingFor500Milliseconds.
+	self assert: bench actionCount equals: 0.
+	self deny: task isDone.
+	self assert: task isDue.
+	5 timesRepeat: [
+		task step.
+		100 milliSeconds wait]. "Act 5 times until task is done"
+	self assert: bench actionCount equals: 5.
+	self assert: task isDue.
+	self deny: task isDone.
+	task step. "Terminate"
+	self deny: task isDue.
+	self assert: task isDone.
+	self assert: bench actionCount equals: 5.
 	
 
 ]
