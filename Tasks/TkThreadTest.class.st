@@ -23,9 +23,10 @@ TkThreadTest >> testFinalization [
 	thread start.
 	process := thread process.
 	self deny: process isTerminated.
+	bench := nil.
 	thread := nil.
 	Smalltalk garbageCollect.
-	self waitUntil: [process isTerminated].
+	self waitUntil: [process isTerminated] timeout: 2 seconds.
 
 
 ]
@@ -87,15 +88,59 @@ TkThreadTest >> testNormalTermination [
 ]
 
 { #category : #tests }
-TkThreadTest >> testPeriod [
+TkThreadTest >> testPeriodFixedIterationsCount [
+	| startTime endTime |
+	thread := bench threadRepeating3TimesPeriod100Milliseconds.
+	startTime := DateAndTime now.
+	thread start.
+	self waitUntil: [thread isDone].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 200 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPeriodForever [
 	| startTime endTime |
 	thread := bench threadRepeatingForeverPeriod100Milliseconds.
 	startTime := DateAndTime now.
 	thread start.
-	self waitUntil: [ bench actionCount >= 11 ] timeout: 2 seconds.
+	self waitUntil: [ bench actionCount >= 3 ].
 	endTime := DateAndTime now.
-	self assert:  endTime - startTime > 1 seconds.
+	self assert:  endTime - startTime > 200 milliSeconds.
 
+]
+
+{ #category : #tests }
+TkThreadTest >> testPeriodUntilCondition [
+	| startTime endTime |
+	thread := bench threadUntilFlagTruePeriod100Milliseconds.
+	startTime := DateAndTime now.
+	thread start.
+	self waitUntil: [ bench actionCount >= 3 ].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 200 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPeriodWhileCondition [
+	| startTime endTime |
+	thread := bench threadWhileFlagTruePeriod100Milliseconds.
+	startTime := DateAndTime now.
+	thread start.
+	self waitUntil: [ bench actionCount >= 3 ].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 200 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPeriodtestFixedDuration [
+	thread := bench threadRepeatingFor300MillisecondPeriod100Milliseconds.
+	thread start.
+	self waitUntil: [thread isDone].
+	self assert: bench actionCount < 4
 ]
 
 { #category : #tests }

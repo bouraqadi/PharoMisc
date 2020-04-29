@@ -21,6 +21,7 @@ TkThreadTestBench >> addSetUpTearDownBlocks [
 { #category : #creating }
 TkThreadTestBench >> thread: aThread [
 	thread := aThread.
+	thread name: 'Thread for Test'.
 	self addResetBlock.
 	^thread
 ]
@@ -37,20 +38,26 @@ TkThreadTestBench >> threadDoOnce [
 ]
 
 { #category : #creating }
-TkThreadTestBench >> threadPeriod100Milliseconds [
-	^self thread: (self threadClass repeat: self actionBlock until: self flagBlock every: 100 milliSeconds ).
-
-]
-
-{ #category : #creating }
 TkThreadTestBench >> threadRepeating3Times [
 	^self thread: (self threadClass repeat: self actionBlock times: 3).
 
 ]
 
 { #category : #creating }
+TkThreadTestBench >> threadRepeating3TimesPeriod100Milliseconds [
+	^self thread: (self threadClass repeat: self actionBlock times: 3 every: 100 milliSeconds).
+
+]
+
+{ #category : #creating }
 TkThreadTestBench >> threadRepeatingFor100Milliseconds [
 	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds).
+
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadRepeatingFor300MillisecondPeriod100Milliseconds [
+	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds every: 100milliSeconds).
 
 ]
 
@@ -62,7 +69,20 @@ TkThreadTestBench >> threadRepeatingForever [
 
 { #category : #creating }
 TkThreadTestBench >> threadRepeatingForeverPeriod100Milliseconds [
-	self threadRepeatingForever.
-	thread period: 100 milliSeconds.
-	^thread
+	^self thread: (self threadClass repeat: self actionBlock every: 100 milliSeconds).
+
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadUntilFlagTruePeriod100Milliseconds [
+	self setFlagFalse.
+	^self thread: (self threadClass repeat: self actionBlock until: self flagBlock every: 100 milliSeconds ).
+
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadWhileFlagTruePeriod100Milliseconds [
+	self setFlagTrue.
+	^self thread: (self threadClass repeat: self actionBlock while: self flagBlock every: 100 milliSeconds ).
+
 ]

@@ -40,6 +40,20 @@ TkThread class >> repeat: aBlockClosure during: aDuration [
 ]
 
 { #category : #'instance creation' }
+TkThread class >> repeat: aBlockClosure during: aDuration every: period [
+	^self new
+		task: (TkTask repeat: aBlockClosure during: aDuration every: period);
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkThread class >> repeat: aBlockClosure every: aDuration [ 
+	^(self repeat: aBlockClosure)
+		period: aDuration;
+		yourself
+]
+
+{ #category : #'instance creation' }
 TkThread class >> repeat: aBlockClosure times: anInteger [ 
 	^self new
 		task: (TkTask repeat: aBlockClosure times: anInteger);
@@ -47,9 +61,23 @@ TkThread class >> repeat: aBlockClosure times: anInteger [
 ]
 
 { #category : #'instance creation' }
+TkThread class >> repeat: aBlockClosure times: anInteger every: aDuration [ 
+	^self new
+		task: (TkTask repeat: aBlockClosure times: anInteger every: aDuration );
+		yourself
+]
+
+{ #category : #'instance creation' }
 TkThread class >> repeat: actionBlock until: endBlock every: aDuration [ 
 	^self new
 		task: (TkTask repeat: actionBlock until: endBlock every: aDuration);
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkThread class >> repeat: actionBlock while: endBlock every: aDuration [ 
+	^self new
+		task: (TkTask repeat: actionBlock while: endBlock every: aDuration);
 		yourself
 ]
 
@@ -147,7 +175,7 @@ TkThread >> kill [
 { #category : #living }
 TkThread >> loop [
 	[self isStopConditionMet] whileFalse: [self step].
-	automaton step.
+	self step.
 
 ]
 
@@ -229,7 +257,6 @@ TkThread >> startProcess [
 	process := [ self loop ] newProcess.
 	process priority: self priority.
 	process name: self name.
-	self registerForFinalization.
 	process resume
 ]
 
