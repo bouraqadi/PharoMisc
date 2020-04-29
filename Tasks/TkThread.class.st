@@ -2,6 +2,7 @@ Class {
 	#name : #TkThread,
 	#superclass : #Object,
 	#instVars : [
+		'name',
 		'task',
 		'automaton',
 		'stoppedState',
@@ -53,8 +54,19 @@ TkThread class >> repeat: actionBlock until: endBlock every: aDuration [
 ]
 
 { #category : #initialization }
+TkThread >> defaultName [
+	^self printString
+]
+
+{ #category : #initialization }
 TkThread >> defaultPriority [
 	^30
+]
+
+{ #category : #initialization }
+TkThread >> finalize [
+	Transcript cr; show: DateAndTime now.
+	self process terminate
 ]
 
 { #category : #initialization }
@@ -139,6 +151,18 @@ TkThread >> loop [
 
 ]
 
+{ #category : #accessing }
+TkThread >> name [
+	^ name ifNil: [ self defaultName ]
+]
+
+{ #category : #accessing }
+TkThread >> name: aString [
+	name := aString.
+	self process ifNil: [ ^self ].
+	self process name: aString.
+]
+
 { #category : #initialization }
 TkThread >> newState: stateClass [
 	| newState |
@@ -160,12 +184,18 @@ TkThread >> priority [
 { #category : #accessing }
 TkThread >> priority: newPriority [
 	priority := newPriority.
-
+	self process ifNil: [ ^self ].
+	self process priority: newPriority.
 ]
 
 { #category : #accessing }
 TkThread >> process [
 	^process
+]
+
+{ #category : #initialization }
+TkThread >> registerForFinalization [
+	self finalizationRegistry add: self
 ]
 
 { #category : #initialization }
@@ -196,8 +226,11 @@ TkThread >> start [
 { #category : #living }
 TkThread >> startProcess [
 	self isStopRequested: false.
-	process := [self loop] forkAt: self priority.
-	
+	process := [ self loop ] newProcess.
+	process priority: self priority.
+	process name: self name.
+	self registerForFinalization.
+	process resume
 ]
 
 { #category : #accessing }

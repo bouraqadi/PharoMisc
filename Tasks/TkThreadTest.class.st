@@ -18,14 +18,15 @@ TkThreadTest >> setUp [
 
 { #category : #tests }
 TkThreadTest >> testFinalization [
-	| weakArrayWithProcess |
-	thread := bench threadRepeatingForever.
+	| process |
+	thread := bench threadRepeatingForeverPeriod100Milliseconds.
 	thread start.
-	weakArrayWithProcess := WeakArray with: thread process.
-	self deny: weakArrayWithProcess first isNil.
+	process := thread process.
+	self deny: process isTerminated.
 	thread := nil.
 	Smalltalk garbageCollect.
-	self assert: weakArrayWithProcess first isNil.
+	self waitUntil: [process isTerminated].
+
 
 ]
 
@@ -95,6 +96,41 @@ TkThreadTest >> testPeriod [
 	endTime := DateAndTime now.
 	self assert:  endTime - startTime > 1 seconds.
 
+]
+
+{ #category : #tests }
+TkThreadTest >> testProcessName [
+	| firstName secondName |
+	thread := bench threadRepeatingForever.
+	firstName := 'First Name'.
+	thread name: firstName.
+	thread start.
+	self assert: thread process name equals: firstName.
+	secondName := 'Second Name'.
+	thread name: secondName.
+	self assert: thread process name equals: secondName.
+		
+	
+	
+	
+]
+
+{ #category : #tests }
+TkThreadTest >> testProcessPriority [
+	| firstPriority secondPriority |
+	thread := bench threadRepeatingForeverPeriod100Milliseconds.
+	self assert: thread priority equals: 30.
+	firstPriority := 33. 
+	thread priority: firstPriority.
+	thread start.
+	self assert: thread process priority equals: firstPriority.
+	secondPriority := 35.
+	thread priority: secondPriority.
+	self assert: thread process priority equals: secondPriority.
+		
+	
+	
+	
 ]
 
 { #category : #tests }
