@@ -26,6 +26,11 @@ TkThread class >> doOnce: aBlock [
 ]
 
 { #category : #'instance creation' }
+TkThread class >> new [
+	^TkThreadFinalizer thread: super new.
+]
+
+{ #category : #'instance creation' }
 TkThread class >> repeat: actionBlock [
 	^self new
 		task: (TkTask repeat: actionBlock);
@@ -89,12 +94,6 @@ TkThread >> defaultName [
 { #category : #initialization }
 TkThread >> defaultPriority [
 	^30
-]
-
-{ #category : #initialization }
-TkThread >> finalize [
-	Transcript cr; show: DateAndTime now.
-	self process terminate
 ]
 
 { #category : #initialization }
@@ -219,11 +218,6 @@ TkThread >> priority: newPriority [
 { #category : #accessing }
 TkThread >> process [
 	^process
-]
-
-{ #category : #initialization }
-TkThread >> registerForFinalization [
-	self finalizationRegistry add: self
 ]
 
 { #category : #initialization }

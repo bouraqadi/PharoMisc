@@ -23,7 +23,7 @@ TkThreadTest >> testFinalization [
 	thread start.
 	process := thread process.
 	self deny: process isTerminated.
-	bench := nil.
+	bench thread: nil.
 	thread := nil.
 	Smalltalk garbageCollect.
 	self waitUntil: [process isTerminated] timeout: 2 seconds.

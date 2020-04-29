@@ -9,18 +9,24 @@ Class {
 
 { #category : #initialization }
 TkThreadTestBench >> addResetBlock [
-	thread resetBlock: self resetBlock
+	self thread resetBlock: self resetBlock
 ]
 
 { #category : #initialization }
 TkThreadTestBench >> addSetUpTearDownBlocks [
-	thread setUpBlock: self setUpBlock.
-	thread tearDownBlock: self tearDownBlock
+	self thread setUpBlock: self setUpBlock.
+	self thread tearDownBlock: self tearDownBlock
+]
+
+{ #category : #accessing }
+TkThreadTestBench >> thread [
+	^thread
 ]
 
 { #category : #creating }
 TkThreadTestBench >> thread: aThread [
 	thread := aThread.
+	thread ifNil: [ ^thread ].
 	thread name: 'Thread for Test'.
 	self addResetBlock.
 	^thread
