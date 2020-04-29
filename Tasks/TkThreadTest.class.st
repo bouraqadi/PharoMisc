@@ -1,5 +1,5 @@
 Class {
-	#name : #TkTheradTest,
+	#name : #TkThreadTest,
 	#superclass : #TestCase,
 	#traits : 'TkTWaitPolling',
 	#classTraits : 'TkTWaitPolling classTrait',
@@ -11,13 +11,26 @@ Class {
 }
 
 { #category : #tests }
-TkTheradTest >> setUp [
+TkThreadTest >> setUp [
 	super setUp.
 	bench := TkThreadTestBench new.
 ]
 
 { #category : #tests }
-TkTheradTest >> testKillDoneProcess [
+TkThreadTest >> testFinalization [
+	| weakArrayWithProcess |
+	thread := bench threadRepeatingForever.
+	thread start.
+	weakArrayWithProcess := WeakArray with: thread process.
+	self deny: weakArrayWithProcess first isNil.
+	thread := nil.
+	Smalltalk garbageCollect.
+	self assert: weakArrayWithProcess first isNil.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testKillAfterDone [
 	thread := bench threadRepeating3Times.
 	thread start.
 	self waitUntil: [ thread isDone ].
@@ -30,7 +43,7 @@ TkTheradTest >> testKillDoneProcess [
 ]
 
 { #category : #tests }
-TkTheradTest >> testKillStartedProcess [
+TkThreadTest >> testKillStartedThread [
 	thread := bench threadRepeatingForever.
 	thread start.
 	self assert: thread isStarted.
@@ -45,7 +58,7 @@ TkTheradTest >> testKillStartedProcess [
 ]
 
 { #category : #tests }
-TkTheradTest >> testKillStoppedProcess [
+TkThreadTest >> testKillStoppedThread [
 	thread := bench threadRepeatingForever.
 	thread start.
 	self assert: thread isStarted.
@@ -61,7 +74,7 @@ TkTheradTest >> testKillStoppedProcess [
 ]
 
 { #category : #tests }
-TkTheradTest >> testNormalTermination [
+TkThreadTest >> testNormalTermination [
 	thread := bench threadRepeating3Times.
 	thread start.
 	self waitUntil: [ bench actionCount = 3 ].
@@ -73,7 +86,7 @@ TkTheradTest >> testNormalTermination [
 ]
 
 { #category : #tests }
-TkTheradTest >> testPeriod [
+TkThreadTest >> testPeriod [
 	| startTime endTime |
 	thread := bench threadRepeatingForeverPeriod100Milliseconds.
 	startTime := DateAndTime now.
@@ -85,7 +98,19 @@ TkTheradTest >> testPeriod [
 ]
 
 { #category : #tests }
-TkTheradTest >> testRestartAfterKill [
+TkThreadTest >> testRepeatForFixedDuration [
+	thread := bench threadRepeatingFor100Milliseconds.
+	thread start.
+	self waitUntil: [ thread isDone ].
+	self assert: bench actionCount > 0.
+	
+	
+	
+	
+]
+
+{ #category : #tests }
+TkThreadTest >> testRestartAfterKill [
 	| previousCount |
 	thread := bench threadRepeatingForever.
 	thread start.
@@ -100,7 +125,7 @@ TkTheradTest >> testRestartAfterKill [
 ]
 
 { #category : #tests }
-TkTheradTest >> testRestartAfterNormalTermination [
+TkThreadTest >> testRestartAfterNormalTermination [
 	thread := bench threadRepeating3Times.
 	thread start.
 	self waitUntil: [ bench actionCount = 3 ].
@@ -113,7 +138,7 @@ TkTheradTest >> testRestartAfterNormalTermination [
 ]
 
 { #category : #tests }
-TkTheradTest >> testRestartAfterStart [
+TkThreadTest >> testRestartAfterStart [
 	| previousCount |
 	thread := bench threadRepeatingForever.
 	thread start.
@@ -127,7 +152,7 @@ TkTheradTest >> testRestartAfterStart [
 ]
 
 { #category : #tests }
-TkTheradTest >> testRestartStoppedThread [
+TkThreadTest >> testRestartStoppedThread [
 	thread := bench threadRepeatingForever.
 	thread start.
 	self assert: thread isStarted.
@@ -140,7 +165,7 @@ TkTheradTest >> testRestartStoppedThread [
 ]
 
 { #category : #tests }
-TkTheradTest >> testRestartThreadNeverStarted [
+TkThreadTest >> testRestartThreadNeverStarted [
 	thread := bench threadRepeatingForever.
 	thread restart.
 	self assert: thread isStarted.
@@ -149,7 +174,7 @@ TkTheradTest >> testRestartThreadNeverStarted [
 ]
 
 { #category : #tests }
-TkTheradTest >> testSetUpTearDown [
+TkThreadTest >> testSetUpTearDown [
 	thread := bench threadRepeating3Times.
 	bench addSetUpTearDownBlocks.
 	thread start.
@@ -162,7 +187,19 @@ TkTheradTest >> testSetUpTearDown [
 ]
 
 { #category : #tests }
-TkTheradTest >> testStartDoneThread [
+TkThreadTest >> testSingleIterationThread [
+	thread := bench threadDoOnce.
+	thread start.
+	self waitUntil: [ thread isDone ].
+	self assert: bench actionCount equals: 1.
+	
+	
+	
+	
+]
+
+{ #category : #tests }
+TkThreadTest >> testStartDoneThread [
 	thread := bench threadRepeating3Times.
 	thread start.
 	self waitUntil: [thread isDone].
@@ -176,7 +213,7 @@ TkTheradTest >> testStartDoneThread [
 ]
 
 { #category : #tests }
-TkTheradTest >> testStartKilledThread [
+TkThreadTest >> testStartKilledThread [
 	thread := bench threadRepeatingForever.
 	thread start.
 	self assert: thread isStarted.
@@ -193,7 +230,7 @@ TkTheradTest >> testStartKilledThread [
 ]
 
 { #category : #tests }
-TkTheradTest >> testStartNewThread [
+TkThreadTest >> testStartNewThread [
 	thread := bench threadRepeatingForever.
 	self assert: thread priority equals: 30.
 	self deny: thread isStopped.
@@ -207,7 +244,7 @@ TkTheradTest >> testStartNewThread [
 ]
 
 { #category : #tests }
-TkTheradTest >> testStartStartedThread [
+TkThreadTest >> testStartStartedThread [
 	| previousCount |
 	thread := bench threadRepeatingForever.
 	thread start.
@@ -225,7 +262,7 @@ TkTheradTest >> testStartStartedThread [
 ]
 
 { #category : #tests }
-TkTheradTest >> testStartStoppedThread [
+TkThreadTest >> testStartStoppedThread [
 	| previousCount |
 	thread := bench threadRepeatingForever.
 	thread start.
@@ -245,7 +282,7 @@ TkTheradTest >> testStartStoppedThread [
 ]
 
 { #category : #tests }
-TkTheradTest >> testStopStartedThread [
+TkThreadTest >> testStopStartedThread [
 	thread := bench threadRepeatingForever.
 	thread start.
 	self waitUntil: [bench actionCount >= 1].

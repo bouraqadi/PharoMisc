@@ -18,9 +18,23 @@ Class {
 }
 
 { #category : #'instance creation' }
+TkThread class >> doOnce: aBlock [
+	^self new
+		task: (TkTask doOnce: aBlock);
+		yourself
+]
+
+{ #category : #'instance creation' }
 TkThread class >> repeat: actionBlock [
 	^self new
 		task: (TkTask repeat: actionBlock);
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkThread class >> repeat: aBlockClosure during: aDuration [  
+	^self new
+		task: (TkTask repeat: aBlockClosure during: aDuration);
 		yourself
 ]
 

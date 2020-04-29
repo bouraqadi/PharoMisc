@@ -31,6 +31,12 @@ TkThreadTestBench >> threadClass [
 ]
 
 { #category : #creating }
+TkThreadTestBench >> threadDoOnce [
+	^self thread: (self threadClass doOnce: self actionBlock).
+
+]
+
+{ #category : #creating }
 TkThreadTestBench >> threadPeriod100Milliseconds [
 	^self thread: (self threadClass repeat: self actionBlock until: self flagBlock every: 100 milliSeconds ).
 
@@ -39,6 +45,12 @@ TkThreadTestBench >> threadPeriod100Milliseconds [
 { #category : #creating }
 TkThreadTestBench >> threadRepeating3Times [
 	^self thread: (self threadClass repeat: self actionBlock times: 3).
+
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadRepeatingFor100Milliseconds [
+	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds).
 
 ]
 
