@@ -12,6 +12,11 @@ TkTaskState >> act [
 	^self
 ]
 
+{ #category : #initialization }
+TkTaskState >> actAfter: aDuration [
+	^self
+]
+
 { #category : #testing }
 TkTaskState >> dueTime [
 	^self task dueTime
@@ -41,11 +46,6 @@ TkTaskState >> isDueTimePassed [
 { #category : #testing }
 TkTaskState >> now [
 	^self task now
-]
-
-{ #category : #initialization }
-TkTaskState >> startAfter: aDuration [
-	^self
 ]
 
 { #category : #accessing }

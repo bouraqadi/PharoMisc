@@ -8,7 +8,7 @@ Class {
 TkGenericFiniteTaskTest >> testResetPostponedStartWithSetupTearDownBlocks [
 	task := bench taskRepeatingUntilFlagTrue.
 	bench addSetUpTearDownBlocks.
-	bench postponeStartBy100Milliseconds.
+	bench postponeActionBy100Milliseconds.
 	100 milliSeconds wait.
 	self assert: task isDue.
 	task step. "SetUp"

@@ -73,9 +73,23 @@ TkThread class >> repeat: aBlockClosure times: anInteger every: aDuration [
 ]
 
 { #category : #'instance creation' }
+TkThread class >> repeat: actionBlock until: endBlock [
+	^self new
+		task: (TkTask repeat: actionBlock until: endBlock);
+		yourself
+]
+
+{ #category : #'instance creation' }
 TkThread class >> repeat: actionBlock until: endBlock every: aDuration [ 
 	^self new
 		task: (TkTask repeat: actionBlock until: endBlock every: aDuration);
+		yourself
+]
+
+{ #category : #'instance creation' }
+TkThread class >> repeat: actionBlock while: endBlock [
+	^self new
+		task: (TkTask repeat: actionBlock while: endBlock);
 		yourself
 ]
 
@@ -94,6 +108,16 @@ TkThread >> defaultName [
 { #category : #initialization }
 TkThread >> defaultPriority [
 	^30
+]
+
+{ #category : #accessing }
+TkThread >> frequency [
+	^self task frequency
+]
+
+{ #category : #accessing }
+TkThread >> frequency: newFrequency [
+	self task frequency: newFrequency
 ]
 
 { #category : #initialization }
@@ -199,6 +223,11 @@ TkThread >> newState: stateClass [
 ]
 
 { #category : #accessing }
+TkThread >> period [
+	^self task
+]
+
+{ #category : #accessing }
 TkThread >> period: aDuration [ 
 	self task period: aDuration
 ]
@@ -220,6 +249,11 @@ TkThread >> process [
 	^process
 ]
 
+{ #category : #accessing }
+TkThread >> resetBlock [
+	^self task resetBlock
+]
+
 { #category : #initialization }
 TkThread >> resetBlock: aBlock [
 	self task resetBlock: aBlock
@@ -235,7 +269,12 @@ TkThread >> restart [
 	^self state restart
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+TkThread >> setUpBlock [
+	^self task setUpBlock
+]
+
+{ #category : #accessing }
 TkThread >> setUpBlock: aBlock [
 	self task setUpBlock: aBlock
 ]
@@ -243,6 +282,18 @@ TkThread >> setUpBlock: aBlock [
 { #category : #living }
 TkThread >> start [
 	^self state start
+]
+
+{ #category : #living }
+TkThread >> startAfter: aDuration [
+	self task actAfter: aDuration.
+	self start.
+]
+
+{ #category : #living }
+TkThread >> startOn: aDateAndTime [
+	self task actOn: aDateAndTime.
+	self start.
 ]
 
 { #category : #living }
@@ -285,7 +336,12 @@ TkThread >> task: anObject [
 	task := anObject
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+TkThread >> tearDownBlock [
+	^self task tearDownBlock
+]
+
+{ #category : #accessing }
 TkThread >> tearDownBlock: aBlock [
 	self task tearDownBlock: aBlock
 ]
@@ -298,5 +354,5 @@ TkThread >> terminateProcess [
 { #category : #living }
 TkThread >> waitUntilTaskIsDue [
 	self task isDue ifTrue: [ ^self ].
-	self task period wait
+	self task durationToDueTime wait
 ]

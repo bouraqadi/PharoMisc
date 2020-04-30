@@ -8,7 +8,7 @@ Class {
 TkForeverRepeatingTaskTest >> testPostponeAfterStart [
 	task := bench taskRepeatingForever.
 	task step. "Act"
-	bench postponeStartBy100Milliseconds.
+	bench postponeActionBy100Milliseconds.
 	self assert: task isDue.
 	self deny: task isDone.
 	2 timesRepeat: [
@@ -24,7 +24,7 @@ TkForeverRepeatingTaskTest >> testPostponeStart [
 	task := bench taskRepeatingForever.
 	self assert: task isDue.
 	self deny: task isDone.
-	bench postponeStartBy100Milliseconds.
+	bench postponeActionBy100Milliseconds.
 	self deny: task isDue.
 	self deny: task isDone.
 	100 milliSeconds wait. "Ensure start delay passed"
@@ -41,7 +41,7 @@ TkForeverRepeatingTaskTest >> testPostponeStart [
 { #category : #tests }
 TkForeverRepeatingTaskTest >> testResetAfterPostponedStart [
 	task := bench taskRepeatingForever.
-	bench postponeStartBy100Milliseconds.
+	bench postponeActionBy100Milliseconds.
 	self deny: task isDue.
 	self deny: task isDone.
 	100 milliSeconds wait. "Ensure start delay passed"
@@ -59,7 +59,7 @@ TkForeverRepeatingTaskTest >> testResetAfterPostponedStart [
 { #category : #tests }
 TkForeverRepeatingTaskTest >> testResetAfterPostponedStartPeriod100Milliseconds [
 	task := bench taskRepeatingForeverPeriod100Milliseconds.
-	bench postponeStartBy100Milliseconds.
+	bench postponeActionBy100Milliseconds.
 	self deny: task isDue.
 	self deny: task isDone.
 	100 milliSeconds wait. "Ensure start delay passed"

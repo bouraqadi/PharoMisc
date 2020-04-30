@@ -29,9 +29,19 @@ TkTaskTestBench >> addTearDownBlock [
 ]
 
 { #category : #creating }
-TkTaskTestBench >> postponeStartBy100Milliseconds [
-	task startAfter: 100 milliSeconds.
+TkTaskTestBench >> postponeActionBy100Milliseconds [
+	task actAfter: 100 milliSeconds.
 
+]
+
+{ #category : #creating }
+TkTaskTestBench >> setActionTime100MillisecondsInTheFuture [
+	task actOn: self time100MillisecondsInTheFuture
+]
+
+{ #category : #creating }
+TkTaskTestBench >> setActionTime100MillisecondsInThePast [
+	task actOn: self time100MillisecondsInThePast
 ]
 
 { #category : #creating }
@@ -44,16 +54,6 @@ TkTaskTestBench >> setFrequency10Hz [
 TkTaskTestBench >> setPeriod100Milliseconds [
 	task period: 100 milliSeconds.
 
-]
-
-{ #category : #creating }
-TkTaskTestBench >> setStartTime100MillisecondsInTheFuture [
-	task startOn: self time100MillisecondsInTheFuture
-]
-
-{ #category : #creating }
-TkTaskTestBench >> setStartTime100MillisecondsInThePast [
-	task startOn: self time100MillisecondsInThePast
 ]
 
 { #category : #accessing }

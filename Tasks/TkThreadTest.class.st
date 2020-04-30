@@ -32,6 +32,18 @@ TkThreadTest >> testFinalization [
 ]
 
 { #category : #tests }
+TkThreadTest >> testFrequency [
+	| startTime endTime |
+	thread := bench threadRepeatingForeverFrequency10Hz.
+	startTime := DateAndTime now.
+	thread start.
+	self waitUntil: [ bench actionCount >= 3 ].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 200 milliSeconds.
+
+]
+
+{ #category : #tests }
 TkThreadTest >> testKillAfterDone [
 	thread := bench threadRepeating3Times.
 	thread start.
@@ -88,6 +100,14 @@ TkThreadTest >> testNormalTermination [
 ]
 
 { #category : #tests }
+TkThreadTest >> testPeriodFixedDuration [
+	thread := bench threadRepeatingFor300MillisecondPeriod100Milliseconds.
+	thread start.
+	self waitUntil: [thread isDone].
+	self assert: bench actionCount < 4
+]
+
+{ #category : #tests }
 TkThreadTest >> testPeriodFixedIterationsCount [
 	| startTime endTime |
 	thread := bench threadRepeating3TimesPeriod100Milliseconds.
@@ -136,11 +156,27 @@ TkThreadTest >> testPeriodWhileCondition [
 ]
 
 { #category : #tests }
-TkThreadTest >> testPeriodtestFixedDuration [
-	thread := bench threadRepeatingFor300MillisecondPeriod100Milliseconds.
-	thread start.
+TkThreadTest >> testPostponedStartByDuration [
+	| startTime endTime |
+	thread := bench threadRepeating3Times.
+	startTime := DateAndTime now.
+	bench startThreadAfter100Milliseconds.
 	self waitUntil: [thread isDone].
-	self assert: bench actionCount < 4
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 100 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPostponedStartToGivenTime [
+	| startTime endTime |
+	thread := bench threadRepeating3Times.
+	startTime := DateAndTime now.
+	bench startThread100MillisecondsInTheFuture.
+	self waitUntil: [thread isDone].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 100 milliSeconds.
+
 ]
 
 { #category : #tests }
@@ -265,6 +301,17 @@ TkThreadTest >> testSetUpTearDown [
 	
 	
 	
+]
+
+{ #category : #tests }
+TkThreadTest >> testSetUpTearDownActions [
+	thread := bench threadRepeating3TimesWithSetUpTearDownActions.
+	thread start.
+	self assert: bench setUpCount equals: 1.
+	self waitUntil: [ thread isDone ].
+	self assert: bench setUpCount equals: 1.
+	self assert: bench tearDownCount equals: 1.
+
 ]
 
 { #category : #tests }

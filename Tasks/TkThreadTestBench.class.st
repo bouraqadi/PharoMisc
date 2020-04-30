@@ -18,12 +18,22 @@ TkThreadTestBench >> addSetUpTearDownBlocks [
 	self thread tearDownBlock: self tearDownBlock
 ]
 
+{ #category : #starting }
+TkThreadTestBench >> startThread100MillisecondsInTheFuture [
+	thread startOn: DateAndTime now + 100 milliSeconds
+]
+
+{ #category : #starting }
+TkThreadTestBench >> startThreadAfter100Milliseconds [
+	thread startAfter: 100 milliSeconds
+]
+
 { #category : #accessing }
 TkThreadTestBench >> thread [
 	^thread
 ]
 
-{ #category : #creating }
+{ #category : #accessing }
 TkThreadTestBench >> thread: aThread [
 	thread := aThread.
 	thread ifNil: [ ^thread ].
@@ -56,6 +66,14 @@ TkThreadTestBench >> threadRepeating3TimesPeriod100Milliseconds [
 ]
 
 { #category : #creating }
+TkThreadTestBench >> threadRepeating3TimesWithSetUpTearDownActions [
+	self threadRepeating3TimesPeriod100Milliseconds.
+	self thread setUpBlock: self setUpBlock.
+	self thread tearDownBlock: self tearDownBlock.
+	^thread
+]
+
+{ #category : #creating }
 TkThreadTestBench >> threadRepeatingFor100Milliseconds [
 	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds).
 
@@ -70,6 +88,14 @@ TkThreadTestBench >> threadRepeatingFor300MillisecondPeriod100Milliseconds [
 { #category : #creating }
 TkThreadTestBench >> threadRepeatingForever [
 	^self thread: (self threadClass repeat: self actionBlock).
+
+]
+
+{ #category : #creating }
+TkThreadTestBench >> threadRepeatingForeverFrequency10Hz [
+	self threadRepeatingForever.
+	thread frequency: 10.
+	^thread
 
 ]
 

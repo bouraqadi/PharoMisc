@@ -44,7 +44,7 @@ TkOneShotTaskTest >> testResetOneShotTask [
 { #category : #tests }
 TkOneShotTaskTest >> testSetStartTimeInTheFuture [
 	task :=  bench taskOneShot.
-	bench setStartTime100MillisecondsInTheFuture.
+	bench setActionTime100MillisecondsInTheFuture.
 	self deny: task isDue.
 	self deny: task isDone.
 	100 milliSeconds wait.
@@ -56,7 +56,7 @@ TkOneShotTaskTest >> testSetStartTimeInTheFuture [
 { #category : #tests }
 TkOneShotTaskTest >> testSetStartTimeInThePast [
 	task :=  bench taskOneShot.
-	bench setStartTime100MillisecondsInThePast.
+	bench setActionTime100MillisecondsInThePast.
 	self assert: task isDue.
 	self deny: task isDone.
 

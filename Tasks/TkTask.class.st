@@ -93,6 +93,16 @@ TkTask >> act [
 	self state act
 ]
 
+{ #category : #acting }
+TkTask >> actAfter: aDuration [
+	self state actAfter: aDuration
+]
+
+{ #category : #acting }
+TkTask >> actOn: dateAndTime [
+	self actAfter: dateAndTime - self now
+]
+
 { #category : #accessing }
 TkTask >> actionBlock [
 	^ actionBlock
@@ -111,6 +121,11 @@ TkTask >> dueTime [
 { #category : #accessing }
 TkTask >> dueTime: anObject [
 	dueTime := anObject
+]
+
+{ #category : #accessing }
+TkTask >> durationToDueTime [
+	^self dueTime - self now
 ]
 
 { #category : #accessing }
@@ -195,16 +210,6 @@ TkTask >> setUpBlock [
 { #category : #accessing }
 TkTask >> setUpBlock: aBlockClosure [ 
 	setUpBlock := aBlockClosure
-]
-
-{ #category : #acting }
-TkTask >> startAfter: aDuration [
-	self state startAfter: aDuration
-]
-
-{ #category : #acting }
-TkTask >> startOn: dateAndTime [
-	self startAfter: dateAndTime - self now
 ]
 
 { #category : #accessing }
