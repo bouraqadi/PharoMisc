@@ -21,9 +21,8 @@ TkThreadFinalizer >> doesNotUnderstand: aMessage [
 
 { #category : #initialization }
 TkThreadFinalizer >> finalize [
-	Transcript cr; show: 'Finalizing thread on '; show: DateAndTime now.
-	self process ifNil: [ ^self ].
-	self process terminate
+	self thread isFinalizationEnabled ifFalse: [ ^self ].
+	self thread kill
 ]
 
 { #category : #accessing }

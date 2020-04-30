@@ -13,10 +13,27 @@ Class {
 		'isStopRequested',
 		'killedState',
 		'doneState',
-		'newThreadState'
+		'newThreadState',
+		'isFinalizationEnabled'
 	],
 	#category : #'Tasks-Kernel-Threads'
 }
+
+{ #category : #examples }
+TkThread class >> autoStopOnGarbageCollect [
+	<example>
+	|counter thread |
+	counter := 0.
+	thread := self 
+		repeat: [
+			counter := counter + 1.
+			self inform: counter printString]
+		every: 300 milliSeconds.
+	thread start.
+	100 milliSeconds wait.
+	thread := nil.
+	Smalltalk garbageCollect.
+]
 
 { #category : #'instance creation' }
 TkThread class >> doOnce: aBlock [
@@ -28,6 +45,43 @@ TkThread class >> doOnce: aBlock [
 { #category : #'instance creation' }
 TkThread class >> new [
 	^TkThreadFinalizer thread: super new.
+]
+
+{ #category : #examples }
+TkThread class >> persistingThread [
+	<example>
+	|counter thread |
+	counter := 0.
+	thread := self 
+		repeat: [
+			counter := counter + 1.
+			self inform: counter printString]
+		while: [ counter < 10 ]
+		every: 200 milliSeconds.
+	thread persistUntillDone. "Ensure thread survices even if we lose the reference"
+	thread start.
+	thread := nil.
+	Smalltalk garbageCollect.
+
+]
+
+{ #category : #examples }
+TkThread class >> pingPong [
+	<example>
+	|ping pong |
+	Transcript open.
+	ping := self 
+		repeat: [Transcript cr; show: '--------ping']
+		every: 400 milliSeconds.
+	pong := self 
+		repeat: [Transcript cr; show: 'PONG']
+		every: 200 milliSeconds.
+	ping start.
+	pong start.
+	UIManager default centeredAlert: 'click to stop' title: 'Tasks' configure: [:any| ] .
+	ping stop.
+	pong stop
+
 ]
 
 { #category : #'instance creation' }
@@ -100,6 +154,21 @@ TkThread class >> repeat: actionBlock while: endBlock every: aDuration [
 		yourself
 ]
 
+{ #category : #examples }
+TkThread class >> waitUntilDone [
+	<example>
+	|counter thread |
+	counter := 0.
+	thread := self 
+		repeat: [
+			counter := counter + 1.
+			self inform: counter printString]
+		times: 10
+		every: 100 milliSeconds.
+	thread start.
+	thread waitDone.
+]
+
 { #category : #initialization }
 TkThread >> defaultName [
 	^self printString
@@ -108,6 +177,21 @@ TkThread >> defaultName [
 { #category : #initialization }
 TkThread >> defaultPriority [
 	^30
+]
+
+{ #category : #living }
+TkThread >> defaultWaitDoneTimoutDuration [
+	^3 seconds
+]
+
+{ #category : #initialization }
+TkThread >> disableFinalization [
+	isFinalizationEnabled := false
+]
+
+{ #category : #initialization }
+TkThread >> enableFinalization [
+	isFinalizationEnabled := true
 ]
 
 { #category : #accessing }
@@ -124,6 +208,7 @@ TkThread >> frequency: newFrequency [
 TkThread >> initialize [
 	super initialize.
 	self priority: self defaultPriority.
+	self enableFinalization.
 	automaton := SmAutomaton new.
 	newThreadState := self newState: TkNewThreadState.
 	automaton initialState: newThreadState.
@@ -147,6 +232,11 @@ TkThread >> initialize [
 { #category : #testing }
 TkThread >> isDone [
 	^self state isDone
+]
+
+{ #category : #initialization }
+TkThread >> isFinalizationEnabled [
+	^isFinalizationEnabled
 ]
 
 { #category : #testing }
@@ -230,6 +320,11 @@ TkThread >> period [
 { #category : #accessing }
 TkThread >> period: aDuration [ 
 	self task period: aDuration
+]
+
+{ #category : #living }
+TkThread >> persistUntillDone [
+	self disableFinalization
 ]
 
 { #category : #accessing }
@@ -349,6 +444,19 @@ TkThread >> tearDownBlock: aBlock [
 { #category : #living }
 TkThread >> terminateProcess [
 	self process terminate
+]
+
+{ #category : #living }
+TkThread >> waitDone [
+	^self waitDoneTimeout: self defaultWaitDoneTimoutDuration
+]
+
+{ #category : #living }
+TkThread >> waitDoneTimeout: aDuration [
+	| semaphore |
+	semaphore := Semaphore new.
+	doneState addObserver: [semaphore signal].
+	semaphore wait: aDuration
 ]
 
 { #category : #living }

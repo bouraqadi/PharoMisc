@@ -156,6 +156,22 @@ TkThreadTest >> testPeriodWhileCondition [
 ]
 
 { #category : #tests }
+TkThreadTest >> testPersistUntillDone [
+	| process |
+	thread := bench threadRepeating3TimesPeriod100Milliseconds.
+	thread persistUntillDone.
+	bench thread: nil.
+	thread start.
+	process := thread process.
+	thread := nil.
+	Smalltalk garbageCollect.
+	self waitUntil: [process isTerminated].
+	self assert: bench actionCount equals: 3.
+
+
+]
+
+{ #category : #tests }
 TkThreadTest >> testPostponedStartByDuration [
 	| startTime endTime |
 	thread := bench threadRepeating3Times.
@@ -418,4 +434,13 @@ TkThreadTest >> testStopStartedThread [
 	self waitUntil: [thread isStopped].
 	self deny: thread isStarted.
 
+]
+
+{ #category : #tests }
+TkThreadTest >> testWaitUntillDone [
+	thread := bench threadRepeating3Times.
+	thread start.
+	thread waitDone.
+	self assert: thread isDone.
+	self assert: bench actionCount equals: 3.
 ]
