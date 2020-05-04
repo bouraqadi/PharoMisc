@@ -9,7 +9,7 @@ A task materializes as an instance of class `TkTask`.
 # Threads
 
 A thread (instance of `TkThread`) is a task decorator that ensures the task is run within a dedicated process (instance of `Process`).
-Threds are more abstract that tasks and processes. Users new to this library should start with threads.
+Threads are more abstract that tasks and processes. Users new to this library should start with threads.
 Examples are provided as class side methods 
 
 ## Install
