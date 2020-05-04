@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'thread'
 	],
-	#category : #'Tasks-Kernel-Threads'
+	#category : #'Tasks-Private-Thread'
 }
 
 { #category : #testing }
@@ -30,6 +30,11 @@ TkThreadState >> isStopped [
 { #category : #living }
 TkThreadState >> kill [
 	^self
+]
+
+{ #category : #accessing }
+TkThreadState >> name [
+	^self subclassResponsibility
 ]
 
 { #category : #living }

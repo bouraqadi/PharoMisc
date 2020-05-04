@@ -1,7 +1,7 @@
 Class {
 	#name : #TkPendingTaskState,
 	#superclass : #TkTaskState,
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Private-Tasks'
 }
 
 { #category : #initialization }

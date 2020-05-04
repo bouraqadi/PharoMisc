@@ -6,7 +6,7 @@ Class {
 		'tearDownState',
 		'tearDownBlock'
 	],
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Private-Tasks'
 }
 
 { #category : #initialization }

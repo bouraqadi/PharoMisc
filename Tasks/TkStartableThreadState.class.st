@@ -1,7 +1,7 @@
 Class {
 	#name : #TkStartableThreadState,
 	#superclass : #TkThreadState,
-	#category : #'Tasks-Kernel-Threads'
+	#category : #'Tasks-Private-Thread'
 }
 
 { #category : #living }

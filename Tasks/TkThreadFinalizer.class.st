@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'thread'
 	],
-	#category : #'Tasks-Kernel-Threads'
+	#category : #'Tasks-Private-Thread'
 }
 
 { #category : #'instance creation' }
@@ -16,6 +16,7 @@ TkThreadFinalizer class >> thread: aThread [
 
 { #category : #'reflective operations' }
 TkThreadFinalizer >> doesNotUnderstand: aMessage [
+	self thread ifNil: [ ^super doesNotUnderstand: aMessage ].
 	^aMessage sendTo: self thread
 ]
 
@@ -23,6 +24,18 @@ TkThreadFinalizer >> doesNotUnderstand: aMessage [
 TkThreadFinalizer >> finalize [
 	self thread isFinalizationEnabled ifFalse: [ ^self ].
 	self thread kill
+]
+
+{ #category : #printing }
+TkThreadFinalizer >> printOn: aString [
+	self thread ifNil: [ ^super printOn: aString ].
+	self thread printOn: aString
+]
+
+{ #category : #printing }
+TkThreadFinalizer >> printString [
+	self thread ifNil: [ ^super printString].
+	^self thread printString
 ]
 
 { #category : #accessing }

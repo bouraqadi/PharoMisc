@@ -10,6 +10,11 @@ Class {
 	#category : #'Tasks-Tests'
 }
 
+{ #category : #waiting }
+TkThreadTest >> defaultActionOnTimeout [
+	TkTimeout signal
+]
+
 { #category : #tests }
 TkThreadTest >> setUp [
 	super setUp.
@@ -193,6 +198,40 @@ TkThreadTest >> testPostponedStartToGivenTime [
 	endTime := DateAndTime now.
 	self assert:  endTime - startTime > 100 milliSeconds.
 
+]
+
+{ #category : #tests }
+TkThreadTest >> testPrintString [
+	thread := bench threadUntilFlagTruePeriod100Milliseconds.
+	self assert: (thread printString includesSubstring: '30').
+	thread priority: 33.
+	self assert: (thread printString includesSubstring: '33').
+	#('First Name' 'Second Name') do: [: newName |
+		thread name: newName.
+		self assert: (thread printString includesSubstring: newName).
+	].
+	self assert: (thread printString includesSubstring: 'New').
+	thread start.
+	self assert: (thread printString includesSubstring: 'Started').
+	thread stop.
+	self waitUntil: [ thread isStopped ].
+	self assert: (thread printString includesSubstring: 'Stopped').
+	thread start.
+	bench setFlagTrue.	
+	self waitUntil: [ thread isDone ].
+	self assert: (thread printString includesSubstring: 'Done').
+	bench setFlagFalse.	
+	thread restart.
+	self waitUntil: [ thread isStarted ].
+	thread kill.
+	self assert: thread isKilled.
+	self assert: (thread printString includesSubstring: 'Killed').
+		
+
+	
+	
+	
+	
 ]
 
 { #category : #tests }
@@ -433,6 +472,13 @@ TkThreadTest >> testStopStartedThread [
 	thread stop.
 	self waitUntil: [thread isStopped].
 	self deny: thread isStarted.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testWaitTimeout [
+	thread := bench threadRepeating3Times.
+	self should: [thread waitDoneTimeout: 300 milliSeconds] raise: TkTimeout.
 
 ]
 

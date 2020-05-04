@@ -1,11 +1,11 @@
 Trait {
 	#name : #TkTWaitPolling,
-	#category : #'Tasks-Kernel-Common'
+	#category : #'Tasks-Public'
 }
 
 { #category : #waiting }
 TkTWaitPolling >> defaultActionOnTimeout [
-	CcTimeout signal
+	TkTimeout signal
 ]
 
 { #category : #waiting }

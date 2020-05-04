@@ -1,7 +1,7 @@
 Class {
 	#name : #TkSetUpTaskState,
 	#superclass : #TkTaskState,
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Private-Tasks'
 }
 
 { #category : #acting }

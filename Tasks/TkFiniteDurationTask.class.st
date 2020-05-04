@@ -5,7 +5,7 @@ Class {
 		'duration',
 		'endTime'
 	],
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Private-Tasks'
 }
 
 { #category : #accessing }

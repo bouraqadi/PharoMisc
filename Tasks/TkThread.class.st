@@ -1,3 +1,6 @@
+"
+See class side for examples
+"
 Class {
 	#name : #TkThread,
 	#superclass : #Object,
@@ -16,7 +19,7 @@ Class {
 		'newThreadState',
 		'isFinalizationEnabled'
 	],
-	#category : #'Tasks-Kernel-Threads'
+	#category : #'Tasks-Public'
 }
 
 { #category : #examples }
@@ -169,42 +172,42 @@ TkThread class >> waitUntilDone [
 	thread waitDone.
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization-private' }
 TkThread >> defaultName [
-	^self printString
+	^super printString
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization-private' }
 TkThread >> defaultPriority [
 	^30
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> defaultWaitDoneTimoutDuration [
 	^3 seconds
 ]
 
-{ #category : #initialization }
+{ #category : #'living-public' }
 TkThread >> disableFinalization [
 	isFinalizationEnabled := false
 ]
 
-{ #category : #initialization }
+{ #category : #'living-public' }
 TkThread >> enableFinalization [
 	isFinalizationEnabled := true
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> frequency [
 	^self task frequency
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> frequency: newFrequency [
 	self task frequency: newFrequency
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization-private' }
 TkThread >> initialize [
 	super initialize.
 	self priority: self defaultPriority.
@@ -229,82 +232,82 @@ TkThread >> initialize [
 	
 ]
 
-{ #category : #testing }
+{ #category : #'testing-public' }
 TkThread >> isDone [
 	^self state isDone
 ]
 
-{ #category : #initialization }
+{ #category : #'testing-public' }
 TkThread >> isFinalizationEnabled [
 	^isFinalizationEnabled
 ]
 
-{ #category : #testing }
+{ #category : #'testing-public' }
 TkThread >> isKilled [
 	^self state isKilled
 ]
 
-{ #category : #testing }
+{ #category : #'testing-private' }
 TkThread >> isProcessTerminated [
 	^self process isTerminated
 ]
 
-{ #category : #testing }
+{ #category : #'testing-public' }
 TkThread >> isStarted [
 	^self state isStarted
 ]
 
-{ #category : #testing }
+{ #category : #'testing-private' }
 TkThread >> isStopConditionMet [
 	^self isStopRequested or: [ self isTaskDone ]
 
 ]
 
-{ #category : #testing }
+{ #category : #'testing-public' }
 TkThread >> isStopRequested [
 	^ isStopRequested
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-private' }
 TkThread >> isStopRequested: anObject [
 	^ isStopRequested := anObject
 ]
 
-{ #category : #testing }
+{ #category : #'testing-public' }
 TkThread >> isStopped [
 	^self state isStopped
 ]
 
-{ #category : #testing }
+{ #category : #'testing-private' }
 TkThread >> isTaskDone [
 	^self task isDone
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> kill [
 	^self state kill
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> loop [
 	[self isStopConditionMet] whileFalse: [self step].
 	self step.
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> name [
 	^ name ifNil: [ self defaultName ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> name: aString [
 	name := aString.
 	self process ifNil: [ ^self ].
 	self process name: aString.
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization-private' }
 TkThread >> newState: stateClass [
 	| newState |
 	newState := automaton newState: stateClass.
@@ -312,86 +315,99 @@ TkThread >> newState: stateClass [
 	^newState
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> period [
 	^self task
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> period: aDuration [ 
 	self task period: aDuration
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> persistUntillDone [
 	self disableFinalization
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
+TkThread >> printOn: aStream [
+	aStream
+		<< self name;
+		<< ' (';
+		print: self priority;
+		<< ' - ';
+		<< self stateName;
+		<< $)
+				
+		
+]
+
+{ #category : #'accessing-public' }
 TkThread >> priority [
 	^ priority
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> priority: newPriority [
 	priority := newPriority.
 	self process ifNil: [ ^self ].
 	self process priority: newPriority.
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-private' }
 TkThread >> process [
 	^process
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> resetBlock [
 	^self task resetBlock
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing-public' }
 TkThread >> resetBlock: aBlock [
 	self task resetBlock: aBlock
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> resetTask [
 	self task reset
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> restart [
 	^self state restart
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> setUpBlock [
 	^self task setUpBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> setUpBlock: aBlock [
 	self task setUpBlock: aBlock
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> start [
 	^self state start
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> startAfter: aDuration [
 	self task actAfter: aDuration.
 	self start.
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> startOn: aDateAndTime [
 	self task actOn: aDateAndTime.
 	self start.
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> startProcess [
 	self isStopRequested: false.
 	process := [ self loop ] newProcess.
@@ -400,66 +416,72 @@ TkThread >> startProcess [
 	process resume
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-private' }
 TkThread >> state [
 	^ automaton currentState
 ]
 
-{ #category : #living }
+{ #category : #'accessing-private' }
+TkThread >> stateName [
+	^self state name
+]
+
+{ #category : #'living-private' }
 TkThread >> step [
 	automaton step
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> stepTask [
 	self waitUntilTaskIsDue.
 	self task step
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> stop [
 	^self state stop
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-private' }
 TkThread >> task [
 	^ task
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-private' }
 TkThread >> task: anObject [
 	task := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> tearDownBlock [
 	^self task tearDownBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-public' }
 TkThread >> tearDownBlock: aBlock [
 	self task tearDownBlock: aBlock
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> terminateProcess [
 	self process terminate
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> waitDone [
 	^self waitDoneTimeout: self defaultWaitDoneTimoutDuration
 ]
 
-{ #category : #living }
+{ #category : #'living-public' }
 TkThread >> waitDoneTimeout: aDuration [
 	| semaphore |
 	semaphore := Semaphore new.
 	doneState addEntryAction: [semaphore signal].
-	semaphore wait: aDuration
+	(semaphore wait: aDuration) ifFalse: [ ^self ]. 
+	TkTimeout signal: 'Thread did not finish yet. Current state is : ', self stateName
 ]
 
-{ #category : #living }
+{ #category : #'living-private' }
 TkThread >> waitUntilTaskIsDue [
 	self task isDue ifTrue: [ ^self ].
 	self task durationToDueTime wait

@@ -1,7 +1,7 @@
 Class {
 	#name : #TkStartedThreadState,
 	#superclass : #TkThreadState,
-	#category : #'Tasks-Kernel-Threads'
+	#category : #'Tasks-Private-Thread'
 }
 
 { #category : #testing }
@@ -13,6 +13,11 @@ TkStartedThreadState >> isStarted [
 TkStartedThreadState >> kill [
 	self thread terminateProcess.
 	self automaton step
+]
+
+{ #category : #accessing }
+TkStartedThreadState >> name [
+	^'Started'
 ]
 
 { #category : #living }

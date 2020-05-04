@@ -12,7 +12,7 @@ Class {
 		'period',
 		'dueTime'
 	],
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Private-Tasks'
 }
 
 { #category : #'instance creation' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #TkDoneTaskState,
 	#superclass : #TkTaskState,
-	#category : #'Tasks-Kernel-Tasks'
+	#category : #'Tasks-Private-Tasks'
 }
 
 { #category : #testing }
