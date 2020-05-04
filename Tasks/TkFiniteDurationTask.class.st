@@ -36,7 +36,7 @@ TkFiniteDurationTask >> initEndTime [
 { #category : #initialization }
 TkFiniteDurationTask >> initialize [
 	super initialize.
-	pendingState exitActionBlock: [ self initEndTime ]
+	pendingState addExitAction: [ self initEndTime ]
 ]
 
 { #category : #accessing }

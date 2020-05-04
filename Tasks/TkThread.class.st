@@ -215,7 +215,7 @@ TkThread >> initialize [
 	stoppedState := self newState: TkStoppedThreadState.
 	startedState := self newState: TkStartedThreadState.
 	startedState
-		entryActionBlock: [self startProcess];
+		addEntryAction: [self startProcess];
 		mainActionBlock: [ self stepTask ].
 	killedState := self newState: TkKilledThreadState.
 	doneState := self newState: TkDoneThreadState.
@@ -455,7 +455,7 @@ TkThread >> waitDone [
 TkThread >> waitDoneTimeout: aDuration [
 	| semaphore |
 	semaphore := Semaphore new.
-	doneState addObserver: [semaphore signal].
+	doneState addEntryAction: [semaphore signal].
 	semaphore wait: aDuration
 ]
 
