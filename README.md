@@ -18,7 +18,7 @@ Metacello new
 - [BooleanExpressions](/BooleanExpressions): This package introduces extensions to collections to make it easy to write usual expressions. The goal is to avoid writing long sequences of logic messages `and:` and `or:`
 
 ## C
-- [Concurrency](/Concurrency): I introduce simple and easy to use concurrency library
+- [Concurrency](/Concurrency): Simple and easy to use concurrency library. Deprecated. Use [Tasks](/Tasks) instead.
 - [CsvToPillarConverter](/CsvToPillarConverter): Converts CSV to Pillar, ready to display on web page. Used for generating Pillar for ESUG website based on CSV obtained from registration server.
 
 ## E
@@ -36,4 +36,4 @@ Metacello new
 - [SimpleMiddleware](/SimpleMiddleware): a basic middleware supporting remote object messages over TCP
 
 ## T
-- [TimedAction](/TimedAction): Small library to define tasks (actions) that need to be performed at a specific point in time or repeatedly
+- [Tasks](/Tasks): Small library to define threads. They makes it easy to express tasks that need to performed at a specific point in time or repeatedly, within a dedicated process.
