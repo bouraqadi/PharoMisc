@@ -24,7 +24,7 @@ Class {
 		'sourceState',
 		'targetState'
 	],
-	#category : #StateMachine
+	#category : #'StateMachine-Kernel'
 }
 
 { #category : #'instance creation' }
@@ -58,8 +58,8 @@ SmTransition >> isActionable [
 
 { #category : #stepping }
 SmTransition >> perform [
-	self sourceState disable.
-	self targetState enable
+	self sourceState exit.
+	self targetState enter
 ]
 
 { #category : #accessing }

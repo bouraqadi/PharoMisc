@@ -1,5 +1,5 @@
 Class {
 	#name : #SmCustomStateForTest,
 	#superclass : #SmState,
-	#category : #StateMachine
+	#category : #'StateMachine-Tests'
 }

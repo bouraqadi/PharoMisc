@@ -26,7 +26,7 @@ Class {
 	#instVars : [
 		'currentState'
 	],
-	#category : #StateMachine
+	#category : #'StateMachine-Kernel'
 }
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ SmAutomaton >> defaultStateClass [
 { #category : #'initialize-release' }
 SmAutomaton >> initialState: aState [
 	self currentState: aState.
-	aState enable.
+	aState enter.
 	aState performMainAction.
 ]
 
@@ -78,8 +78,8 @@ SmAutomaton >> newState: stateClass doing: mainActionBlock onEntryDo: entryActio
 { #category : #'creating states' }
 SmAutomaton >> newState: stateClass doing: mainActionBlock onEntryDo: entryActionBlock onExitDo: exitActionBlock [
 	^(self newState: stateClass doing: mainActionBlock)
-		entryActionBlock: entryActionBlock;
-		exitActionBlock: exitActionBlock;
+		addEntryAction: entryActionBlock;
+		addExitAction: exitActionBlock;
 		yourself
 
 ]
@@ -115,8 +115,8 @@ SmAutomaton >> newStateDoing: mainActionBlock onEntryDo: entryActionBlock [
 { #category : #'creating states' }
 SmAutomaton >> newStateDoing: mainActionBlock onEntryDo: entryActionBlock onExitDo: exitActionBlock [
 	^(self newStateDoing: mainActionBlock)
-		entryActionBlock: entryActionBlock;
-		exitActionBlock: exitActionBlock;
+		addEntryAction: entryActionBlock;
+		addExitAction: exitActionBlock;
 		yourself
 
 ]

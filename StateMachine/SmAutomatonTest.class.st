@@ -5,7 +5,7 @@ Class {
 		'initialState',
 		'automaton'
 	],
-	#category : #StateMachine
+	#category : #'StateMachine-Tests'
 }
 
 { #category : #testing }
@@ -95,7 +95,7 @@ SmAutomatonTest >> testStateExitActionPerformed [
 	|newState exitActionPeformed|
 	exitActionPeformed := false.
 	newState := automaton newState.
-	initialState exitActionBlock: [ exitActionPeformed := true ].
+	initialState addExitAction: [ exitActionPeformed := true ].
 	initialState transitionTo: newState when: [true].
 	automaton step.
 	self assert: exitActionPeformed

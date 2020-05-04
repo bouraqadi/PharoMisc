@@ -33,10 +33,10 @@ Class {
 		'transitions',
 		'automaton',
 		'mainActionBlock',
-		'entryActionBlock',
-		'exitActionBlock'
+		'entryActions',
+		'exitActions'
 	],
-	#category : #StateMachine
+	#category : #'StateMachine-Kernel'
 }
 
 { #category : #'instance creation' }
@@ -52,6 +52,16 @@ SmState class >> new [
 ]
 
 { #category : #accessing }
+SmState >> addEntryAction: aBlock [
+	entryActions add: aBlock
+]
+
+{ #category : #accessing }
+SmState >> addExitAction: aBlock [
+	exitActions add: aBlock
+]
+
+{ #category : #accessing }
 SmState >> automaton [
 	^automaton
 ]
@@ -62,40 +72,22 @@ SmState >> automaton: anAutomaton [
 ]
 
 { #category : #stepping }
-SmState >> disable [
-	self exitActionBlock value
+SmState >> enter [
+	self automaton currentState: self.
+	entryActions do: [: each | each value]
 ]
 
 { #category : #stepping }
-SmState >> enable [
-	self automaton currentState: self.
-	self entryActionBlock value
-]
-
-{ #category : #accessing }
-SmState >> entryActionBlock [
-	^ entryActionBlock
-]
-
-{ #category : #accessing }
-SmState >> entryActionBlock: anObject [
-	entryActionBlock := anObject
-]
-
-{ #category : #accessing }
-SmState >> exitActionBlock [
-	^ exitActionBlock
-]
-
-{ #category : #accessing }
-SmState >> exitActionBlock: anObject [
-	exitActionBlock := anObject
+SmState >> exit [
+	exitActions do: [: each | each value]
 ]
 
 { #category : #'initialize-release' }
 SmState >> initialize [
 	super initialize.
-	transitions := Set new
+	transitions := Set new.
+	entryActions := Set new.
+	exitActions := Set new.
 ]
 
 { #category : #accessing }
