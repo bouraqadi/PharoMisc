@@ -1,3 +1,6 @@
+"
+A task is a set of statements that can be performed in a controlled manner. This can be at a specific point in time. It can be performed repeatedly at a given frequency. It can be repeated forever. Conversely, it can be repeated for a given amount of iterations, or until some condition or some point in time is reached.
+"
 Class {
 	#name : #TkTask,
 	#superclass : #Object,
@@ -12,7 +15,7 @@ Class {
 		'period',
 		'dueTime'
 	],
-	#category : #'Tasks-Private-Tasks'
+	#category : #'Tasks-Public'
 }
 
 { #category : #'instance creation' }

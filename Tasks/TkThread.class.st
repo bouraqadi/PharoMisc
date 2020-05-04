@@ -1,5 +1,7 @@
 "
-See class side for examples
+A thread is a task decorator that ensures the task is run within a dedicated process (instance of Process). Threads are more abstract that tasks and processes. 
+
+Users new to this library should start here. See class side for examples
 "
 Class {
 	#name : #TkThread,
