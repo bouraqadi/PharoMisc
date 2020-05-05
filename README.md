@@ -36,4 +36,17 @@ Metacello new
 - [SimpleMiddleware](/SimpleMiddleware): a basic middleware supporting remote object messages over TCP
 
 ## T
-- [Tasks](/Tasks): Small library to define threads. They makes it easy to express tasks that need to performed at a specific point in time or repeatedly, within a dedicated process.
+### Tasks
+Small library to define threads. They makes it easy to express tasks that need to performed at a specific point in time or repeatedly, within a dedicated process. There are 2 main concepts: Tasks and Threads.
+##### Tasks
+A task is a set of statements that can be performed in a controlled manner. This can be at a specific point in time. 
+It can be performed repeatedly at a given frequency. 
+It can be repeated forever.
+Conversely, it can be repeated for a given amount of iterations, or until some condition or some point in time is reached. 
+A task materializes as an instance of class `TkTask`.
+##### Threads
+A thread (instance of `TkThread`) is a task decorator that ensures the task is run within a dedicated process (instance of `Process`).
+Threds are more abstract that tasks and processes. Users new to this library should start with threads.
+Examples are provided as class side methods 
+
+
