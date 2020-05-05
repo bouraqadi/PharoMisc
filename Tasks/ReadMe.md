@@ -13,7 +13,7 @@ Threds are more abstract that tasks and processes. Users new to this library sho
 Examples are provided as class side methods 
 
 ## Install
-```
+```Smalltalk
 Metacello new
   baseline: 'Tasks';
   repository: 'github://bouraqadi/PharoMisc';
