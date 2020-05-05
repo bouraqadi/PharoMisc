@@ -10,6 +10,17 @@ Class {
 	#category : #'Tasks-Tests'
 }
 
+{ #category : #tests }
+TkThreadTest >> assert: aBlock after: aDuration [
+	| startTime endTime |
+	startTime := DateAndTime now.
+	thread start.
+	self waitUntil: aBlock.
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > aDuration
+
+]
+
 { #category : #waiting }
 TkThreadTest >> defaultActionOnTimeout [
 	TkTimeout signal
@@ -114,49 +125,29 @@ TkThreadTest >> testPeriodFixedDuration [
 
 { #category : #tests }
 TkThreadTest >> testPeriodFixedIterationsCount [
-	| startTime endTime |
 	thread := bench threadRepeating3TimesPeriod100Milliseconds.
-	startTime := DateAndTime now.
-	thread start.
-	self waitUntil: [thread isDone].
-	endTime := DateAndTime now.
-	self assert:  endTime - startTime > 200 milliSeconds.
+	self assert: [thread isDone] after: 200 milliSeconds 
 
 ]
 
 { #category : #tests }
 TkThreadTest >> testPeriodForever [
-	| startTime endTime |
 	thread := bench threadRepeatingForeverPeriod100Milliseconds.
-	startTime := DateAndTime now.
-	thread start.
-	self waitUntil: [ bench actionCount >= 3 ].
-	endTime := DateAndTime now.
-	self assert:  endTime - startTime > 200 milliSeconds.
+	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
 
 ]
 
 { #category : #tests }
 TkThreadTest >> testPeriodUntilCondition [
-	| startTime endTime |
 	thread := bench threadUntilFlagTruePeriod100Milliseconds.
-	startTime := DateAndTime now.
-	thread start.
-	self waitUntil: [ bench actionCount >= 3 ].
-	endTime := DateAndTime now.
-	self assert:  endTime - startTime > 200 milliSeconds.
+	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
 
 ]
 
 { #category : #tests }
 TkThreadTest >> testPeriodWhileCondition [
-	| startTime endTime |
 	thread := bench threadWhileFlagTruePeriod100Milliseconds.
-	startTime := DateAndTime now.
-	thread start.
-	self waitUntil: [ bench actionCount >= 3 ].
-	endTime := DateAndTime now.
-	self assert:  endTime - startTime > 200 milliSeconds.
+	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
 
 ]
 
