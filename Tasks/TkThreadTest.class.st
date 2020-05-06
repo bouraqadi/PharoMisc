@@ -49,13 +49,8 @@ TkThreadTest >> testFinalization [
 
 { #category : #tests }
 TkThreadTest >> testFrequency [
-	| startTime endTime |
 	thread := bench threadRepeatingForeverFrequency10Hz.
-	startTime := DateAndTime now.
-	thread start.
-	self waitUntil: [ bench actionCount >= 3 ].
-	endTime := DateAndTime now.
-	self assert:  endTime - startTime > 200 milliSeconds.
+	self assert: [ bench actionCount >= 3 ] after: 200 milliSeconds 
 
 ]
 
@@ -262,7 +257,7 @@ TkThreadTest >> testProcessPriority [
 
 { #category : #tests }
 TkThreadTest >> testRepeatForFixedDuration [
-	thread := bench threadRepeatingFor100Milliseconds.
+	thread := bench threadRepeatingFor300Milliseconds.
 	thread start.
 	self waitUntil: [ thread isDone ].
 	self assert: bench actionCount > 0.

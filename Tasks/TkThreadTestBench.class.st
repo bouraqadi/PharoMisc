@@ -74,14 +74,14 @@ TkThreadTestBench >> threadRepeating3TimesWithSetUpTearDownActions [
 ]
 
 { #category : #creating }
-TkThreadTestBench >> threadRepeatingFor100Milliseconds [
-	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds).
+TkThreadTestBench >> threadRepeatingFor300MillisecondPeriod100Milliseconds [
+	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds every: 100milliSeconds).
 
 ]
 
 { #category : #creating }
-TkThreadTestBench >> threadRepeatingFor300MillisecondPeriod100Milliseconds [
-	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds every: 100milliSeconds).
+TkThreadTestBench >> threadRepeatingFor300Milliseconds [
+	^self thread: (self threadClass repeat: self actionBlock during: 300 milliSeconds).
 
 ]
 
