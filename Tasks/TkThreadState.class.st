@@ -44,7 +44,33 @@ TkThreadState >> restart [
 ]
 
 { #category : #living }
+TkThreadState >> restartAfter: aDuration [
+	self thread resetTask.
+	self thread actAfter: aDuration.
+	self automaton step.
+
+]
+
+{ #category : #living }
+TkThreadState >> restartOn: aDateAndTime [
+	self thread resetTask.
+	self thread actOn: aDateAndTime.
+	self automaton step.
+
+]
+
+{ #category : #living }
 TkThreadState >> start [
+	^self
+]
+
+{ #category : #living }
+TkThreadState >> startAfter: aDuration [
+	^self
+]
+
+{ #category : #living }
+TkThreadState >> startOn: aDateAndTime [
 	^self
 ]
 

@@ -27,6 +27,18 @@ TkStartedThreadState >> restart [
 ]
 
 { #category : #living }
+TkStartedThreadState >> restartAfter: aDuration [
+	self kill.
+	super restartAfter: aDuration.
+]
+
+{ #category : #living }
+TkStartedThreadState >> restartOn: aDateAndTime [
+	self kill.
+	super restartOn: aDateAndTime.
+]
+
+{ #category : #living }
 TkStartedThreadState >> start [
 	^self
 ]

@@ -174,6 +174,16 @@ TkThread class >> waitUntilDone [
 	thread waitDone.
 ]
 
+{ #category : #'living-private' }
+TkThread >> actAfter: aDuration [
+	self task actAfter: aDuration.
+]
+
+{ #category : #'living-private' }
+TkThread >> actOn: aDateAndTime [
+	self task actOn: aDateAndTime.
+]
+
 { #category : #'initialization-private' }
 TkThread >> defaultName [
 	^super printString
@@ -382,6 +392,16 @@ TkThread >> restart [
 	^self state restart
 ]
 
+{ #category : #'living-public' }
+TkThread >> restartAfter: aDuration [
+	^self state restartAfter: aDuration
+]
+
+{ #category : #'living-public' }
+TkThread >> restartOn: aDateAndTime [
+	^self state restartOn: aDateAndTime
+]
+
 { #category : #'accessing-public' }
 TkThread >> setUpBlock [
 	^self task setUpBlock
@@ -399,14 +419,12 @@ TkThread >> start [
 
 { #category : #'living-public' }
 TkThread >> startAfter: aDuration [
-	self task actAfter: aDuration.
-	self start.
+	^self state startAfter: aDuration
 ]
 
 { #category : #'living-public' }
 TkThread >> startOn: aDateAndTime [
-	self task actOn: aDateAndTime.
-	self start.
+	^self state startOn: aDateAndTime
 ]
 
 { #category : #'living-private' }

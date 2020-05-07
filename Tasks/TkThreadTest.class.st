@@ -167,6 +167,34 @@ TkThreadTest >> testPersistUntillDone [
 ]
 
 { #category : #tests }
+TkThreadTest >> testPostponedRestartByDuration [
+	| startTime endTime |
+	thread := bench threadRepeating3Times.
+	thread start.
+	self waitUntil: [ thread isDone ].
+	startTime := DateAndTime now.
+	bench restartThreadAfter100Milliseconds.
+	self waitUntil: [thread isDone].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 100 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPostponedRestartToGivenTime [
+	| startTime endTime |
+	thread := bench threadRepeating3Times.
+	thread start.
+	self waitUntil: [ thread isDone ].
+	startTime := DateAndTime now.
+	bench restartThread100MillisecondsInTheFuture.
+	self waitUntil: [thread isDone].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 100 milliSeconds.
+
+]
+
+{ #category : #tests }
 TkThreadTest >> testPostponedStartByDuration [
 	| startTime endTime |
 	thread := bench threadRepeating3Times.
@@ -175,6 +203,28 @@ TkThreadTest >> testPostponedStartByDuration [
 	self waitUntil: [thread isDone].
 	endTime := DateAndTime now.
 	self assert:  endTime - startTime > 100 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPostponedStartOfDoneThread [
+	thread := bench threadRepeating3TimesPeriod100Milliseconds.
+	thread start.
+	self waitUntil: [ thread isDone ].
+	bench startThreadAfter100Milliseconds.
+	self deny: thread isStarted.
+	self assert: thread isDone.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testPostponedStartOfStartedThread [
+	thread := bench threadRepeatingForever.
+	thread start.
+	self waitUntil: [ bench actionCount > 1 ].
+	bench startThreadAfter100Milliseconds.
+	self assert: thread isStarted.
+	self assert: bench resetCount equals: 0.
 
 ]
 
@@ -310,6 +360,36 @@ TkThreadTest >> testRestartAfterStart [
 	self assert: thread isStarted.
 	self assert: bench resetCount equals: 1.
 	self waitUntil: [ bench actionCount > previousCount ].
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testRestartOfStartedThreadAfterAGivenDuration [
+	| startTime endTime currentCount |
+	thread := bench threadRepeatingForever.
+	thread start.
+	self waitUntil: [ bench actionCount > 1 ].
+	startTime := DateAndTime now.
+	bench restartThreadAfter100Milliseconds.
+	currentCount := bench actionCount.
+	self waitUntil: [bench actionCount > currentCount].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 100 milliSeconds.
+
+]
+
+{ #category : #tests }
+TkThreadTest >> testRestartOfStartedThreadOnAGivenTime [
+	| startTime endTime currentCount |
+	thread := bench threadRepeatingForever.
+	thread start.
+	self waitUntil: [ bench actionCount > 1 ].
+	startTime := DateAndTime now.
+	bench restartThread100MillisecondsInTheFuture.
+	currentCount := bench actionCount.
+	self waitUntil: [bench actionCount > currentCount].
+	endTime := DateAndTime now.
+	self assert:  endTime - startTime > 100 milliSeconds.
 
 ]
 

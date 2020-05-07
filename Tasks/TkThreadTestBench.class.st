@@ -19,6 +19,16 @@ TkThreadTestBench >> addSetUpTearDownBlocks [
 ]
 
 { #category : #starting }
+TkThreadTestBench >> restartThread100MillisecondsInTheFuture [
+	thread restartOn: DateAndTime now + 100 milliSeconds
+]
+
+{ #category : #starting }
+TkThreadTestBench >> restartThreadAfter100Milliseconds [
+	thread restartAfter: 100 milliSeconds
+]
+
+{ #category : #starting }
 TkThreadTestBench >> startThread100MillisecondsInTheFuture [
 	thread startOn: DateAndTime now + 100 milliSeconds
 ]
