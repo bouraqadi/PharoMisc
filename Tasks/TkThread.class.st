@@ -319,7 +319,7 @@ TkThread >> newState: stateClass [
 
 { #category : #'accessing-public' }
 TkThread >> period [
-	^self task
+	^self task period
 ]
 
 { #category : #'accessing-public' }

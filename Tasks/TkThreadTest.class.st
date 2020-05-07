@@ -50,6 +50,8 @@ TkThreadTest >> testFinalization [
 { #category : #tests }
 TkThreadTest >> testFrequency [
 	thread := bench threadRepeatingForeverFrequency10Hz.
+	self assert: thread frequency equals: 10.
+	self assert: thread period equals: 100 milliSeconds.
 	self assert: [ bench actionCount >= 3 ] after: 200 milliSeconds 
 
 ]
@@ -128,6 +130,8 @@ TkThreadTest >> testPeriodFixedIterationsCount [
 { #category : #tests }
 TkThreadTest >> testPeriodForever [
 	thread := bench threadRepeatingForeverPeriod100Milliseconds.
+	self assert: thread period equals: 100 milliSeconds.
+	self assert: thread frequency equals: 10.
 	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
 
 ]
