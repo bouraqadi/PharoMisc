@@ -6,11 +6,12 @@ Trait {
 }
 
 { #category : #tests }
-TkTConcurrencyTest >> assert: aBlock takesMoreThan: aDuration [
-	| startTime endTime |
+TkTConcurrencyTest >> assert: aBlock takesMoreThan: minExpectedDuration [
+	| startTime endTime actualDuration |
 	startTime := DateAndTime now.
 	self waitUntil: aBlock.
 	endTime := DateAndTime now.
-	self assert:  endTime - startTime > aDuration
+	actualDuration := endTime - startTime.
+	self assert: actualDuration >= minExpectedDuration description: 'Became true after ', actualDuration humanReadablePrintString, ' instead of ', minExpectedDuration humanReadablePrintString
 
 ]
