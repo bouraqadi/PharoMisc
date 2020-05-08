@@ -1,30 +1,14 @@
 Class {
 	#name : #TkThreadTest,
 	#superclass : #TestCase,
-	#traits : 'TkTWaitPolling',
-	#classTraits : 'TkTWaitPolling classTrait',
+	#traits : 'TkTConcurrencyTest',
+	#classTraits : 'TkTConcurrencyTest classTrait',
 	#instVars : [
 		'thread',
 		'bench'
 	],
 	#category : #'Tasks-Tests'
 }
-
-{ #category : #tests }
-TkThreadTest >> assert: aBlock after: aDuration [
-	| startTime endTime |
-	startTime := DateAndTime now.
-	thread start.
-	self waitUntil: aBlock.
-	endTime := DateAndTime now.
-	self assert:  endTime - startTime > aDuration
-
-]
-
-{ #category : #waiting }
-TkThreadTest >> defaultActionOnTimeout [
-	TkTimeout signal
-]
 
 { #category : #tests }
 TkThreadTest >> setUp [
@@ -52,7 +36,8 @@ TkThreadTest >> testFrequency [
 	thread := bench threadRepeatingForeverFrequency10Hz.
 	self assert: thread frequency equals: 10.
 	self assert: thread period equals: 100 milliSeconds.
-	self assert: [ bench actionCount >= 3 ] after: 200 milliSeconds 
+	thread start.
+	self assert: [ bench actionCount >= 3 ] takesMoreThan: 200 milliSeconds 
 
 ]
 
@@ -123,7 +108,8 @@ TkThreadTest >> testPeriodFixedDuration [
 { #category : #tests }
 TkThreadTest >> testPeriodFixedIterationsCount [
 	thread := bench threadRepeating3TimesPeriod100Milliseconds.
-	self assert: [thread isDone] after: 200 milliSeconds 
+	thread start.
+	self assert: [thread isDone] takesMoreThan: 200 milliSeconds 
 
 ]
 
@@ -132,21 +118,24 @@ TkThreadTest >> testPeriodForever [
 	thread := bench threadRepeatingForeverPeriod100Milliseconds.
 	self assert: thread period equals: 100 milliSeconds.
 	self assert: thread frequency equals: 10.
-	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
+	thread start.
+	self assert:  [ bench actionCount >= 3 ] takesMoreThan: 200 milliSeconds.
 
 ]
 
 { #category : #tests }
 TkThreadTest >> testPeriodUntilCondition [
 	thread := bench threadUntilFlagTruePeriod100Milliseconds.
-	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
+	thread start.
+	self assert:  [ bench actionCount >= 3 ] takesMoreThan: 200 milliSeconds.
 
 ]
 
 { #category : #tests }
 TkThreadTest >> testPeriodWhileCondition [
 	thread := bench threadWhileFlagTruePeriod100Milliseconds.
-	self assert:  [ bench actionCount >= 3 ] after: 200 milliSeconds.
+	thread start.
+	self assert:  [ bench actionCount >= 3 ] takesMoreThan: 200 milliSeconds.
 
 ]
 
