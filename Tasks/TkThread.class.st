@@ -186,7 +186,7 @@ TkThread >> actOn: aDateAndTime [
 
 { #category : #'initialization-private' }
 TkThread >> defaultName [
-	^super printString
+	^'Anonymous Thread'
 ]
 
 { #category : #'initialization-private' }

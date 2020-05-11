@@ -535,6 +535,13 @@ TkThreadTest >> testStopStartedThread [
 ]
 
 { #category : #tests }
+TkThreadTest >> testThreadDefaultName [
+	thread := TkThread new.
+	self deny: thread name isNil.
+
+]
+
+{ #category : #tests }
 TkThreadTest >> testWaitTimeout [
 	thread := bench threadRepeating3Times.
 	self should: [thread waitDoneTimeout: 300 milliSeconds] raise: TkTimeout.
