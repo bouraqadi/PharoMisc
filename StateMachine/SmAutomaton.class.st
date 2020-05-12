@@ -95,6 +95,15 @@ SmAutomaton >> newState: stateClass onEntryDo: aBlockClosure [
 ]
 
 { #category : #'creating states' }
+SmAutomaton >> newState: stateClass onEntryDo: entryActionBlock onExitDo: exitActionBlock [
+	^(self newState: stateClass)
+		addEntryAction: entryActionBlock;
+		addExitAction: exitActionBlock;
+		yourself
+
+]
+
+{ #category : #'creating states' }
 SmAutomaton >> newState: stateClass onExitDo: aBlockClosure [ 
 	^self newState: stateClass doing: nil onExitDo: aBlockClosure
 ]
@@ -129,6 +138,15 @@ SmAutomaton >> newStateDoing: mainActionBlock onExitDo: exitActionBlock [
 { #category : #'creating states' }
 SmAutomaton >> newStateOnEntryDo: aBlockClosure [ 
 	^self newStateDoing: nil onEntryDo: aBlockClosure
+]
+
+{ #category : #'creating states' }
+SmAutomaton >> newStateOnEntryDo: entryActionBlock onExitDo: exitActionBlock [
+	^self newState
+		addEntryAction: entryActionBlock;
+		addExitAction: exitActionBlock;
+		yourself
+
 ]
 
 { #category : #'creating states' }
