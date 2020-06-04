@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfTasks,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfTasks
 }
 
