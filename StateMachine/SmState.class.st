@@ -113,13 +113,15 @@ SmState >> step [
 ]
 
 { #category : #running }
-SmState >> transitionTo: aSmState [ 
-	self transitionTo: aSmState when: true.
+SmState >> transitionTo: targetState [ 
+	| newTransition |
+	newTransition := SmTransition from: self to: targetState.
+	transitions add: newTransition
 ]
 
 { #category : #transitions }
 SmState >> transitionTo: targetState when: conditionBlock [ 
 	| newTransition |
-	newTransition := SmTransition from: self to:  targetState when: conditionBlock.
+	newTransition := SmConditionalTransition from: self to:  targetState when: conditionBlock.
 	transitions add: newTransition
 ]

@@ -2,12 +2,8 @@
 A SmTransition is a connection between two states.
 
 Instance Variables
-	conditionBlock:		<BlockClosure>
 	sourceState:		<SmState>
 	targetState:		<SmState>
-
-conditionBlock
-	- A block which value is a boolean. When it's value is true, the transition can be peformed, so the target state can be activated, and the source state can be desactivated.
 
 sourceState
 	- State desactivated when performing the transition
@@ -20,7 +16,6 @@ Class {
 	#name : #SmTransition,
 	#superclass : #Object,
 	#instVars : [
-		'conditionBlock',
 		'sourceState',
 		'targetState'
 	],
@@ -28,11 +23,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-SmTransition class >> from: sourceState to: targetState when: conditionBlock [ 
+SmTransition class >> from: sourceState to: targetState [
 	^self new
 		sourceState: sourceState;
 		targetState: targetState;
-		conditionBlock: conditionBlock;
 		yourself
 ]
 
@@ -41,19 +35,9 @@ SmTransition >> automaton [
 	^self sourceState automaton
 ]
 
-{ #category : #accessing }
-SmTransition >> conditionBlock [
-	^ conditionBlock
-]
-
-{ #category : #accessing }
-SmTransition >> conditionBlock: anObject [
-	conditionBlock := anObject
-]
-
-{ #category : #stepping }
+{ #category : #testing }
 SmTransition >> isActionable [
-	^conditionBlock value
+	^true
 ]
 
 { #category : #stepping }

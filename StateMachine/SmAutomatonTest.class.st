@@ -81,6 +81,24 @@ SmAutomatonTest >> testMainActionOfInitialStatePerformedOnceEnabled [
 ]
 
 { #category : #testing }
+SmAutomatonTest >> testManualTransition [
+	| newState exitActionPeformed entryActionPerformed mainActionPerformed |
+	exitActionPeformed := false.
+	initialState addExitAction: [ exitActionPeformed := true ].
+	mainActionPerformed := false.
+	entryActionPerformed := false.
+	newState := automaton 
+		newStateDoing: [ mainActionPerformed := true ] 
+		onEntryDo: [entryActionPerformed := true].
+	automaton forceTransitionTo: newState.
+	self assert: automaton currentState equals: newState.
+	self assert: exitActionPeformed.
+	self assert: entryActionPerformed.
+	self assert: mainActionPerformed.
+
+]
+
+{ #category : #testing }
 SmAutomatonTest >> testStateEntryActionPerformed [
 	|newState entryActionPeformed|
 	entryActionPeformed := false.

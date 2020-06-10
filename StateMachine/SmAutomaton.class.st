@@ -45,6 +45,12 @@ SmAutomaton >> defaultStateClass [
 	^ SmState
 ]
 
+{ #category : #transitions }
+SmAutomaton >> forceTransitionTo: targetState [ 
+	(SmTransition from: self currentState to: targetState) perform.
+	self currentState performMainAction.
+]
+
 { #category : #'initialize-release' }
 SmAutomaton >> initialState: aState [
 	self currentState: aState.
