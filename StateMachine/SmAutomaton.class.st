@@ -47,6 +47,7 @@ SmAutomaton >> defaultStateClass [
 
 { #category : #transitions }
 SmAutomaton >> forceTransitionTo: targetState [ 
+	targetState == self currentState ifTrue: [ ^self ].
 	(SmTransition from: self currentState to: targetState) perform.
 	self currentState performMainAction.
 ]

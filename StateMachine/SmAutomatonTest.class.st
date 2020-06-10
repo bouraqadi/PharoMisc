@@ -99,6 +99,24 @@ SmAutomatonTest >> testManualTransition [
 ]
 
 { #category : #testing }
+SmAutomatonTest >> testManualTransitionToTheSameStateDoesNothing [
+	| exitActionPeformed entryActionPerformed mainActionPerformed |
+	entryActionPerformed := false.
+	mainActionPerformed := false.
+	exitActionPeformed := false.
+	initialState 
+		addEntryAction: [entryActionPerformed := true];
+		mainActionBlock: [ mainActionPerformed := true ];
+		addExitAction: [ exitActionPeformed := true ].
+	automaton forceTransitionTo: initialState.
+	self assert: automaton currentState equals: initialState.
+	self deny: entryActionPerformed.
+	self deny: mainActionPerformed.
+	self deny: exitActionPeformed.
+
+]
+
+{ #category : #testing }
 SmAutomatonTest >> testStateEntryActionPerformed [
 	|newState entryActionPeformed|
 	entryActionPeformed := false.
