@@ -117,6 +117,15 @@ SmAutomatonTest >> testManualTransitionToTheSameStateDoesNothing [
 ]
 
 { #category : #testing }
+SmAutomatonTest >> testNilActionsIgnored [
+	| newState |
+	newState := automaton newStateOnEntryDo: nil onExitDo: nil.
+	self assert: newState entryActions isEmpty.
+	self assert: newState exitActions isEmpty.
+
+]
+
+{ #category : #testing }
 SmAutomatonTest >> testStateEntryActionPerformed [
 	|newState entryActionPeformed|
 	entryActionPeformed := false.

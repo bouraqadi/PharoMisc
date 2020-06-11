@@ -53,11 +53,13 @@ SmState class >> new [
 
 { #category : #accessing }
 SmState >> addEntryAction: aBlock [
+	aBlock ifNil: [ ^self ].
 	entryActions add: aBlock
 ]
 
 { #category : #accessing }
 SmState >> addExitAction: aBlock [
+	aBlock ifNil: [ ^self ].
 	exitActions add: aBlock
 ]
 
@@ -77,9 +79,29 @@ SmState >> enter [
 	entryActions do: [: each | each value]
 ]
 
+{ #category : #accessing }
+SmState >> entryActions [
+	^ entryActions
+]
+
+{ #category : #accessing }
+SmState >> entryActions: anObject [
+	entryActions := anObject
+]
+
 { #category : #stepping }
 SmState >> exit [
 	exitActions do: [: each | each value]
+]
+
+{ #category : #accessing }
+SmState >> exitActions [
+	^ exitActions
+]
+
+{ #category : #accessing }
+SmState >> exitActions: anObject [
+	exitActions := anObject
 ]
 
 { #category : #'initialize-release' }
