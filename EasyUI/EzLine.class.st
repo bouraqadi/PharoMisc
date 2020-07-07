@@ -1,13 +1,13 @@
 Class {
 	#name : #EzLine,
-	#superclass : #EzDrawing,
+	#superclass : #EzDrawingOLD,
 	#instVars : [
 		'startPoint',
 		'endPoint',
 		'width',
 		'color'
 	],
-	#category : #'EasyUI-Drawings'
+	#category : #'EasyUI-DrawingsOLD'
 }
 
 { #category : #interacting }

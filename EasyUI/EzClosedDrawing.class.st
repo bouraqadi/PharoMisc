@@ -1,12 +1,12 @@
 Class {
 	#name : #EzClosedDrawing,
-	#superclass : #EzDrawing,
+	#superclass : #EzDrawingOLD,
 	#instVars : [
 		'fillColor',
 		'borderColor',
 		'borderWidth'
 	],
-	#category : #'EasyUI-Drawings'
+	#category : #'EasyUI-DrawingsOLD'
 }
 
 { #category : #accessing }

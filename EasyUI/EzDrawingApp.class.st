@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'board'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #specs }
@@ -57,7 +57,7 @@ EzDrawingApp >> initialExtent [
 
 { #category : #initialization }
 EzDrawingApp >> initializeWidgets [
-	board := EzDrawingBoard extent: self defaultBoardExtent.
+	board := EzDrawingBoardOLD extent: self defaultBoardExtent.
 	board backgroundColor: self defaultBoardColor.
 ]
 

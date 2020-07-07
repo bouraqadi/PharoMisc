@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'boundingBox'
 	],
-	#category : #'EasyUI-Drawings'
+	#category : #'EasyUI-DrawingsOLD'
 }
 
 { #category : #interacting }

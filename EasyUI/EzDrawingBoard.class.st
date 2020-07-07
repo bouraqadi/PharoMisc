@@ -1,116 +1,39 @@
 Class {
 	#name : #EzDrawingBoard,
-	#superclass : #ImagePresenter,
-	#traits : 'EzTDrawingArea @ {#basicMoveToFront:->#moveToFront:. #basicMoveToBack:->#moveToBack:. #basicRemove:->#remove:}',
-	#classTraits : 'EzTDrawingArea classTrait',
+	#superclass : #SpAthensStaticPresenter,
 	#instVars : [
-		'backgroundColor',
 		'drawings'
 	],
 	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #'instance creation' }
-EzDrawingBoard class >> extent: aPoint [
-	^self new
-		extent: aPoint;
-		yourself
-]
-
-{ #category : #drawing }
+{ #category : #adding }
 EzDrawingBoard >> add: aDrawing [
-	(self drawings includes: aDrawing)
-		ifTrue: [ ^ self ].
-	self drawings add: aDrawing.
-	aDrawing draw.
-	self imageHolder valueChanged
-]
-
-{ #category : #accessing }
-EzDrawingBoard >> backgroundColor [
-	^backgroundColor
-]
-
-{ #category : #drawing }
-EzDrawingBoard >> backgroundColor: aColor [ 
-	backgroundColor := aColor.
-	self updateDisplay.
-]
-
-{ #category : #drawing }
-EzDrawingBoard >> basicAdd: aDrawing [
-	(self drawings includes: aDrawing)
-		ifTrue: [ ^ self ].
-	self drawings add: aDrawing.
-
-]
-
-{ #category : #accessing }
-EzDrawingBoard >> canvas [
-	^self image getCanvas
+	drawings add: aDrawing
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> defaultBackgroundColor [
-	^Color white
+EzDrawingBoard >> defaultSurfaceExtent [
+	^800@600
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> defaultExtent [
-	^400@300
-]
-
-{ #category : #accessing }
-EzDrawingBoard >> drawings [
-	^drawings
-]
-
-{ #category : #initialization }
-EzDrawingBoard >> extent: newExtent [
-self flag: #'TODO: Use inherited extentHolder'.
-	self image: (Form extent: newExtent depth: 8).
-	self updateDisplay
-]
-
-{ #category : #api }
-EzDrawingBoard >> initialExtent [
-	^self image extent
+EzDrawingBoard >> drawOn: canvas [
+	canvas setShape: (0 @ 0 corner: self surfaceExtent).
+	canvas setPaint: Color white.
+	canvas draw.
+	drawings do: [ :each | each drawOn: canvas]
 ]
 
 { #category : #initialization }
 EzDrawingBoard >> initialize [
 	super initialize.
+	self surfaceExtent: self defaultSurfaceExtent.
 	drawings := OrderedCollection new.
-	self backgroundColor: self defaultBackgroundColor.
-	self extent: self defaultExtent.
-
+	self drawBlock: [ :canvas | self drawOn: canvas ]
 ]
 
 { #category : #drawing }
-EzDrawingBoard >> moveToBack: aDrawing [
-	self basicMoveToBack: aDrawing.
-	self updateDisplay 
-
-]
-
-{ #category : #drawing }
-EzDrawingBoard >> moveToFront: aDrawing [
-	self basicMoveToFront: aDrawing.
-	self updateDisplay 
-
-]
-
-{ #category : #drawing }
-EzDrawingBoard >> remove: aDrawing [
-	self drawings remove: aDrawing ifAbsent: [^self].	
-	self updateDisplay
-	
-]
-
-{ #category : #drawing }
-EzDrawingBoard >> updateDisplay [
-	self image ifNil: [ ^ self ].
-	self canvas fillColor: self backgroundColor.
-	drawings do: [ :aDrawing | aDrawing draw ].
-	self imageHolder valueChanged
+EzDrawingBoard >> redraw [
+	self adapter changed
 ]

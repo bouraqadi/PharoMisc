@@ -1,12 +1,12 @@
 Class {
 	#name : #EzCompositeDrawing,
-	#superclass : #EzDrawing,
+	#superclass : #EzDrawingOLD,
 	#traits : 'EzTDrawingArea',
 	#classTraits : 'EzTDrawingArea classTrait',
 	#instVars : [
 		'drawings'
 	],
-	#category : #'EasyUI-Drawings'
+	#category : #'EasyUI-DrawingsOLD'
 }
 
 { #category : #drawing }
@@ -24,4 +24,14 @@ EzCompositeDrawing >> initialize [
 	super initialize.
 	drawings := OrderedCollection new.
 
+]
+
+{ #category : #drawing }
+EzCompositeDrawing >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
+	^(EzOvalOLD board: self)
+		center: center halfExtent: (xRadius @ yRadius);
+		fillColor: fillColor;
+		borderWidth: width;
+		borderColor: bColor;
+		yourself
 ]

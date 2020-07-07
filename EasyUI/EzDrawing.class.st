@@ -2,106 +2,57 @@ Class {
 	#name : #EzDrawing,
 	#superclass : #Object,
 	#instVars : [
-		'board'
+		'shape',
+		'fillColor',
+		'borderColor',
+		'borderWidth',
+		'position',
+		'angle'
 	],
 	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #'instance creation' }
-EzDrawing class >> board: aDrawingBoard [
-	^self new
-		board: aDrawingBoard;
-		yourself
-]
-
-{ #category : #interacting }
+{ #category : #accessing }
 EzDrawing >> angle [
-	self subclassResponsibility 
-]
-
-{ #category : #interacting }
-EzDrawing >> basicMoveTo: aPoint [
-	self subclassResponsibility 
-]
-
-{ #category : #interacting }
-EzDrawing >> basicRotateTo: degreees [
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-EzDrawing >> board [
-	^ board
-]
-
-{ #category : #accessing }
-EzDrawing >> board: anObject [
-	board := anObject
-]
-
-{ #category : #accessing }
-EzDrawing >> canvas [
-	^self board canvas
+	^angle
 ]
 
 { #category : #drawing }
-EzDrawing >> draw [
-	self drawOn: self canvas
+EzDrawing >> angle: degrees [
+	angle := degrees
 ]
 
 { #category : #drawing }
-EzDrawing >> drawOn: aCanvas [
-	self subclassResponsibility
+EzDrawing >> drawOn: canvas [
+	canvas pathTransform restoreAfter: [
+		canvas pathTransform translateX: position x Y: position y.
+		canvas pathTransform rotateByDegrees: angle.
+		canvas setShape: shape.
+		canvas setPaint: fillColor.
+		canvas draw.
+		(canvas setStrokePaint: borderColor) width: borderWidth.
+		canvas draw.]
+
+
 ]
 
-{ #category : #displaying }
-EzDrawing >> hide [
-	self board remove: self
+{ #category : #initialization }
+EzDrawing >> initialize [
+	super initialize.
+	fillColor := Color red.
+	borderColor := Color blue.
+	borderWidth := 3.
+	shape := 0@0 corner: 50@50.
+	angle := 0.
+	position := 100@100
 ]
 
-{ #category : #interacting }
-EzDrawing >> moveBy: delta [
-	self moveTo: self position + delta
-]
-
-{ #category : #interacting }
-EzDrawing >> moveTo: aPoint [
-	self basicMoveTo: aPoint.
-	self updateDisplay
-]
-
-{ #category : #displaying }
-EzDrawing >> moveToBack [
-	self board moveToBack: self
-]
-
-{ #category : #displaying }
-EzDrawing >> moveToFront [
-	self board moveToFront: self
-]
-
-{ #category : #interacting }
+{ #category : #accessing }
 EzDrawing >> position [
-	self subclassResponsibility 
-]
-
-{ #category : #interacting }
-EzDrawing >> rotateBy: deltaDegrees [
-	self rotateTo: self angle + deltaDegrees
-]
-
-{ #category : #interacting }
-EzDrawing >> rotateTo: degrees [
-	self basicRotateTo: degrees.
-	self updateDisplay
-]
-
-{ #category : #displaying }
-EzDrawing >> show [
-	self board add: self
+	^position
 ]
 
 { #category : #drawing }
-EzDrawing >> updateDisplay [
-	self board updateDisplay
+EzDrawing >> position: aPoint [
+	position := aPoint
 ]

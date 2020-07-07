@@ -1,6 +1,6 @@
 Trait {
 	#name : #EzTDrawingArea,
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #drawing }
@@ -89,7 +89,7 @@ EzTDrawingArea >> newCircleCenter: center radius: radius fillColor: fillColor bo
 
 { #category : #drawing }
 EzTDrawingArea >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzOval board: self)
+	^(EzOvalOLD board: self)
 		center: center halfExtent: (xRadius @ yRadius);
 		fillColor: fillColor;
 		borderWidth: width;

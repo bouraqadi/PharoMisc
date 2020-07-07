@@ -1,7 +1,7 @@
 Class {
 	#name : #EzBox,
 	#superclass : #EzBoundedDrawing,
-	#category : #'EasyUI-Drawings'
+	#category : #'EasyUI-DrawingsOLD'
 }
 
 { #category : #drawing }

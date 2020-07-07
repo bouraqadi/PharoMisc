@@ -1,7 +1,7 @@
 Class {
 	#name : #EzWindowPresenter,
 	#superclass : #WindowPresenter,
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #initialization }

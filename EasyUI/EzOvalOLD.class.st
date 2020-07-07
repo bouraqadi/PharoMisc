@@ -1,11 +1,11 @@
 Class {
-	#name : #EzOval,
+	#name : #EzOvalOLD,
 	#superclass : #EzBoundedDrawing,
-	#category : #'EasyUI-Drawings'
+	#category : #'EasyUI-DrawingsOLD'
 }
 
 { #category : #drawing }
-EzOval >> drawOn: aCanvas [
+EzOvalOLD >> drawOn: aCanvas [
 	aCanvas 
 		fillOval: self boundingBox
 		color: self fillColor
