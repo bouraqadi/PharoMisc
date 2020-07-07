@@ -6,7 +6,7 @@ Class {
 		'borderColor',
 		'borderWidth'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Drawings'
 }
 
 { #category : #accessing }

@@ -7,8 +7,17 @@ Class {
 		'width',
 		'color'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Drawings'
 }
+
+{ #category : #interacting }
+EzLine >> basicMoveTo: newPosition [
+	| delta |
+	delta := newPosition - self startPoint.
+	startPoint := newPosition.
+	endPoint := endPoint + delta.
+
+]
 
 { #category : #accessing }
 EzLine >> color [
@@ -37,6 +46,11 @@ EzLine >> endPoint [
 { #category : #accessing }
 EzLine >> endPoint: anObject [
 	endPoint := anObject
+]
+
+{ #category : #interacting }
+EzLine >> position [
+	^self startPoint
 ]
 
 { #category : #accessing }

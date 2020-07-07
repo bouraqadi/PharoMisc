@@ -14,6 +14,21 @@ EzDrawing class >> board: aDrawingBoard [
 		yourself
 ]
 
+{ #category : #interacting }
+EzDrawing >> angle [
+	self subclassResponsibility 
+]
+
+{ #category : #interacting }
+EzDrawing >> basicMoveTo: aPoint [
+	self subclassResponsibility 
+]
+
+{ #category : #interacting }
+EzDrawing >> basicRotateTo: degreees [
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 EzDrawing >> board [
 	^ board
@@ -44,6 +59,17 @@ EzDrawing >> hide [
 	self board remove: self
 ]
 
+{ #category : #interacting }
+EzDrawing >> moveBy: delta [
+	self moveTo: self position + delta
+]
+
+{ #category : #interacting }
+EzDrawing >> moveTo: aPoint [
+	self basicMoveTo: aPoint.
+	self updateDisplay
+]
+
 { #category : #displaying }
 EzDrawing >> moveToBack [
 	self board moveToBack: self
@@ -54,7 +80,28 @@ EzDrawing >> moveToFront [
 	self board moveToFront: self
 ]
 
+{ #category : #interacting }
+EzDrawing >> position [
+	self subclassResponsibility 
+]
+
+{ #category : #interacting }
+EzDrawing >> rotateBy: deltaDegrees [
+	self rotateTo: self angle + deltaDegrees
+]
+
+{ #category : #interacting }
+EzDrawing >> rotateTo: degrees [
+	self basicRotateTo: degrees.
+	self updateDisplay
+]
+
 { #category : #displaying }
 EzDrawing >> show [
 	self board add: self
+]
+
+{ #category : #drawing }
+EzDrawing >> updateDisplay [
+	self board updateDisplay
 ]

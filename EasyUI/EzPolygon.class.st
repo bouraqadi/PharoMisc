@@ -4,8 +4,16 @@ Class {
 	#instVars : [
 		'vertices'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Drawings'
 }
+
+{ #category : #interacting }
+EzPolygon >> basicMoveTo: aPoint [
+	| delta newVertices |
+	delta := aPoint - self vertices first.
+	newVertices := self vertices collect: [ : each | each + delta ].
+	self vertices: newVertices
+]
 
 { #category : #drawing }
 EzPolygon >> drawOn: aCanvas [
@@ -14,6 +22,11 @@ EzPolygon >> drawOn: aCanvas [
 		color: self fillColor 
 		borderWidth: self borderWidth
 		borderColor: self borderColor
+]
+
+{ #category : #interacting }
+EzPolygon >> position [
+	^self vertices first
 ]
 
 { #category : #accessing }

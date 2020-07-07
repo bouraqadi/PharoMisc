@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'robot'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Examples'
 }
 
 { #category : #examples }

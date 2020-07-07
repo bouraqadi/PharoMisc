@@ -4,8 +4,13 @@ Class {
 	#instVars : [
 		'boundingBox'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Drawings'
 }
+
+{ #category : #interacting }
+EzBoundedDrawing >> basicMoveTo: aPoint [
+	self center: aPoint
+]
 
 { #category : #accessing }
 EzBoundedDrawing >> boundingBox [
@@ -18,6 +23,17 @@ EzBoundedDrawing >> boundingBox: anObject [
 ]
 
 { #category : #accessing }
+EzBoundedDrawing >> center [
+	^self boundingBox center
+]
+
+{ #category : #accessing }
+EzBoundedDrawing >> center: aPoint [
+	self center: aPoint halfExtent: self boundingBox extent//2.
+
+]
+
+{ #category : #accessing }
 EzBoundedDrawing >> center: center halfExtent: halfExtent [ 
 	self boundingBox: ((center - halfExtent) corner: (center + halfExtent))
 	
@@ -26,4 +42,9 @@ EzBoundedDrawing >> center: center halfExtent: halfExtent [
 { #category : #accessing }
 EzBoundedDrawing >> origin: origin extent: extent [
 	self boundingBox: (origin extent: extent)
+]
+
+{ #category : #interacting }
+EzBoundedDrawing >> position [
+	^self center
 ]

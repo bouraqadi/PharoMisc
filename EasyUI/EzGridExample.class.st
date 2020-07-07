@@ -1,7 +1,7 @@
 Class {
 	#name : #EzGridExample,
 	#superclass : #EzDrawingApp,
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Examples'
 }
 
 { #category : #examples }
