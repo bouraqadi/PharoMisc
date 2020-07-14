@@ -111,6 +111,17 @@ EzDrawingBoardOLD >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius 
 ]
 
 { #category : #drawing }
+EzDrawingBoardOLD >> newLineFrom: point1 to: point2 width: anInt color: aColor [
+	^(EzPolyLine board: self)
+		startPoint: point1; 
+		endPoint: point2; 
+		width: anInt;
+		color: aColor;
+		yourself
+
+]
+
+{ #category : #drawing }
 EzDrawingBoardOLD >> remove: aDrawing [
 	self drawings remove: aDrawing ifAbsent: [^self].	
 	self updateDisplay

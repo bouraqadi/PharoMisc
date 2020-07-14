@@ -1,6 +1,6 @@
 Class {
 	#name : #EzGridExample,
-	#superclass : #EzDrawingApp,
+	#superclass : #EzDrawingAppOLD,
 	#category : #'EasyUI-Examples'
 }
 

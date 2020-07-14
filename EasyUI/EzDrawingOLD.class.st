@@ -61,7 +61,7 @@ EzDrawingOLD >> hide [
 
 { #category : #interacting }
 EzDrawingOLD >> moveBy: delta [
-	self moveTo: self position + delta
+	self moveTo: self origin + delta
 ]
 
 { #category : #interacting }
@@ -81,7 +81,7 @@ EzDrawingOLD >> moveToFront [
 ]
 
 { #category : #interacting }
-EzDrawingOLD >> position [
+EzDrawingOLD >> origin [
 	self subclassResponsibility 
 ]
 

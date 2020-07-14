@@ -1,6 +1,6 @@
 Class {
 	#name : #EzKeyboardEventsExample,
-	#superclass : #EzDrawingApp,
+	#superclass : #EzDrawingAppOLD,
 	#instVars : [
 		'robot'
 	],

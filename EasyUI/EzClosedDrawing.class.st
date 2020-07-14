@@ -1,12 +1,12 @@
 Class {
 	#name : #EzClosedDrawing,
-	#superclass : #EzDrawingOLD,
+	#superclass : #EzDrawing,
 	#instVars : [
 		'fillColor',
 		'borderColor',
 		'borderWidth'
 	],
-	#category : #'EasyUI-DrawingsOLD'
+	#category : #'EasyUI-Kernel'
 }
 
 { #category : #accessing }
@@ -15,9 +15,8 @@ EzClosedDrawing >> borderColor [
 ]
 
 { #category : #accessing }
-EzClosedDrawing >> borderColor: aColor [
-	borderColor := aColor.
-
+EzClosedDrawing >> borderColor: anObject [
+	borderColor := anObject
 ]
 
 { #category : #accessing }
@@ -26,8 +25,48 @@ EzClosedDrawing >> borderWidth [
 ]
 
 { #category : #accessing }
-EzClosedDrawing >> borderWidth: anInt [
-	borderWidth := anInt.
+EzClosedDrawing >> borderWidth: anObject [
+	borderWidth := anObject
+]
+
+{ #category : #accessing }
+EzClosedDrawing >> bounds [
+	^self subclassResponsibility 
+
+]
+
+{ #category : #accessing }
+EzClosedDrawing >> center [
+	^self bounds center + self origin
+]
+
+{ #category : #accessing }
+EzClosedDrawing >> center: newCenter [
+	self origin: newCenter - self bounds center
+]
+
+{ #category : #initialization }
+EzClosedDrawing >> defaultBorderColor [
+	^ Color black
+]
+
+{ #category : #initialization }
+EzClosedDrawing >> defaultBorderWidth [
+	^ 3
+]
+
+{ #category : #initialization }
+EzClosedDrawing >> defaultFillColor [
+	^ Color green
+]
+
+{ #category : #rendering }
+EzClosedDrawing >> drawOn: canvas [
+	canvas setPaint: fillColor.
+	canvas draw.
+	(canvas setStrokePaint: borderColor) width: borderWidth.
+	canvas draw.
+
 
 ]
 
@@ -39,4 +78,13 @@ EzClosedDrawing >> fillColor [
 { #category : #accessing }
 EzClosedDrawing >> fillColor: anObject [
 	fillColor := anObject
+]
+
+{ #category : #initialization }
+EzClosedDrawing >> initialize [
+	super initialize.
+	fillColor := self defaultFillColor.
+	borderColor := self defaultBorderColor.
+	borderWidth := self defaultBorderWidth.
+
 ]

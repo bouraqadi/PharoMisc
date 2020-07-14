@@ -1,6 +1,6 @@
 Class {
 	#name : #EzBoundedDrawing,
-	#superclass : #EzClosedDrawing,
+	#superclass : #EzClosedDrawingOLD,
 	#instVars : [
 		'boundingBox'
 	],
@@ -39,12 +39,12 @@ EzBoundedDrawing >> center: center halfExtent: halfExtent [
 	
 ]
 
+{ #category : #interacting }
+EzBoundedDrawing >> origin [
+	^self center
+]
+
 { #category : #accessing }
 EzBoundedDrawing >> origin: origin extent: extent [
 	self boundingBox: (origin extent: extent)
-]
-
-{ #category : #interacting }
-EzBoundedDrawing >> position [
-	^self center
 ]

@@ -5,6 +5,9 @@ Class {
 		'drawings',
 		'fillColor'
 	],
+	#classInstVars : [
+		'rays'
+	],
 	#category : #'EasyUI-Kernel'
 }
 
@@ -13,6 +16,47 @@ EzDrawingBoard class >> extent: extent [
 	^self new
 		surfaceExtent: extent;
 		yourself
+]
+
+{ #category : #examples }
+EzDrawingBoard class >> landscape [
+	<example>
+	| sceneWidth sceneHeight board grass sun sunCenter sunRadius rayVertices rayLength angle ray |
+	sceneWidth := 800.
+	sceneHeight := 600.
+	board := self extent: sceneWidth @ sceneHeight.
+	board fillColor: Color cyan.
+	grass := EzBox
+		rectangleOrigin: 0 @ (sceneHeight // 2)
+		width: sceneWidth
+		height: sceneHeight // 2.
+	grass fillColor: Color green.
+	grass borderWidth: 0.
+	sunCenter := 150 @ 150.
+	sunRadius := sceneHeight // 5.
+	sun := EzOval circleCenter: sunCenter radius: sunRadius.
+	sun fillColor: Color yellow.
+	sun borderColor: Color orange.
+	sun borderWidth: 20.
+	rayVertices := OrderedCollection with: sunCenter.
+	rayLength := sunRadius. 
+	angle := 0.
+	"12 timesRepeat: ["
+		ray := (rayLength * angle degreeCos ) @ (rayLength * angle degreeSin).
+		rayVertices add: ray.
+		rayVertices add: sunCenter.
+		angle := angle + 30.
+	"]."
+	rays := EzPolyLine vertices: rayVertices.
+	rays color: sun borderColor.
+	rays width: 5.
+	board addAll: {grass. rays. "sun"}.
+	board openWithSpec
+]
+
+{ #category : #specs }
+EzDrawingBoard class >> title [
+	^'Easy UI Drawing Board'
 ]
 
 { #category : #adding }
@@ -37,14 +81,6 @@ EzDrawingBoard >> defaultSurfaceExtent [
 	^800@600
 ]
 
-{ #category : #initialization }
-EzDrawingBoard >> drawOn: canvas [
-	canvas setShape: (0 @ 0 corner: self surfaceExtent).
-	canvas setPaint: self fillColor.
-	canvas draw.
-	drawings do: [ :each | each drawOn: canvas]
-]
-
 { #category : #accessing }
 EzDrawingBoard >> fillColor [
 	^ fillColor
@@ -56,15 +92,29 @@ EzDrawingBoard >> fillColor: anObject [
 ]
 
 { #category : #initialization }
+EzDrawingBoard >> initialExtent [
+	^surfaceExtent
+
+]
+
+{ #category : #initialization }
 EzDrawingBoard >> initialize [
 	super initialize.
 	self surfaceExtent: self defaultSurfaceExtent.
 	self fillColor: self defaultFillColor.
 	drawings := OrderedCollection new.
-	self drawBlock: [ :canvas | self drawOn: canvas ]
+	self drawBlock: [ :canvas | self renderOn: canvas ]
 ]
 
 { #category : #drawing }
 EzDrawingBoard >> redraw [
 	self adapter changed
+]
+
+{ #category : #initialization }
+EzDrawingBoard >> renderOn: canvas [
+	canvas setShape: (0 @ 0 corner: self surfaceExtent).
+	canvas setPaint: self fillColor.
+	canvas draw.
+	drawings do: [ :each | each renderOn: canvas]
 ]

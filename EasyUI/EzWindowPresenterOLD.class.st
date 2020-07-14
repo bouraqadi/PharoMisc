@@ -1,38 +1,38 @@
 Class {
-	#name : #EzWindowPresenter,
+	#name : #EzWindowPresenterOLD,
 	#superclass : #WindowPresenter,
 	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #initialization }
-EzWindowPresenter >> borderWidth [
+EzWindowPresenterOLD >> borderWidth [
 	^5
 ]
 
 { #category : #initialization }
-EzWindowPresenter >> initialExtent [
+EzWindowPresenterOLD >> initialExtent [
 	^super initialExtent + self windowDeltaExtent
 ]
 
 { #category : #initialization }
-EzWindowPresenter >> initialize [
+EzWindowPresenterOLD >> initialize [
 	super initialize.
 	isResizeable := nil.
 
 ]
 
 { #category : #initialization }
-EzWindowPresenter >> isResizeable [
+EzWindowPresenterOLD >> isResizeable [
 	isResizeable ifNil: [isResizeable := self model isWindowResizable asValueHolder ].
 	^super isResizeable
 ]
 
 { #category : #initialization }
-EzWindowPresenter >> topHeight [
+EzWindowPresenterOLD >> topHeight [
 	^28
 ]
 
 { #category : #initialization }
-EzWindowPresenter >> windowDeltaExtent [
+EzWindowPresenterOLD >> windowDeltaExtent [
 	^(self borderWidth * 2)@(self borderWidth + self topHeight)
 ]

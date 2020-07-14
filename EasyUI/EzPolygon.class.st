@@ -1,6 +1,6 @@
 Class {
 	#name : #EzPolygon,
-	#superclass : #EzClosedDrawing,
+	#superclass : #EzClosedDrawingOLD,
 	#instVars : [
 		'vertices'
 	],
@@ -25,7 +25,7 @@ EzPolygon >> drawOn: aCanvas [
 ]
 
 { #category : #interacting }
-EzPolygon >> position [
+EzPolygon >> origin [
 	^self vertices first
 ]
 

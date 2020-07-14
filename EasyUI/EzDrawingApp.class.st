@@ -1,72 +1,14 @@
 Class {
 	#name : #EzDrawingApp,
-	#superclass : #ComposablePresenter,
+	#superclass : #SpApplication,
 	#instVars : [
 		'board'
 	],
-	#category : #'EasyUI-KernelOLD'
+	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #specs }
-EzDrawingApp class >> defaultSpec [
-	<spec: #default>
-	
-	^ SpecLayout composed
-		add: #board;
-		yourself
-]
-
-{ #category : #'instance creation' }
-EzDrawingApp class >> openInWindow [
-	<example>
-	^self new
-		openWithSpec;
-		yourself
-]
-
-{ #category : #accessing }
-EzDrawingApp >> board [
-	^ board
-]
-
 { #category : #initialization }
-EzDrawingApp >> defaultBoardColor [
-	^Color white
-]
-
-{ #category : #initialization }
-EzDrawingApp >> defaultBoardExtent [
-	^800@600
-]
-
-{ #category : #accessing }
-EzDrawingApp >> defaultWindowModelClass [
-	^EzWindowPresenter
-]
-
-{ #category : #drawing }
-EzDrawingApp >> drawLine: startPoint to: endPoint width: width color: aColor [
-	^board addLineFrom: startPoint to: endPoint width: width color: aColor.
-
-]
-
-{ #category : #api }
-EzDrawingApp >> initialExtent [
-	^self board initialExtent
-]
-
-{ #category : #initialization }
-EzDrawingApp >> initializeWidgets [
-	board := EzDrawingBoardOLD extent: self defaultBoardExtent.
-	board backgroundColor: self defaultBoardColor.
-]
-
-{ #category : #accessing }
-EzDrawingApp >> isWindowResizable [
-	^true
-]
-
-{ #category : #api }
-EzDrawingApp >> title [
-	^self className
+EzDrawingApp >> initialize [
+	super initialize.
+	board := EzDrawingBoard new.
 ]

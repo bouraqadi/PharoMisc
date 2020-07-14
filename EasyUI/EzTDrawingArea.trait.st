@@ -99,7 +99,7 @@ EzTDrawingArea >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fil
 
 { #category : #drawing }
 EzTDrawingArea >> newLineFrom: point1 to: point2 width: anInt color: aColor [
-	^(EzLine board: self)
+	^(EzPolyLine board: self)
 		startPoint: point1; 
 		endPoint: point2; 
 		width: anInt;
