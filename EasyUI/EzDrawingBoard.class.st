@@ -34,10 +34,10 @@ EzDrawingBoard class >> landscape [
 	sun := EzOval circleCenter: sunCenter radius: sunRadius.
 	sun fillColor: Color orange.
 	sun borderWidth: 0.
-	rays := EzRays raysCount: 144 spanAngle: 360 radius: sunRadius.
+	rays := EzRays raysCount: 288 spanAngle: 360 radius: sunRadius.
 	rays center: sunCenter.
 	rays color: Color yellow.
-	rays width: 3.
+	rays width: 1.
 	board addAll: {grass. sun. rays.}.
 	board openWithSpec.
 

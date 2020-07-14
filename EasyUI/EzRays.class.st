@@ -40,7 +40,7 @@ EzRays >> raysCount: raysCount spanAngle: spanAngle radius: radius [
 	extents := OrderedCollection new.
 	deltaAngle := spanAngle / raysCount.
 	rayAngle := 0.
-	raysCount timesRepeat: [
+	[rayAngle <= spanAngle] whileTrue: [
 		ray := (radius * rayAngle degreeCos) @ (radius * rayAngle degreeSin).
 		extents add: ray.
 		rayAngle := rayAngle + deltaAngle.
