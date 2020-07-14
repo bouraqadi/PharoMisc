@@ -26,7 +26,7 @@ EzDrawing >> defaultAngle [
 
 { #category : #initialization }
 EzDrawing >> defaultOrigin [
-	^100@100
+	^0@0
 ]
 
 { #category : #rendering }

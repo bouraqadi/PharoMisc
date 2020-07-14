@@ -5,9 +5,6 @@ Class {
 		'drawings',
 		'fillColor'
 	],
-	#classInstVars : [
-		'rays'
-	],
 	#category : #'EasyUI-Kernel'
 }
 
@@ -21,7 +18,7 @@ EzDrawingBoard class >> extent: extent [
 { #category : #examples }
 EzDrawingBoard class >> landscape [
 	<example>
-	| sceneWidth sceneHeight board grass sun sunCenter sunRadius rayVertices rayLength angle ray |
+	| sceneWidth sceneHeight board grass sun sunCenter sunRadius rays |
 	sceneWidth := 800.
 	sceneHeight := 600.
 	board := self extent: sceneWidth @ sceneHeight.
@@ -35,23 +32,15 @@ EzDrawingBoard class >> landscape [
 	sunCenter := 150 @ 150.
 	sunRadius := sceneHeight // 5.
 	sun := EzOval circleCenter: sunCenter radius: sunRadius.
-	sun fillColor: Color yellow.
-	sun borderColor: Color orange.
-	sun borderWidth: 20.
-	rayVertices := OrderedCollection with: sunCenter.
-	rayLength := sunRadius. 
-	angle := 0.
-	"12 timesRepeat: ["
-		ray := (rayLength * angle degreeCos ) @ (rayLength * angle degreeSin).
-		rayVertices add: ray.
-		rayVertices add: sunCenter.
-		angle := angle + 30.
-	"]."
-	rays := EzPolyLine vertices: rayVertices.
-	rays color: sun borderColor.
-	rays width: 5.
-	board addAll: {grass. rays. "sun"}.
-	board openWithSpec
+	sun fillColor: Color orange.
+	sun borderWidth: 0.
+	rays := EzRays raysCount: 144 spanAngle: 360 radius: sunRadius.
+	rays center: sunCenter.
+	rays color: Color yellow.
+	rays width: 3.
+	board addAll: {grass. sun. rays.}.
+	board openWithSpec.
+
 ]
 
 { #category : #specs }

@@ -42,7 +42,7 @@ EzClosedDrawing >> center [
 
 { #category : #accessing }
 EzClosedDrawing >> center: newCenter [
-	self origin: newCenter - self bounds center
+	self origin: newCenter - self center + self origin
 ]
 
 { #category : #initialization }

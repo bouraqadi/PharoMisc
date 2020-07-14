@@ -4,12 +4,30 @@ Class {
 	#category : #'EasyUI-Kernel'
 }
 
+{ #category : #'instance creation' }
+EzRays class >> raysCount: raysCount spanAngle: spanAngle radius: radius [
+	^self new
+		raysCount: raysCount spanAngle: spanAngle radius: radius;
+		yourself
+]
+
+{ #category : #accessing }
+EzRays >> center [
+	^self origin
+]
+
+{ #category : #accessing }
+EzRays >> center: newCenter [
+	^self origin: newCenter
+]
+
 { #category : #rendering }
 EzRays >> newShapeForCanvas: canvas [
 	^canvas createPath: [ : path | 
-		path absolute.
 		extents do: [ : each |
+			path absolute.
 			path moveTo: 0@0.
+			path relative.
 			path lineTo: each.
 		].
 	].
