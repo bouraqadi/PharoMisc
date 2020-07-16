@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-EzDrawingOLD class >> board: aDrawingBoard [
+EzDrawingOLD class >> container: aDrawingBoard [
 	^self new
-		board: aDrawingBoard;
+		container: aDrawingBoard;
 		yourself
 ]
 
@@ -30,18 +30,18 @@ EzDrawingOLD >> basicRotateTo: degreees [
 ]
 
 { #category : #accessing }
-EzDrawingOLD >> board [
+EzDrawingOLD >> canvas [
+	^self container canvas
+]
+
+{ #category : #accessing }
+EzDrawingOLD >> container [
 	^ board
 ]
 
 { #category : #accessing }
-EzDrawingOLD >> board: anObject [
+EzDrawingOLD >> container: anObject [
 	board := anObject
-]
-
-{ #category : #accessing }
-EzDrawingOLD >> canvas [
-	^self board canvas
 ]
 
 { #category : #drawing }
@@ -83,5 +83,5 @@ EzDrawingOLD >> rotateTo: degrees [
 
 { #category : #drawing }
 EzDrawingOLD >> updateDisplay [
-	self board updateDisplay
+	self container updateDisplay
 ]

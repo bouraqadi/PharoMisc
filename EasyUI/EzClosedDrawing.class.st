@@ -1,6 +1,6 @@
 Class {
 	#name : #EzClosedDrawing,
-	#superclass : #EzDrawing,
+	#superclass : #EzAtomicDrawing,
 	#instVars : [
 		'fillColor',
 		'borderColor',
@@ -64,6 +64,7 @@ EzClosedDrawing >> defaultFillColor [
 
 { #category : #rendering }
 EzClosedDrawing >> drawOn: canvas [
+	super drawOn: canvas.
 	canvas setPaint: self fillColor.
 	canvas draw.
 	(canvas setStrokePaint: self borderColor) width: self borderWidth.

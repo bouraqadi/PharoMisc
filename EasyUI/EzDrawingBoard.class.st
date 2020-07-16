@@ -1,49 +1,49 @@
 Class {
 	#name : #EzDrawingBoard,
 	#superclass : #SpAthensStaticPresenter,
+	#traits : 'EzTDrawingContainer',
+	#classTraits : 'EzTDrawingContainer classTrait',
 	#instVars : [
-		'drawings',
-		'fillColor'
+		'backgroundPaint'
 	],
 	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #'instance creation' }
-EzDrawingBoard class >> extent: extent [
-	^self new
-		surfaceExtent: extent;
-		yourself
-]
-
 { #category : #examples }
 EzDrawingBoard class >> landscape [
 	<example>
-	| sceneWidth sceneHeight board grass sun sunCenter sunRadius rays |
+	| sceneWidth sceneHeight board grass sunBackground sunRadius sunRays sun |
 	sceneWidth := 800.
 	sceneHeight := 600.
-	board := self extent: sceneWidth @ sceneHeight.
-	board fillColor: Color cyan.
+	board := self surfaceExtent: sceneWidth @ sceneHeight.
+	board backgroundPaint: Color cyan.
 	grass := EzBox
 		rectangleOrigin: 0 @ (sceneHeight // 2)
 		width: sceneWidth
 		height: sceneHeight // 2.
 	grass fillColor: Color green.
 	grass borderWidth: 0.
-	sunCenter := 150 @ 150.
 	sunRadius := sceneHeight // 5.
-	sun := EzOval circleCenter: sunCenter radius: sunRadius.
-	sun fillColor: Color orange.
-	sun borderWidth: 0.
-	rays := EzRays spanAngle: 360 radius: sunRadius raysCount: 288.
-	rays center: sunCenter.
-	rays color: Color yellow.
-	rays width: 1.
+	sunBackground := EzOval circleCenter: 0@0 radius: sunRadius.
+	sunBackground fillColor: Color orange.
+	sunBackground borderWidth: 0.
+	sunRays := EzRays spanAngle: 360 radius: sunRadius raysCount: 288.
+	sunRays color: Color yellow.
+	sunRays width: 1.
+	sun := EzCompositeDrawing withAll: { sunBackground. sunRays }.
+	sun origin: 100 @ 100.
 	board
 		addAll:
 			{grass.
-			sun.
-			rays}.
+			sun}.
 	board openWithSpec
+]
+
+{ #category : #'instance creation' }
+EzDrawingBoard class >> surfaceExtent: extent [
+	^self new
+		surfaceExtent: extent;
+		yourself
 ]
 
 { #category : #specs }
@@ -51,59 +51,24 @@ EzDrawingBoard class >> title [
 	^'Easy UI Drawing Board'
 ]
 
-{ #category : #adding }
-EzDrawingBoard >> add: aDrawing [
-	(self drawings includes: aDrawing)
-		ifTrue: [ ^ self ].
-	self basicAdd: aDrawing.
-
+{ #category : #accessing }
+EzDrawingBoard >> backgroundPaint [
+	^ backgroundPaint
 ]
 
-{ #category : #adding }
-EzDrawingBoard >> addAll: newDrawings [
-	drawings addAll: newDrawings.
-	self redraw.
-]
-
-{ #category : #adding }
-EzDrawingBoard >> basicAdd: aDrawing [
-	drawings add: aDrawing.
-	aDrawing board: self.
-	self redraw.
-
-]
-
-{ #category : #adding }
-EzDrawingBoard >> basicRemove: aDrawing [
-	drawings remove: aDrawing.
-	aDrawing board: nil.
-	self redraw.
-
+{ #category : #accessing }
+EzDrawingBoard >> backgroundPaint: anObject [
+	backgroundPaint := anObject
 ]
 
 { #category : #initialization }
-EzDrawingBoard >> defaultFillColor [
+EzDrawingBoard >> defaultBackgroundPaint [
 	^Color white
 ]
 
 { #category : #initialization }
 EzDrawingBoard >> defaultSurfaceExtent [
 	^800@600
-]
-
-{ #category : #accessing }
-EzDrawingBoard >> drawings [
-	^drawings
-]
-
-{ #category : #accessing }
-EzDrawingBoard >> fillColor [
-	^ fillColor
-]
-
-{ #category : #accessing }
-EzDrawingBoard >> fillColor: anObject [
-	fillColor := anObject
 ]
 
 { #category : #initialization }
@@ -115,29 +80,21 @@ EzDrawingBoard >> initialExtent [
 { #category : #initialization }
 EzDrawingBoard >> initialize [
 	super initialize.
+	self initDrawings.
 	self surfaceExtent: self defaultSurfaceExtent.
-	self fillColor: self defaultFillColor.
-	drawings := OrderedCollection new.
+	self backgroundPaint: self defaultBackgroundPaint.
 	self drawBlock: [ :canvas | self renderOn: canvas ]
 ]
 
-{ #category : #drawing }
+{ #category : #rendering }
 EzDrawingBoard >> redraw [
 	self adapter changed
 ]
 
-{ #category : #adding }
-EzDrawingBoard >> remove: aDrawing [
-	(self drawings includes: aDrawing)
-		ifFalse: [ ^ self ].
-	self basicRemove: aDrawing.
-
-]
-
-{ #category : #initialization }
+{ #category : #rendering }
 EzDrawingBoard >> renderOn: canvas [
 	canvas setShape: (0 @ 0 corner: self surfaceExtent).
-	canvas setPaint: self fillColor.
+	canvas setPaint: self backgroundPaint.
 	canvas draw.
-	drawings do: [ :each | each renderOn: canvas]
+	self drawOn: canvas
 ]

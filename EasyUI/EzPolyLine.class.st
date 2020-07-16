@@ -1,6 +1,6 @@
 Class {
 	#name : #EzPolyLine,
-	#superclass : #EzDrawing,
+	#superclass : #EzAtomicDrawing,
 	#instVars : [
 		'width',
 		'color',
@@ -44,6 +44,7 @@ EzPolyLine >> defaultWidth [
 
 { #category : #rendering }
 EzPolyLine >> drawOn: canvas [
+	super drawOn: canvas.
 	(canvas setStrokePaint: self color) width: self width.
 	canvas draw.
 

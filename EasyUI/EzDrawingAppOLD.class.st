@@ -12,7 +12,7 @@ EzDrawingAppOLD class >> defaultSpec [
 	<spec: #default>
 	
 	^ SpecLayout composed
-		add: #board;
+		add: #container;
 		yourself
 ]
 
@@ -25,7 +25,7 @@ EzDrawingAppOLD class >> openInWindow [
 ]
 
 { #category : #accessing }
-EzDrawingAppOLD >> board [
+EzDrawingAppOLD >> container [
 	^ board
 ]
 
@@ -52,7 +52,7 @@ EzDrawingAppOLD >> drawLine: startPoint to: endPoint width: width color: aColor 
 
 { #category : #api }
 EzDrawingAppOLD >> initialExtent [
-	^self board initialExtent
+	^self container initialExtent
 ]
 
 { #category : #initialization }

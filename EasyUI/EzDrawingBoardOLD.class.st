@@ -1,8 +1,8 @@
 Class {
 	#name : #EzDrawingBoardOLD,
 	#superclass : #ImagePresenter,
-	#traits : 'EzTDrawingArea @ {#basicMoveToFront:->#moveToFront:. #basicMoveToBack:->#moveToBack:. #basicRemove:->#remove:}',
-	#classTraits : 'EzTDrawingArea classTrait',
+	#traits : 'EzTDrawingAreaOLD @ {#basicMoveToFront:->#moveToFront:. #basicMoveToBack:->#moveToBack:. #basicRemove:->#remove:}',
+	#classTraits : 'EzTDrawingAreaOLD classTrait',
 	#instVars : [
 		'backgroundColor',
 		'drawings'
@@ -102,7 +102,7 @@ EzDrawingBoardOLD >> moveToFront: aDrawing [
 
 { #category : #drawing }
 EzDrawingBoardOLD >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzOvalOLD board: self)
+	^(EzOvalOLD container: self)
 		center: center halfExtent: (xRadius @ yRadius);
 		fillColor: fillColor;
 		borderWidth: width;
@@ -112,13 +112,42 @@ EzDrawingBoardOLD >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius 
 
 { #category : #drawing }
 EzDrawingBoardOLD >> newLineFrom: point1 to: point2 width: anInt color: aColor [
-	^(EzPolyLine board: self)
+	^(EzPolyLine container: self)
 		startPoint: point1; 
 		endPoint: point2; 
 		width: anInt;
 		color: aColor;
 		yourself
 
+]
+
+{ #category : #drawing }
+EzDrawingBoardOLD >> newPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
+	^(EzPolygon container: self)
+		vertices: vertices;
+		fillColor: fillColor;
+		borderWidth: width;
+		borderColor: bColor;
+		yourself
+]
+
+{ #category : #drawing }
+EzDrawingBoardOLD >> newRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
+	^(EzBox container: self)
+		origin: origin extent: extent;
+		fillColor: fillColor;
+		borderWidth: width;
+		borderColor: bColor;
+		yourself
+]
+
+{ #category : #drawing }
+EzDrawingBoardOLD >> newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
+	| robot |
+	robot := EzCompositeDrawingOLD container: self.
+	robot addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
+	robot addLineFrom: center to: center + (radius@0) width: width color: borderColor.
+	^robot
 ]
 
 { #category : #drawing }

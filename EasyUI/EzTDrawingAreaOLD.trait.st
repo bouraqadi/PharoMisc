@@ -1,10 +1,10 @@
 Trait {
-	#name : #EzTDrawingArea,
+	#name : #EzTDrawingAreaOLD,
 	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #drawing }
-EzTDrawingArea >> add: aDrawing [
+EzTDrawingAreaOLD >> add: aDrawing [
 	(self drawings includes: aDrawing)
 		ifTrue: [ ^ self ].
 	self drawings add: aDrawing.
@@ -12,12 +12,12 @@ EzTDrawingArea >> add: aDrawing [
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self addEllipseCenter: center xRadius: radius yRadius: radius fillColor:  fillColor borderWidth: width borderColor: bColor
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> addEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
 	| ellipse |
 	ellipse := self newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor.
 	self add: ellipse.
@@ -25,7 +25,7 @@ EzTDrawingArea >> addEllipseCenter: center xRadius: xRadius yRadius: yRadius fil
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addLineFrom: point1 to: point2 width: anInt color: aColor [
+EzTDrawingAreaOLD >> addLineFrom: point1 to: point2 width: anInt color: aColor [
 	| newLine |
 	newLine := self newLineFrom: point1 to: point2 width: anInt color: aColor.
 	self add: newLine.
@@ -33,7 +33,7 @@ EzTDrawingArea >> addLineFrom: point1 to: point2 width: anInt color: aColor [
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> addPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
 	| polygon |
 	polygon := self newPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor.
 	self add: polygon.
@@ -41,7 +41,7 @@ EzTDrawingArea >> addPolygonVertices: vertices fillColor: fillColor borderWidth:
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> addRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
 	| rectangle |
 	rectangle := (self newRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor).
 	self add: rectangle.
@@ -49,7 +49,7 @@ EzTDrawingArea >> addRectangleOrigine: origin extent: extent fillColor: fillColo
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
+EzTDrawingAreaOLD >> addRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
 	|robot|
 	robot := self newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
 	self add: robot.
@@ -57,17 +57,17 @@ EzTDrawingArea >> addRobotAt: center radius: radius fillColor: fillColor borderW
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> addSquareOrigine: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> addSquareOrigine: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self addRectangleOrigine: origin extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
 
 { #category : #accessing }
-EzTDrawingArea >> drawings [
+EzTDrawingAreaOLD >> drawings [
 	self explicitRequirement
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> moveToBack: aDrawing [
+EzTDrawingAreaOLD >> moveToBack: aDrawing [
 	self drawings 
 		remove: aDrawing ifAbsent: [];
 		addFirst: aDrawing.
@@ -75,7 +75,7 @@ EzTDrawingArea >> moveToBack: aDrawing [
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> moveToFront: aDrawing [
+EzTDrawingAreaOLD >> moveToFront: aDrawing [
 	self drawings 
 		remove: aDrawing ifAbsent: [];
 		addLast: aDrawing.
@@ -83,13 +83,13 @@ EzTDrawingArea >> moveToFront: aDrawing [
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> newCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self newEllipseCenter: center xRadius: radius yRadius: radius fillColor:  fillColor borderWidth: width borderColor: bColor
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzOvalOLD board: self)
+EzTDrawingAreaOLD >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fillColor: fillColor borderWidth: width borderColor: bColor [
+	^(EzOvalOLD container: self)
 		center: center halfExtent: (xRadius @ yRadius);
 		fillColor: fillColor;
 		borderWidth: width;
@@ -98,8 +98,8 @@ EzTDrawingArea >> newEllipseCenter: center xRadius: xRadius yRadius: yRadius fil
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newLineFrom: point1 to: point2 width: anInt color: aColor [
-	^(EzPolyLine board: self)
+EzTDrawingAreaOLD >> newLineFrom: point1 to: point2 width: anInt color: aColor [
+	^(EzPolyLine container: self)
 		startPoint: point1; 
 		endPoint: point2; 
 		width: anInt;
@@ -109,8 +109,8 @@ EzTDrawingArea >> newLineFrom: point1 to: point2 width: anInt color: aColor [
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzPolygon board: self)
+EzTDrawingAreaOLD >> newPolygonVertices: vertices fillColor: fillColor borderWidth: width borderColor: bColor [
+	^(EzPolygon container: self)
 		vertices: vertices;
 		fillColor: fillColor;
 		borderWidth: width;
@@ -119,8 +119,8 @@ EzTDrawingArea >> newPolygonVertices: vertices fillColor: fillColor borderWidth:
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
-	^(EzBox board: self)
+EzTDrawingAreaOLD >> newRectangleOrigine: origin extent: extent fillColor: fillColor borderWidth: width borderColor: bColor [
+	^(EzBox container: self)
 		origin: origin extent: extent;
 		fillColor: fillColor;
 		borderWidth: width;
@@ -129,21 +129,21 @@ EzTDrawingArea >> newRectangleOrigine: origin extent: extent fillColor: fillColo
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
+EzTDrawingAreaOLD >> newRobotAt: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor [
 	| robot |
-	robot := EzCompositeDrawing board: self.
+	robot := EzCompositeDrawingOLD container: self.
 	robot addCircleCenter: center radius: radius fillColor: fillColor borderWidth: width borderColor: borderColor.
 	robot addLineFrom: center to: center + (radius@0) width: width color: borderColor.
 	^robot
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> newSquareOrigin: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
+EzTDrawingAreaOLD >> newSquareOrigin: origin length: length fillColor: fillColor borderWidth: width borderColor: bColor [
 	^self newRectangleOrigine: origin extent: length@length fillColor: fillColor borderWidth: width borderColor: bColor
 ]
 
 { #category : #drawing }
-EzTDrawingArea >> remove: aDrawing [
+EzTDrawingAreaOLD >> remove: aDrawing [
 	self drawings remove: aDrawing ifAbsent: [^self].	
 
 ]
