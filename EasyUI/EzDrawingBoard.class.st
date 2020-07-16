@@ -56,6 +56,26 @@ EzDrawingBoard class >> landscape [
 	board openWithSpec
 ]
 
+{ #category : #examples }
+EzDrawingBoard class >> pacMan [
+	<example>
+	| board pacMan |
+	board := self surfaceExtent: 800 @ 600.
+	board backgroundPaint: Color cyan.
+	50 to: 750 by: 50 do: [ :x | 
+		50 to: 550 by: 50 do: [ :y | 
+			| pebble |
+			pebble := EzOval circleCenter: x @ y diameter: 20.
+			pebble fillColor: Color magenta.
+			board add: pebble. 
+		]
+	].
+	pacMan := EzPacMan new.
+	pacMan origin: 400 @ 300.
+	board add: pacMan.
+	board openWithSpec
+]
+
 { #category : #'instance creation' }
 EzDrawingBoard class >> surfaceExtent: extent [
 	^self new
@@ -90,7 +110,7 @@ EzDrawingBoard >> defaultSurfaceExtent [
 
 { #category : #initialization }
 EzDrawingBoard >> initialExtent [
-	^surfaceExtent
+	^surfaceExtent + self windowDeltaExtent
 
 ]
 
@@ -114,4 +134,19 @@ EzDrawingBoard >> renderOn: canvas [
 	canvas setPaint: self backgroundPaint.
 	canvas draw.
 	self drawOn: canvas
+]
+
+{ #category : #initialization }
+EzDrawingBoard >> windowBorderWidth [
+	^5
+]
+
+{ #category : #initialization }
+EzDrawingBoard >> windowDeltaExtent [
+	^(self windowBorderWidth * 2)@(self windowBorderWidth + self windowTopHeight)
+]
+
+{ #category : #initialization }
+EzDrawingBoard >> windowTopHeight [
+	^28
 ]

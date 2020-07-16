@@ -11,7 +11,8 @@ Class {
 { #category : #'instance creation' }
 EzArc class >> radius: radius angleSpan: angleSpan [
 	^self new
-		radius: radius angleSpan: angleSpan;
+		radius: radius;
+		angleSpan: angleSpan;
 		yourself
 		
 ]
@@ -23,7 +24,8 @@ EzArc >> angleSpan [
 
 { #category : #accessing }
 EzArc >> angleSpan: anObject [
-	angleSpan := anObject
+	angleSpan := anObject.
+	self redraw
 ]
 
 { #category : #rendering }
@@ -31,9 +33,9 @@ EzArc >> newShapeForCanvas: canvas [
 	| vertice |
 	^canvas createPath: [ : path |
 		path absolute.
-		path lineTo: radius@0.
 		vertice := (radius * angleSpan degreeCos) @ (radius * angleSpan degreeSin).
-		path cwArcTo: vertice angle: angleSpan degreesToRadians.
+		path lineTo: vertice.
+		path ccwArcTo: radius@0 angle: angleSpan degreesToRadians.
 		path lineTo: 0@0.
 	].
 
@@ -46,5 +48,6 @@ EzArc >> radius [
 
 { #category : #accessing }
 EzArc >> radius: anObject [
-	radius := anObject
+	radius := anObject.
+	self redraw
 ]

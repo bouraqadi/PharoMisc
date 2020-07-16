@@ -9,23 +9,23 @@ Class {
 	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #rendering }
+{ #category : #accessing }
 EzTurtleBot >> borderColor [
 	^body borderColor
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 EzTurtleBot >> borderColor: aColor [
 	body borderColor: aColor.
 	heading color: aColor.
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 EzTurtleBot >> fillColor [
 	^body fillColor 
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 EzTurtleBot >> fillColor: aColor [
 	body fillColor: aColor
 ]
@@ -58,12 +58,12 @@ EzTurtleBot >> isShowingLaser [
 	^laser isShowing 
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 EzTurtleBot >> laserColor [
 	^laser color
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 EzTurtleBot >> laserColor: aColor [
 	laser color: aColor
 ]

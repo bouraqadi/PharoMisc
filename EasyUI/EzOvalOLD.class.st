@@ -1,6 +1,6 @@
 Class {
 	#name : #EzOvalOLD,
-	#superclass : #EzBoundedDrawing,
+	#superclass : #EzBoundedDrawingOLD,
 	#category : #'EasyUI-KernelOLD'
 }
 

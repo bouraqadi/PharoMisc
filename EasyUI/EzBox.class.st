@@ -1,8 +1,6 @@
 Class {
 	#name : #EzBox,
-	#superclass : #EzClosedDrawing,
-	#traits : 'EzTCenteredDrawing',
-	#classTraits : 'EzTCenteredDrawing classTrait',
+	#superclass : #EzBoundedDrawing,
 	#category : #'EasyUI-Kernel'
 }
 
@@ -32,12 +30,7 @@ EzBox class >> squareOrigin: origin length: length [
 	^self rectangleOrigin: origin width: length height: length
 ]
 
-{ #category : #accessing }
-EzBox >> bounds [
-	^self shape
-]
-
-{ #category : #initialize }
-EzBox >> width: width height: height [
-	self shape: (0 @ 0 corner: width @ height)
+{ #category : #rendering }
+EzBox >> newShapeForCanvas: canvas [
+	^self bounds
 ]

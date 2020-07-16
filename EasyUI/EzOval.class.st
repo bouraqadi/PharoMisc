@@ -1,11 +1,6 @@
 Class {
 	#name : #EzOval,
-	#superclass : #EzClosedDrawing,
-	#traits : 'EzTCenteredDrawing',
-	#classTraits : 'EzTCenteredDrawing classTrait',
-	#instVars : [
-		'bounds'
-	],
+	#superclass : #EzBoundedDrawing,
 	#category : #'EasyUI-Kernel'
 }
 
@@ -27,14 +22,7 @@ EzOval class >> ellipseCenter: center width: width height: height [
 		yourself
 ]
 
-{ #category : #accessing }
-EzOval >> bounds [
-	^bounds
-]
-
-{ #category : #initialization }
-EzOval >> width: width height: height [
-	"EllipseMorph bounds are shiftted compared to the actual bounds"
-	bounds := 0 @ 0 corner: width @ height.
-	self shape: (EllipseMorph newBounds: bounds).
+{ #category : #rendering }
+EzOval >> newShapeForCanvas: canvas [
+	^EllipseMorph newBounds: bounds
 ]

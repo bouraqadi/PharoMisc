@@ -15,7 +15,13 @@ EzAtomicDrawing >> drawOn: canvas [
 
 { #category : #rendering }
 EzAtomicDrawing >> newShapeForCanvas: canvas [
-	^shape
+	^self subclassResponsibility
+]
+
+{ #category : #rendering }
+EzAtomicDrawing >> redraw [
+	shape := nil.
+	super redraw.
 ]
 
 { #category : #accessing }
