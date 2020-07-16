@@ -1,6 +1,8 @@
 Class {
 	#name : #EzBox,
 	#superclass : #EzClosedDrawing,
+	#traits : 'EzTCenteredDrawing',
+	#classTraits : 'EzTCenteredDrawing classTrait',
 	#category : #'EasyUI-Kernel'
 }
 

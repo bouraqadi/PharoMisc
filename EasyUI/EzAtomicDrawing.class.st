@@ -13,6 +13,11 @@ EzAtomicDrawing >> drawOn: canvas [
 	
 ]
 
+{ #category : #rendering }
+EzAtomicDrawing >> newShapeForCanvas: canvas [
+	^shape
+]
+
 { #category : #accessing }
 EzAtomicDrawing >> shape [
 	^ shape
@@ -26,5 +31,6 @@ EzAtomicDrawing >> shape: anObject [
 
 { #category : #rendering }
 EzAtomicDrawing >> shapeForCanvas: canvas [
-	^shape
+	^shape ifNil: [ shape := self newShapeForCanvas: canvas ].
+
 ]

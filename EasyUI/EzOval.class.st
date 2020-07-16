@@ -1,6 +1,8 @@
 Class {
 	#name : #EzOval,
 	#superclass : #EzClosedDrawing,
+	#traits : 'EzTCenteredDrawing',
+	#classTraits : 'EzTCenteredDrawing classTrait',
 	#instVars : [
 		'bounds'
 	],

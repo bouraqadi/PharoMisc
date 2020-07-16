@@ -31,22 +31,6 @@ EzClosedDrawing >> borderWidth: anObject [
 	self redraw.
 ]
 
-{ #category : #accessing }
-EzClosedDrawing >> bounds [
-	^self subclassResponsibility 
-
-]
-
-{ #category : #accessing }
-EzClosedDrawing >> center [
-	^self bounds center + self origin
-]
-
-{ #category : #accessing }
-EzClosedDrawing >> center: newCenter [
-	self origin: newCenter - self center + self origin
-]
-
 { #category : #initialization }
 EzClosedDrawing >> defaultBorderColor [
 	^ Color black

@@ -10,6 +10,23 @@ Class {
 }
 
 { #category : #examples }
+EzDrawingBoard class >> botFleet [
+	<example>
+	| board |
+	board := self surfaceExtent: 800 @ 600.
+	{ Color green -> (200@200). 
+	Color cyan -> (600@300). 
+	Color magenta  -> (300@400)} asDictionary keysAndValuesDo: [: color : origin |
+		|bot|
+		bot := EzTurtleBot new.
+		bot fillColor: color.
+		bot origin: origin.
+		board add: bot.
+	].
+	board openWithSpec
+]
+
+{ #category : #examples }
 EzDrawingBoard class >> landscape [
 	<example>
 	| sceneWidth sceneHeight board grass sunBackground sunRadius sunRays sun |
@@ -31,7 +48,7 @@ EzDrawingBoard class >> landscape [
 	sunRays color: Color yellow.
 	sunRays width: 1.
 	sun := EzCompositeDrawing withAll: { sunBackground. sunRays }.
-	sun origin: 100 @ 100.
+	sun origin: 130 @ 130.
 	board
 		addAll:
 			{grass.

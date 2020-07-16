@@ -59,6 +59,16 @@ EzTurtleBot >> isShowingLaser [
 ]
 
 { #category : #rendering }
+EzTurtleBot >> laserColor [
+	^laser color
+]
+
+{ #category : #rendering }
+EzTurtleBot >> laserColor: aColor [
+	laser color: aColor
+]
+
+{ #category : #rendering }
 EzTurtleBot >> showLaser [
 	laser show
 ]

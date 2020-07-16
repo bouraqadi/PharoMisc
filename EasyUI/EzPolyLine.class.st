@@ -81,11 +81,6 @@ EzPolyLine >> newShapeForCanvas: canvas [
 
 ]
 
-{ #category : #rendering }
-EzPolyLine >> shapeForCanvas: canvas [
-	^shape ifNil: [ shape := self newShapeForCanvas: canvas ]
-]
-
 { #category : #initialization }
 EzPolyLine >> vertices: points [
 	| newExtents |
