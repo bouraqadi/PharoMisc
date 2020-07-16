@@ -34,13 +34,16 @@ EzDrawingBoard class >> landscape [
 	sun := EzOval circleCenter: sunCenter radius: sunRadius.
 	sun fillColor: Color orange.
 	sun borderWidth: 0.
-	rays := EzRays raysCount: 288 spanAngle: 360 radius: sunRadius.
+	rays := EzRays spanAngle: 360 radius: sunRadius raysCount: 288.
 	rays center: sunCenter.
 	rays color: Color yellow.
 	rays width: 1.
-	board addAll: {grass. sun. rays.}.
-	board openWithSpec.
-
+	board
+		addAll:
+			{grass.
+			sun.
+			rays}.
+	board openWithSpec
 ]
 
 { #category : #specs }
@@ -50,14 +53,32 @@ EzDrawingBoard class >> title [
 
 { #category : #adding }
 EzDrawingBoard >> add: aDrawing [
-	drawings add: aDrawing.
-	self redraw.
+	(self drawings includes: aDrawing)
+		ifTrue: [ ^ self ].
+	self basicAdd: aDrawing.
+
 ]
 
 { #category : #adding }
 EzDrawingBoard >> addAll: newDrawings [
 	drawings addAll: newDrawings.
 	self redraw.
+]
+
+{ #category : #adding }
+EzDrawingBoard >> basicAdd: aDrawing [
+	drawings add: aDrawing.
+	aDrawing board: self.
+	self redraw.
+
+]
+
+{ #category : #adding }
+EzDrawingBoard >> basicRemove: aDrawing [
+	drawings remove: aDrawing.
+	aDrawing board: nil.
+	self redraw.
+
 ]
 
 { #category : #initialization }
@@ -68,6 +89,11 @@ EzDrawingBoard >> defaultFillColor [
 { #category : #initialization }
 EzDrawingBoard >> defaultSurfaceExtent [
 	^800@600
+]
+
+{ #category : #accessing }
+EzDrawingBoard >> drawings [
+	^drawings
 ]
 
 { #category : #accessing }
@@ -98,6 +124,14 @@ EzDrawingBoard >> initialize [
 { #category : #drawing }
 EzDrawingBoard >> redraw [
 	self adapter changed
+]
+
+{ #category : #adding }
+EzDrawingBoard >> remove: aDrawing [
+	(self drawings includes: aDrawing)
+		ifFalse: [ ^ self ].
+	self basicRemove: aDrawing.
+
 ]
 
 { #category : #initialization }

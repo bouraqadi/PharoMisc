@@ -28,7 +28,8 @@ EzPolyLine >> color [
 
 { #category : #accessing }
 EzPolyLine >> color: anObject [
-	color := anObject
+	color := anObject.
+	self redraw.
 ]
 
 { #category : #initialization }
@@ -48,6 +49,19 @@ EzPolyLine >> drawOn: canvas [
 
 ]
 
+{ #category : #accessing }
+EzPolyLine >> extents [
+	^ extents
+]
+
+{ #category : #accessing }
+EzPolyLine >> extents: anObject [
+	extents := anObject.
+	"Shape is recreated only if its nil"
+	self shape: nil.
+
+]
+
 { #category : #initialization }
 EzPolyLine >> initialize [
 	super initialize.
@@ -60,7 +74,7 @@ EzPolyLine >> initialize [
 EzPolyLine >> newShapeForCanvas: canvas [
 	^canvas createPath: [ : path | 
 		path relative.
-		extents do: [ : each |  
+		self extents do: [ : each |  
 			path lineTo: each].
 	].
 
@@ -73,8 +87,10 @@ EzPolyLine >> shapeForCanvas: canvas [
 
 { #category : #initialization }
 EzPolyLine >> vertices: points [
-	self origin: points first.
-	extents := points allButFirst collect: [ : each | each - self origin ].
+	| newExtents |
+	origin := points first.
+	newExtents := points allButFirst collect: [ : each | each - self origin ].
+	self extents: newExtents.
 ]
 
 { #category : #accessing }
@@ -84,5 +100,6 @@ EzPolyLine >> width [
 
 { #category : #accessing }
 EzPolyLine >> width: anObject [
-	width := anObject
+	width := anObject.
+	self redraw.
 ]

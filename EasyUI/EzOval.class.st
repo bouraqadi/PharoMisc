@@ -32,6 +32,7 @@ EzOval >> bounds [
 
 { #category : #initialization }
 EzOval >> width: width height: height [
+	"EllipseMorph bounds are shiftted compared to the actual bounds"
 	bounds := 0 @ 0 corner: width @ height.
-	shape := EllipseMorph newBounds: bounds.
+	self shape: (EllipseMorph newBounds: bounds).
 ]

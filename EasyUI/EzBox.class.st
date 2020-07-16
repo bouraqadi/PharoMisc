@@ -32,10 +32,10 @@ EzBox class >> squareOrigin: origin length: length [
 
 { #category : #accessing }
 EzBox >> bounds [
-	^shape
+	^self shape
 ]
 
 { #category : #initialize }
 EzBox >> width: width height: height [
-	shape := 0 @ 0 corner: width @ height
+	self shape: (0 @ 0 corner: width @ height)
 ]

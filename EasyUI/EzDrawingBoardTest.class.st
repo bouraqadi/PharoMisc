@@ -2,7 +2,8 @@ Class {
 	#name : #EzDrawingBoardTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'board'
+		'board',
+		'drawing'
 	],
 	#category : #'EasyUI-Tests'
 }
@@ -10,21 +11,19 @@ Class {
 { #category : #running }
 EzDrawingBoardTest >> setUp [
 	super setUp.
-	board := EzDrawingBoardOLD new.
+	board := EzDrawingBoard new.
+	drawing := EzPolyLine from: 100@100 to: 700@500.
+
 ]
 
 { #category : #running }
 EzDrawingBoardTest >> testAddingSeveralTimeTheSameDrawing [
-	| drawing |
-	drawing := board newLineFrom: 100@100 to: 700@500 width: 10 color: Color red.
 	10 timesRepeat: [ board add: drawing ].
 	self assert: board drawings asArray equals: {drawing}
 ]
 
 { #category : #running }
 EzDrawingBoardTest >> testRemovingSeveralTimeTheSameDrawing [
-	| drawing |
-	drawing := board newLineFrom: 100@100 to: 700@500 width: 10 color: Color red.
 	board add: drawing.
 	board remove: drawing.
 	self assert: board drawings isEmpty.

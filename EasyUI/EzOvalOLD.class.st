@@ -1,7 +1,7 @@
 Class {
 	#name : #EzOvalOLD,
 	#superclass : #EzBoundedDrawing,
-	#category : #'EasyUI-DrawingsOLD'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #drawing }

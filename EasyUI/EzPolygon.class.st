@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'vertices'
 	],
-	#category : #'EasyUI-DrawingsOLD'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #interacting }

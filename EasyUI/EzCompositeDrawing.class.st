@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'drawings'
 	],
-	#category : #'EasyUI-DrawingsOLD'
+	#category : #'EasyUI-KernelOLD'
 }
 
 { #category : #drawing }

@@ -54,11 +54,6 @@ EzDrawingOLD >> drawOn: aCanvas [
 	self subclassResponsibility
 ]
 
-{ #category : #displaying }
-EzDrawingOLD >> hide [
-	self board remove: self
-]
-
 { #category : #interacting }
 EzDrawingOLD >> moveBy: delta [
 	self moveTo: self origin + delta
@@ -68,16 +63,6 @@ EzDrawingOLD >> moveBy: delta [
 EzDrawingOLD >> moveTo: aPoint [
 	self basicMoveTo: aPoint.
 	self updateDisplay
-]
-
-{ #category : #displaying }
-EzDrawingOLD >> moveToBack [
-	self board moveToBack: self
-]
-
-{ #category : #displaying }
-EzDrawingOLD >> moveToFront [
-	self board moveToFront: self
 ]
 
 { #category : #interacting }
@@ -94,11 +79,6 @@ EzDrawingOLD >> rotateBy: deltaDegrees [
 EzDrawingOLD >> rotateTo: degrees [
 	self basicRotateTo: degrees.
 	self updateDisplay
-]
-
-{ #category : #displaying }
-EzDrawingOLD >> show [
-	self board add: self
 ]
 
 { #category : #drawing }

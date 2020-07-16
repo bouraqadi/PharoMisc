@@ -5,9 +5,16 @@ Class {
 }
 
 { #category : #'instance creation' }
-EzRays class >> raysCount: raysCount spanAngle: spanAngle radius: radius [
-	^self new
-		raysCount: raysCount spanAngle: spanAngle radius: radius;
+EzRays class >> spanAngle: spanAngle radius: radius angleStep: deltaAngle [
+	^ self new
+		spanAngle: spanAngle radius: radius angleStep: deltaAngle;
+		yourself
+]
+
+{ #category : #'instance creation' }
+EzRays class >> spanAngle: spanAngle radius: radius raysCount: raysCount [
+	^ self new
+		spanAngle: spanAngle radius: radius raysCount: raysCount;
 		yourself
 ]
 
@@ -24,7 +31,7 @@ EzRays >> center: newCenter [
 { #category : #rendering }
 EzRays >> newShapeForCanvas: canvas [
 	^canvas createPath: [ : path | 
-		extents do: [ : each |
+		self extents do: [ : each |
 			path absolute.
 			path moveTo: 0@0.
 			path relative.
@@ -35,16 +42,25 @@ EzRays >> newShapeForCanvas: canvas [
 ]
 
 { #category : #initialization }
-EzRays >> raysCount: raysCount spanAngle: spanAngle radius: radius [
-	| deltaAngle rayAngle ray |
-	extents := OrderedCollection new.
-	deltaAngle := spanAngle / raysCount.
+EzRays >> spanAngle: spanAngle radius: radius angleStep: deltaAngle [
+	| rayAngle ray newExtents |
+	newExtents := OrderedCollection new.
 	rayAngle := 0.
 	[rayAngle <= spanAngle] whileTrue: [
 		ray := (radius * rayAngle degreeCos) @ (radius * rayAngle degreeSin).
-		extents add: ray.
+		newExtents add: ray.
 		rayAngle := rayAngle + deltaAngle.
 	].
+	self extents: newExtents
 
 
+]
+
+{ #category : #initialization }
+EzRays >> spanAngle: spanAngle radius: radius raysCount: raysCount [
+	self 
+		spanAngle: spanAngle
+		radius: radius
+		angleStep: spanAngle / raysCount.
+	
 ]

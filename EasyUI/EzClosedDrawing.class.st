@@ -16,7 +16,8 @@ EzClosedDrawing >> borderColor [
 
 { #category : #accessing }
 EzClosedDrawing >> borderColor: anObject [
-	borderColor := anObject
+	borderColor := anObject.
+	self redraw.
 ]
 
 { #category : #accessing }
@@ -26,7 +27,8 @@ EzClosedDrawing >> borderWidth [
 
 { #category : #accessing }
 EzClosedDrawing >> borderWidth: anObject [
-	borderWidth := anObject
+	borderWidth := anObject.
+	self redraw.
 ]
 
 { #category : #accessing }
@@ -62,9 +64,9 @@ EzClosedDrawing >> defaultFillColor [
 
 { #category : #rendering }
 EzClosedDrawing >> drawOn: canvas [
-	canvas setPaint: fillColor.
+	canvas setPaint: self fillColor.
 	canvas draw.
-	(canvas setStrokePaint: borderColor) width: borderWidth.
+	(canvas setStrokePaint: self borderColor) width: self borderWidth.
 	canvas draw.
 
 
@@ -77,7 +79,8 @@ EzClosedDrawing >> fillColor [
 
 { #category : #accessing }
 EzClosedDrawing >> fillColor: anObject [
-	fillColor := anObject
+	fillColor := anObject.
+	self redraw.
 ]
 
 { #category : #initialization }
