@@ -9,6 +9,14 @@ Class {
 }
 
 { #category : #'instance creation' }
+EzArc class >> center: center radius: radius angleSpan: angleSpan [
+	^(self radius: radius angleSpan: angleSpan)
+		center: center;
+		yourself
+		
+]
+
+{ #category : #'instance creation' }
 EzArc class >> radius: radius angleSpan: angleSpan [
 	^self new
 		radius: radius;

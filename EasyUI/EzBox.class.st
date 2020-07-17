@@ -6,17 +6,15 @@ Class {
 
 { #category : #'instance creation' }
 EzBox class >> rectangleCenter: center width: width height: height [
-	^ self new
-		width: width height: height;
+	^ (self width: width height: height)
 		center: center;
 		yourself
 ]
 
 { #category : #'instance creation' }
-EzBox class >> rectangleOrigin: origin width: width height: height [
-	^ self new
-		width: width height: height;
-		origin: origin;
+EzBox class >> rectangleCorner: corner width: width height: height [
+	^ (self width: width height: height)
+		corner: corner;
 		yourself
 ]
 
@@ -26,11 +24,11 @@ EzBox class >> squareCenter: center length: length [
 ]
 
 { #category : #'instance creation' }
-EzBox class >> squareOrigin: origin length: length [
-	^self rectangleOrigin: origin width: length height: length
+EzBox class >> squareCorner: corner length: length [
+	^self rectangleCorner: corner width: length height: length
 ]
 
 { #category : #rendering }
 EzBox >> newShapeForCanvas: canvas [
-	^self bounds
+	^ self bounds
 ]

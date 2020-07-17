@@ -19,7 +19,7 @@ EzDrawingBoardTest >> setUp [
 { #category : #running }
 EzDrawingBoardTest >> testAddingSeveralTime2Drawings [
 	| otherDrawing |
-	otherDrawing := EzBox rectangleOrigin: 200@100 width: 20 height: 10.
+	otherDrawing := EzBox width: 20 height: 10.
 	10 timesRepeat: [ board addAll: {drawing. otherDrawing} ].
 	self assertCollection: board drawings asArray hasSameElements: {drawing. otherDrawing}.
 	board drawings do: [ : each |  

@@ -2,28 +2,46 @@ Class {
 	#name : #EzBoundedDrawing,
 	#superclass : #EzClosedDrawing,
 	#instVars : [
-		'bounds'
+		'width',
+		'height'
 	],
 	#category : #'EasyUI-Kernel'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
+EzBoundedDrawing class >> width: width height: height [
+	^ self new
+		width: width height: height;
+		yourself
+]
+
+{ #category : #rendering }
 EzBoundedDrawing >> bounds [
-	^bounds
-]
-
-{ #category : #accessing }
-EzBoundedDrawing >> center [
-	^self bounds center + self origin
-]
-
-{ #category : #accessing }
-EzBoundedDrawing >> center: newCenter [
-	self origin: newCenter - self center + self origin
+	^ (self width/ -2) @ (self height/ -2) extent: self width @ self height.
 ]
 
 { #category : #initialization }
-EzBoundedDrawing >> width: width height: height [
-	bounds := 0 @ 0 corner: width @ height.
+EzBoundedDrawing >> corner: newCorner [
+	| previousCorner |
+	previousCorner :=  (self width/ -2) @ (self height/ -2).
+	self center: self center +  newCorner - previousCorner.
+]
+
+{ #category : #accessing }
+EzBoundedDrawing >> height [
+	^height
+]
+
+{ #category : #accessing }
+EzBoundedDrawing >> width [
+	^width
+]
+
+{ #category : #initialization }
+EzBoundedDrawing >> width: newWidth height: newHeight [
+	width := newWidth.
+	height := newHeight.
+	self redraw.
+
 
 ]

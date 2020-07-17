@@ -35,7 +35,7 @@ EzDrawingBoard class >> landscape [
 	board := self surfaceExtent: sceneWidth @ sceneHeight.
 	board backgroundPaint: Color cyan.
 	grass := EzBox
-		rectangleOrigin: 0 @ (sceneHeight // 2)
+		rectangleCorner: 0 @ (sceneHeight // 2)
 		width: sceneWidth
 		height: sceneHeight // 2.
 	grass fillColor: Color green.
@@ -49,6 +49,7 @@ EzDrawingBoard class >> landscape [
 	sunRays width: 1.
 	sun := EzCompositeDrawing withAll: { sunBackground. sunRays }.
 	sun origin: 130 @ 130.
+	self halt.
 	board
 		addAll:
 			{grass.

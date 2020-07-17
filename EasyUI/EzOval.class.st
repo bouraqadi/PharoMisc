@@ -24,5 +24,5 @@ EzOval class >> ellipseCenter: center width: width height: height [
 
 { #category : #rendering }
 EzOval >> newShapeForCanvas: canvas [
-	^EllipseMorph newBounds: bounds
+	^EllipseMorph newBounds: self bounds
 ]
