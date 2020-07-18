@@ -21,6 +21,11 @@ EzDrawing >> angle: degrees [
 	self redraw.
 ]
 
+{ #category : #interacting }
+EzDrawing >> bindKeyCombination: aKeyCombination toAction: aBlock [
+	self container bindKeyCombination: aKeyCombination toAction: aBlock
+]
+
 { #category : #accessing }
 EzDrawing >> container [
 	^ container

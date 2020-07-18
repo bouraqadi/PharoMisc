@@ -1,5 +1,5 @@
 Class {
-	#name : #EzTurtleBot,
+	#name : #EzRoundBot,
 	#superclass : #EzCompositeDrawing,
 	#instVars : [
 		'laser',
@@ -10,33 +10,33 @@ Class {
 }
 
 { #category : #accessing }
-EzTurtleBot >> borderColor [
+EzRoundBot >> borderColor [
 	^body borderColor
 ]
 
 { #category : #accessing }
-EzTurtleBot >> borderColor: aColor [
+EzRoundBot >> borderColor: aColor [
 	body borderColor: aColor.
 	heading color: aColor.
 ]
 
 { #category : #accessing }
-EzTurtleBot >> fillColor [
+EzRoundBot >> fillColor [
 	^body fillColor 
 ]
 
 { #category : #accessing }
-EzTurtleBot >> fillColor: aColor [
+EzRoundBot >> fillColor: aColor [
 	body fillColor: aColor
 ]
 
 { #category : #rendering }
-EzTurtleBot >> hideLaser [
+EzRoundBot >> hideLaser [
 	laser hide
 ]
 
 { #category : #initialization }
-EzTurtleBot >> initialize [
+EzRoundBot >> initialize [
 	| bodyRadius |
 	super initialize.
 	bodyRadius := 50.
@@ -54,21 +54,21 @@ EzTurtleBot >> initialize [
 ]
 
 { #category : #rendering }
-EzTurtleBot >> isShowingLaser [
+EzRoundBot >> isShowingLaser [
 	^laser isShowing 
 ]
 
 { #category : #accessing }
-EzTurtleBot >> laserColor [
+EzRoundBot >> laserColor [
 	^laser color
 ]
 
 { #category : #accessing }
-EzTurtleBot >> laserColor: aColor [
+EzRoundBot >> laserColor: aColor [
 	laser color: aColor
 ]
 
 { #category : #rendering }
-EzTurtleBot >> showLaser [
+EzRoundBot >> showLaser [
 	laser show
 ]

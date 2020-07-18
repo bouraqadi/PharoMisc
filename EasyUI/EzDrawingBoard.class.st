@@ -18,7 +18,7 @@ EzDrawingBoard class >> botFleet [
 	Color cyan -> (600@300). 
 	Color magenta  -> (300@400)} asDictionary keysAndValuesDo: [: color : origin |
 		|bot|
-		bot := EzTurtleBot new.
+		bot := EzRoundBot new.
 		bot fillColor: color.
 		bot origin: origin.
 		board add: bot.
@@ -29,7 +29,7 @@ EzDrawingBoard class >> botFleet [
 { #category : #examples }
 EzDrawingBoard class >> landscape [
 	<example>
-	| sceneWidth sceneHeight board grass sunBackground sunRadius sunRays sun |
+	| sceneWidth sceneHeight board grass sunBackground sunRadius sunRays sun sunInitialOrigin delta |
 	sceneWidth := 800.
 	sceneHeight := 600.
 	board := self surfaceExtent: sceneWidth @ sceneHeight.
@@ -48,12 +48,21 @@ EzDrawingBoard class >> landscape [
 	sunRays color: Color yellow.
 	sunRays width: 1.
 	sun := EzCompositeDrawing withAll: { sunBackground. sunRays }.
-	sun origin: 130 @ 130.
-	self halt.
+	sunInitialOrigin := (sceneWidth / 2) @ 130.
+	sun origin: sunInitialOrigin.
+	delta := 20@0.
+	board 
+		bindKeyCombination: Character arrowLeft asKeyCombination 
+		toAction: [sun origin: sun origin - delta];
+		bindKeyCombination: Character arrowRight asKeyCombination 
+		toAction: [sun origin: sun origin + delta];
+		bindKeyCombination: Character space asKeyCombination 
+		toAction: [sun origin: sunInitialOrigin].
 	board
 		addAll:
-			{grass.
-			sun}.
+			{sun.
+			grass.
+			}.
 	board openWithSpec
 ]
 
@@ -71,9 +80,13 @@ EzDrawingBoard class >> pacMan [
 			board add: pebble. 
 		]
 	].
-	pacMan := EzPacMan new.
+	pacMan := EzPacManSprite new.
 	pacMan origin: 400 @ 300.
 	board add: pacMan.
+	board bindKeyCombination: Character arrowLeft asKeyCombination toAction: [ pacMan lookLeft ].
+	board bindKeyCombination: Character arrowRight asKeyCombination toAction: [ pacMan lookRight ].
+	board bindKeyCombination: Character arrowUp asKeyCombination toAction: [ pacMan lookUp ].
+	board bindKeyCombination: Character arrowDown asKeyCombination toAction: [ pacMan lookDown ].
 	board openWithSpec
 ]
 

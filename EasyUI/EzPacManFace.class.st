@@ -1,5 +1,5 @@
 Class {
-	#name : #EzPacMan,
+	#name : #EzPacManFace,
 	#superclass : #EzCompositeDrawing,
 	#instVars : [
 		'body',
@@ -9,42 +9,52 @@ Class {
 }
 
 { #category : #accessing }
-EzPacMan >> bodyColor [
+EzPacManFace >> bodyColor [
 	^body fillColor
 ]
 
 { #category : #accessing }
-EzPacMan >> bodyColor: aColor [
+EzPacManFace >> bodyColor: aColor [
 	body fillColor: aColor
 ]
 
 { #category : #accessing }
-EzPacMan >> borderColor [
+EzPacManFace >> borderColor [
 	^body borderColor
 ]
 
 { #category : #accessing }
-EzPacMan >> borderColor: aColor [
+EzPacManFace >> borderColor: aColor [
 	body borderColor: aColor
 ]
 
+{ #category : #initialization }
+EzPacManFace >> defaultBodyAngle [
+	self subclassResponsibility
+]
+
+{ #category : #initialization }
+EzPacManFace >> defaultEyeCenter [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
-EzPacMan >> eyeColor [
+EzPacManFace >> eyeColor [
 	^eye fillColor
 ]
 
 { #category : #accessing }
-EzPacMan >> eyeColor: aColor [
+EzPacManFace >> eyeColor: aColor [
 	eye fillColor: aColor
 ]
 
 { #category : #initialization }
-EzPacMan >> initialize [
+EzPacManFace >> initialize [
 	super initialize.
 	body := EzArc radius: 100 angleSpan: 300.
-	body angle: 30.
+	body angle: self defaultBodyAngle.
 	self bodyColor: Color yellow.
-	eye := EzOval circleCenter: 30 @ -50 diameter: 25.
+	eye := EzOval circleCenter: self defaultEyeCenter diameter: 25.
 	eye borderWidth: 0.
 	self eyeColor: Color black.
 	self
