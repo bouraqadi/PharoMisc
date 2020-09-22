@@ -1,7 +1,7 @@
 Class {
 	#name : #EzPacManFaceRightward,
 	#superclass : #EzPacManFace,
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Examples-Drawings'
 }
 
 { #category : #initialization }

@@ -5,7 +5,7 @@ Class {
 		'body',
 		'eye'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Examples-Drawings'
 }
 
 { #category : #accessing }

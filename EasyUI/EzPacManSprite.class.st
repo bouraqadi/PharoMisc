@@ -5,7 +5,7 @@ Class {
 		'leftward',
 		'rightward'
 	],
-	#category : #'EasyUI-Kernel'
+	#category : #'EasyUI-Examples-Drawings'
 }
 
 { #category : #initialization }
