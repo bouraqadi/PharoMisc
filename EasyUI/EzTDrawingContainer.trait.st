@@ -75,3 +75,15 @@ EzTDrawingContainer >> remove: aDrawing [
 	self redraw.
 
 ]
+
+{ #category : #adding }
+EzTDrawingContainer >> removeAll [
+	self removeAll: drawings copy.
+
+]
+
+{ #category : #adding }
+EzTDrawingContainer >> removeAll: oldDawings [
+	oldDawings do: [ : each | self basicRemove: each ].
+	self redraw.
+]
