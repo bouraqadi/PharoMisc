@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'window',
-		'board'
+		'drawingBoard'
 	],
 	#category : #'EasyUI-Kernel'
 }
@@ -20,6 +20,11 @@ EzApp >> closeWindow [
 	window close
 ]
 
+{ #category : #accessing }
+EzApp >> drawingBoard [
+	^drawingBoard
+]
+
 { #category : #initialization }
 EzApp >> drawingBoardExtent [
 	^ 800 @ 600
@@ -28,13 +33,13 @@ EzApp >> drawingBoardExtent [
 { #category : #initialization }
 EzApp >> initialize [
 	super initialize.
-	board := EzDrawingBoard surfaceExtent: self drawingBoardExtent
+	drawingBoard := EzDrawingBoard surfaceExtent: self drawingBoardExtent
 ]
 
 { #category : #'window handling' }
 EzApp >> openWindow [
 	window ifNotNil: [ self closeWindow ].
-	window := board openWithSpec.
+	window := drawingBoard openWithSpec.
 	window title: self title.
 ]
 

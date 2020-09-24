@@ -21,13 +21,13 @@ EzBotFleetApp >> initialize [
 		bot := EzRoundBot new.
 		bot fillColor: color.
 		bot origin: origin.
-		board add: bot.
+		drawingBoard add: bot.
 	].
 	pathRadius := 20.
-	board 
+	drawingBoard 
 		bindKeyCombination: Character space asKeyCombination 
 		toAction: [
-			board drawings do: [: each | 
+			drawingBoard drawings do: [: each | 
 				delta := (pathRadius * each angle degreeCos) @ (pathRadius * each angle degreeSin).
 				each origin: each origin + delta.
 				each angle: each angle + 10.

@@ -14,22 +14,22 @@ EzRotatingPacmanApp class >> demo [
 EzRotatingPacmanApp >> initialize [
 	| pacman |
 	super initialize.
-	board backgroundPaint: Color cyan.
+	drawingBoard backgroundPaint: Color cyan.
 	50 to: 750 by: 50 do: [ :x | 
 		50 to: 550 by: 50 do: [ :y | 
 			| pebble |
 			pebble := EzOval circleCenter: x @ y diameter: 20.
 			pebble fillColor: Color magenta.
-			board add: pebble. 
+			drawingBoard add: pebble. 
 		]
 	].
 	pacman := EzPacManSprite new.
 	pacman origin: 400 @ 300.
-	board add: pacman.
-	board bindKeyCombination: Character arrowLeft asKeyCombination toAction: [ pacman lookLeft ].
-	board bindKeyCombination: Character arrowRight asKeyCombination toAction: [ pacman lookRight ].
-	board bindKeyCombination: Character arrowUp asKeyCombination toAction: [ pacman lookUp ].
-	board bindKeyCombination: Character arrowDown asKeyCombination toAction: [ pacman lookDown ].
+	drawingBoard add: pacman.
+	drawingBoard bindKeyCombination: Character arrowLeft asKeyCombination toAction: [ pacman lookLeft ].
+	drawingBoard bindKeyCombination: Character arrowRight asKeyCombination toAction: [ pacman lookRight ].
+	drawingBoard bindKeyCombination: Character arrowUp asKeyCombination toAction: [ pacman lookUp ].
+	drawingBoard bindKeyCombination: Character arrowDown asKeyCombination toAction: [ pacman lookDown ].
 
 ]
 

@@ -14,9 +14,9 @@ EzLandscapeApp class >> demo [
 EzLandscapeApp >> initialize [
 	| sceneHeight sceneWidth grass sunRadius sunBackground sunRays sun sunInitialOrigin delta |
 	super initialize.
-	sceneHeight := board height.
-	sceneWidth := board width.
-	board backgroundPaint: Color cyan.
+	sceneHeight := drawingBoard height.
+	sceneWidth := drawingBoard width.
+	drawingBoard backgroundPaint: Color cyan.
 	grass := EzBox
 		rectangleCorner: 0 @ (sceneHeight // 2)
 		width: sceneWidth
@@ -34,14 +34,14 @@ EzLandscapeApp >> initialize [
 	sunInitialOrigin := (sceneWidth / 2) @ 130.
 	sun origin: sunInitialOrigin.
 	delta := 20@0.
-	board 
+	drawingBoard 
 		bindKeyCombination: Character arrowLeft asKeyCombination 
 		toAction: [sun origin: sun origin - delta];
 		bindKeyCombination: Character arrowRight asKeyCombination 
 		toAction: [sun origin: sun origin + delta];
 		bindKeyCombination: Character space asKeyCombination 
 		toAction: [sun origin: sunInitialOrigin].
-	board
+	drawingBoard
 		addAll:
 			{sun.
 			grass.
