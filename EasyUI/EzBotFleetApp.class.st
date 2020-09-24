@@ -11,6 +11,11 @@ EzBotFleetApp class >> demo [
 ]
 
 { #category : #initialization }
+EzBotFleetApp >> defaultTitle [
+	^'Bots Moving Around (Spacebar)'
+]
+
+{ #category : #initialization }
 EzBotFleetApp >> initialize [
 	| pathRadius delta |
 	super initialize.
@@ -34,9 +39,4 @@ EzBotFleetApp >> initialize [
 			]
 		].
 
-]
-
-{ #category : #initialization }
-EzBotFleetApp >> title [
-	^'Bots Moving Around (Spacebar)'
 ]

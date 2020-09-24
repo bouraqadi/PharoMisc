@@ -11,6 +11,11 @@ EzLandscapeApp class >> demo [
 ]
 
 { #category : #initialization }
+EzLandscapeApp >> defaultTitle [
+	^'Mobile Sun in landscape (left/right arrows + Spacebar)'
+]
+
+{ #category : #initialization }
 EzLandscapeApp >> initialize [
 	| sceneHeight sceneWidth grass sunRadius sunBackground sunRays sun sunInitialOrigin delta |
 	super initialize.
@@ -47,9 +52,4 @@ EzLandscapeApp >> initialize [
 			grass.
 			}.
 
-]
-
-{ #category : #initialization }
-EzLandscapeApp >> title [
-	^'Mobile Sun in landscape (left/right arrows + Spacebar)'
 ]

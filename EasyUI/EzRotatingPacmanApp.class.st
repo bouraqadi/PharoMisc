@@ -10,6 +10,11 @@ EzRotatingPacmanApp class >> demo [
 	self newOpenWindow
 ]
 
+{ #category : #'window handling' }
+EzRotatingPacmanApp >> defaultTitle [
+	^'Rotating Pacman (All four arrows)'
+]
+
 { #category : #initialization }
 EzRotatingPacmanApp >> initialize [
 	| pacman |
@@ -31,9 +36,4 @@ EzRotatingPacmanApp >> initialize [
 	drawingBoard bindKeyCombination: Character arrowUp asKeyCombination toAction: [ pacman lookUp ].
 	drawingBoard bindKeyCombination: Character arrowDown asKeyCombination toAction: [ pacman lookDown ].
 
-]
-
-{ #category : #'window handling' }
-EzRotatingPacmanApp >> title [
-	^'Rotating Pacman (All four arrows)'
 ]

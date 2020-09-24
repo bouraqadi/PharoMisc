@@ -2,8 +2,9 @@ Class {
 	#name : #EzApp,
 	#superclass : #Object,
 	#instVars : [
-		'window',
-		'drawingBoard'
+		'drawingBoard',
+		'windowPresenter',
+		'title'
 	],
 	#category : #'EasyUI-Kernel'
 }
@@ -17,7 +18,12 @@ EzApp class >> newOpenWindow [
 
 { #category : #'window handling' }
 EzApp >> closeWindow [
-	window close
+	windowPresenter close
+]
+
+{ #category : #'window handling' }
+EzApp >> defaultTitle [
+	^self className
 ]
 
 { #category : #accessing }
@@ -33,32 +39,46 @@ EzApp >> drawingBoardExtent [
 { #category : #initialization }
 EzApp >> initialize [
 	super initialize.
-	drawingBoard := EzDrawingBoard surfaceExtent: self drawingBoardExtent
+	drawingBoard := EzDrawingBoard surfaceExtent: self drawingBoardExtent.
+	title := self defaultTitle.
 ]
 
 { #category : #'window handling' }
 EzApp >> openWindow [
-	window ifNotNil: [ self closeWindow ].
-	window := drawingBoard openWithSpec.
-	window title: self title.
+	windowPresenter ifNotNil: [ self closeWindow ].
+	windowPresenter := drawingBoard openWithSpec.
+	windowPresenter title: self title.
+	self window beUnresizeable.
 ]
 
-{ #category : #'window handling' }
+{ #category : #accessing }
 EzApp >> title [
-	^self className
+	^ title
 ]
 
-{ #category : #'window handling' }
+{ #category : #accessing }
+EzApp >> title: aString [
+	title := aString.
+	self windowPresenter ifNil: [ ^self ].
+	self windowPresenter title: aString.
+]
+
+{ #category : #accessing }
 EzApp >> window [
-	^window
+	^self windowPresenter window
 ]
 
 { #category : #'window handling' }
 EzApp >> windowPosition [
-	^self window window position
+	^self window position
 ]
 
 { #category : #'window handling' }
 EzApp >> windowPosition: aPoint [
-	self window window position: aPoint.
+	self window position: aPoint.
+]
+
+{ #category : #'window handling' }
+EzApp >> windowPresenter [
+	^windowPresenter
 ]
