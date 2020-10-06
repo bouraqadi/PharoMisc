@@ -83,9 +83,13 @@ EzPolyLine >> newShapeForCanvas: canvas [
 
 { #category : #initialization }
 EzPolyLine >> vertices: points [
-	| newExtents |
+	| newExtents previous |
 	origin := points first.
-	newExtents := points allButFirst collect: [ : each | each - self origin ].
+	previous := origin.
+	newExtents := OrderedCollection new.
+	points allButFirst do: [ : each | 
+		newExtents add: each - previous.
+		previous := each ].
 	self extents: newExtents.
 ]
 
