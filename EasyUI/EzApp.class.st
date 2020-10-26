@@ -18,6 +18,7 @@ EzApp class >> newOpenWindow [
 
 { #category : #'window handling' }
 EzApp >> closeWindow [
+	windowPresenter ifNil: [ ^self ].
 	windowPresenter close
 ]
 

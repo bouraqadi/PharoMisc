@@ -21,6 +21,13 @@ EzAppTest >> tearDown [
 ]
 
 { #category : #running }
+EzAppTest >> testCloseWindowBeforeOpening [
+	| otherApp |
+	otherApp := EzApp new.
+	self shouldnt: [otherApp closeWindow] raise: Exception.
+]
+
+{ #category : #running }
 EzAppTest >> testWindowPositionChange [
 	| newPosition |
 	newPosition := app window position + 200.
