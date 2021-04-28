@@ -1,5 +1,5 @@
 "
-I am a spect presenter for DiceAdder.
+I am a spec presenter for DiceAdder.
 I display the faces up for all Dice.
 I display the total of all faces  up.
 I allow rolling all dice or make individual dice roll.

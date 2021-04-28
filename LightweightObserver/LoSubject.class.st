@@ -1,5 +1,5 @@
 "
-I am a subject that can have many observers. I automatically generate events  for IV assignments. Observers can subscribe to those events using mehtods :
+I am a subject that can have many observers. I automatically generate events  for IV assignments. Observers can subscribe to those events using methods :
 - afterChangeOf: ivName do: aBlock
 aBlock is valued after executing a method that assigns a new value to the referenced IV.
 aBlock can have 0 or 1 argument which is the last value of the changed IV.
@@ -9,7 +9,7 @@ aBlock is valued after executing a method that performs assignments to one or mo
 aBlock can have 0 or 1 argument which is the event materializing the change.
 Changed IVs and their last values are stored in the event (see LoIvChangeEvent).
  
-Each of the above methods ansewers an object that is the observer. It can be used to unsbscribe from the subject and stop observing.
+Each of the above methods answers an object that is the observer. It can be used to unsubscribe from the subject and stop observing.
 
     Instance Variables
 	dispatcher:		<LoEventDispatcher>
