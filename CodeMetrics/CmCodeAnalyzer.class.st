@@ -100,10 +100,48 @@ CmCodeAnalyzer >> methodsCount [
 	^ self methods size
 ]
 
+{ #category : #printing }
+CmCodeAnalyzer >> printCategoryNotFoundOn: stream [
+	stream << 'No category found!'
+]
+
+{ #category : #printing }
+CmCodeAnalyzer >> printClassesOn: stream [
+
+	stream
+		print: self classesCount;
+		space;
+		<< 'class'. 	self classesCount > 1 ifTrue: [ stream << 'es' ]
+]
+
+{ #category : #printing }
+CmCodeAnalyzer >> printMethodsOn: stream [
+
+	stream
+		print: self methodsCount;
+		space;
+		<< 'method'.
+	self methodsCount > 1 ifTrue: [ stream << 's' ]
+]
+
+{ #category : #printing }
+CmCodeAnalyzer >> printSummaryOn: stream [
+	self categories ifEmpty: [ ^self printCategoryNotFoundOn: stream ].
+	self printClassesOn: stream.
+	stream << $,; space.
+	self printMethodsOn: stream
+]
+
 { #category : #initialization }
 CmCodeAnalyzer >> reset [
 
 	categories := nil.
 	classes := nil.
 	methods := nil
+]
+
+{ #category : #accessing }
+CmCodeAnalyzer >> summary [
+	^String streamContents: [ : stream |
+		self printSummaryOn: stream ]
 ]
