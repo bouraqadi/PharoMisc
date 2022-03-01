@@ -8,6 +8,20 @@ Class {
 }
 
 { #category : #tests }
+CmCodeAnalyzerTest >> categories: matchString rejectWith: selectString [
+
+	analyzer categoriesMatchString: matchString rejectWith: selectString.
+	^ analyzer categories
+]
+
+{ #category : #tests }
+CmCodeAnalyzerTest >> categories: matchString selectWith: selectString [
+
+	analyzer categoriesMatchString: matchString  selectWith: selectString.
+	^ analyzer categories
+]
+
+{ #category : #tests }
 CmCodeAnalyzerTest >> countCategories: aString [
 
 	analyzer categoriesMatchString: aString.
@@ -61,6 +75,27 @@ CmCodeAnalyzerTest >> testCategoriesCount [
 	self
 		assert: (self countCategories: 'CodeMetrics-Tests-TestSupport*')
 		equals: 2]
+]
+
+{ #category : #tests }
+CmCodeAnalyzerTest >> testCategoryFiltertering [
+
+	| testSupportCategories otherTestCategories |
+	testSupportCategories := self
+		                         categories: 'CodeMetrics-Tests*'
+		                         selectWith: #TestSupport.
+	self
+		assertCollection: testSupportCategories
+		hasSameElements: #( 'CodeMetrics-Tests-TestSupport-AAA'
+			   'CodeMetrics-Tests-TestSupport-BBB' ).
+	otherTestCategories := self
+		                       categories: 'CodeMetrics-Tests*'
+		                       rejectWith: #TestSupport.
+	self
+		assertCollection: otherTestCategories
+		hasSameElements:
+		#(  'CodeMetrics-Tests-Kernel' 'CodeMetrics-Tests-CategoryEmptyOnPurpose').
+	
 ]
 
 { #category : #tests }

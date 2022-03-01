@@ -52,6 +52,22 @@ CmCodeAnalyzer >> categoriesMatchString: aString [
 	self reset
 ]
 
+{ #category : #initialization }
+CmCodeAnalyzer >> categoriesMatchString: matchString rejectWith: selectString [
+
+	self categoriesMatchString: matchString.
+	categories := self categories reject: [ :each | 
+		each includesSubstring: selectString ]
+]
+
+{ #category : #initialization }
+CmCodeAnalyzer >> categoriesMatchString: matchString selectWith: selectString [
+
+	self categoriesMatchString: matchString.
+	categories := self categories select: [ :each | 
+		each includesSubstring: selectString ]
+]
+
 { #category : #accessing }
 CmCodeAnalyzer >> classes [
 
