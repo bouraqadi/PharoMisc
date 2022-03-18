@@ -16,6 +16,7 @@ Metacello new
 
 ## B
 - [BooleanExpressions](/BooleanExpressions): This package introduces extensions to collections to make it easy to write usual expressions. The goal is to avoid writing long sequences of logic messages `and:` and `or:`
+- [BaselineAnalyzer](/BaselineAnalyzer): Simple tool to analyze a baseline and detect potential loops (i.e. cycles) in package dependencies.
 
 ## C
 - [CodeMetrics](/CodeMetrics): Tiny code analyser. Provides with code metrics such as the number of classes and methods.
