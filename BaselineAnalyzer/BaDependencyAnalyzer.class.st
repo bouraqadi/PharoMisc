@@ -2,7 +2,7 @@
 I analyze a baseline and detect if they are loops in declared dependencies.
 
 Example
-analyzer := BaLoopDetector analyzeBaselineClass:  BaselineOfPlcWeb.
+analyzer := BaDependencyAnalyzer analyzeBaselineClass:  BaselineOfPlcWeb.
 analyzer dependencyLoops size.
 analyzer shortestLoop. ""Handy because smaller loops might be included into larger ones""
 analyzer internalRoots. ""Answers a set with dependency internal roots. Those are packages of the project that might depend only on extrnal packages. In case of loops, une exception is signaled.""
