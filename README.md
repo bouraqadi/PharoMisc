@@ -16,11 +16,12 @@ Metacello new
 
 ## B
 - [BooleanExpressions](/BooleanExpressions): This package introduces extensions to collections to make it easy to write usual expressions. The goal is to avoid writing long sequences of logic messages `and:` and `or:`
-- [BaselineAnalyzer](/BaselineAnalyzer): Simple tool to analyze a baseline and detect potential loops (i.e. cycles) in package dependencies.
+- [BaselineAnalyzer](/BaselineAnalyzer): Simple tool to analyze a baseline and detect potential loops (i.e. cycles) in the definition of package dependencies. Warning: This is not the actual dependency graph, but just the definition provided in the baseline.
   ```st
-  analyzer := BaLoopDetector analyzeBaselineClass:  BaselineOfYourProject.
+  analyzer := BaDependencyAnalyzer analyzeBaselineClass:  BaselineOfPlcWeb.
   analyzer dependencyLoops size.
-  analyzer shortestLoop. "Handy because smaller loops appear also in larger ones"
+  analyzer shortestLoop. "Handy because smaller loops might be included into larger ones"
+  analyzer internalRoots. "Answers a set with dependency internal roots. Those are packages of the project that depend only on extrnal packages."
   ```
 
 ## C
