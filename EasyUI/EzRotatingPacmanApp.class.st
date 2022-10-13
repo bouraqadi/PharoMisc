@@ -1,14 +1,10 @@
 Class {
 	#name : #EzRotatingPacmanApp,
 	#superclass : #EzApp,
+	#traits : 'EzTDemoApp',
+	#classTraits : 'EzTDemoApp classTrait',
 	#category : #'EasyUI-Examples-Apps'
 }
-
-{ #category : #examples }
-EzRotatingPacmanApp class >> demo [
-	<example>
-	self newOpenWindow
-]
 
 { #category : #'window handling' }
 EzRotatingPacmanApp >> defaultTitle [

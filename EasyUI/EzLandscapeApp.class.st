@@ -1,14 +1,10 @@
 Class {
 	#name : #EzLandscapeApp,
 	#superclass : #EzApp,
+	#traits : 'EzTDemoApp',
+	#classTraits : 'EzTDemoApp classTrait',
 	#category : #'EasyUI-Examples-Apps'
 }
-
-{ #category : #examples }
-EzLandscapeApp class >> demo [
-	<example>
-	self newOpenWindow
-]
 
 { #category : #initialization }
 EzLandscapeApp >> defaultTitle [
