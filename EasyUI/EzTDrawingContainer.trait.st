@@ -1,9 +1,7 @@
 Trait {
 	#name : #EzTDrawingContainer,
 	#instVars : [
-		'drawings',
-		'backgroundPaint',
-		'drawingAreaExtent'
+		'drawings'
 	],
 	#category : #'EasyUI-Kernel'
 }

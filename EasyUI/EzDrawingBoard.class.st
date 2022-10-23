@@ -1,6 +1,6 @@
 Class {
 	#name : #EzDrawingBoard,
-	#superclass : #SpAthensStaticPresenter,
+	#superclass : #SpAthensPresenter,
 	#traits : 'EzTDrawingContainer',
 	#classTraits : 'EzTDrawingContainer classTrait',
 	#instVars : [
