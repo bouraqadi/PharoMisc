@@ -3,49 +3,136 @@ Class {
 	#superclass : #EzApp,
 	#traits : 'EzTDemoApp',
 	#classTraits : 'EzTDemoApp classTrait',
+	#instVars : [
+		'sunThread',
+		'sun',
+		'grass'
+	],
 	#category : #'EasyUI-Examples-Apps'
 }
 
+{ #category : #private }
+EzLandscapeApp >> closeWindow [
+	super closeWindow.
+	self stopSunThread
+]
+
 { #category : #initialization }
 EzLandscapeApp >> defaultTitle [
-	^'Mobile Sun in landscape (left/right arrows + Spacebar)'
+
+	^ 'Sunny Landscape (Spacebar toggles animation)'
+]
+
+{ #category : #initialization }
+EzLandscapeApp >> initGrass [
+
+	| sceneHeight  height|
+	sceneHeight := drawingBoard height.
+	height := sceneHeight // 3.
+	grass := EzBox
+		         rectangleCorner: 0 @ (sceneHeight  - height)
+		         width: drawingBoard width
+		         height: height.
+	grass fillColor: Color green.
+	grass borderWidth: 0
+]
+
+{ #category : #initialization }
+EzLandscapeApp >> initSun [
+
+	| sunRays sunBackground |
+	sunBackground := EzOval circleCenter: 0 @ 0 radius: self sunRadius.
+	sunBackground fillColor: Color orange.
+	sunBackground borderWidth: 0.
+	sunRays := EzRays
+		           spanAngle: 360
+		           radius: self sunRadius
+		           raysCount: 288.
+	sunRays color: Color yellow.
+	sunRays width: 1.
+	sun := EzCompositeDrawing withAll: { 
+			       sunBackground.
+			       sunRays }.
+	sun origin: self sunInitialOrigin
 ]
 
 { #category : #initialization }
 EzLandscapeApp >> initialize [
-	| sceneHeight sceneWidth grass sunRadius sunBackground sunRays sun sunInitialOrigin delta |
+
 	super initialize.
-	sceneHeight := drawingBoard height.
-	sceneWidth := drawingBoard width.
 	drawingBoard backgroundPaint: Color cyan.
-	grass := EzBox
-		rectangleCorner: 0 @ (sceneHeight // 2)
-		width: sceneWidth
-		height: sceneHeight // 2.
-	grass fillColor: Color green.
-	grass borderWidth: 0.
-	sunRadius := sceneHeight // 5.
-	sunBackground := EzOval circleCenter: 0@0 radius: sunRadius.
-	sunBackground fillColor: Color orange.
-	sunBackground borderWidth: 0.
-	sunRays := EzRays spanAngle: 360 radius: sunRadius raysCount: 288.
-	sunRays color: Color yellow.
-	sunRays width: 1.
-	sun := EzCompositeDrawing withAll: { sunBackground. sunRays }.
-	sunInitialOrigin := (sceneWidth / 2) @ 130.
-	sun origin: sunInitialOrigin.
-	delta := 20@0.
-	drawingBoard 
-		bindKeyCombination: Character arrowLeft asKeyCombination 
-		toAction: [sun origin: sun origin - delta];
-		bindKeyCombination: Character arrowRight asKeyCombination 
-		toAction: [sun origin: sun origin + delta];
-		bindKeyCombination: Character space asKeyCombination 
-		toAction: [sun origin: sunInitialOrigin].
+	self initGrass.
+	self initSun.
 	drawingBoard
-		addAll:
-			{sun.
-			grass.
-			}.
+		bindKeyCombination: Character space asKeyCombination
+		toAction: [ self toggleSunThread ].
+	drawingBoard addAll: { 
+			sun.
+			grass }
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> startSunThread [
+
+	sunThread := [ 
+	             [ 
+	             self sunThreadStep ] repeat ] forkAt:
+		             Processor userBackgroundPriority
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> stopSunThread [
+
+	sunThread terminate.
+	sunThread := nil 
+]
+
+{ #category : #initialization }
+EzLandscapeApp >> sunInitialOrigin [
+
+	^ 0 @ (grass origin y + 20)
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> sunMaxOrigin [
+	^drawingBoard width @ grass origin y
+]
+
+{ #category : #initialization }
+EzLandscapeApp >> sunRadius [
+	^drawingBoard height // 5
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> sunSpeed [
+
+	^self sunSpeedUnit * 2
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> sunSpeedUnit [
+
+	sun origin x < (drawingBoard width / 2) ifTrue: [ ^ 1 @ -1 ].
+	^ 1 @ 1
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> sunThreadStep [
+
+	self updateSunPosition.
+	10 milliSeconds wait
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> toggleSunThread [
+	sunThread ifNil: [ ^self startSunThread ].
+	self stopSunThread
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> updateSunPosition [
+	sun origin: sun origin + self sunSpeed.
+	sun origin x < self sunMaxOrigin x ifTrue: [ ^self ].
+	sun origin y > self sunMaxOrigin y ifTrue: [ ^sun origin: self sunInitialOrigin ]. 
 
 ]
