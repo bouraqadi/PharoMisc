@@ -53,7 +53,8 @@ EzLandscapeApp >> initSun [
 	sun := EzCompositeDrawing withAll: { 
 			       sunBackground.
 			       sunRays }.
-	sun origin: self sunInitialOrigin
+	sun origin: self sunRiseOrigin.
+	20 timesRepeat: [ self updateSunPosition ]
 ]
 
 { #category : #initialization }
@@ -87,12 +88,6 @@ EzLandscapeApp >> stopSunThread [
 	sunThread := nil 
 ]
 
-{ #category : #initialization }
-EzLandscapeApp >> sunInitialOrigin [
-
-	^ 0 @ (grass origin y + 20)
-]
-
 { #category : #activiy }
 EzLandscapeApp >> sunMaxOrigin [
 	^drawingBoard width @ grass origin y
@@ -101,6 +96,12 @@ EzLandscapeApp >> sunMaxOrigin [
 { #category : #initialization }
 EzLandscapeApp >> sunRadius [
 	^drawingBoard height // 5
+]
+
+{ #category : #initialization }
+EzLandscapeApp >> sunRiseOrigin [
+
+	^ 0 @ (grass origin y + 20)
 ]
 
 { #category : #activiy }
@@ -133,6 +134,6 @@ EzLandscapeApp >> toggleSunThread [
 EzLandscapeApp >> updateSunPosition [
 	sun origin: sun origin + self sunSpeed.
 	sun origin x < self sunMaxOrigin x ifTrue: [ ^self ].
-	sun origin y > self sunMaxOrigin y ifTrue: [ ^sun origin: self sunInitialOrigin ]. 
+	sun origin y > self sunMaxOrigin y ifTrue: [ ^sun origin: self sunRiseOrigin ]. 
 
 ]
