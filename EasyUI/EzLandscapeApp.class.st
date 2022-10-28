@@ -4,17 +4,32 @@ Class {
 	#traits : 'EzTDemoApp',
 	#classTraits : 'EzTDemoApp classTrait',
 	#instVars : [
-		'sunThread',
 		'sun',
-		'grass'
+		'grass',
+		'animationThread'
 	],
 	#category : #'EasyUI-Examples-Apps'
 }
 
+{ #category : #examples }
+EzLandscapeApp class >> demo [
+
+	<example>
+	self newOpenWindow
+		toggleAnimation
+]
+
+{ #category : #activiy }
+EzLandscapeApp >> animationStep [
+
+	self updateSunPosition.
+	10 milliSeconds wait
+]
+
 { #category : #private }
 EzLandscapeApp >> closeWindow [
 	super closeWindow.
-	self stopSunThread
+	self stopAnimation
 ]
 
 { #category : #initialization }
@@ -66,26 +81,26 @@ EzLandscapeApp >> initialize [
 	self initSun.
 	drawingBoard
 		bindKeyCombination: Character space asKeyCombination
-		toAction: [ self toggleSunThread ].
+		toAction: [ self toggleAnimation ].
 	drawingBoard addAll: { 
 			sun.
 			grass }
 ]
 
 { #category : #activiy }
-EzLandscapeApp >> startSunThread [
+EzLandscapeApp >> startAnimation [
 
-	sunThread := [ 
+	animationThread := [ 
 	             [ 
-	             self sunThreadStep ] repeat ] forkAt:
+	             self animationStep ] repeat ] forkAt:
 		             Processor userBackgroundPriority
 ]
 
 { #category : #activiy }
-EzLandscapeApp >> stopSunThread [
+EzLandscapeApp >> stopAnimation [
 
-	sunThread terminate.
-	sunThread := nil 
+	animationThread terminate.
+	animationThread := nil 
 ]
 
 { #category : #activiy }
@@ -118,16 +133,9 @@ EzLandscapeApp >> sunSpeedUnit [
 ]
 
 { #category : #activiy }
-EzLandscapeApp >> sunThreadStep [
-
-	self updateSunPosition.
-	10 milliSeconds wait
-]
-
-{ #category : #activiy }
-EzLandscapeApp >> toggleSunThread [
-	sunThread ifNil: [ ^self startSunThread ].
-	self stopSunThread
+EzLandscapeApp >> toggleAnimation [
+	animationThread ifNil: [ ^self startAnimation ].
+	self stopAnimation
 ]
 
 { #category : #activiy }
