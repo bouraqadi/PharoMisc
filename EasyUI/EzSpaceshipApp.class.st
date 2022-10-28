@@ -14,8 +14,32 @@ Class {
 
 { #category : #'class initialization' }
 EzSpaceshipApp class >> initialize [
-	SpaceshipImage := EzImageDrawing
-		imageFromFilePath: '/Users/noury/Pictures/0Cliparts/Misc/rocket-small.png'
+
+	| spaceshipImagePath |
+	spaceshipImagePath := Smalltalk imageDirectory
+	                      / self spaceShipFilename.
+	spaceshipImagePath exists ifFalse: [ ^ self spaceshipImageNotFound ].
+	SpaceshipImage := EzImageDrawing imageFromFilePath:
+		                  spaceshipImagePath pathString
+]
+
+{ #category : #'class initialization' }
+EzSpaceshipApp class >> spaceShipFilename [
+
+	^ 'rocket-small.png'
+]
+
+{ #category : #'class initialization' }
+EzSpaceshipApp class >> spaceshipImageNotFound [
+
+	| message |
+	message := 'Could not find spaceship graphic file for ' , self name.
+	UIManager default alert: message, '! See Transcript' .
+	self
+		traceCr: message;
+		trace: 'Please add into this image folder file ';
+		traceCr: self spaceShipFilename;
+		trace: 'Then trigger again ' , self name , ' class >> #initialize'
 ]
 
 { #category : #initialization }
