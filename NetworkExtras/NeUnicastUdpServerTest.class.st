@@ -39,3 +39,22 @@ NeUnicastUdpServerTest >> testBroadcastSendReceive [
 	].
 	self assert: allReceivedData asArray equals: allSentData
 ]
+
+{ #category : #testing }
+NeUnicastUdpServerTest >> testDefaultReceptionHandlingAction [
+
+	| allSentStrings expectedString |
+	Transcript clear.
+	allSentStrings := #( 'Hello' 'World' 'Pharo' ).
+	allSentStrings do: [ :sentString | 
+		server defaultReceptionHandlingBlock value: sentString asByteArray.
+	].
+	expectedString := String streamContents: [ : str | 
+		allSentStrings do: [ : each |
+			str << each;
+			cr ]
+	].
+self
+			waitUntil: [ Transcript contents = expectedString ]
+			timeout: 2 seconds
+]
