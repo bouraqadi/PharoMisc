@@ -59,23 +59,3 @@ NeContentChunk >> index: anInteger [
 NeContentChunk >> resetContents [
 	self contents: self defaultContents
 ]
-
-{ #category : #accessing }
-NeContentChunk >> sourceId [
-	^ sourceId
-]
-
-{ #category : #accessing }
-NeContentChunk >> sourceId: aString [ 
-	sourceId := aString
-]
-
-{ #category : #accessing }
-NeContentChunk >> timestamp [
-	^ timestamp
-]
-
-{ #category : #accessing }
-NeContentChunk >> timestamp: aDateAndTime [ 
-	timestamp := aDateAndTime
-]
