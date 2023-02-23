@@ -29,16 +29,24 @@ NeUdpUnicastSocketTest >> tearDown [
 
 { #category : #testing }
 NeUdpUnicastSocketTest >> testCloseWhileReceiving [
-	| done errorSignaled |
-	done := false.
-	errorSignaled := false.
+
+	| isDataReceived isErrorSignaled |
+	isDataReceived := false.
+	isErrorSignaled := false.
 	[ 
-		[ [receiver receiveTimeout: 1] ensure: [ done := true ] ] on: Error do: [errorSignaled := true]. 
-	] forkAt: Processor userInterruptPriority.
-	sender send: 'some data'.	
+	[  
+	receiver receiveTimeout: 1.
+	isDataReceived := true ]
+		on: ConnectionClosed
+		do: [ isErrorSignaled := true ] ] forkAt:
+		Processor userInterruptPriority.
+	sender send: 'some data'.
 	receiver closeAndDestroy.
-	self waitUntil: [ done ] timeout: 1100 milliSeconds. "Add 100 millis to take into account context switching"
-	self deny: errorSignaled.
+	self
+		waitUntil: [ isDataReceived | isErrorSignaled ]
+		timeout: 1100 milliSeconds. "Add 100 millis to take into account context switching"
+	self deny: isDataReceived.
+	self assert: isErrorSignaled
 ]
 
 { #category : #testing }
