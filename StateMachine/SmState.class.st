@@ -30,6 +30,7 @@ Class {
 	#name : #SmState,
 	#superclass : #Object,
 	#instVars : [
+		'label',
 		'transitions',
 		'automaton',
 		'mainActionBlock',
@@ -113,6 +114,17 @@ SmState >> initialize [
 ]
 
 { #category : #accessing }
+SmState >> label [
+	^label
+]
+
+{ #category : #accessing }
+SmState >> label: aString [
+
+	label := aString
+]
+
+{ #category : #accessing }
 SmState >> mainActionBlock [
 	^ mainActionBlock
 ]
@@ -125,6 +137,18 @@ SmState >> mainActionBlock: anObject [
 { #category : #stepping }
 SmState >> performMainAction [
 	self mainActionBlock value
+]
+
+{ #category : #printing }
+SmState >> printOn: aStream [
+
+	super printOn: aStream.
+	self label ifNil: [ ^ self ].
+	aStream
+	space;
+		<< $[;
+		<< self label;
+		<< $]
 ]
 
 { #category : #stepping }
