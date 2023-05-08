@@ -47,7 +47,7 @@ NeUdpServer >> defaultReceivedDataHandlingPriority [
 
 { #category : #'initialize-release' }
 NeUdpServer >> defaultReceptionHandlingBlock [
-	^ [ :bytes | 'UDP server received bytes: ' bytes asString logCr]
+	^ [ :bytes | self traceCrBytes: bytes]
 ]
 
 { #category : #'initialize-release' }
@@ -79,4 +79,9 @@ NeUdpServer >> servingStep [
 	receivedData := [self socket receive] on: ConnectionTimedOut do: [: ex| ^self].
 	receivedData ifEmpty: [ ^ self ].
 	[receptionHandlingBlock cull: receivedData] forkAt: self receivedDataHandlingPriority
+]
+
+{ #category : #activity }
+NeUdpServer >> traceCrBytes: bytes [
+	self traceCr: bytes asString
 ]

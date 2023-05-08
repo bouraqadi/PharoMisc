@@ -55,16 +55,17 @@ NeUdpSendReceiveLargeDataTest >> tearDown [
 
 { #category : #testing }
 NeUdpSendReceiveLargeDataTest >> test1Sender1Receiver [
-	| receivedData sentData sender senderId |
-	receiver withReceivedDataDo: [ : id :data |  
+
+	| receivedData sentString sender senderId |
+	receiver withReceivedDataDo: [ :id :data | 
 		senderId := id.
 		receivedData := data ].
 	sender := self newSender.
-	sentData := self get100KBytesOfSourceFile.
-	[sender send: sentData] forkAt: Processor userBackgroundPriority.
+	sentString := self get100KBytesOfSourceFile.
+	[ sender send: sentString ] forkAt: Processor userBackgroundPriority.
 	self waitWhile: [ receivedData isNil ] timeout: 500 milliSeconds.
-	self assert: receivedData equals: sentData asByteArray.
-	self assert: senderId equals: sender id.
+	self assert: receivedData equals: sentString asByteArray.
+	self assert: senderId equals: sender id
 ]
 
 { #category : #testing }

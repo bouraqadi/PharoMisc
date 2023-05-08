@@ -20,7 +20,7 @@ EzBoundedDrawing >> bounds [
 	^ (self width/ -2) @ (self height/ -2) extent: self width @ self height.
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 EzBoundedDrawing >> corner: newCorner [
 	| previousCorner |
 	previousCorner :=  (self width/ -2) @ (self height/ -2).
@@ -33,15 +33,33 @@ EzBoundedDrawing >> height [
 ]
 
 { #category : #accessing }
+EzBoundedDrawing >> height: aNumber [
+
+	self width: width height: aNumber
+]
+
+{ #category : #accessing }
+EzBoundedDrawing >> validLengthFrom: newLength [ 
+
+	newLength < 1 ifTrue: [ ^ 1 ].
+	^ newLength rounded
+]
+
+{ #category : #accessing }
 EzBoundedDrawing >> width [
 	^width
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+EzBoundedDrawing >> width: aNumber [
+
+	self width: aNumber height: height
+]
+
+{ #category : #accessing }
 EzBoundedDrawing >> width: newWidth height: newHeight [
-	width := newWidth.
-	height := newHeight.
-	self redraw.
 
-
+	width := self validLengthFrom: newWidth.
+	height := self validLengthFrom: newHeight.
+	self redraw
 ]

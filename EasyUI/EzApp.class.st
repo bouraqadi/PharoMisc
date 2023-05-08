@@ -46,10 +46,11 @@ EzApp >> initialize [
 
 { #category : #'window handling' }
 EzApp >> openWindow [
+
 	windowPresenter ifNotNil: [ self closeWindow ].
-	windowPresenter := drawingBoard openWithSpec.
+	windowPresenter := drawingBoard open.
 	windowPresenter title: self title.
-	self window beUnresizeable.
+	self window beUnresizeable
 ]
 
 { #category : #accessing }

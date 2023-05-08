@@ -1,14 +1,10 @@
 Class {
 	#name : #EzBotFleetApp,
 	#superclass : #EzApp,
+	#traits : 'EzTDemoApp',
+	#classTraits : 'EzTDemoApp classTrait',
 	#category : #'EasyUI-Examples-Apps'
 }
-
-{ #category : #examples }
-EzBotFleetApp class >> demo [
-	<example>
-	self newOpenWindow
-]
 
 { #category : #initialization }
 EzBotFleetApp >> defaultTitle [

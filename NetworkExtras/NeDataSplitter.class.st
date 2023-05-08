@@ -42,7 +42,8 @@ NeDataSplitter >> dataBytes [
 
 { #category : #accessing }
 NeDataSplitter >> dataBytes: anObject [
-	dataBytes := anObject
+
+	dataBytes := anObject asByteArray
 ]
 
 { #category : #initialization }

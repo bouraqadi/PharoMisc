@@ -1,22 +1,18 @@
 Class {
-	#name : #EzRotatingPacmanApp,
+	#name : #EzPacmanRotatingApp,
 	#superclass : #EzApp,
+	#traits : 'EzTDemoApp',
+	#classTraits : 'EzTDemoApp classTrait',
 	#category : #'EasyUI-Examples-Apps'
 }
 
-{ #category : #examples }
-EzRotatingPacmanApp class >> demo [
-	<example>
-	self newOpenWindow
-]
-
 { #category : #'window handling' }
-EzRotatingPacmanApp >> defaultTitle [
+EzPacmanRotatingApp >> defaultTitle [
 	^'Rotating Pacman (All four arrows)'
 ]
 
 { #category : #initialization }
-EzRotatingPacmanApp >> initialize [
+EzPacmanRotatingApp >> initialize [
 	| pacman |
 	super initialize.
 	drawingBoard backgroundPaint: Color cyan.
