@@ -6,3 +6,9 @@ Class {
 	#superclass : #GitBridge,
 	#category : #PharoMisc
 }
+
+{ #category : #accessing }
+PmGitBridge class >> resourcesFolder [
+
+	^ self root / 'Resources'
+]

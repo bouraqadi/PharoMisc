@@ -88,7 +88,7 @@ EzSpaceshipApp >> initialize [
 { #category : #accessing }
 EzSpaceshipApp >> spaceShipFilePath [
 
-	^ PmGitBridge root / 'rocket-small.png'
+	^ PmGitBridge resourcesFolder / 'EasyUI' / 'rocket-small.png'
 ]
 
 { #category : #accessing }
