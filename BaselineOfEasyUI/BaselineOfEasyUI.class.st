@@ -6,12 +6,11 @@ Class {
 
 { #category : #baselines }
 BaselineOfEasyUI >> baseline: spec [
+
 	<baseline>
-
-	spec for: #'common' do: [
-		spec 
-			blessing: #'baseline';
-			repository: 'github://bouraqadi/PharoMisc'; 
-			package: #EasyUI. ].
-
+	spec for: #common do: [ 
+		spec
+			baseline: 'PharoMisc'
+			with: [ spec repository: 'github://bouraqadi/PharoMisc' ].
+		spec package: 'EasyUI' with: [ spec requires: #( 'PharoMisc' ) ] ]
 ]

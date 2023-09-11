@@ -13,33 +13,19 @@ Class {
 }
 
 { #category : #'class initialization' }
-EzSpaceshipApp class >> initialize [
+EzSpaceshipApp class >> resetSpaceshipImage [
+	<script>
+
+	SpaceshipImage := nil
+]
+
+{ #category : #accessing }
+EzSpaceshipApp >> basicSpaceshipImage [
 
 	| spaceshipImagePath |
-	spaceshipImagePath := Smalltalk imageDirectory
-	                      / self spaceShipFilename.
+	spaceshipImagePath := self spaceShipFilePath.
 	spaceshipImagePath exists ifFalse: [ ^ self spaceshipImageNotFound ].
-	SpaceshipImage := EzImageDrawing imageFromFilePath:
-		                  spaceshipImagePath pathString
-]
-
-{ #category : #'class initialization' }
-EzSpaceshipApp class >> spaceShipFilename [
-
-	^ 'rocket-small.png'
-]
-
-{ #category : #'class initialization' }
-EzSpaceshipApp class >> spaceshipImageNotFound [
-
-	| message |
-	message := 'Could not find spaceship graphic file for ' , self name.
-	UIManager default alert: message, '! See Transcript' .
-	self
-		traceCr: message;
-		trace: 'Please add into this image folder file ';
-		traceCr: self spaceShipFilename;
-		trace: 'Then trigger again ' , self name , ' class >> #initialize'
+	^ EzImageDrawing imageFromFilePath: spaceshipImagePath pathString
 ]
 
 { #category : #initialization }
@@ -63,18 +49,19 @@ EzSpaceshipApp >> initGrass [
 
 { #category : #initialization }
 EzSpaceshipApp >> initSpaceship [
+
 	| rotationSpeed linearSpeed newAngle deltaX deltaY initialOrigin |
-	spaceship := EzImageDrawing image: SpaceshipImage.
+	spaceship := EzImageDrawing image: self spaceshipImage.
 	initialOrigin := 50 @ 488.
 	spaceship origin: initialOrigin.
 	rotationSpeed := 2.
 	linearSpeed := 15.
 	drawingBoard
 		bindKeyCombination: Character space asKeyCombination
-		toAction: [
+		toAction: [ 
 			spaceship
-				angle: 0; 
-				origin: initialOrigin].
+				angle: 0;
+				origin: initialOrigin ].
 	drawingBoard
 		bindKeyCombination: Character arrowUp asKeyCombination
 		toAction: [ 
@@ -96,4 +83,22 @@ EzSpaceshipApp >> initialize [
 		addAll:
 			{grass.
 			spaceship}
+]
+
+{ #category : #accessing }
+EzSpaceshipApp >> spaceShipFilePath [
+
+	^ PmGitBridge root / 'rocket-small.png'
+]
+
+{ #category : #accessing }
+EzSpaceshipApp >> spaceshipImage [
+	^SpaceshipImage ifNil: [ SpaceshipImage := self basicSpaceshipImage ] 
+]
+
+{ #category : #accessing }
+EzSpaceshipApp >> spaceshipImageNotFound [
+
+	self error: 'Could not find spaceship graphic file for ' , self className.
+	
 ]
