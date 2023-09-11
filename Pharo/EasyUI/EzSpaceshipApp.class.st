@@ -52,19 +52,19 @@ EzSpaceshipApp >> initSpaceship [
 
 	| rotationSpeed linearSpeed newAngle deltaX deltaY initialOrigin |
 	spaceship := EzImageDrawing image: self spaceshipImage.
-	initialOrigin := 50 @ 488.
+	initialOrigin := 50 @ 482.
 	spaceship origin: initialOrigin.
 	rotationSpeed := 2.
 	linearSpeed := 15.
 	drawingBoard
 		bindKeyCombination: Character space asKeyCombination
-		toAction: [ 
+		toAction: [
 			spaceship
 				angle: 0;
 				origin: initialOrigin ].
 	drawingBoard
 		bindKeyCombination: Character arrowUp asKeyCombination
-		toAction: [ 
+		toAction: [
 			newAngle := spaceship angle + rotationSpeed min: 60.
 			deltaX := (linearSpeed * newAngle degreeSin) rounded.
 			deltaY := (linearSpeed * newAngle degreeCos) rounded * -1.
