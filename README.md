@@ -50,7 +50,7 @@ Simple tool to analyze a baseline and detect potential loops (i.e. cycles) in th
 
 ## C
 - **CodeMetrics**: Tiny code analyser. Provides with code metrics such as the number of classes and methods.
-- **Concurrency**: Simple and easy to use concurrency library. Deprecated. Use [Tasks](/Tasks) instead.
+- **Concurrency**: Simple and easy to use concurrency library. Deprecated. Use [Tasks](/#Tasks) instead.
 - **CsvToPillarConverter**: Converts CSV to Pillar, ready to display on web page. Used for generating Pillar for ESUG website based on CSV obtained from registration server.
 
 ## E
@@ -80,6 +80,14 @@ You can override this, by overriding class method `instVarNamesForEqualityCompar
 
 ## N
 - **NetworkExtras**: Provides classes that wrap the basic sockets to ease networking
+
+## P
+### PharoExtra
+I provide small extension to different Pharo libraries
+An example is the + (plus) message, that allows adding a duration to a time.
+```
+Time now + 3 hours.
+```
 
 ## S
 ### StateMachine
