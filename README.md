@@ -76,7 +76,7 @@ By default, two objects are equal if all their instance variables (IVs) are equa
 You can override this, by overriding class method `instVarNamesForEqualityComparison` to return the subset of IVs to use for comparison.
 
 ## L
-- **LightweightObserver**: Lightweight alternative to Announcement. Subclasses of subject automatically generate method wrappers to generate events notifying changes of observed IVs. When IVs reference collections, events can be generated on accessing collection elements. [Read full description](https://noury.tech/tutorials/lightweight-observer-pharo/)
+- **LightweightObserver**: Lightweight alternative to Announcement. Subclasses of subject automatically generate method wrappers to generate events notifying changes of observed IVs. When IVs reference collections, events can be generated on accessing collection elements. [Read full description](https://nootrix.com/tutorials/lightweight-observer-pharo/)
 
 ## N
 - **NetworkExtras**: Provides classes that wrap the basic sockets to ease networking
