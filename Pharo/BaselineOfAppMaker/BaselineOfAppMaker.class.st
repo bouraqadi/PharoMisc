@@ -1,17 +1,16 @@
 Class {
-	#name : #BaselineOfAppMaker,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfAppMaker
+	#name : 'BaselineOfAppMaker',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfAppMaker',
+	#package : 'BaselineOfAppMaker'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfAppMaker >> baseline: spec [
 	<baseline>
 
 	spec for: #'common' do: [
 		spec 
-			blessing: #'baseline';
-			repository: 'github://bouraqadi/PharoMisc'; 
 			package: #AppMaker. ].
 
 ]

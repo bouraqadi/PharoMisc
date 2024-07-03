@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfAppMaker }
+Package { #name : 'BaselineOfAppMaker' }

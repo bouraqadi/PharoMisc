@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfTasks }
+Package { #name : 'BaselineOfTasks' }

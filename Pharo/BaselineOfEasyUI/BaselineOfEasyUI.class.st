@@ -1,16 +1,17 @@
 Class {
-	#name : #BaselineOfEasyUI,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfEasyUI
+	#name : 'BaselineOfEasyUI',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfEasyUI',
+	#package : 'BaselineOfEasyUI'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfEasyUI >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ 
 		spec
 			baseline: 'PharoMisc'
-			with: [ spec repository: 'github://bouraqadi/PharoMisc' ].
+			with: [ spec repository: 'github://bouraqadi/PharoMisc:pharo12' ].
 		spec package: 'EasyUI' with: [ spec requires: #( 'PharoMisc' ) ] ]
 ]

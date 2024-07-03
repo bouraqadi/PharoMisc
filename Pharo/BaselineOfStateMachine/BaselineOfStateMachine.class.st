@@ -1,17 +1,16 @@
 Class {
-	#name : #BaselineOfStateMachine,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfStateMachine
+	#name : 'BaselineOfStateMachine',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfStateMachine',
+	#package : 'BaselineOfStateMachine'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfStateMachine >> baseline: spec [
 	<baseline>
 
 	spec for: #'common' do: [
 		spec 
-			blessing: #'baseline';
-			repository: 'github://bouraqadi/PharoMisc'; 
 			package: #StateMachine. ].
 
 ]

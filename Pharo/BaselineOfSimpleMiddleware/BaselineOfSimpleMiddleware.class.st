@@ -1,16 +1,16 @@
 Class {
-	#name : #BaselineOfSimpleMiddleware,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfSimpleMiddleware
+	#name : 'BaselineOfSimpleMiddleware',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfSimpleMiddleware',
+	#package : 'BaselineOfSimpleMiddleware'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfSimpleMiddleware >> baseline: spec [
 	<baseline>
 
 	spec for: #'common' do: [
 		spec 
-			repository: 'github://bouraqadi/PharoMisc';
 			package: #SimpleMiddleware
 	].
 

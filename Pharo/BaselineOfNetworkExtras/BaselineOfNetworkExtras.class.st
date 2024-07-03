@@ -1,19 +1,18 @@
 Class {
-	#name : #BaselineOfNetworkExtras,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfNetworkExtras
+	#name : 'BaselineOfNetworkExtras',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfNetworkExtras',
+	#package : 'BaselineOfNetworkExtras'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfNetworkExtras >> baseline: spec [
 	<baseline>
 
 	spec for: #'common' do: [
 		spec 
-			blessing: #'baseline';
-			repository: 'github://bouraqadi/PharoMisc'; 
 			baseline: #Concurrency with: [
-				spec repository: 'github://bouraqadi/PharoMisc'];
+				spec repository: 'github://bouraqadi/PharoMisc:pharo12'];
 			package: #NetNameResolverBugFix;
 			package: #NetworkExtras with: [
 				spec requires: #(Concurrency NetNameResolverBugFix)

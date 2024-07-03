@@ -1,17 +1,16 @@
 Class {
-	#name : #BaselineOfLightweightObserver,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfLightweightObserver
+	#name : 'BaselineOfLightweightObserver',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfLightweightObserver',
+	#package : 'BaselineOfLightweightObserver'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfLightweightObserver >> baseline: spec [
 	<baseline>
 
 	spec for: #'common' do: [
 		spec 
-			blessing: #'baseline';
-			repository: 'github://bouraqadi/PharoMisc'; 
 			package: #LightweightObserver. ].
 
 ]

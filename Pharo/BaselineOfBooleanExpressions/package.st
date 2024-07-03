@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfBooleanExpressions }
+Package { #name : 'BaselineOfBooleanExpressions' }

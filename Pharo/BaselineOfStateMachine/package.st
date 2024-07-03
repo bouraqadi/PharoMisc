@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfStateMachine }
+Package { #name : 'BaselineOfStateMachine' }

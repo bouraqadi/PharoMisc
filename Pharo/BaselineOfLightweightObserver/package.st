@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfLightweightObserver }
+Package { #name : 'BaselineOfLightweightObserver' }
