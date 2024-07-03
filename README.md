@@ -57,24 +57,6 @@ Simple tool to analyze a baseline and detect potential loops (i.e. cycles) in th
 ### EasyUI
 Small library to quickly make GUI that responds to user interactions. 
 
-### Equals
-Defines an equality method `=` that is general to apply to different applications. 
-It is also easily customizable, and includes a default definition of `hash`. 
-So, objects that are equal have the same hash code, and thus appear only once in hashed collections such as `Set`
-
-**Usage:** Simply add trait `TEquality` to the class which elements need to be equal, as in this example
-
-```Smalltalk
-Object subclass: #Fruit
-	uses: TEquality
-	instanceVariableNames: 'stage'
-	classVariableNames: ''
-	package: 'Equals-Examples'
-```
-
-By default, two objects are equal if all their instance variables (IVs) are equal.
-You can override this, by overriding class method `instVarNamesForEqualityComparison` to return the subset of IVs to use for comparison.
-
 ## L
 - **LightweightObserver**: Lightweight alternative to Announcement. Subclasses of subject automatically generate method wrappers to generate events notifying changes of observed IVs. When IVs reference collections, events can be generated on accessing collection elements. [Read full description](https://nootrix.com/tutorials/lightweight-observer-pharo/)
 
@@ -141,5 +123,26 @@ A task materializes as an instance of class `TkTask`.
 A thread (instance of `TkThread`) is a task decorator that ensures the task is run within a dedicated process (instance of `Process`).
 Threds are more abstract that tasks and processes. Users new to this library should start with threads.
 Examples are provided as class side methods 
+
+---
+
+# Archives
+### Equals : Now part of the default image since Pharo 12
+Defines an equality method `=` that is general to apply to different applications. 
+It is also easily customizable, and includes a default definition of `hash`. 
+So, objects that are equal have the same hash code, and thus appear only once in hashed collections such as `Set`
+
+**Usage:** Simply add trait `TEquality` to the class which elements need to be equal, as in this example
+
+```Smalltalk
+Object subclass: #Fruit
+	uses: TEquality
+	instanceVariableNames: 'stage'
+	classVariableNames: ''
+	package: 'Equals-Examples'
+```
+
+By default, two objects are equal if all their instance variables (IVs) are equal.
+You can override this, by overriding class method `instVarNamesForEqualityComparison` to return the subset of IVs to use for comparison.
 
 
