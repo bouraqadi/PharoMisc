@@ -1,17 +1,15 @@
 Class {
-	#name : #BaselineOfPharoExtra,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfPharoExtra
+	#name : 'BaselineOfPharoExtra',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfPharoExtra',
+	#package : 'BaselineOfPharoExtra'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfPharoExtra >> baseline: spec [
+
 	<baseline>
-
-	spec for: #'common' do: [
-		spec 
-			blessing: #'baseline';
-			repository: 'github://bouraqadi/PharoMisc'; 
-			package: #PharoExtra. ].
-
+	spec for: #common do: [
+		spec
+			package: #PharoExtra ]
 ]
