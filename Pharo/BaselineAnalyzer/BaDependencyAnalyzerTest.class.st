@@ -1,13 +1,14 @@
 Class {
-	#name : #BaDependencyAnalyzerTest,
-	#superclass : #TestCase,
+	#name : 'BaDependencyAnalyzerTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'analyzer'
 	],
-	#category : #BaselineAnalyzer
+	#category : 'BaselineAnalyzer',
+	#package : 'BaselineAnalyzer'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> packagesDict: associations [
 
 	analyzer packagesDict: associations asDictionary.
@@ -15,13 +16,13 @@ BaDependencyAnalyzerTest >> packagesDict: associations [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> setUp [
 	super setUp.
 	analyzer := BaDependencyAnalyzer new.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test0Loop [
 
 	self packagesDict: { 
@@ -31,7 +32,7 @@ BaDependencyAnalyzerTest >> test0Loop [
 	self assert: analyzer dependencyLoops isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test1Root [
 
 	self packagesDict: { 
@@ -41,7 +42,7 @@ BaDependencyAnalyzerTest >> test1Root [
 	self assert: analyzer internalRoots equals: #( c ) asSet
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test1StepLoop [
 
 	self packagesDict: { 
@@ -53,7 +54,7 @@ BaDependencyAnalyzerTest >> test1StepLoop [
 			#( b a b ) }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test2Roots1ExternalIgnored [
 
 	self packagesDict: { 
@@ -62,7 +63,7 @@ BaDependencyAnalyzerTest >> test2Roots1ExternalIgnored [
 	self assert: analyzer internalRoots equals: #( c ) asSet
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test2Roots1PerChild [
 
 	self packagesDict: { 
@@ -73,7 +74,7 @@ BaDependencyAnalyzerTest >> test2Roots1PerChild [
 	self assert: analyzer internalRoots equals: #( c d ) asSet
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test2RootsSameChild [
 
 	self packagesDict: { 
@@ -83,7 +84,7 @@ BaDependencyAnalyzerTest >> test2RootsSameChild [
 	self assert: analyzer internalRoots equals: #( c d ) asSet
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> test2StepsLoop [
 
 	self packagesDict: { 
@@ -96,7 +97,7 @@ BaDependencyAnalyzerTest >> test2StepsLoop [
 			#( c a b c ) }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testExternalDependencies [
 
 	self packagesDict: { 
@@ -106,7 +107,7 @@ BaDependencyAnalyzerTest >> testExternalDependencies [
 	self assert: analyzer dependencyLoops isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testNoDependencies [
 
 	self packagesDict: { 
@@ -116,14 +117,14 @@ BaDependencyAnalyzerTest >> testNoDependencies [
 	self assert: analyzer dependencyLoops isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testNoPackages [
 
 	self packagesDict: #(  ).
 	self assert: analyzer dependencyLoops isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testRootsWithLoops [
 
 	self packagesDict: { 
@@ -134,7 +135,7 @@ BaDependencyAnalyzerTest >> testRootsWithLoops [
 	self should: [analyzer internalRoots] raise: Exception
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testSelfDependency [
 
 	self packagesDict: { 
@@ -147,7 +148,7 @@ BaDependencyAnalyzerTest >> testSelfDependency [
 			#( c c ) }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testShortest1StepLoop [
 
 	| validResponses |
@@ -162,7 +163,7 @@ BaDependencyAnalyzerTest >> testShortest1StepLoop [
 	self assert: (validResponses includes: analyzer shortestLoop)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BaDependencyAnalyzerTest >> testShortestNoLoop [
 
 	self packagesDict: { 
