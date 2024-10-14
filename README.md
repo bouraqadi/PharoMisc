@@ -42,7 +42,7 @@ But, this is of course not mandatory.
 ### BaselineAnalyzer
 Simple tool to analyze a baseline and detect potential loops (i.e. cycles) in the definition of package dependencies. Warning: This is not the actual dependency graph, but just the definition provided in the baseline.
   ```st
-  analyzer := BaDependencyAnalyzer analyzeBaselineClass:  BaselineOfPlcWeb.
+  analyzer := BaDependencyAnalyzer analyzeBaselineClass:  BaselineOfDependencyAnalyzer.
   analyzer dependencyLoops size.
   analyzer shortestLoop. "Handy because smaller loops might be included into larger ones"
   analyzer internalRoots. "Answers a set with dependency internal roots. Those are packages of the project that depend only on extrnal packages."
