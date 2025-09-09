@@ -68,7 +68,8 @@ CcTConcurrencyTest >> defaultActionOnTimeout [
 
 { #category : 'testing' }
 CcTConcurrencyTest >> denySemaphore: semaphore signaledWithinMilliseconds: milliseconds [
-	self assert: (semaphore waitTimeoutMSecs: milliseconds)
+
+	self assert: (semaphore waitTimeoutMilliseconds: milliseconds)
 ]
 
 { #category : 'testing' }
