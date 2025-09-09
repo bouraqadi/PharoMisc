@@ -1,10 +1,12 @@
 Class {
-	#name : #CcServiceNameAndPriorityTest,
-	#superclass : #CcServiceTest,
-	#category : #'Concurrency-Test'
+	#name : 'CcServiceNameAndPriorityTest',
+	#superclass : 'CcServiceTest',
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceNameAndPriorityTest >> testNameChangeWhileStarted [
 	service := CcService do: [ [ 50 milliSeconds wait] repeat ].
 	self startService.
@@ -13,7 +15,7 @@ CcServiceNameAndPriorityTest >> testNameChangeWhileStarted [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceNameAndPriorityTest >> testNameChangeWhileStopped [
 	service := CcService do: [ [ 50 milliSeconds wait] repeat ].
 	service name: 'Service for test only'.
@@ -22,7 +24,7 @@ CcServiceNameAndPriorityTest >> testNameChangeWhileStopped [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceNameAndPriorityTest >> testPriorityChangeWhileStarted [
 	| initialPriority newPriority |
 	initialPriority := Processor highestPriority.
@@ -39,7 +41,7 @@ CcServiceNameAndPriorityTest >> testPriorityChangeWhileStarted [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceNameAndPriorityTest >> testPriorityChangeWhileStopped [
 	| initialPriority |
 	initialPriority := Processor highestPriority.

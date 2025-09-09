@@ -5,46 +5,48 @@ By default, the current thread is suspended for 50 milliseconds on every iterati
 
 "
 Trait {
-	#name : #CcTWaitPolling,
-	#category : #'Concurrency-Kernel'
+	#name : 'CcTWaitPolling',
+	#category : 'Concurrency-Kernel',
+	#package : 'Concurrency',
+	#tag : 'Kernel'
 }
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> defaultActionOnTimeout [
 	CcTimeout signal
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> defaultTimeoutDuration [
 	^500 milliSeconds 
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> iterationDuration [
 	^ 50 milliSeconds
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> waitUntil: conditionBlock [
 	self waitUntil: conditionBlock timeout: self defaultTimeoutDuration
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> waitUntil: conditionBlock onTimeout: aDuration do: aBlock [
 	self waitWhile: [ conditionBlock value not ] onTimeout: aDuration do: aBlock
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> waitUntil: conditionBlock timeout: aDuration [
 	self waitUntil: conditionBlock onTimeout: aDuration do: [ self fail: 'Timeout' ]
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> waitWhile: conditionBlock [
 	self waitWhile: conditionBlock timeout: self defaultTimeoutDuration
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> waitWhile: conditionBlock onTimeout: aDuration do: aBlock [
 	| iterationCount iterationDuration |
 	iterationDuration := self iterationDuration.
@@ -56,7 +58,7 @@ CcTWaitPolling >> waitWhile: conditionBlock onTimeout: aDuration do: aBlock [
 	aBlock value
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTWaitPolling >> waitWhile: conditionBlock timeout: aDuration [
 	self waitWhile: conditionBlock onTimeout: aDuration do: [self defaultActionOnTimeout]
 ]

@@ -1,14 +1,16 @@
 Class {
-	#name : #CcServiceActivityTest,
-	#superclass : #CcServiceTest,
+	#name : 'CcServiceActivityTest',
+	#superclass : 'CcServiceTest',
 	#instVars : [
 		'counter',
 		'activityTerminatedSemaphore'
 	],
-	#category : #'Concurrency-Test'
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> assertEnsureBlockRunUponFinalizationForPriority: servicePriority [
 	| activityStartedSemaphore process weakArray |
 	activityStartedSemaphore := Semaphore new.
@@ -30,7 +32,7 @@ CcServiceActivityTest >> assertEnsureBlockRunUponFinalizationForPriority: servic
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> assertEnsureBlockRunUponStopForPriority: servicePriority [
 	| activityStartedSemaphore |
 	activityStartedSemaphore := Semaphore new.
@@ -48,7 +50,7 @@ CcServiceActivityTest >> assertEnsureBlockRunUponStopForPriority: servicePriorit
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> setUp [
 	super setUp.
 	counter := 0.
@@ -56,7 +58,7 @@ CcServiceActivityTest >> setUp [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testDoesActivity [
 	service := CcService do: [
 			counter := 1.
@@ -68,7 +70,7 @@ CcServiceActivityTest >> testDoesActivity [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testDoesEnsureBlock [
 	service := CcService 
 		do: [counter := 1]
@@ -79,27 +81,27 @@ CcServiceActivityTest >> testDoesEnsureBlock [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testDoesEnsureBlockUponFinalizationForHighestPriority [
 	self assertEnsureBlockRunUponFinalizationForPriority: Processor highestPriority
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testDoesEnsureBlockUponFinalizationForLowestPriority [
 	self assertEnsureBlockRunUponFinalizationForPriority: Processor lowestPriority
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testDoesEnsureBlockUponStopForHighestPriority [
 	self assertEnsureBlockRunUponStopForPriority: Processor highestPriority
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testDoesEnsureBlockUponStopForLowestPriority [
 	self assertEnsureBlockRunUponStopForPriority: Processor lowestPriority
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testRestartUponForcedStop [
 	| previousCounter |
 	service := CcService repeat: [counter := counter + 1] every: 50 milliSeconds ensure: [ activityTerminatedSemaphore signal].
@@ -116,7 +118,7 @@ CcServiceActivityTest >> testRestartUponForcedStop [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testRestartUponNormalTermination [
 	service := CcService 
 		do: [counter := counter + 1] 
@@ -133,7 +135,7 @@ CcServiceActivityTest >> testRestartUponNormalTermination [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceActivityTest >> testRunUntilCompletness [
 	service := CcService 
 		repeat: [counter := counter + 1]

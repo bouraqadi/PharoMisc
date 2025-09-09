@@ -30,8 +30,8 @@ Instance Variables
     Implementation Points
 "
 Class {
-	#name : #CcPromise,
-	#superclass : #Object,
+	#name : 'CcPromise',
+	#superclass : 'Object',
 	#instVars : [
 		'isFulfilled',
 		'isRejected',
@@ -42,36 +42,38 @@ Class {
 		'stateLock',
 		'waitSemaphore'
 	],
-	#category : #'Concurrency-Kernel'
+	#category : 'Concurrency-Kernel',
+	#package : 'Concurrency',
+	#tag : 'Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CcPromise class >> onFulfillDo: aBlockClosure [
 	^self new
 		onFulfillDo: aBlockClosure;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CcPromise class >> onFulfillDo: fulfillBlock onRejectDo: rejectBlock [
 	^self new
 		onFulfillDo: fulfillBlock onRejectDo: rejectBlock;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CcPromise class >> onRejectDo: aBlockClosure [
 	^self new
 		onRejectDo: aBlockClosure;
 		yourself
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> defaultTimeoutDuration [
 	^500 milliSeconds 
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> fulfillWith: anObject [
 	stateLock critical: [
 		self isSettled ifTrue: [ CcPromiseAlreadySettledError signal ]. 
@@ -82,7 +84,7 @@ CcPromise >> fulfillWith: anObject [
 	]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CcPromise >> initialize [
 	super initialize.
 	isFulfilled := false.
@@ -93,27 +95,27 @@ CcPromise >> initialize [
 	waitSemaphore := Semaphore new
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> isFulfilled [
 	^stateLock critical: [isFulfilled]
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> isPending [
 	^self isSettled not
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> isRejected [
 	^stateLock critical: [isRejected] 
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> isSettled [
 	^stateLock critical: [self isFulfilled or: [self isRejected]]
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> onFulfillDo: aBlockClosure [ 
 	stateLock critical: [
 		self isFulfilled ifTrue: [^self valueFulfillAction: aBlockClosure].
@@ -121,13 +123,13 @@ CcPromise >> onFulfillDo: aBlockClosure [
 	]
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> onFulfillDo: fulfillActionBlock onRejectDo: rejectActionBlock [
 	self onFulfillDo: fulfillActionBlock.
 	self onRejectDo: rejectActionBlock.
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> onRejectDo: aBlockClosure [ 
 	stateLock critical: [
 		self isRejected ifTrue: [^self valueRejectAction: aBlockClosure].
@@ -135,7 +137,7 @@ CcPromise >> onRejectDo: aBlockClosure [
 	]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CcPromise >> printOn: aStream [
 	super printOn: aStream.
 	aStream
@@ -144,7 +146,7 @@ CcPromise >> printOn: aStream [
 		<< $)
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> rejectWith: anObject [ 
 	stateLock critical: [
 		self isSettled ifTrue: [ CcPromiseAlreadySettledError signal ]. 
@@ -155,12 +157,12 @@ CcPromise >> rejectWith: anObject [
 	]
 ]
 
-{ #category : #state }
+{ #category : 'state' }
 CcPromise >> signalAllWaitingProcesses [
 	waitSemaphore size timesRepeat: [ waitSemaphore signal ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CcPromise >> stateString [
 	"Don't use accessors since they rely on critical section"
 	"stateString is most helpful during debug. Locking freezes the debugger."
@@ -170,22 +172,22 @@ CcPromise >> stateString [
 
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> valueFulfillAction: aBlock [
 	aBlock cull: fulfillResult
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> valueRejectAction: aBlock [
 	aBlock cull: rejectResult
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> wait [
 	self wait: self defaultTimeoutDuration
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcPromise >> wait: aDuration [
 	self isSettled ifTrue: [ ^self ].
 	waitSemaphore wait: aDuration.

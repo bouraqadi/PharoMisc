@@ -1,14 +1,16 @@
 Class {
-	#name : #CcServiceStateTest,
-	#superclass : #CcServiceTest,
+	#name : 'CcServiceStateTest',
+	#superclass : 'CcServiceTest',
 	#instVars : [
 		'startSemaphore',
 		'stopSemaphore'
 	],
-	#category : #'Concurrency-Test'
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #'test state requests' }
+{ #category : 'test state requests' }
 CcServiceStateTest >> setUp [
 	super setUp.
 	startSemaphore := Semaphore new.
@@ -20,14 +22,14 @@ CcServiceStateTest >> setUp [
 		ensure: [ stopSemaphore signal ]
 ]
 
-{ #category : #'test state requests' }
+{ #category : 'test state requests' }
 CcServiceStateTest >> testNewService [
 	self deny: service isStarted.
 	self assert: service isStopped.
 
 ]
 
-{ #category : #'test state requests' }
+{ #category : 'test state requests' }
 CcServiceStateTest >> testStart [
 	self startService.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.
@@ -36,7 +38,7 @@ CcServiceStateTest >> testStart [
 
 ]
 
-{ #category : #'test state requests' }
+{ #category : 'test state requests' }
 CcServiceStateTest >> testStartStop [
 	self startService.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds:  100.
@@ -46,7 +48,7 @@ CcServiceStateTest >> testStartStop [
 	self assert: service isStopped
 ]
 
-{ #category : #'test state requests' }
+{ #category : 'test state requests' }
 CcServiceStateTest >> testStartStopStart [
 	self startService.
 	self assertSemaphore: startSemaphore signaledWithinMilliseconds: 100.

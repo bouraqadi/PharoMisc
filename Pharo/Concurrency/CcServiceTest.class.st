@@ -1,33 +1,35 @@
 Class {
-	#name : #CcServiceTest,
-	#superclass : #TestCase,
+	#name : 'CcServiceTest',
+	#superclass : 'TestCase',
 	#traits : 'CcTConcurrencyTest + CcTWaitPolling',
 	#classTraits : 'CcTConcurrencyTest classTrait + CcTWaitPolling classTrait',
 	#instVars : [
 		'service',
 		'runner'
 	],
-	#category : #'Concurrency-Test'
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceTest >> runCaseManaged [
 	self runCase
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceTest >> serviceProcess [
 	runner ifNil: [ ^nil ].
 	^runner process
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceTest >> startService [
 	runner := service runner.
 	service start
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceTest >> tearDown [
 	super tearDown.
 	self serviceProcess ifNotNil: [ :process | process terminate ]

@@ -1,44 +1,46 @@
 Class {
-	#name : #CcStopped,
-	#superclass : #CcServiceState,
-	#category : #'Concurrency-Kernel'
+	#name : 'CcStopped',
+	#superclass : 'CcServiceState',
+	#category : 'Concurrency-Kernel',
+	#package : 'Concurrency',
+	#tag : 'Kernel'
 }
 
-{ #category : #activity }
+{ #category : 'activity' }
 CcStopped >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	^blockForStopped value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcStopped >> name: aString [ 
 	^self
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 CcStopped >> onProcessStarted [
 	self transitionTo: CcStarted.
 	self signalProcessStarted
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcStopped >> priority: anInteger [ 
 	^self
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 CcStopped >> start [
 	self runner start.
 	self waitProcessStarted.
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CcStopped >> stateString [
 	^'stopped'
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 CcStopped >> stop [
 	^self
 ]

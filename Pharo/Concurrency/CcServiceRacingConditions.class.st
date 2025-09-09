@@ -1,10 +1,12 @@
 Class {
-	#name : #CcServiceRacingConditions,
-	#superclass : #CcServiceActivityTest,
-	#category : #'Concurrency-Test'
+	#name : 'CcServiceRacingConditions',
+	#superclass : 'CcServiceActivityTest',
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceRacingConditions >> testConcurrentStartStop [
 	| starter stopper switchForcing testSupportServices |
 	service := CcService repeat: [] every: 300 milliSecond ensure: [
@@ -22,7 +24,7 @@ CcServiceRacingConditions >> testConcurrentStartStop [
 	testSupportServices do: #stop.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceRacingConditions >> testFastStartStop [
 	service := CcService repeat: [] every: 300 milliSecond ensure: [
 			activityTerminatedSemaphore signal.

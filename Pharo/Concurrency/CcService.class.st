@@ -22,8 +22,8 @@ Instance Variables
 
 "
 Class {
-	#name : #CcService,
-	#superclass : #Object,
+	#name : 'CcService',
+	#superclass : 'Object',
 	#instVars : [
 		'activityBlock',
 		'ensureBlock',
@@ -37,10 +37,12 @@ Class {
 		'processStartSemaphore',
 		'processStopSemaphore'
 	],
-	#category : #'Concurrency-Kernel'
+	#category : 'Concurrency-Kernel',
+	#package : 'Concurrency',
+	#tag : 'Kernel'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 CcService class >> blockForRepeating: aBlockClosure every: aDuration [
 	^ [ 
 	| delay |
@@ -50,7 +52,7 @@ CcService class >> blockForRepeating: aBlockClosure every: aDuration [
 	aDuration wait ] repeat ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CcService class >> blockForRepeating: stepBlock every: aDuration while: conditionBlock [
 	^ [ 
 	| delay |
@@ -61,12 +63,12 @@ CcService class >> blockForRepeating: stepBlock every: aDuration while: conditio
 	]
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: taskBlock [
 	^self do: taskBlock ensure: [  ]
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: taskBlock ensure: cleanupBlock [ 
 	^self new
 		activityBlock: taskBlock;
@@ -75,7 +77,7 @@ CcService class >> do: taskBlock ensure: cleanupBlock [
 
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: initBlock thenRepeat: loopBlock [
 	^self do: [
 		initBlock value.
@@ -83,7 +85,7 @@ CcService class >> do: initBlock thenRepeat: loopBlock [
 		]
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
 	^self 
 		do: [
@@ -92,7 +94,7 @@ CcService class >> do: initBlock thenRepeat: loopBlock ensure: cleanupBlock [
 		ensure: cleanupBlock
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: initBlock thenRepeat: stepBlock every: aDuration [ 
 	^self do: [
 		initBlock value.
@@ -100,7 +102,7 @@ CcService class >> do: initBlock thenRepeat: stepBlock every: aDuration [
 		]
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: cleanUpBlock [
 	^self 
 		do: [
@@ -109,7 +111,7 @@ CcService class >> do: initBlock thenRepeat: stepBlock every: aDuration ensure: 
 		]ensure: cleanUpBlock
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock [ 
 	^self 
 		do:[
@@ -118,7 +120,7 @@ CcService class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: 
 
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
 	^self 
 		do:[
@@ -127,119 +129,119 @@ CcService class >> do: initBlock thenRepeat:  taskBlock every: aDuration while: 
 		ensure: cleanupBlock
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock [
 	^self do: [ taskBlock repeat ]
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock  ensure: cleanupBlock [
 	^self 
 		do: [ taskBlock repeat ]
 		ensure: cleanupBlock
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock every: aDuration [
 	^ self do: (self blockForRepeating: taskBlock every: aDuration)
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock every: aDuration ensure: cleanupBlock [
 	^self 
 		do: (self blockForRepeating: taskBlock every: aDuration)
 		ensure: cleanupBlock
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock every: aDuration while: conditionBlock [
 	^self do: (self blockForRepeating: taskBlock every: aDuration while: conditionBlock)
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock every: aDuration while: conditionBlock ensure: cleanupBlock [
 	^self 
 		do: (self blockForRepeating: taskBlock every: aDuration while: conditionBlock)
 		ensure: cleanupBlock
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock while: conditionBlock [
 	^self do: [ conditionBlock whileTrue: taskBlock ]
 ]
 
-{ #category : #'instance-creation' }
+{ #category : 'instance-creation' }
 CcService class >> repeat: taskBlock while: conditionBlock  ensure: cleanupBlock [
 	^self 
 		do: [ conditionBlock whileTrue: taskBlock ]
 		ensure: cleanupBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> activityBlock [
 	^ activityBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> activityBlock: aBlock [
 	activityBlock := aBlock
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 CcService >> defaultName [
 	^'a Service'
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 CcService >> defaultPriority [
 	^30
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 CcService >> defaultProcessStartTimeoutMilliseconds [
 	^500
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 CcService >> defaultProcessStopTimeoutMilliseconds [
 	^self defaultProcessStartTimeoutMilliseconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> ensureBlock [
 	^ ensureBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> ensureBlock: anObject [
 	ensureBlock := anObject
 ]
 
-{ #category : #finalization }
+{ #category : 'finalization' }
 CcService >> finalize [
 	self runner stop
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcService >> ifStarted: aBlock [ 
 	^self 
 		ifStarted: aBlock
 		ifStopped: self 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcService >> ifStarted: blockForStarted ifStopped: blockForStopped [ 
 	^lock critical: [self state ifStarted: blockForStarted ifStopped: blockForStopped] 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcService >> ifStopped: aBlock [ 
 	^self 
 		ifStarted:  self 
 		ifStopped: aBlock 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 CcService >> initialize [
 	super initialize.
 	lock := Semaphore forMutualExclusion.
@@ -255,39 +257,39 @@ CcService >> initialize [
 	self registerForFinalization.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcService >> isStarted [
 	^self ifStarted: [ true ] ifStopped: [ false ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcService >> isStopped [
 	^self ifStarted: [ false ] ifStopped: [ true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> name [
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> name: aString [
 	name := aString.
 	self state name: aString
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> onProcessStarted [
 	self state onProcessStarted
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> onProcessStopped [
 	self state onProcessStopped.
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CcService >> printOn: aStream [
 	aStream
 		<< self name;
@@ -297,109 +299,113 @@ CcService >> printOn: aStream [
 		<< $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> priority [
 	^ priority
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> priority: newPriority [
 	priority := newPriority.
 	self state priority: newPriority
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> process [
 	^self runner process
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> processStartTimeoutMilliseconds [
 	^processStartTimeoutMilliseconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> processStartTimeoutMilliseconds: anObject [
 	processStartTimeoutMilliseconds := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> processStopTimeoutMilliseconds [
 	^processStopTimeoutMilliseconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> processStopTimeoutMilliseconds: anObject [
 	processStopTimeoutMilliseconds := anObject
 ]
 
-{ #category : #finalization }
+{ #category : 'finalization' }
 CcService >> registerForFinalization [
 	self finalizationRegistry add: self
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> runTillDone [
 	[self start] fork
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> runner [
 	^runner
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 CcService >> serviceRunnerClass [
 	^CcServiceRunner
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> signalProcessStarted [
 	processStartSemaphore signal
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> signalProcessStopped [
 	processStopSemaphore signal
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> start [
 	lock critical: [
 		self state start].
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> state [
 	^ state
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CcService >> state: aState [
 	state := aState.
 	state service: self.
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CcService >> stateString [
 	^self state stateString
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> stop [
 	lock critical: [
 		self state stop].
 
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> waitProcessStarted [
-	processStartSemaphore waitTimeoutMSecs: self processStartTimeoutMilliseconds
+
+	processStartSemaphore waitTimeoutMilliseconds:
+		self processStartTimeoutMilliseconds
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 CcService >> waitProcessStopped [
-	processStopSemaphore waitTimeoutMSecs: self processStopTimeoutMilliseconds
+
+	processStopSemaphore waitTimeoutMilliseconds:
+		self processStopTimeoutMilliseconds
 ]

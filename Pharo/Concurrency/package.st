@@ -1,1 +1,1 @@
-Package { #name : #Concurrency }
+Package { #name : 'Concurrency' }

@@ -2,12 +2,14 @@
 See class side for examples of CcThread
 "
 Class {
-	#name : #CcServiceExamples,
-	#superclass : #Object,
-	#category : #'Concurrency-Kernel'
+	#name : 'CcServiceExamples',
+	#superclass : 'Object',
+	#category : 'Concurrency-Kernel',
+	#package : 'Concurrency',
+	#tag : 'Kernel'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 CcServiceExamples class >> autoStopOnGarbageCollect [
 	<example>
 	|counter runner |
@@ -21,7 +23,7 @@ CcServiceExamples class >> autoStopOnGarbageCollect [
 	runner start
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CcServiceExamples class >> countUpTo10 [
 	<example>
 	|counter runner |
@@ -36,7 +38,7 @@ CcServiceExamples class >> countUpTo10 [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CcServiceExamples class >> pingPong [
 	<example>
 	|ping pong |

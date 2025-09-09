@@ -1,33 +1,35 @@
 Class {
-	#name : #CcPromiseTest,
-	#superclass : #TestCase,
+	#name : 'CcPromiseTest',
+	#superclass : 'TestCase',
 	#traits : 'CcTConcurrencyTest',
 	#classTraits : 'CcTConcurrencyTest classTrait',
 	#instVars : [
 		'promise'
 	],
-	#category : #'Concurrency-Test'
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CcPromiseTest >> setUp [
 	super setUp.
 	promise := CcPromise new.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testFulfillAfterReject [
 	promise rejectWith: 0.
 	self should: [ promise fulfillWith: 48 ] raise: CcPromiseAlreadySettledError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testFulfillTwice [
 	promise fulfillWith: 123.
 	self should: [ promise fulfillWith: 48 ] raise: CcPromiseAlreadySettledError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testFulfilling [
 	promise fulfillWith: 123.
 	self deny: promise isPending.
@@ -36,7 +38,7 @@ CcPromiseTest >> testFulfilling [
 	self assert: promise isSettled.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testMultipleFulfillActionPerformed [
 	| semaphores |
 	semaphores := (1 to: 10) collect: [: index| Semaphore new ].
@@ -49,7 +51,7 @@ CcPromiseTest >> testMultipleFulfillActionPerformed [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testMultipleRejectActionPerformed [
 	| semaphores |
 	semaphores := (1 to: 10) collect: [: index| Semaphore new ].
@@ -62,7 +64,7 @@ CcPromiseTest >> testMultipleRejectActionPerformed [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testOneFulfillAction [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
@@ -73,7 +75,7 @@ CcPromiseTest >> testOneFulfillAction [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testOneRejectAction [
 	| rejectSemaphore |
 	rejectSemaphore := Semaphore new.
@@ -84,7 +86,7 @@ CcPromiseTest >> testOneRejectAction [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testOnlyFulfillActionPerformed [
 	| fulfillSemaphore rejectSemaphore |
 	fulfillSemaphore := Semaphore new.
@@ -97,7 +99,7 @@ CcPromiseTest >> testOnlyFulfillActionPerformed [
 	self denySemaphore: rejectSemaphore signaledWithinMilliseconds: 300.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testOnlyRejectActionPerformed [
 	| fulfillSemaphore rejectSemaphore |
 	fulfillSemaphore := Semaphore new.
@@ -111,7 +113,7 @@ CcPromiseTest >> testOnlyRejectActionPerformed [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testPromiseInitiallyPending [
 	self assert: promise isPending.
 	self deny: promise isFulfilled.
@@ -119,7 +121,7 @@ CcPromiseTest >> testPromiseInitiallyPending [
 	self deny: promise isSettled.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testRegisterActionAfterFulfillment [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
@@ -130,7 +132,7 @@ CcPromiseTest >> testRegisterActionAfterFulfillment [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testRegisterActionAfterRejection [
 	| rejectSemaphore |
 	promise rejectWith: 123.
@@ -141,19 +143,19 @@ CcPromiseTest >> testRegisterActionAfterRejection [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testRejectAfterFulfill [
 	promise fulfillWith: 48.
 	self should: [promise rejectWith: 567] raise: CcPromiseAlreadySettledError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testRejectTwice [
 	promise rejectWith: 44.
 	self should: [ promise rejectWith: 77 ] raise: CcPromiseAlreadySettledError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testRejecting [
 	promise rejectWith: 123.
 	self deny: promise isPending.
@@ -162,7 +164,7 @@ CcPromiseTest >> testRejecting [
 	self assert: promise isSettled.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testSuspendActionUntilFulfillment [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
@@ -174,7 +176,7 @@ CcPromiseTest >> testSuspendActionUntilFulfillment [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testSuspendActionUntilRejection [
 	| rejectSemaphore |
 	rejectSemaphore := Semaphore new.
@@ -186,7 +188,7 @@ CcPromiseTest >> testSuspendActionUntilRejection [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testWaitAlreadyFulfill [
 	| fulfillSemaphore |
 	promise fulfillWith: 456.
@@ -197,7 +199,7 @@ CcPromiseTest >> testWaitAlreadyFulfill [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testWaitAlreadyReject [
 	| fulfillSemaphore |
 	promise rejectWith: 456.
@@ -208,12 +210,12 @@ CcPromiseTest >> testWaitAlreadyReject [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testWaitTimeout [
 	self should: [promise wait: 100 milliSeconds] raise: CcPromiseTimeout
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testWaitUntilFulfill [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.
@@ -225,7 +227,7 @@ CcPromiseTest >> testWaitUntilFulfill [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CcPromiseTest >> testWaitUntilReject [
 	| fulfillSemaphore |
 	fulfillSemaphore := Semaphore new.

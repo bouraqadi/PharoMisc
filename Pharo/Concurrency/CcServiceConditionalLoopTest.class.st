@@ -1,14 +1,16 @@
 Class {
-	#name : #CcServiceConditionalLoopTest,
-	#superclass : #CcServiceTest,
+	#name : 'CcServiceConditionalLoopTest',
+	#superclass : 'CcServiceTest',
 	#instVars : [
 		'count',
 		'actionFinishedSemaphore'
 	],
-	#category : #'Concurrency-Test'
+	#category : 'Concurrency-Test',
+	#package : 'Concurrency',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceConditionalLoopTest >> setUp [
 	super setUp.
 	count := 0.
@@ -21,7 +23,7 @@ CcServiceConditionalLoopTest >> setUp [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceConditionalLoopTest >> testPerformsOnlyIfWhileConditionIsTrueOnStart [
 	count := 20.
 	service start.
@@ -30,7 +32,7 @@ CcServiceConditionalLoopTest >> testPerformsOnlyIfWhileConditionIsTrueOnStart [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcServiceConditionalLoopTest >> testStopWhenWhileConditionIsFalse [
 	service start.
 	self assertSemaphore: actionFinishedSemaphore signaledWithinSeconds: 1.

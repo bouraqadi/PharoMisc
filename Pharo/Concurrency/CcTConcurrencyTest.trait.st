@@ -9,13 +9,15 @@ TConcurrencyTest provides methods to ease testing concurrent code with the follo
 
 "
 Trait {
-	#name : #CcTConcurrencyTest,
+	#name : 'CcTConcurrencyTest',
 	#traits : 'CcTWaitPolling',
 	#classTraits : 'CcTWaitPolling classTrait',
-	#category : #'Concurrency-Kernel'
+	#category : 'Concurrency-Kernel',
+	#package : 'Concurrency',
+	#tag : 'Kernel'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> assertFork: aBlock endsWithinMilliseconds: milliseconds [
 	| semaphore |
 	semaphore := Semaphore new.
@@ -23,7 +25,7 @@ CcTConcurrencyTest >> assertFork: aBlock endsWithinMilliseconds: milliseconds [
 	self assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
 	| semaphore |
 	semaphore := Semaphore new.
@@ -31,7 +33,7 @@ CcTConcurrencyTest >> assertFork: aBlock endsWithinSeconds: seconds [
 	self assertSemaphore: semaphore signaledWithinSeconds: seconds
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> assertFork: aBlock raise: exceptionClass withinMilliseconds: milliseconds [
 	| semaphore |
 	semaphore := Semaphore new.
@@ -39,34 +41,37 @@ CcTConcurrencyTest >> assertFork: aBlock raise: exceptionClass withinMillisecond
 	self assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> assertFork: aBlock raise: exceptionClass withinSeconds: seconds [
 	self assertFork: aBlock raise: exceptionClass withinMilliseconds: seconds * 1000
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinMilliseconds: milliseconds [
+
 	| isTimeout |
-	isTimeout := [(semaphore waitTimeoutMSecs: milliseconds)] on: TestTookTooMuchTime do: [ : ex| true ].
+	isTimeout := [ semaphore waitTimeoutMSecs: milliseconds ]
+		             on: TestTookTooMuchTime
+		             do: [ :ex | true ].
 	self deny: isTimeout
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> assertSemaphore: semaphore signaledWithinSeconds: seconds [
 	self deny: (semaphore waitTimeoutSeconds: seconds)
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 CcTConcurrencyTest >> defaultActionOnTimeout [
 	self fail: 'Timeout'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> denySemaphore: semaphore signaledWithinMilliseconds: milliseconds [
 	self assert: (semaphore waitTimeoutMSecs: milliseconds)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CcTConcurrencyTest >> denySemaphore: semaphore signaledWithinSeconds: seconds [
 	self assert: (semaphore waitTimeoutSeconds: seconds)
 ]
