@@ -1,6 +1,6 @@
-Extension { #name : #ZdcAbstractSocketStream }
+Extension { #name : 'ZdcAbstractSocketStream' }
 
-{ #category : #'*NetworkExtras' }
+{ #category : '*NetworkExtras' }
 ZdcAbstractSocketStream >> closeAndDestroy [
 	self close
 ]

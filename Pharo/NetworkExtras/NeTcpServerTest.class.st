@@ -1,16 +1,18 @@
 Class {
-	#name : #NeTcpServerTest,
-	#superclass : #NeTcpSocketTest,
+	#name : 'NeTcpServerTest',
+	#superclass : 'NeTcpSocketTest',
 	#traits : 'CcTWaitPolling',
 	#classTraits : 'CcTWaitPolling classTrait',
 	#instVars : [
 		'server',
 		'allServers'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> newClientStream [
 	| newClient |
 	newClient := ZdcSocketStream openConnectionToHostNamed: '127.0.0.1' port:  server port.
@@ -18,7 +20,7 @@ NeTcpServerTest >> newClientStream [
 	^newClient
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> newServer [
 	| newServer |
 	newServer := NeTcpServer port: NeTcpUsedPortsTracker freePortAtRandom.
@@ -26,7 +28,7 @@ NeTcpServerTest >> newServer [
 	^newServer
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> setUp [
 	super setUp.
 	allServers := Set new.
@@ -35,33 +37,33 @@ NeTcpServerTest >> setUp [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> startServer [
 	server start.
 	self waitUntil: [ server isStarted ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> stopServer [
 	server stop.
 	self waitWhile: [ server isStarted ] timeout: 2 seconds.
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> tearDown [
 	super tearDown.
 	allServers do: #stop
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> test1ClientConnection [
 	| clientStream |
 	clientStream := self newClientStream.
 	self assert: clientStream isConnected
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> testFastStartStop [
 	self 
 		shouldnt: [
@@ -70,7 +72,7 @@ NeTcpServerTest >> testFastStartStop [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> testPortReleasedUponStop [
 	self assert: (NeTcpUsedPortsTracker isUsedPort: server port).
 	self stopServer.
@@ -78,7 +80,7 @@ NeTcpServerTest >> testPortReleasedUponStop [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> testRestartAfterStop [
 	| clientStream serverStream sentData receivedData|
 	self stopServer.
@@ -96,7 +98,7 @@ NeTcpServerTest >> testRestartAfterStop [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> testSendReceive1Client [
 	| clientStream serverStream receivedWord |
 	server withCommunicationStreamDo: [ : stream | serverStream := stream ].
@@ -109,12 +111,12 @@ NeTcpServerTest >> testSendReceive1Client [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> testStart [
 	self assert: server socket isValid.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpServerTest >> testStop [
 	self should: [ self stopServer ] notTakeMoreThan: 500 milliSeconds.
 	self deny: server socket isValid.

@@ -14,17 +14,19 @@ Once I have received all chunks of a given data, I reconstruct the data (ByteArr
 
 "
 Class {
-	#name : #NeSingleSourceDataReconstructor,
-	#superclass : #Object,
+	#name : 'NeSingleSourceDataReconstructor',
+	#superclass : 'Object',
 	#instVars : [
 		'chuncks',
 		'dataHandlingBlock',
 		'chunkCollectionInfo'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeSingleSourceDataReconstructor >> addChunk: aChunk [
 	(self doesChunkBelongToOldData: aChunk)
 		ifTrue: [ ^ self ].
@@ -36,44 +38,44 @@ NeSingleSourceDataReconstructor >> addChunk: aChunk [
 	self reconstructData
 ]
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeSingleSourceDataReconstructor >> addChunkCollectionInfo: anUeChunkCollectionInfo [ 
 	chunkCollectionInfo := anUeChunkCollectionInfo.
 
 ]
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeSingleSourceDataReconstructor >> addContentChunk: aChunk [
 	chuncks add: aChunk.
 ]
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeSingleSourceDataReconstructor >> areAllChunksReceived [
 	chunkCollectionInfo ifNil: [ ^false ].
 	^chuncks size = chunkCollectionInfo contentChunksCount 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSingleSourceDataReconstructor >> doesChunkBelongToNewData: aChunk [
 	chunkCollectionInfo ifNotNil: [ ^chunkCollectionInfo timestamp < aChunk timestamp ].
 	chuncks ifEmpty: [ ^false ].
 	^chuncks first timestamp < aChunk timestamp
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSingleSourceDataReconstructor >> doesChunkBelongToOldData: aChunk [
 	chunkCollectionInfo ifNotNil: [ ^ chunkCollectionInfo timestamp > aChunk timestamp ].
 	chuncks ifEmpty: [ ^ false ].
 	^ chuncks first timestamp > aChunk timestamp
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeSingleSourceDataReconstructor >> initialize [
 	super initialize.
 	self resetChunks.
 ]
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeSingleSourceDataReconstructor >> reconstructData [
 	| writeStream |
 	writeStream := ByteArray new writeStream.
@@ -82,12 +84,12 @@ NeSingleSourceDataReconstructor >> reconstructData [
 	dataHandlingBlock cull: writeStream contents
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeSingleSourceDataReconstructor >> resetChunks [
 	chuncks := SortedCollection sortBlock: [: first : next | first index < next index].
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeSingleSourceDataReconstructor >> withReconstructedDataDo: singleArgBlock [
 	dataHandlingBlock := singleArgBlock
 ]

@@ -20,37 +20,39 @@ Upon termination, it closes the socket ensuring releasing related resources.
 
 "
 Class {
-	#name : #NeUdpServer,
-	#superclass : #NeServer,
+	#name : 'NeUdpServer',
+	#superclass : 'NeServer',
 	#instVars : [
 		'receivedDataHandlingPriority',
 		'receptionHandlingBlock'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUdpServer class >> multicastGroup: ipOrName port: portNumber [
 	^NeMulticastServer group: ipOrName port: portNumber
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUdpServer class >> unicastPort: portNumber [
 	^NeUnicastUdpServer port: portNumber
 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeUdpServer >> defaultReceivedDataHandlingPriority [
 	^Processor userSchedulingPriority
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeUdpServer >> defaultReceptionHandlingBlock [
 	^ [ :bytes | self traceCrBytes: bytes]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeUdpServer >> initialize [
 	super initialize.
 	receptionHandlingBlock := self defaultReceptionHandlingBlock.
@@ -58,22 +60,22 @@ NeUdpServer >> initialize [
 		receivedDataHandlingPriority: self defaultReceivedDataHandlingPriority
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUdpServer >> onReceptionDo: aBlock [
 	receptionHandlingBlock := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUdpServer >> receivedDataHandlingPriority [
 	^receivedDataHandlingPriority
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUdpServer >> receivedDataHandlingPriority: anInteger [
 	^receivedDataHandlingPriority := anInteger
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeUdpServer >> servingStep [
 	| receivedData |
 	receivedData := [self socket receive] on: ConnectionTimedOut do: [: ex| ^self].
@@ -81,7 +83,7 @@ NeUdpServer >> servingStep [
 	[receptionHandlingBlock cull: receivedData] forkAt: self receivedDataHandlingPriority
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeUdpServer >> traceCrBytes: bytes [
 	self traceCr: bytes asString
 ]

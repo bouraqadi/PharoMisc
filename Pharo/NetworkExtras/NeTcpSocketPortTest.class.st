@@ -1,10 +1,12 @@
 Class {
-	#name : #NeTcpSocketPortTest,
-	#superclass : #NeTcpSocketTest,
-	#category : #'NetworkExtras-Test'
+	#name : 'NeTcpSocketPortTest',
+	#superclass : 'NeTcpSocketTest',
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpSocketPortTest >> testPortAvailability [
 	| freePort |
 	freePort := NeTcpUsedPortsTracker freePortAtRandom.
@@ -13,7 +15,7 @@ NeTcpSocketPortTest >> testPortAvailability [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpSocketPortTest >> testPortNumberValidityListenOn [
 	self should: [ self newTcpSocketListeningOnPort: -1 ] raise: NeInvalidSocketPortError.		
 	self shouldnt: [ self newTcpSocketListeningOnPort: 0 ] raise: NeInvalidSocketPortError.
@@ -22,7 +24,7 @@ NeTcpSocketPortTest >> testPortNumberValidityListenOn [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpSocketPortTest >> testPortNumberValidityListenOnBacklogSize [
 	self should: [ 
 		self newTcpSocketListeningOnPort: -1  backlogSize:  10] raise: NeInvalidSocketPortError.
@@ -35,7 +37,7 @@ NeTcpSocketPortTest >> testPortNumberValidityListenOnBacklogSize [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeTcpSocketPortTest >> testPortNumberValidityListenOnBacklogSizeInterface [
 	self should: [ 
 		self newTcpSocketListeningOnPort: -1

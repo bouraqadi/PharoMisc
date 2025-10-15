@@ -4,7 +4,9 @@ I am an error signaled when an IP address that does not belong to the multicast 
 See NeMulticastSocket
 "
 Class {
-	#name : #NeInvalidMulticastGroupIpError,
-	#superclass : #NetworkError,
-	#category : #'NetworkExtras-UDP-Kernel'
+	#name : 'NeInvalidMulticastGroupIpError',
+	#superclass : 'NetworkError',
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }

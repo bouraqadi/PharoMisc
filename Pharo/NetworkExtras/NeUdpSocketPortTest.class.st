@@ -1,10 +1,12 @@
 Class {
-	#name : #NeUdpSocketPortTest,
-	#superclass : #NeUdpSocketTest,
-	#category : #'NetworkExtras-Test'
+	#name : 'NeUdpSocketPortTest',
+	#superclass : 'NeUdpSocketTest',
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSocketPortTest >> testValidBroadcastPort [
 	self should: [ self newBroadcastSocketOnPort: -1 ] raise: NeInvalidSocketPortError.
 	self shouldnt: [ self newBroadcastSocketOnPort: 0 ] raise: NeInvalidSocketPortError.
@@ -13,7 +15,7 @@ NeUdpSocketPortTest >> testValidBroadcastPort [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSocketPortTest >> testValidMulticastPort [
 	self should: [ self newMulticastSocketOnGroup: '226.0.0.12' port: -1] raise: NeInvalidSocketPortError.
 	self shouldnt: [ self newMulticastSocketOnGroup: '226.0.0.12' port: 0] raise: NeInvalidSocketPortError.
@@ -22,7 +24,7 @@ NeUdpSocketPortTest >> testValidMulticastPort [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSocketPortTest >> testValidUnicastEmissionPort [
 	self should: [ self newUnicastUdpSocketEmittingToIp: '127.0.0.1' port: -1] raise: NeInvalidSocketPortError.
 	self shouldnt: [ self newUnicastUdpSocketEmittingToIp: '127.0.0.1' port: 0] raise: NeInvalidSocketPortError.
@@ -31,7 +33,7 @@ NeUdpSocketPortTest >> testValidUnicastEmissionPort [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSocketPortTest >> testValidUnicastReceptionPort [
 	self should: [ self newUnicastUdpSocketReceivingOnPort: -1 ] raise: NeInvalidSocketPortError.
 	self shouldnt: [ self newUnicastUdpSocketReceivingOnPort: 0 ] raise: NeInvalidSocketPortError.

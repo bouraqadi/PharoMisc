@@ -3,40 +3,42 @@ I am an UDP socket.
 I am an abstract class, use my subclasses
 "
 Class {
-	#name : #NeUdpSocket,
-	#superclass : #NeSocket,
+	#name : 'NeUdpSocket',
+	#superclass : 'NeSocket',
 	#instVars : [
 		'receptionBuffer'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUdpSocket class >> newIfFail: aBlock [
 	^self udpCreateIfFail: aBlock
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeUdpSocket >> defaultBufferSize [
 	^ 1500
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 NeUdpSocket >> defaultTimeoutSeconds [
 	^ 30
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeUdpSocket >> initReceptionBuffer [
 	self receptionBufferSize: self defaultBufferSize
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 NeUdpSocket >> listenOn: portNumber [
 	self setPort: portNumber.
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeUdpSocket >> printOn: aStream [
 	super printOn: aStream.
 	aStream nextPutAll: ' ('.
@@ -44,18 +46,18 @@ NeUdpSocket >> printOn: aStream [
 	aStream nextPut: $)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeUdpSocket >> printSocketInfoOn: aStream [
 	self subclassResponsibility
 	
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 NeUdpSocket >> receive [
 	^ self receiveTimeout: self defaultTimeoutSeconds
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 NeUdpSocket >> receiveTimeout: seconds [
 	| bytesReadCount |
 	[self waitForConnectionFor: seconds.
@@ -64,53 +66,53 @@ NeUdpSocket >> receiveTimeout: seconds [
 	^ self receptionBuffer copyFrom: 1 to: bytesReadCount] on: PrimitiveFailed do: [ ^#() ]
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 NeUdpSocket >> receptionBuffer [
 	receptionBuffer ifNil: [ self initReceptionBuffer ].
 	^receptionBuffer
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeUdpSocket >> receptionBufferSize: bytesCount [
 	receptionBuffer := ByteArray new: bytesCount.
 
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUdpSocket >> send: anObject [
 	self sendData: anObject asByteArray toHost: self targetIp port: self targetPort
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeUdpSocket >> setPort: portNumber [
 	self receptionPort: portNumber.
 	super setPort: portNumber.
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeUdpSocket >> socketInfo [
 	^String streamContents: [ : stream |
 		self printSocketInfoOn: stream ]
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUdpSocket >> targetIp [
 	self subclassResponsibility
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUdpSocket >> targetPort [
 	self subclassResponsibility
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUdpSocket >> timeToLive [
 	"Time To Live (TTL) is also known as the HOP limit. 
 	See the write accessor comment for a longuer explaination"	
 	^ (self getOption: self timeToLiveOptionId) last
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUdpSocket >> timeToLive: anInteger [
 	"Time To Live (TTL) is also known as the HOP limit.
 Each router that receives the packet subtracts at least 1 from the count; if the count remains greater than 0, the router forwards the packet, otherwise it discards it and sends an Internet Control Message Protocol (ICMP) message back to the originating host, which may trigger a resend. 
@@ -130,12 +132,12 @@ By convention:
 
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUdpSocket >> timeToLiveOptionId [
 	^'IP_TTL'
 ]
 
-{ #category : #'reception ports tracking' }
+{ #category : 'reception ports tracking' }
 NeUdpSocket >> usedPortsTracker [
 	^NeUdpUsedPortsTracker
 ]

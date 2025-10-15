@@ -1,6 +1,6 @@
 Class {
-	#name : #NeUdpSendReceiveLargeDataTest,
-	#superclass : #TestCase,
+	#name : 'NeUdpSendReceiveLargeDataTest',
+	#superclass : 'TestCase',
 	#traits : 'CcTWaitPolling + NeTLargeDataProviderForTest',
 	#classTraits : 'CcTWaitPolling classTrait + NeTLargeDataProviderForTest classTrait',
 	#instVars : [
@@ -8,10 +8,12 @@ Class {
 		'targetPort',
 		'allSenders'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> newSender [
 	| newSender |
 	newSender := NeUdpLargeDataSender target: self targetIp port: self targetPort.
@@ -19,7 +21,7 @@ NeUdpSendReceiveLargeDataTest >> newSender [
 	^newSender
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> setUp [
 	super setUp.
 	targetPort := NeUdpUsedPortsTracker freePortAtRandom.
@@ -27,7 +29,7 @@ NeUdpSendReceiveLargeDataTest >> setUp [
 	self setUpReceiver.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> setUpReceiver [
 	receiver := NeUdpLargeDataReceiver unicastPort: self targetPort.
 	receiver priority: Processor userSchedulingPriority.
@@ -35,17 +37,17 @@ NeUdpSendReceiveLargeDataTest >> setUpReceiver [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> targetIp [
 	^ #[127 0 0 1]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> targetPort [
 	^targetPort
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> tearDown [
 	super tearDown.
 	allSenders do: [ :each | each destroySocket].
@@ -53,7 +55,7 @@ NeUdpSendReceiveLargeDataTest >> tearDown [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> test1Sender1Receiver [
 
 	| receivedData sentString sender senderId |
@@ -68,7 +70,7 @@ NeUdpSendReceiveLargeDataTest >> test1Sender1Receiver [
 	self assert: senderId equals: sender id
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpSendReceiveLargeDataTest >> test2Senders1Receiver [
 	| receivedDataSet sentData1 sentData2 sender1 sender2 |
 	sender1 := self newSender.

@@ -4,7 +4,9 @@ I am an error signaled when an IP address that is not ending with 255 is used fo
 See NeBroadcastSocket
 "
 Class {
-	#name : #NeInvalidBroadcastIp,
-	#superclass : #NetworkError,
-	#category : #'NetworkExtras-UDP-Kernel'
+	#name : 'NeInvalidBroadcastIp',
+	#superclass : 'NetworkError',
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }

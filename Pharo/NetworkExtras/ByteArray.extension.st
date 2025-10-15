@@ -1,6 +1,6 @@
-Extension { #name : #ByteArray }
+Extension { #name : 'ByteArray' }
 
-{ #category : #'*NetworkExtras-converting' }
+{ #category : '*NetworkExtras-converting' }
 ByteArray >> asIpAddress [
 	^NeIpV4Address newFrom: self
 ]

@@ -1,1 +1,1 @@
-Package { #name : #NetworkExtras }
+Package { #name : 'NetworkExtras' }

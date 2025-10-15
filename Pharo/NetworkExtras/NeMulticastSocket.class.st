@@ -17,34 +17,36 @@ More on Multicast sockets at: http://www.tldp.org/HOWTO/Multicast-HOWTO.html
     Implementation Points
 "
 Class {
-	#name : #NeMulticastSocket,
-	#superclass : #NeUdpSocket,
+	#name : 'NeMulticastSocket',
+	#superclass : 'NeUdpSocket',
 	#instVars : [
 		'groupAddress',
 		'networkInterfaceIp'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeMulticastSocket class >> group: groupIp port: anInteger [
 	^self new
 		group: groupIp port: anInteger;
 		yourself
 ]
 
-{ #category : #'initialize-destroy' }
+{ #category : 'initialize-destroy' }
 NeMulticastSocket >> close [
 	[self leaveGroup] ensure: [
 		super close]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> defaultNetworkInterfaceIp [
 	^NeIpV4Address allNetworkInterfaces
 ]
 
-{ #category : #'initialize-destroy' }
+{ #category : 'initialize-destroy' }
 NeMulticastSocket >> group: anIpAddress port: aPortNumber [
 	"The group IP address must be within the range: 224.0.0.0 - 239.255.255.255"
 	self setPort: aPortNumber.
@@ -52,12 +54,12 @@ NeMulticastSocket >> group: anIpAddress port: aPortNumber [
 	self joinGroup.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> groupAddress [
 	^ groupAddress
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> groupAddress: aStringOrIPAddress [ 
 	groupAddress := aStringOrIPAddress asIpAddress.
 	(groupAddress < self minGroupAddress 
@@ -65,29 +67,29 @@ NeMulticastSocket >> groupAddress: aStringOrIPAddress [
 			ifTrue: [ NeInvalidMulticastGroupIpError signal].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> groupPort [
 	^self receptionPort
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> isLoopbackModeEnabled [	
 	^ (self getOption: 'IP_MULTICAST_LOOP') last = 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> isLoopbackModeEnabled: aBoolean [
 	"When enabling loopback mode, I receive a copy of datagrams I send."
 	
 	self setOption: 'IP_MULTICAST_LOOP' value: aBoolean
 ]
 
-{ #category : #'group membership' }
+{ #category : 'group membership' }
 NeMulticastSocket >> joinGroup [
 	self setOption: 'IP_ADD_MEMBERSHIP' value: self joinParams
 ]
 
-{ #category : #'group membership' }
+{ #category : 'group membership' }
 NeMulticastSocket >> joinParams [
 	| joinParams |
 	joinParams := self groupAddress asOrderedCollection.
@@ -95,38 +97,38 @@ NeMulticastSocket >> joinParams [
 	^ joinParams asByteArray
 ]
 
-{ #category : #'group membership' }
+{ #category : 'group membership' }
 NeMulticastSocket >> leaveGroup [
 		self setOption: 'IP_DROP_MEMBERSHIP' value: self joinParams
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> maxGroupAddress [
 	^#[239 255 255 255] asIpAddress
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> minGroupAddress [
 	^#[224 0 0 0] asIpAddress
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> networkInterface [
 	^ self getOption: 'IP_MULTICAST_IF'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> networkInterfaceIp [
 	^networkInterfaceIp ifNil: [ self defaultNetworkInterfaceIp ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastSocket >> networkInterfaceIp: newAddress [
 	networkInterfaceIp :=  newAddress asIpAddress.	
 	self setOption: 'IP_MULTICAST_IF' value: networkInterfaceIp.
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeMulticastSocket >> printSocketInfoOn: stream [
 	stream
 		nextPutAll: 'Group IP: ';
@@ -135,18 +137,18 @@ NeMulticastSocket >> printSocketInfoOn: stream [
 		print: self groupPort
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeMulticastSocket >> targetIp [
 	^self groupAddress
 
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeMulticastSocket >> targetPort [
 	^self groupPort.
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeMulticastSocket >> timeToLiveOptionId [
 		^'IP_MULTICAST_TTL'
 ]

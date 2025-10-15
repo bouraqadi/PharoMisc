@@ -1,6 +1,6 @@
 Class {
-	#name : #NeMultiSourceSplitReconstructLargeDataTest,
-	#superclass : #TestCase,
+	#name : 'NeMultiSourceSplitReconstructLargeDataTest',
+	#superclass : 'TestCase',
 	#traits : 'NeTLargeDataProviderForTest',
 	#classTraits : 'NeTLargeDataProviderForTest classTrait',
 	#instVars : [
@@ -8,10 +8,12 @@ Class {
 		'splitter1',
 		'splitter2'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMultiSourceSplitReconstructLargeDataTest >> setUp [
 	super setUp.
 	reconstructor := NeMultiSourceDataReconstructor new.
@@ -22,7 +24,7 @@ NeMultiSourceSplitReconstructLargeDataTest >> setUp [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMultiSourceSplitReconstructLargeDataTest >> testReconstructingLargeDataFromChunksReceivedUnsorted [
 	| reconstructedDataDict originalData1 originalData2 remainingChunks aChunk |
 	reconstructedDataDict := Dictionary new.

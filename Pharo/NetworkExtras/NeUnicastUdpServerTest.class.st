@@ -1,15 +1,17 @@
 Class {
-	#name : #NeUnicastUdpServerTest,
-	#superclass : #NeUdpServerTest,
-	#category : #'NetworkExtras-Test'
+	#name : 'NeUnicastUdpServerTest',
+	#superclass : 'NeUdpServerTest',
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> newServer [
 	^ NeUnicastUdpServer port: NeUdpUsedPortsTracker freePortAtRandom
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> setUp [
 	super setUp.
 	sender := self newUnicastUdpSocketEmittingToIp: 'localhost' port:  server port.
@@ -17,17 +19,17 @@ NeUnicastUdpServerTest >> setUp [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> startServer [
 	server start
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> stopServer [
 	server stop
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> testBroadcastSendReceive [
 	| allSentData |
 	allSentData := #('Hello' 'World' 'Pharo').
@@ -40,7 +42,7 @@ NeUnicastUdpServerTest >> testBroadcastSendReceive [
 	self assert: allReceivedData asArray equals: allSentData
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> testDefaultReceptionHandlingAction [
 
 	| allSentStrings expectedString |

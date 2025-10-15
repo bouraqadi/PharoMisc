@@ -8,17 +8,19 @@ I split a large data into a collection of chunks. The created chunks hold my ID(
 
 "
 Class {
-	#name : #NeDataSplitter,
-	#superclass : #Object,
+	#name : 'NeDataSplitter',
+	#superclass : 'Object',
 	#instVars : [
 		'id',
 		'dataBytes',
 		'maxChunkSize'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #splitting }
+{ #category : 'splitting' }
 NeDataSplitter >> chunks [
 	| chunks readStream timestamp chunkIndex newChunk |
 	chunks := OrderedCollection new.
@@ -35,33 +37,33 @@ NeDataSplitter >> chunks [
 	^ chunks
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeDataSplitter >> dataBytes [
 	^ dataBytes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeDataSplitter >> dataBytes: anObject [
 
 	dataBytes := anObject asByteArray
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeDataSplitter >> defaultMaxChunkSize [
 	^1000
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeDataSplitter >> id [
 	^id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeDataSplitter >> id: aSymbol [
 	id := aSymbol
 ]
 
-{ #category : #splitting }
+{ #category : 'splitting' }
 NeDataSplitter >> infoFor: chunks timestamp: timestamp [
 	^ NeChunkCollectionInfo new
 		contentChunksCount: chunks size;
@@ -70,23 +72,23 @@ NeDataSplitter >> infoFor: chunks timestamp: timestamp [
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeDataSplitter >> initialize [
 	super initialize.
 	self maxChunkSize: self defaultMaxChunkSize.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeDataSplitter >> maxChunkSize [
 	^ maxChunkSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeDataSplitter >> maxChunkSize: anObject [
 	maxChunkSize := anObject
 ]
 
-{ #category : #splitting }
+{ #category : 'splitting' }
 NeDataSplitter >> newChunk: chunkIndex from: readStream timestamp: timestamp [
 	^ NeContentChunk new
 		index: chunkIndex;

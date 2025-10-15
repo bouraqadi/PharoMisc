@@ -1,19 +1,21 @@
 Class {
-	#name : #NeIpAddressTest,
-	#superclass : #TestCase,
+	#name : 'NeIpAddressTest',
+	#superclass : 'TestCase',
 	#traits : 'CcTWaitPolling',
 	#classTraits : 'CcTWaitPolling classTrait',
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeIpAddressTest >> testAddressFromString [
 	self assert: 'localhost' asIpAddress equals: '127.0.0.1' asIpAddress.
 	self assert: '255.255.255.255' asIpAddress equals: 'broadcasthost' asIpAddress.
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeIpAddressTest >> testAddressName [
 	self assert: NeIpV4Address loopback name equals: 'localhost'.
 	self assert: NeIpV4Address broadcast name equals: 'broadcasthost'.
@@ -23,7 +25,7 @@ NeIpAddressTest >> testAddressName [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeIpAddressTest >> testCompareAddresses [
 	self assert: '1.1.1.1' asIpAddress < '2.2.2.2' asIpAddress.
 	self assert: '2.2.2.2' asIpAddress > '1.1.1.1' asIpAddress.

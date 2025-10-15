@@ -1,48 +1,50 @@
 Class {
-	#name : #NeTcpServer,
-	#superclass : #NeServer,
+	#name : 'NeTcpServer',
+	#superclass : 'NeServer',
 	#instVars : [
 		'port',
 		'backlogSize',
 		'communicationHandlingBlock',
 		'communicationHandlingPriority'
 	],
-	#category : #'NetworkExtras-TCP-Kernel'
+	#category : 'NetworkExtras-TCP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'TCP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeTcpServer class >> port: portNumber [
 	^self new
 		port: portNumber;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeTcpServer >> backlogSize [
 	^ backlogSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeTcpServer >> backlogSize: anObject [
 	backlogSize := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeTcpServer >> communicationHandlingPriority [
 	^ communicationHandlingPriority
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeTcpServer >> communicationHandlingPriority: anObject [
 	communicationHandlingPriority := anObject
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeTcpServer >> defaultBacklogSize [
 	^10
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeTcpServer >> defaultCommunicationHandlingBlock [
 	| data |
 	^ [ :socketStream | 
@@ -74,17 +76,17 @@ NeTcpServer >> defaultCommunicationHandlingBlock [
 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeTcpServer >> defaultCommunicationHandlingPriority [
 	^Processor userBackgroundPriority
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeTcpServer >> defaultServerName [
 	^'TCP Server'
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeTcpServer >> initialize [
 	super initialize.
 	self backlogSize: self defaultBacklogSize.
@@ -92,35 +94,35 @@ NeTcpServer >> initialize [
 	self communicationHandlingPriority: self defaultCommunicationHandlingPriority
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeTcpServer >> newSocket [
 	^NeTcpSocket listenOnPort: self port backlogSize: self backlogSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeTcpServer >> port [
 	^ port
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeTcpServer >> port: anObject [
 	port := anObject
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeTcpServer >> secondsToWaitForConnection [
 	^1
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeTcpServer >> servingStep [
 	| communicationSocket communicationStream |
-	communicationSocket := socket waitForAcceptFor: self secondsToWaitForConnection ifTimedOut: [ ^self ].
+	communicationSocket := socket waitForAcceptFor: self secondsToWaitForConnection ifClosed: [^self] ifTimedOut: [ ^self ].
 	communicationStream := ZdcSocketStream on: communicationSocket.
 	[communicationHandlingBlock cull: communicationStream] forkAt: self communicationHandlingPriority
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeTcpServer >> withCommunicationStreamDo: aBlock [
 	communicationHandlingBlock := aBlock
 ]

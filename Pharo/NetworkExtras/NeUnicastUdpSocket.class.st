@@ -7,23 +7,25 @@ I am an UDP socket dedicated to unicast communication. I store the target IP and
 
 "
 Class {
-	#name : #NeUnicastUdpSocket,
-	#superclass : #NeUdpSocket,
+	#name : 'NeUnicastUdpSocket',
+	#superclass : 'NeUdpSocket',
 	#instVars : [
 		'targetIp',
 		'targetPort'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUnicastUdpSocket class >> listenOn: portNumber [
 	^self newUDP
 		listenOn: portNumber;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUnicastUdpSocket class >> target: ip port: portNumber [
 	^self newUDP
 		target: ip;
@@ -31,7 +33,7 @@ NeUnicastUdpSocket class >> target: ip port: portNumber [
 		yourself
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeUnicastUdpSocket >> printSocketInfoOn: stream [
 	self targetPort ifNil: [  
 		^stream
@@ -45,36 +47,36 @@ NeUnicastUdpSocket >> printSocketInfoOn: stream [
 		print: self targetPort
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUnicastUdpSocket >> send: anObject targetIp: ipAddress port: portNumber [
 	self target: ipAddress.
 	self targetPort: portNumber.
 	^self send: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUnicastUdpSocket >> target: ipOrName [
 	self targetIp: ipOrName asIpAddress
 
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUnicastUdpSocket >> targetIp [
 	^ targetIp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUnicastUdpSocket >> targetIp: anIpAddress [
 	targetIp := anIpAddress
 
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 NeUnicastUdpSocket >> targetPort [
 	^ targetPort
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUnicastUdpSocket >> targetPort: anInteger [
 	self ensureValidPort: anInteger.
 	targetPort := anInteger

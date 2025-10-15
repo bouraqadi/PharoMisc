@@ -14,41 +14,43 @@ The unique  NeChunkCollectionInfo includes info about the NeContentChunks.
 
 "
 Class {
-	#name : #NeChunk,
-	#superclass : #Object,
+	#name : 'NeChunk',
+	#superclass : 'Object',
 	#instVars : [
 		'timestamp',
 		'sourceId'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeChunk >> addTo: reconstructor [
 	self subclassResponsibility
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 NeChunk >> asByteArray [
 	^FLSerializer serializeToByteArray: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeChunk >> sourceId [
 	^ sourceId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeChunk >> sourceId: anObject [
 	sourceId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeChunk >> timestamp [
 	^ timestamp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeChunk >> timestamp: anObject [
 	timestamp := anObject
 ]

@@ -7,31 +7,33 @@ I represent a unique part of some data split at some specific point in time by a
 
 "
 Class {
-	#name : #NeContentChunk,
-	#superclass : #NeChunk,
+	#name : 'NeContentChunk',
+	#superclass : 'NeChunk',
 	#instVars : [
 		'index',
 		'contents'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeContentChunk >> addTo: reconstructor [
 	reconstructor addContentChunk: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeContentChunk >> contents [
 	^ contents
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeContentChunk >> contents: aCollection [
 	^ contents := aCollection asByteArray
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeContentChunk >> contentsFrom: aReadStream maxFullSize: maxFullSize [
 	| maxContentsSize sizeWithoutContents |
 	self resetContents.
@@ -40,22 +42,22 @@ NeContentChunk >> contentsFrom: aReadStream maxFullSize: maxFullSize [
 	self contents: (aReadStream next: maxContentsSize) 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeContentChunk >> defaultContents [
 	^#[]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeContentChunk >> index [
 	^ index
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeContentChunk >> index: anInteger [ 
 	index := anInteger
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeContentChunk >> resetContents [
 	self contents: self defaultContents
 ]

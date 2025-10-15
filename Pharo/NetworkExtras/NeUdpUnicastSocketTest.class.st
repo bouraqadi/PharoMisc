@@ -1,6 +1,6 @@
 Class {
-	#name : #NeUdpUnicastSocketTest,
-	#superclass : #NeUdpSocketTest,
+	#name : 'NeUdpUnicastSocketTest',
+	#superclass : 'NeUdpSocketTest',
 	#traits : 'CcTWaitPolling',
 	#classTraits : 'CcTWaitPolling classTrait',
 	#instVars : [
@@ -8,10 +8,12 @@ Class {
 		'receiver',
 		'sender'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> setUp [
 	super setUp.
 	port := NeUdpUsedPortsTracker freePortAtRandom.
@@ -20,14 +22,14 @@ NeUdpUnicastSocketTest >> setUp [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> tearDown [
 	super tearDown.
 	sender closeAndDestroy.
 	receiver closeAndDestroy
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> testCloseWhileReceiving [
 
 	| isDataReceived isErrorSignaled |
@@ -49,7 +51,7 @@ NeUdpUnicastSocketTest >> testCloseWhileReceiving [
 	self assert: isErrorSignaled
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> testForbideMultipleSocketsListeningOnTheSamePort [
 	| socketCreationBlocks |
 	socketCreationBlocks := {[NeUnicastUdpSocket listenOn: port].
@@ -68,7 +70,7 @@ NeUdpUnicastSocketTest >> testForbideMultipleSocketsListeningOnTheSamePort [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> testReceiveSend [
 	| sentData receivedData |
 	sentData := 'Hello World!'.
@@ -78,7 +80,7 @@ NeUdpUnicastSocketTest >> testReceiveSend [
 	self assert: receivedData asString equals: sentData.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> testReceiveTimeout [
 	| timeoutSignaled |
 	timeoutSignaled := false.
@@ -89,7 +91,7 @@ NeUdpUnicastSocketTest >> testReceiveTimeout [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpUnicastSocketTest >> testUnicastSendReceive [
 	sender send: 'Hello'.
 	self assert: (receiver receiveTimeout: 1) asString equals: 'Hello'

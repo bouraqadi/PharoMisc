@@ -3,16 +3,18 @@ I am a UDP Multicast server. I handle incoming UDP data repeatedly in a dedicate
 
 "
 Class {
-	#name : #NeMulticastServer,
-	#superclass : #NeUdpServer,
+	#name : 'NeMulticastServer',
+	#superclass : 'NeUdpServer',
 	#instVars : [
 		'groupIp',
 		'portNumber'
 	],
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeMulticastServer class >> group: ipOrName port: portNumber [
 	^self new
 		groupIp: ipOrName;
@@ -20,32 +22,32 @@ NeMulticastServer class >> group: ipOrName port: portNumber [
 		yourself
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeMulticastServer >> defaultServerName [
 	^'Multicast server'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastServer >> groupIp [
 	^ groupIp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastServer >> groupIp: anObject [
 	groupIp := anObject
 ]
 
-{ #category : #building }
+{ #category : 'building' }
 NeMulticastServer >> newSocket [
 	^NeMulticastSocket group: self groupIp port: self portNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastServer >> portNumber [
 	^ portNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeMulticastServer >> portNumber: anObject [
 	portNumber := anObject
 ]

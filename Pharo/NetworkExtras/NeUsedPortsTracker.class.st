@@ -4,28 +4,30 @@ I am an abstract class that provides behavior to track ports  used for reception
 Use  one of my subclases.
 "
 Class {
-	#name : #NeUsedPortsTracker,
-	#superclass : #Object,
+	#name : 'NeUsedPortsTracker',
+	#superclass : 'Object',
 	#classInstVars : [
 		'usedPorts'
 	],
-	#category : #'NetworkExtras-Kernel'
+	#category : 'NetworkExtras-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'Kernel'
 }
 
-{ #category : #'reception ports tracking' }
+{ #category : 'reception ports tracking' }
 NeUsedPortsTracker class >> ensureFreePort: portNumber [
 	(self isUsedPort: portNumber) ifTrue: [ 
 		NeAlreadyUsedSocketPort signal ].
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUsedPortsTracker class >> ensureValidPort: portNumber [
 	(self isValidPort: portNumber) ifTrue: [ ^self ].
 	NeInvalidSocketPortError signal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUsedPortsTracker class >> freePortAtRandom [
 	| allFreePorts |
 	self usedPorts size = self totalAvailablePorts ifTrue: [^NeAllPortsUsedError signal].
@@ -33,56 +35,56 @@ NeUsedPortsTracker class >> freePortAtRandom [
 	^allFreePorts atRandom
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeUsedPortsTracker class >> initUsedPorts [
 	usedPorts := Set new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUsedPortsTracker class >> isUsedPort: portNumber [
 	^self usedPorts includes: portNumber
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUsedPortsTracker class >> isValidPort: portNumber [
 	portNumber < 0 ifTrue: [ ^false ].
 	portNumber > 65535 ifTrue: [ ^false ].
 	^true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUsedPortsTracker class >> maxPortNumber [
 	^65535
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUsedPortsTracker class >> minPortNumber [
 	^1024
 ]
 
-{ #category : #tracking }
+{ #category : 'tracking' }
 NeUsedPortsTracker class >> registerUsedPort: portNumber [
 	self ensureValidPort: portNumber.
 	self ensureFreePort: portNumber.
 	self usedPorts add: portNumber
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeUsedPortsTracker class >> resetUsedPorts [
 	usedPorts := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUsedPortsTracker class >> totalAvailablePorts [
 	^self maxPortNumber - self minPortNumber + 1
 ]
 
-{ #category : #tracking }
+{ #category : 'tracking' }
 NeUsedPortsTracker class >> unregisterUsedPort: portNumber [
 	self usedPorts remove: portNumber ifAbsent: [  ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUsedPortsTracker class >> usedPorts [
 	usedPorts ifNil: [ self initUsedPorts ].
 	^usedPorts

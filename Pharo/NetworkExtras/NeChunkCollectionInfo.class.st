@@ -6,25 +6,27 @@ I provide info about a collection of content chunks (NeContentChunk) that are ma
 
 "
 Class {
-	#name : #NeChunkCollectionInfo,
-	#superclass : #NeChunk,
+	#name : 'NeChunkCollectionInfo',
+	#superclass : 'NeChunk',
 	#instVars : [
 		'contentChunksCount'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #reconstructing }
+{ #category : 'reconstructing' }
 NeChunkCollectionInfo >> addTo: reconstructor [
 	reconstructor addChunkCollectionInfo: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeChunkCollectionInfo >> contentChunksCount [
 	^ contentChunksCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeChunkCollectionInfo >> contentChunksCount: anObject [
 	contentChunksCount := anObject
 ]

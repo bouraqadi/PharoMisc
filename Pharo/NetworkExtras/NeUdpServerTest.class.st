@@ -1,6 +1,6 @@
 Class {
-	#name : #NeUdpServerTest,
-	#superclass : #NeUdpSocketTest,
+	#name : 'NeUdpServerTest',
+	#superclass : 'NeUdpSocketTest',
 	#traits : 'CcTWaitPolling',
 	#classTraits : 'CcTWaitPolling classTrait',
 	#instVars : [
@@ -8,21 +8,23 @@ Class {
 		'sender',
 		'allReceivedData'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest class >> isAbstract [
 	^self == NeUdpServerTest 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> newServer [
 	self subclassResponsibility
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> setUp [
 	super setUp.
 	allReceivedData := OrderedCollection new.
@@ -32,24 +34,24 @@ NeUdpServerTest >> setUp [
 	self startServer
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> startServer [
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> stopServer [
 	server stop.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> tearDown [
 	super tearDown.
 	self stopServer.
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> testRestartAfterStop [
 	| receivedData |
 	server onReceptionDo: [ :data | receivedData := data asString ].
@@ -63,7 +65,7 @@ NeUdpServerTest >> testRestartAfterStop [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> testSendReceive [
 	| allSentData |
 	allSentData := #('Hello' 'World' 'Pharo').
@@ -74,7 +76,7 @@ NeUdpServerTest >> testSendReceive [
 	self assert: allReceivedData asArray equals: allSentData
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeUdpServerTest >> testStopShouldQuicklyReturn [
 	self should: [ server stop ] notTakeMoreThan: 500 milliSeconds 
 ]

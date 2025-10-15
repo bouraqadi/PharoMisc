@@ -9,24 +9,26 @@ Examples:
 #[192 168 11 22] asIpAddress
 "
 Class {
-	#name : #NeIpV4Address,
-	#superclass : #SocketAddress,
-	#type : #bytes,
-	#category : #'NetworkExtras-Kernel'
+	#name : 'NeIpV4Address',
+	#superclass : 'SocketAddress',
+	#type : 'bytes',
+	#category : 'NetworkExtras-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> allNetworkInterfaces [
 	"INADDR_ANY = all available network interfaces on the current device"
 	^ self newFrom:  #[0 0 0 0]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> broadcast [
 	^ self newFrom: #[255 255 255 255]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> fromIpString: aString [
 	"return a new IP address from a string
 	IPAddress fromIpString: '10.1.10.115'"
@@ -34,7 +36,7 @@ NeIpV4Address class >> fromIpString: aString [
 	^ self newFrom: ((aString splitOn: $.) collect: [:s | s asInteger])
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> fromName: aString [
 	"return a new IP address from a host name
 	IPAddress fromName: 'localhost'"
@@ -42,14 +44,14 @@ NeIpV4Address class >> fromName: aString [
 	^ (NetNameResolver addressForName: aString) asIpAddress
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> fromString: aString [
 	(aString includes: $.) ifTrue: [ ^self fromIpString: aString ].
 	^self fromName: aString
 
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> local [
 	"return a new IP address from a string
 	IPAddress local"
@@ -57,37 +59,37 @@ NeIpV4Address class >> local [
 	^ self newFrom: NetNameResolver localHostAddress
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeIpV4Address class >> loopback [
 	^ self newFrom: NetNameResolver loopBackAddress
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 NeIpV4Address >> < anIpAddress [
 	^self asInteger < anIpAddress asInteger
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 NeIpV4Address >> > anIpAddress [
 	^anIpAddress < self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 NeIpV4Address >> asIpAddress [
 	^self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 NeIpV4Address >> asNumber [
 	^self asInteger
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 NeIpV4Address >> asString [
 	^ NetNameResolver stringFromAddress: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeIpV4Address >> name [
 	self = self class loopback ifTrue: [^'localhost']. "Workaround for Windows where VM answers that actual machine name!"
 	^NetNameResolver nameForAddress: self timeout: 60

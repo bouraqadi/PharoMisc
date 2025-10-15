@@ -1,16 +1,18 @@
 Class {
-	#name : #NeSplitReconstructLargeDataTest,
-	#superclass : #TestCase,
+	#name : 'NeSplitReconstructLargeDataTest',
+	#superclass : 'TestCase',
 	#traits : 'NeTLargeDataProviderForTest',
 	#classTraits : 'NeTLargeDataProviderForTest classTrait',
 	#instVars : [
 		'reconstructor',
 		'splitter'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSplitReconstructLargeDataTest >> setUp [
 	super setUp.
 	reconstructor := NeSingleSourceDataReconstructor new.
@@ -19,7 +21,7 @@ NeSplitReconstructLargeDataTest >> setUp [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSplitReconstructLargeDataTest >> testReconstructingLargeDataFromChunksReceivedPresorted [
 	| originalData reconstructedData |
 	reconstructor withReconstructedDataDo: [ : data | reconstructedData := data ].
@@ -30,7 +32,7 @@ NeSplitReconstructLargeDataTest >> testReconstructingLargeDataFromChunksReceived
 	self assert: reconstructedData equals: originalData.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSplitReconstructLargeDataTest >> testReconstructingLargeDataFromChunksReceivedUnsorted [
 	| originalData reconstructedData remainingChunks aChunk |
 	reconstructor withReconstructedDataDo: [ : data | reconstructedData := data ].
@@ -45,7 +47,7 @@ NeSplitReconstructLargeDataTest >> testReconstructingLargeDataFromChunksReceived
 	self assert: reconstructedData equals: originalData.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSplitReconstructLargeDataTest >> testReconstructorReceivesChunkFromNewData [
 	| reconstructedData oldData oldChunks newData |
 	reconstructor withReconstructedDataDo: [ :data | reconstructedData := data ].
@@ -60,7 +62,7 @@ NeSplitReconstructLargeDataTest >> testReconstructorReceivesChunkFromNewData [
 	self assert: reconstructedData equals: newData
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSplitReconstructLargeDataTest >> testReconstructorReceivesChunkFromOldData [
 	| reconstructedData oldData oldChunks newData newChunks |
 	reconstructor withReconstructedDataDo: [ :data | reconstructedData := data ].
@@ -77,7 +79,7 @@ NeSplitReconstructLargeDataTest >> testReconstructorReceivesChunkFromOldData [
 	self assert: reconstructedData equals: newData
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSplitReconstructLargeDataTest >> testSplitingLargeDataIntoChunks [
 	| timestamp chunks |
 	splitter dataBytes: self get10KBytesOfSourceFile.

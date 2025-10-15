@@ -1,57 +1,59 @@
 Class {
-	#name : #NeTcpSocket,
-	#superclass : #NeSocket,
-	#category : #'NetworkExtras-TCP-Kernel'
+	#name : 'NeTcpSocket',
+	#superclass : 'NeSocket',
+	#category : 'NetworkExtras-TCP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'TCP-Kernel'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeTcpSocket class >> listenOn: portNumber [
 	^self new
 		listenOn: portNumber;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeTcpSocket class >> listenOnPort: portNumber backlogSize: backlog [
 	^self new
 		listenOn: portNumber backlogSize: backlog;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeTcpSocket class >> listenOnPort: portNumber backlogSize: backlog interface: ifAddr [
 	^self new
 		listenOn: portNumber backlogSize: backlog interface: ifAddr;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeTcpSocket class >> newIfFail: aBlock [
 	^self tcpCreateIfFail: aBlock
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 NeTcpSocket >> listenOn: portNumber [
 	self receptionPort: portNumber.
 	^super listenOn: portNumber
 
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 NeTcpSocket >> listenOn: portNumber backlogSize: backlog [
 	self receptionPort: portNumber.
 	^super listenOn: portNumber backlogSize: backlog
 
 ]
 
-{ #category : #'connection open/close' }
+{ #category : 'connection open/close' }
 NeTcpSocket >> listenOn: portNumber backlogSize: backlog interface: ifAddr [
 	self receptionPort: portNumber.
 	^super listenOn: portNumber backlogSize: backlog interface: ifAddr
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeTcpSocket >> printSocketInfoOn: aWriteStream [ 
 	self receptionPort ifNil: [^self].
 	^aWriteStream
@@ -60,7 +62,7 @@ NeTcpSocket >> printSocketInfoOn: aWriteStream [
 
 ]
 
-{ #category : #'reception ports tracking' }
+{ #category : 'reception ports tracking' }
 NeTcpSocket >> usedPortsTracker [
 	^NeTcpUsedPortsTracker
 ]

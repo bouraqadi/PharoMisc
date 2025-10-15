@@ -2,20 +2,22 @@
 Shared behavior for UDP socket classes
 "
 Class {
-	#name : #NeSocketTest,
-	#superclass : #TestCase,
+	#name : 'NeSocketTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'allSockets'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSocketTest class >> isAbstract [
 	^self == NeSocketTest 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSocketTest >> createSocket: aBlock [
 	| newSocket |
 	newSocket := aBlock value.
@@ -23,20 +25,20 @@ NeSocketTest >> createSocket: aBlock [
 	^newSocket
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSocketTest >> runCaseManaged [
 	"This library does manage its own forked processes"
 	self runCase
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSocketTest >> setUp [
 	super setUp.
 	allSockets := Set new.
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeSocketTest >> tearDown [
 	super tearDown.	
 	allSockets do: [: each | each closeAndDestroy].

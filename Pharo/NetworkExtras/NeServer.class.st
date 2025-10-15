@@ -1,67 +1,69 @@
 Class {
-	#name : #NeServer,
-	#superclass : #Object,
+	#name : 'NeServer',
+	#superclass : 'Object',
 	#instVars : [
 		'serverName',
 		'socket',
 		'service'
 	],
-	#category : #'NetworkExtras-Kernel'
+	#category : 'NetworkExtras-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'Kernel'
 }
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeServer >> defaultServerName [
 	self subclassResponsibility
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeServer >> destroySocket [
 	self socket closeAndDestroy
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 NeServer >> initialize [
 	super initialize.
 	service := CcService repeat: [ self servingStep ] ensure: [self destroySocket].
 	self name: self defaultServerName.
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> isRunning [
 	^ self isStarted
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> isStarted [
 	^ service isStarted
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> isStopped [
 	^ service isStopped
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeServer >> name [
 	^serverName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeServer >> name: aString [
 	^serverName := aString
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> newSocket [
 	self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeServer >> printOn: aStream [
 	self printServiceNameOn: aStream
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> printServiceNameOn: stream [
 	stream
 		nextPutAll: self name;
@@ -72,33 +74,33 @@ NeServer >> printServiceNameOn: stream [
 	stream nextPut: $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeServer >> priority [
 	^service priority
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeServer >> priority: aPriority [
 	service priority: aPriority
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeServer >> serviceName [
 	^String streamContents: [: stream |
 		self printServiceNameOn: stream]
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> servingStep [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeServer >> socket [
 	^socket
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> start [
 	self isStarted
 		ifTrue: [ ^ self ].
@@ -107,7 +109,7 @@ NeServer >> start [
 	service start
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeServer >> stop [
 	service stop
 ]

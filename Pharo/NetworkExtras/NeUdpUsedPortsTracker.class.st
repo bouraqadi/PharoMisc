@@ -4,9 +4,11 @@ I track UDP ports  used for reception to avoid having 2 sockets listening on the
 I am added to the image start up list to ensure that we start with an empty set of used ports, since we lose the references to system sockets once the image quits.
 "
 Class {
-	#name : #NeUdpUsedPortsTracker,
-	#superclass : #NeUsedPortsTracker,
+	#name : 'NeUdpUsedPortsTracker',
+	#superclass : 'NeUsedPortsTracker',
 	#traits : 'NeTResetTrackedUsedPortsOnStartUp',
 	#classTraits : 'NeTResetTrackedUsedPortsOnStartUp classTrait',
-	#category : #'NetworkExtras-UDP-Kernel'
+	#category : 'NetworkExtras-UDP-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-Kernel'
 }

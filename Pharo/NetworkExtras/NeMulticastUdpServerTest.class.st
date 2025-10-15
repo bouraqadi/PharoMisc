@@ -1,14 +1,16 @@
 Class {
-	#name : #NeMulticastUdpServerTest,
-	#superclass : #NeUdpServerTest,
+	#name : 'NeMulticastUdpServerTest',
+	#superclass : 'NeUdpServerTest',
 	#instVars : [
 		'multicastGroup',
 		'multicastPort'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastUdpServerTest >> newServer [
 	multicastGroup := '236.1.2.13'.
 	multicastPort := NeUsedPortsTracker freePortAtRandom.
@@ -16,7 +18,7 @@ NeMulticastUdpServerTest >> newServer [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastUdpServerTest >> startServer [
 	server start.
 	server socket unregisterUsedPort. "Hack to allow having two multicast sockets on the same port!"
@@ -26,7 +28,7 @@ NeMulticastUdpServerTest >> startServer [
 	sender := self newMulticastSocketOnGroup: multicastGroup port: multicastPort
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastUdpServerTest >> stopServer [
 	super stopServer.
 	sender closeAndDestroy.

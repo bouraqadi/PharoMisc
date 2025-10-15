@@ -6,21 +6,23 @@ NeTcpUsedPortsTracker
 NeUdpUsedPortsTracker
 "
 Trait {
-	#name : #NeTResetTrackedUsedPortsOnStartUp,
-	#category : #'NetworkExtras-Kernel'
+	#name : 'NeTResetTrackedUsedPortsOnStartUp',
+	#category : 'NetworkExtras-Kernel',
+	#package : 'NetworkExtras',
+	#tag : 'Kernel'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeTResetTrackedUsedPortsOnStartUp classSide >> initialize [
 	Smalltalk addToStartUpList: self
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeTResetTrackedUsedPortsOnStartUp classSide >> resetUsedPorts [
 	self explicitRequirement
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeTResetTrackedUsedPortsOnStartUp classSide >> startUp: isImageStarting [
 	isImageStarting ifFalse: [ ^self ].
 	self resetUsedPorts.

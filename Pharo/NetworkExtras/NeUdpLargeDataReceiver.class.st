@@ -11,40 +11,42 @@ Sets the data handling block valued  each time  a data is reconstructed. It must
 
 "
 Class {
-	#name : #NeUdpLargeDataReceiver,
-	#superclass : #Object,
+	#name : 'NeUdpLargeDataReceiver',
+	#superclass : 'Object',
 	#instVars : [
 		'dataReconstructor',
 		'server'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUdpLargeDataReceiver class >> multicastGroup: ipOrName port: portNumber [
 	^self server: (NeUdpServer multicastGroup: ipOrName port: portNumber)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUdpLargeDataReceiver class >> server: newServer [
 	^self new
 		server: newServer;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeUdpLargeDataReceiver class >> unicastPort: portNumber [
 	^self server: (NeUdpServer unicastPort: portNumber)
 ]
 
-{ #category : #activity }
+{ #category : 'activity' }
 NeUdpLargeDataReceiver >> handleReceivedBytes: receivedBytes [
 	| chunk |
 	chunk := FLMaterializer materializeFromByteArray: receivedBytes.
 	dataReconstructor addChunk: chunk
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeUdpLargeDataReceiver >> initialize [
 	super initialize.
 	dataReconstructor := NeMultiSourceDataReconstructor new.
@@ -56,39 +58,39 @@ NeUdpLargeDataReceiver >> initialize [
 			show: reconstructedData asString]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUdpLargeDataReceiver >> name [
 	^'UDP large data receiver'
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 NeUdpLargeDataReceiver >> priority: anInteger [ 
 	self server priority: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUdpLargeDataReceiver >> server [
 	^ server
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeUdpLargeDataReceiver >> server: udpServer [
 	server := udpServer.
 	server name: self name.
 	server onReceptionDo: [: byteArray | self handleReceivedBytes: byteArray ]
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 NeUdpLargeDataReceiver >> start [
 	self server start.
 ]
 
-{ #category : #acting }
+{ #category : 'acting' }
 NeUdpLargeDataReceiver >> stop [
 	self server stop.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeUdpLargeDataReceiver >> withReceivedDataDo: aTwoArgBlockClosure [ 
 	dataReconstructor withReconstructedDataDo: aTwoArgBlockClosure 
 ]

@@ -16,29 +16,31 @@ dataHandlingBlock <BlockClosure>  Valued each time  a data is reconstructed. It 
 
 "
 Class {
-	#name : #NeMultiSourceDataReconstructor,
-	#superclass : #Object,
+	#name : 'NeMultiSourceDataReconstructor',
+	#superclass : 'Object',
 	#instVars : [
 		'dataReconstructorsDict',
 		'dataHandlingBlock'
 	],
-	#category : #'NetworkExtras-UDP-LargeData'
+	#category : 'NetworkExtras-UDP-LargeData',
+	#package : 'NetworkExtras',
+	#tag : 'UDP-LargeData'
 }
 
-{ #category : #'data handling' }
+{ #category : 'data handling' }
 NeMultiSourceDataReconstructor >> addChunk: newChunk [
 	| reconstructor |
 	reconstructor := dataReconstructorsDict at: newChunk sourceId ifAbsentPut: [ self newDataReconstructorId: newChunk sourceId ].
 	reconstructor addChunk: newChunk
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeMultiSourceDataReconstructor >> initialize [
 	super initialize.
 	dataReconstructorsDict := Dictionary new
 ]
 
-{ #category : #'data handling' }
+{ #category : 'data handling' }
 NeMultiSourceDataReconstructor >> newDataReconstructorId: sourceId [
 	| reconstructor |
 	reconstructor := NeSingleSourceDataReconstructor new.
@@ -46,7 +48,7 @@ NeMultiSourceDataReconstructor >> newDataReconstructorId: sourceId [
 	^reconstructor
 ]
 
-{ #category : #'data handling' }
+{ #category : 'data handling' }
 NeMultiSourceDataReconstructor >> withReconstructedDataDo: aTwoArgBlockClosure [ 
 	dataHandlingBlock := aTwoArgBlockClosure
 ]

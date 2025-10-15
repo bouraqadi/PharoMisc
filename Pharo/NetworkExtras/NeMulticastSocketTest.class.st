@@ -1,14 +1,16 @@
 Class {
-	#name : #NeMulticastSocketTest,
-	#superclass : #NeUdpSocketTest,
+	#name : 'NeMulticastSocketTest',
+	#superclass : 'NeUdpSocketTest',
 	#instVars : [
 		'socket',
 		'multicastPort'
 	],
-	#category : #'NetworkExtras-Test'
+	#category : 'NetworkExtras-Test',
+	#package : 'NetworkExtras',
+	#tag : 'Test'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> setUp [
 	super setUp.
 	multicastPort := NeUdpUsedPortsTracker freePortAtRandom.
@@ -16,7 +18,7 @@ NeMulticastSocketTest >> setUp [
 				port: multicastPort
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> testGroupAddress [
 	
 	#('224.0.0.1' '225.1.2.3' '230.220.210.200' '239.255.255.255') do: [ : groupIpString |
@@ -30,7 +32,7 @@ NeMulticastSocketTest >> testGroupAddress [
 			raise: NeInvalidMulticastGroupIpError].
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> testInterface [
 	<expectedFailure>
 	self assert: socket networkInterface equals: #(0 0). "API to be improved"
@@ -38,7 +40,7 @@ NeMulticastSocketTest >> testInterface [
 	self fail: #todo
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> testLoopbackMode [
 	| sentData |
 	self assert: socket isLoopbackModeEnabled.
@@ -52,7 +54,7 @@ NeMulticastSocketTest >> testLoopbackMode [
 	self should: [socket receiveTimeout: 0.1] raise: ConnectionTimedOut
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> testSendReceive [
 	"Order is important! Since we are on the same machine and use the default interface, 
 	receiver socket should be created first to ensure it will be fed packets by the OS. 
@@ -67,7 +69,7 @@ NeMulticastSocketTest >> testSendReceive [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> testSendReceiveOnDifferentGroups [
 	| sender1 receiver1 sender2 receiver2 multicastPort2 |
 	receiver1 := socket.
@@ -86,7 +88,7 @@ NeMulticastSocketTest >> testSendReceiveOnDifferentGroups [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeMulticastSocketTest >> testTimeToLive [
 	| setTTLResult getTTLResult |
 	self assert: socket timeToLive equals: 1.
