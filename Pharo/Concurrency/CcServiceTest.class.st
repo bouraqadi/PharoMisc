@@ -17,8 +17,12 @@ CcServiceTest class >> isAbstract [
 	^self == CcServiceTest
 ]
 
-{ #category : 'testing' }
+{ #category : 'running' }
 CcServiceTest >> runCaseManaged [
+	"The default implementation of #runCaseManaged ensures forked child processes are cleaned.
+	See CurrentExecutionEnvironment and ExecutionEnvironment.
+	We want our tests to ensure that services always clean processes they manage."
+	
 	self runCase
 ]
 
