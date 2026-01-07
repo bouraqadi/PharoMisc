@@ -13,6 +13,11 @@ Class {
 }
 
 { #category : 'testing' }
+CcServiceTest class >> isAbstract [ 
+	^self == CcServiceTest
+]
+
+{ #category : 'testing' }
 CcServiceTest >> runCaseManaged [
 	self runCase
 ]
@@ -31,6 +36,7 @@ CcServiceTest >> startService [
 
 { #category : 'testing' }
 CcServiceTest >> tearDown [
+	self serviceProcess ifNotNil: [ :process | process terminate ].
 	super tearDown.
-	self serviceProcess ifNotNil: [ :process | process terminate ]
+
 ]
