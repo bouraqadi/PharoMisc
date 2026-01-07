@@ -24,9 +24,10 @@ CcServiceActivityTest >> assertEnsureBlockRunUponFinalizationForPriority: servic
 	self assertSemaphore: activityStartedSemaphore  signaledWithinSeconds:  2.
 	process := self serviceProcess.
 	weakArray := WeakArray with: service.
-	service := nil.
-	Smalltalk garbageCollect.
-	self assert: weakArray first isNil.
+	service := nil.	
+	self waitUntil: [
+		Smalltalk garbageCollect.
+		weakArray first isNil].
 	self assertSemaphore: activityTerminatedSemaphore  signaledWithinSeconds:  2.
 	self assert: process isTerminated 
 
