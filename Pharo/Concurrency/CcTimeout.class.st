@@ -5,3 +5,8 @@ Class {
 	#package : 'Concurrency',
 	#tag : 'Kernel'
 }
+
+{ #category : 'default' }
+CcTimeout >> defaultDescription [
+	^'Timeout'
+]

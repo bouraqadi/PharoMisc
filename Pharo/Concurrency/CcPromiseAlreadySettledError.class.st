@@ -8,3 +8,8 @@ Class {
 	#package : 'Concurrency',
 	#tag : 'Kernel'
 }
+
+{ #category : 'default' }
+CcPromiseAlreadySettledError >> defaultDescription [
+	^'Promise already settled'
+]

@@ -9,3 +9,8 @@ Class {
 	#package : 'Concurrency',
 	#tag : 'Kernel'
 }
+
+{ #category : 'default' }
+CcPromiseTimeout >> defaultDescription [
+	^'Promise timed out'
+]
