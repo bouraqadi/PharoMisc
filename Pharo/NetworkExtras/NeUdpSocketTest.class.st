@@ -7,6 +7,11 @@ Class {
 }
 
 { #category : 'testing' }
+NeUdpSocketTest class >> isAbstract [ 
+	^self == NeUdpSocketTest 
+]
+
+{ #category : 'testing' }
 NeUdpSocketTest >> newBroadcastSocketOnPort: port [
 	^self createSocket: [NeBroadcastSocket port: port]
 
