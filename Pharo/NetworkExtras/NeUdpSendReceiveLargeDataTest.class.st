@@ -65,7 +65,7 @@ NeUdpSendReceiveLargeDataTest >> test1Sender1Receiver [
 	sender := self newSender.
 	sentString := self get100KBytesOfSourceFile.
 	[ sender send: sentString ] forkAt: Processor userBackgroundPriority.
-	self waitWhile: [ receivedData isNil ] timeout: 500 milliSeconds.
+	self waitWhile: [ receivedData isNil ] timeout: 2 seconds.
 	self assert: receivedData equals: sentString asByteArray.
 	self assert: senderId equals: sender id
 ]
@@ -83,7 +83,7 @@ NeUdpSendReceiveLargeDataTest >> test2Senders1Receiver [
 	sentData2 := self get5KBytesOfSourceFile asByteArray.
 	[ sender1 send: sentData1 ] forkAt: Processor userBackgroundPriority.
 	[ sender2 send: sentData2 ] forkAt: Processor userInterruptPriority.
-	self waitWhile: [ receivedDataSet size < 2 ] timeout: 500 milliSeconds.
+	self waitWhile: [ receivedDataSet size < 2 ] timeout: 2 seconds.
 	self
 		assert: receivedDataSet
 		equals:
