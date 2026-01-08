@@ -30,19 +30,6 @@ NeUnicastUdpServerTest >> stopServer [
 ]
 
 { #category : 'testing' }
-NeUnicastUdpServerTest >> testBroadcastSendReceive [
-	| allSentData |
-	allSentData := #('Hello' 'World' 'Pharo').
-	server start.
-	sender := self newBroadcastSocketOnPort: server port.
-	allSentData withIndexDo: [ :each :index | 
-		sender send: each.
-		self waitUntil: [ allReceivedData size = index ].
-	].
-	self assert: allReceivedData asArray equals: allSentData
-]
-
-{ #category : 'testing' }
 NeUnicastUdpServerTest >> testDefaultReceptionHandlingAction [
 
 	| allSentStrings expectedString |
@@ -59,4 +46,17 @@ NeUnicastUdpServerTest >> testDefaultReceptionHandlingAction [
 self
 			waitUntil: [ Transcript contents = expectedString ]
 			timeout: 2 seconds
+]
+
+{ #category : 'testing' }
+NeUnicastUdpServerTest >> testReceiveBroadcastedData [
+	| allSentData |
+	allSentData := #('Hello' 'World' 'Pharo').
+	server start.
+	sender := self newBroadcastSocketOnPort: server port.
+	allSentData withIndexDo: [ :each :index | 
+		sender send: each.
+		self waitUntil: [ allReceivedData size = index ].
+	].
+	self assert: allReceivedData asArray equals: allSentData
 ]
