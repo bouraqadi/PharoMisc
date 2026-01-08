@@ -39,7 +39,8 @@ NeBroadcastSocket >> broadcastIp [
 
 { #category : 'initialize-release' }
 NeBroadcastSocket >> broadcastIp: anIp port: portNumber [
-	anIp last = 255 ifFalse: [^NeInvalidBroadcastIp signal].
+
+	self ensureValidBroadcastIp: anIp.
 	self ensureValidPort: portNumber.
 	broadcastIp := anIp asIpAddress.
 	broadcastPort := portNumber.
@@ -54,6 +55,15 @@ NeBroadcastSocket >> broadcastPort [
 { #category : 'initialize-release' }
 NeBroadcastSocket >> broadcastPort: portNumber [
 	self broadcastIp: self broadcastIp port: portNumber
+]
+
+{ #category : 'initialize-release' }
+NeBroadcastSocket >> ensureValidBroadcastIp: anIp [
+
+	anIp = NeIpV4Address loopback ifTrue: [ ^self ].
+	anIp last = 255 ifTrue: [ ^self ].
+	NeInvalidBroadcastIp signal.
+
 ]
 
 { #category : 'printing' }

@@ -7,6 +7,13 @@ Class {
 }
 
 { #category : 'testing' }
+NeUnicastUdpServerTest >> newBroadcastSocketToLoopbackAddressOnPort: port [
+
+	^ self createSocket: [
+		  NeBroadcastSocket ip: NeIpV4Address loopback port: port ]
+]
+
+{ #category : 'testing' }
 NeUnicastUdpServerTest >> newServer [
 	^ NeUnicastUdpServer port: NeUdpUsedPortsTracker freePortAtRandom
 ]
@@ -14,7 +21,7 @@ NeUnicastUdpServerTest >> newServer [
 { #category : 'testing' }
 NeUnicastUdpServerTest >> setUp [
 	super setUp.
-	sender := self newUnicastUdpSocketEmittingToIp: 'localhost' port:  server port.
+	sender := self newUnicastUdpSocketEmittingToIp: NeIpV4Address loopback port:  server port.
 
 	
 ]
@@ -49,14 +56,27 @@ self
 ]
 
 { #category : 'testing' }
-NeUnicastUdpServerTest >> testReceiveBroadcastedData [
+NeUnicastUdpServerTest >> testReceiveBroadcastedDataToLoopbackAddress [
+
 	| allSentData |
-	allSentData := #('Hello' 'World' 'Pharo').
+	allSentData := #( 'Hello' 'World' 'Pharo' ).
+	server start.
+	sender := self
+		          newBroadcastSocketToLoopbackAddressOnPort: server port.
+	allSentData withIndexDo: [ :each :index |
+		sender send: each.
+		self waitUntil: [ allReceivedData size = index ] ].
+	self assert: allReceivedData asArray equals: allSentData
+]
+
+{ #category : 'testing' }
+NeUnicastUdpServerTest >> testReceiveBroadcastedDataToRoutedAddress [
+	| allSentData |
+	allSentData := #( 'Hello' 'World' 'Pharo' ).
 	server start.
 	sender := self newBroadcastSocketOnPort: server port.
-	allSentData withIndexDo: [ :each :index | 
+	allSentData withIndexDo: [ :each :index |
 		sender send: each.
-		self waitUntil: [ allReceivedData size = index ].
-	].
+		self waitUntil: [ allReceivedData size = index ] ].
 	self assert: allReceivedData asArray equals: allSentData
 ]

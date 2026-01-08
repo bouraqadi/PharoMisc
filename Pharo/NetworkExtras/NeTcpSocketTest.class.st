@@ -7,6 +7,11 @@ Class {
 }
 
 { #category : 'testing' }
+NeTcpSocketTest class >> isAbstract [ 
+	^self == NeTcpSocketTest 
+]
+
+{ #category : 'testing' }
 NeTcpSocketTest >> newTcpSocketListeningOnPort: port [
 	^self createSocket: [NeTcpSocket listenOn: port]
 

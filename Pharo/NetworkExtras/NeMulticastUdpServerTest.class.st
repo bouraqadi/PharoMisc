@@ -11,11 +11,22 @@ Class {
 }
 
 { #category : 'testing' }
-NeMulticastUdpServerTest >> newServer [
-	multicastGroup := '236.1.2.13'.
-	multicastPort := NeUsedPortsTracker freePortAtRandom.
-	^NeMulticastServer group: multicastGroup port: multicastPort.
+NeMulticastUdpServerTest class >> isAbstract [ 
+	^self == NeMulticastUdpServerTest 
+]
 
+{ #category : 'testing' }
+NeMulticastUdpServerTest >> groupIp [
+
+	self subclassResponsibility
+]
+
+{ #category : 'testing' }
+NeMulticastUdpServerTest >> newServer [
+
+	multicastGroup := self groupIp.
+	multicastPort := NeUsedPortsTracker freePortAtRandom.
+	^ NeMulticastServer group: multicastGroup port: multicastPort
 ]
 
 { #category : 'testing' }

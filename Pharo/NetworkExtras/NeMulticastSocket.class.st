@@ -62,6 +62,7 @@ NeMulticastSocket >> groupAddress [
 { #category : 'accessing' }
 NeMulticastSocket >> groupAddress: aStringOrIPAddress [ 
 	groupAddress := aStringOrIPAddress asIpAddress.
+	groupAddress = NeIpV4Address loopback ifTrue: [ ^self ].
 	(groupAddress < self minGroupAddress 
 		or: [groupAddress > self maxGroupAddress]) 
 			ifTrue: [ NeInvalidMulticastGroupIpError signal].
